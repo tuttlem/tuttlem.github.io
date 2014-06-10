@@ -4,7 +4,7 @@
  <title>Cogs and Levers</title>
  <link href="http://tuttlem.github.io/atom.xml" rel="self"/>
  <link href="http://tuttlem.github.io/"/>
- <updated>2014-06-11T00:31:25+10:00</updated>
+ <updated>2014-06-11T00:37:24+10:00</updated>
  <id>http://tuttlem.github.io</id>
  <author>
    <name>Michael Tuttle</name>
@@ -201,87 +201,6 @@
 &lt;p&gt;It&amp;#39;s an immensely useful tool and one we encourage you to use here with Hyde.&lt;/p&gt;
 
 &lt;p&gt;Find out more by &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;visiting the project on GitHub&lt;/a&gt;.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>FreeBSD 9.0 installation on a T400</title>
-   <link href="http://tuttlem.github.io/2012/11/15/freebsd-9-installation-on-a-t400/"/>
-   <updated>2012-11-15T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/11/15/freebsd-9-installation-on-a-t400</id>
-   <content type="html">&lt;p&gt;From time to time, FreeBSD has made its way onto my T400. Each time I do it, I never jot down what I did to get it to &amp;quot;work&amp;quot;. Here&amp;#39;s just a few thoughts and basic guide for installing FreeBSD RELEASE-9.0 on a Lenovo ThinkPad T400.&lt;/p&gt;
-
-&lt;h3&gt;BIOS&lt;/h3&gt;
-
-&lt;p&gt;The T400&amp;#39;s graphics mode needs to be switched from &amp;quot;Discreet&amp;quot; back to &amp;quot;Integrated&amp;quot;, otherwise the BSD installation process just continually reboots.&lt;/p&gt;
-
-&lt;p&gt;The laptop will now allow a standard installation to be performed.&lt;/p&gt;
-
-&lt;h3&gt;Post Installation&lt;/h3&gt;
-
-&lt;p&gt;First things first. Stop the PC Speaker barking at you when you do something questionable (disable by adding this to &lt;em&gt;/etc/sysctl.conf&lt;/em&gt;)&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;hw.syscons.bell=0 &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Some switches required for connection resilience need to be applied to the WiFi configuration (fix by commenting these lines from &lt;em&gt;/etc/wpa_supplicant.conf&lt;/em&gt;)&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;h1&gt;eapol_version=2&lt;/h1&gt;
-
-&lt;h1&gt;ap_scan=1&lt;/h1&gt;
-
-&lt;h1&gt;fast_reauth=1&lt;/h1&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;WiFi network entry should look as follows&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;network={&lt;br&gt;
-   ssid=&amp;quot;tuttle&amp;quot;&lt;br&gt;
-   key_mgmt=WPA-PSK&lt;br&gt;
-   psk=&amp;quot;secret-in-here&amp;quot;&lt;br&gt;
-}  &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Add the full hostname to /etc/rc.conf&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;hostname=&amp;quot;thor.local&amp;quot;  &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Get the proc filesystem mounted at boot by adding the following line to /etc/fstab&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;proc   /proc  procfs  rw  0   0  &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;h3&gt;Organising the ports collection&lt;/h3&gt;
-
-&lt;p&gt;In the interest of making the ports collection as &amp;quot;fresh&amp;quot; as possible, it&amp;#39;s best to remove the installed version and pull down the latest version over the web.&lt;/p&gt;
-
-&lt;p&gt;Remove the existing ports collection&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;h1&gt;cd /usr/ports&lt;/h1&gt;
-
-&lt;h1&gt;rm -Rf *&lt;/h1&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Refresh the ports collection from an australian mirror. You can find full instructions &lt;a href=&quot;http://www.freebsd.org/doc/handbook/ports-using.html&quot;&gt;here&lt;/a&gt; on this.&lt;/p&gt;
 </content>
  </entry>
  
