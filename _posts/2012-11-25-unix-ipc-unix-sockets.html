@@ -1,0 +1,13 @@
+---
+layout: post
+title: Unix IPC: Unix Sockets
+date: 2012-11-25
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+Unix sockets talk locally on the machine. Their operation is very similar to standard socket operations (as they are the same in every way). This snippet will show you a server and client.<br /><br /><pre class="brush:c;">int s, s2, t, len;<br />struct sockaddr_un local, remote;<br />char str[100];<br /><br />/* --- as a server --- */<br /><br />/* create the socket to serve on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to listen on */<br />local.sun_family = AF_UNIX;<br />strcpy(local.sun_path, SOCK_PATH);<br />unlink(local.sun_path);<br />len = strlen(local.sun_path) + sizeof(local.sun_family);<br /><br />/* bind the socket to this name */<br />bind(s, (struct sockaddr *)&amp;local, len);<br />/* listen on this socket */<br />listen(s, 5);<br />/* accept any incoming connection */<br />s2 = accept(s, (struct sockaddr *)&amp;remote, &amp;t));<br />/* receive some data */<br />n = recv(s2, str, 100, 0);<br />/* close the client */<br />close(s2);<br /><br /><br />/* --- as a client --- */<br /><br />/* create a socket to connect on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to connect to */<br />remote.sun_family = AF_UNIX;<br />strcpy(remote.sun_path, SOCK_PATH);<br />len = strlen(remote.sun_path) + sizeof(remote.sun_family);<br /><br />/* connect on this socket */<br />connect(s, (struct sockaddr *)&amp;remote, len);<br /><br />/* send some data */<br />send(s, str, strlen(str), 0);<br />/* close the socket */<br />close(s);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?bind+2">The bind system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?listen+2">The listen system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?accept+2">The accept system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?connect+2">The connect system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send+2">The send system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv+2">The recv system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

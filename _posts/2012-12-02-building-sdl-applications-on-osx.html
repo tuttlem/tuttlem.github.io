@@ -1,0 +1,13 @@
+---
+layout: post
+title: Building SDL applications on OSX
+date: 2012-12-02
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+I have seen a fair bit of information around regarding building SDL applications on the OSX platform. Most of these posts have all mentioned some "glue code" in the form of SDLMain.m.<br /><br />I haven't taken this approach and have found my code tree to be nice and clean. The following are just the make rules that I use to do the job.<br /><br /><script src="https://gist.github.com/4185380.js?file=gistfile1.mak"></script> <br />Seems like leaning on 'sdl-config' is the way to go. It simplifies building - out of sight!<br /><br />The "-framework OpenGL" in the linker statement isn't required to build SDL applications. I just use openGL a fair bit when I'm writing SDL applications, so i've kept it there.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

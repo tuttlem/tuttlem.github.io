@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/27/music-calculators-big-snakes/">
+        Music, Calculators & Big Snakes
+      </a>
+    </h1>
+
+    <span class="post-date">27 Nov 2012</span>
+
+    <h1>Music, Calculators & Big Snakes</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I play a lot of music. I mean <u style="font-weight: bold;">a lot</u>&nbsp;of music. Guitar, Bass, Piano, Drums, Harp -- what ever I can get my hands on, I'll give it a go. So, the neurons in charge of keeping my technical side in check may have made their way into the creative side of my brain.</div><div><br /></div><div>The net result was me creating a project that mashes mathematics, data analysis and music theory into a few classed called <a href="https://github.com/tuttlem/musica">musica</a>.</div><div><br /></div><h3>So what?</h3><div>Yeah, basically.. But, I am who I am - so it' more of a matter of "why not?".</div><div><br /></div><div>I'd previously tried building a Ruby on Rails application to give me graphical representations of musically related elements on screen. A scale is a pattern of intervals realised once a root note is put in place. This scale can then be harmonised at every step of the scale by employing every second note from the specific step. How complex these harmonised chords are will depend on how many steps you include in the chords that you build.</div><div><br /></div><div>The most interesting part of this library, I think, is its distinct lack of database. It has made the code quite verbose in parts but I intend to fix this, even if it does mean employing an intermediary database at a later stage.<br /><br /><h3>What can it do?</h3></div><div>The major, harmonic &amp; melodic minor scales (and all of their modes) are statically provisioned. You can use these in code to perform operations like voicing a scale when used in conjunction with a Note object.</div><div><br /></div><div>Immediately, we can get information about notes:<br /><br /><script src="https://gist.github.com/4153854.js?file=gistfile1.py"></script> Information about scales:<br /><script src="https://gist.github.com/4153859.js?file=gistfile1.py"></script> Voicing a scale (in this instance voicing Ionian (major) over C) <br /><script src="https://gist.github.com/4153871.js?file=gistfile1.py"></script></div><div><br /></div><div><h3>Still so much to do ...</h3></div><div>Still, we need to get chords harmonising from these voiced scales. These are just patterns after all. An intelligent chord builder would also be of value I think. Something where we don't have to explicitly map out chord names to interval sets statically. Just knowing that a root, major third and perfect fifth are a major chord.</div><div><br /></div><div>That'd be a cool calculator, I think.</div><div><br /></div><div>If your interested, the git repo for this library is <a href="https://github.com/tuttlem/musica">here</a>.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/27/calling-assembly-from-c-64-bit/">
+        Calling Assembly from C (64 bit)
+      </a>
+    </h1>
+
+    <span class="post-date">27 Nov 2012</span>
+
+    <h1>Calling Assembly from C (64 bit)</h1>
+<div class='post'>
+In a <a href="http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html">previous blog post</a>, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.<br /><br />I'll be using the same technology stack as last time with <a href="http://www.nasm.us/">NASM </a>as my assembler and <a href="http://gcc.gnu.org/">GCC</a> as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.<br /><br />Alright then. On with the code!<br /><br />The C-code is not different from the 32-bit version as mentioned in my previous post. Now <b>that's</b>&nbsp;portability for you!<br /><br /><script src="https://gist.github.com/4142080.js?file=gistfile1.c"></script> The assembly language module has changed somewhat though.<br /><br /><script src="https://gist.github.com/4151995.js?file=gistfile1.asm"></script> <br />Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.<br /><br />The change in calling convention can be studied in further detail <a href="http://www.x86-64.org/documentation/abi.pdf">here</a>, however it's just important to mention this:<br /><blockquote class="tr_bq"><blockquote class="tr_bq">Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:</blockquote><blockquote class="tr_bq">If the class is MEMORY, pass the argument on the stack.</blockquote><blockquote class="tr_bq">If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used</blockquote></blockquote>So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html">Intel</a>&nbsp;and <a href="http://en.wikipedia.org/wiki/X86-64">Wikipedia</a>&nbsp;are both excellent resources.<br /><br />Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.<br /><br /><script src="https://gist.github.com/4152023.js?file=gistfile1.sh"></script> We're done!<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/26/windows-development-with-masm32-part-3/">
+        Windows Development with MASM32 (part 3)
+      </a>
+    </h1>
+
+    <span class="post-date">26 Nov 2012</span>
+
+    <h1>Windows Development with MASM32 (part 3)</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In the <a href="http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-2.html">last part</a>&nbsp;of this series, we finished off creating a message pump. The application did nothing (seemingly) on the surface, but underneath it set the platform for message processing which is so important in the windows environment.</div><div><br /></div><div>In this article we're going to create a simple window that will sit on this message pump architecture and be a first class citizen on our windows desktop.</div><div><br /></div><div>A little extra help (in the form of macros) has been employed in this example.&nbsp;</div><div><br /><script src="https://gist.github.com/4147906.js?file=gistfile1.asm"></script></div><div><br /></div>m2m is a neat little helper that wraps up that annoying memory location loading indirection problem that would normally see a little bit of stack gymnastics, and remember I'd previously said that all return values need to be in eax? Well, check out the macro "return". It's pretty self explanatory.<br /><h3>Window Classes</h3><div>Window classes are at the base of all windows that are created in windows. You fill out a structure (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633576(v=vs.85).aspx">WNDCLASS</a> or <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633577(v=vs.85).aspx">WNDCLASSEX</a>) and from there you can create windows using this window class as a template.&nbsp;</div><div><br /></div><div>Here we'll define the window class for the application.</div><div><br /></div><div><br /><script src="https://gist.github.com/4147911.js?file=gistfile1.asm"></script> <br />Some things of interest in this example is assigning the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx">window procedure</a>, giving the class a name (as we'll use it later) and finally the registration of the class using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633587(v=vs.85).aspx">RegisterClassEx</a>.<br /><br /><h3>Putting something on screen</h3></div><div>Finally, we'll put something on screen. So, the following snippet will create the window (using the class we registered above as the template) and give us back the handle (or <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HWND</a>) to the window.</div><div><br /><script src="https://gist.github.com/4147919.js?file=gistfile1.asm"></script></div><div><br /></div><div><br /></div><div>You can lookup <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632680(v=vs.85).aspx">CreateWindowEx</a> yourself to understand the parameters. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633548(v=vs.85).aspx">ShowWindow</a> and <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd145167(v=vs.85).aspx">UpdateWindow</a> are supplemental to the creation process to completeness.<br /><br /><h3>Responding when it counts</h3></div><div>Finally, we need to respond when the window does (or wants to do) something interesting. Remember, it's only a simple application so the&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx">window procedure</a>&nbsp;is not going to be a work of art. Really, it just lets everything go through to the default window procedure <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572(v=vs.85).aspx">DefWindowProc</a>. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx">WM_DESTROY</a>&nbsp;will post a quit message using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx">PostQuitMessage</a> which is really game over.</div><div><br /><script src="https://gist.github.com/4147927.js?file=gistfile1.asm"></script></div><div><br /></div><div><br /></div><div>This last code block also introduces some high-level if-then-else syntax provided by MASM. You could accomplish the same thing writing your cmp's and jmp's by hand. These <a href="http://msdn.microsoft.com/en-us/library/f4x287ff(v=vs.80).aspx">.IF</a>&nbsp;and <a href="http://msdn.microsoft.com/en-US/library/6f0ft3f1(v=vs.80).aspx">.ELSE</a>&nbsp;constructs provide a little syntactic sugar to make your assembly block read a little more in a structured fashion.<br /><br />Well, that wraps up part 3. You'll have a window glaring you in the face once you're up and running. Hitting the close button on the window will post a WM_CLOSE message which ultimately results in a&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx">WM_DESTROY</a>&nbsp;which your application will respond to by <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx">posting a quit message</a>&nbsp;and you're done.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/26/unix-networking-server/">
+        Unix Networking Server
+      </a>
+    </h1>
+
+    <span class="post-date">26 Nov 2012</span>
+
+    <h1>Unix Networking Server</h1>
+<div class='post'>
+The following snippet is a bare-bones server.<br /><br /><pre class="brush:c;">int sockfd, new_fd;  <br />struct addrinfo hints, *servinfo, *p;<br />struct sockaddr_storage their_addr; <br />socklen_t sin_size;<br />struct sigaction sa;<br />int yes=1;<br />char s[INET6_ADDRSTRLEN];<br />int rv;<br /><br />/* fill out the address structure */<br />memset(&amp;hints, 0, sizeof hints);<br />hints.ai_family = AF_UNSPEC;<br />hints.ai_socktype = SOCK_STREAM;<br />hints.ai_flags = AI_PASSIVE; <br /><br />/* get the address information */<br />getaddrinfo(NULL, PORT, &amp;hints, &amp;servinfo);<br /><br />/* open the socket */<br />sockfd = socket(p-&gt;ai_family, p-&gt;ai_socktype, p-&gt;ai_protocol);<br /><br />/* allow the socket to be re-used */<br />setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &amp;yes, sizeof(int));<br /><br />/* bind the socket to the address */<br />bind(sockfd, p-&gt;ai_addr, p-&gt;ai_addrlen);<br /><br />/* free up the address structure */<br />freeaddrinfo(servinfo); <br /><br />/* start the socket listening */<br />listen(sockfd, BACKLOG);<br /><br />/* accept the first connect */<br />new_fd = accept(sockfd, (struct sockaddr *)&amp;their_addr, &amp;sin_size);<br /><br />/* send the client some data */<br />send(new_fd, "Hello, world!", 13, 0);<br /> <br />/* finished with the client &amp; server */<br />close(new_fd);<br />close(sockfd);<br /></pre><br /><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?getaddrinfo+3">The getaddrinfo system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?bind+2">The bind system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?listen+2">The listen system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?accept+2">The accept system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv">The recv system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send">The send system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/26/unix-networking-client/">
+        Unix Networking Client
+      </a>
+    </h1>
+
+    <span class="post-date">26 Nov 2012</span>
+
+    <h1>Unix Networking Client</h1>
+<div class='post'>
+The following snippet outlines the skeleton of a client socket application. It's the bare bones of what is needed to establish the client connection.<br /><br /><pre class="brush:c;">int sockfd, numbytes;  <br />char buf[MAXDATASIZE];<br />struct addrinfo hints, *servinfo, *p;<br />int rv;<br />char s[INET6_ADDRSTRLEN];<br /><br />/* fill out the address info */<br />memset(&amp;hints, 0, sizeof hints);<br />hints.ai_family = AF_UNSPEC;<br />hints.ai_socktype = SOCK_STREAM;<br /><br />/* create the actual server address */<br />getaddrinfo("www.remoteplace.com", PORT, &amp;hints, &amp;servinfo);<br /><br />/* create the socket file descriptor */<br />sockfd = socket(p-&gt;ai_family, p-&gt;ai_socktype, p-&gt;ai_protocol);<br /><br />/* perform the network connect */<br />connect(sockfd, p-&gt;ai_addr, p-&gt;ai_addrlen);<br /><br />/* free up the addres structure */<br />freeaddrinfo(servinfo); <br /><br />/* receive some data on the socket */<br />recv(sockfd, buf, MAXDATASIZE-1, 0));<br /><br />/* close the socket off */<br />close(sockfd);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?getaddrinfo+3">The getaddrinfo system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?connect">The connect system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv">The recv system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send">The send system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page39">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page37">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

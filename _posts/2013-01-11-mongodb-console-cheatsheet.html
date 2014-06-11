@@ -1,0 +1,13 @@
+---
+layout: post
+title: MongoDB console cheatsheet
+date: 2013-01-11
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Basic retrieves</h3><div>Find all items in a collection</div><div><pre class="brush:js">db.collection.find();</pre><br /><div>Count all items in a collection</div><div><pre class="brush:js">db.collection.count();</pre><br /></div><div>Find all items in a collection with criteria (Mongo <a href="http://docs.mongodb.org/manual/reference/operators/">operators</a> reference)</div><div><pre class="brush:js">db.collection.find({"field": value});</pre></div><div><br /></div><div>Reduce the field-set returned by a query</div><div><div><pre class="brush:js">db.collection.find({}, {"field": 1});</pre></div></div><div><br /></div><div><div>Sorting by a field</div><div><pre class="brush:js">db.collection.find().sort({"field": 1});</pre></div><div><br /></div></div><div>Limit the number of records returned by a query</div><div><pre class="brush:js">db.collection.find().limit(3);</pre></div><div><br /></div><div><div>Skip over a set of documents</div><div><pre class="brush:js">db.collection.find().skip(3);</pre><h3>List processing</h3></div></div><div><div>Map over a cursor of results</div><div><pre class="brush:js">db.collection.find().map(function(item) {<br />     return item;<br />});</pre></div></div><div><br /></div><div>Iterate over a cursor of results</div><div><div><pre class="brush:js">db.collection.find().forEach(function(item) {<br />     printjson(item);<br />});</pre></div></div><div><br /></div><h3>Updates</h3><div>Update over an enumerated list</div><div><pre class="brush:js">db.collection.find().forEach(function(item) {<br />     // make changes to item<br />     db.collection.save(item);<br />});</pre></div><div><br />Update from a query (Mongo <a href="http://docs.mongodb.org/manual/applications/update/">update</a> reference)<br /><div><pre class="brush:js">db.collection.update({"_id": ObjectId("xxxx")}, <br />                     { $set: { "field": value },<br />                       $push: { "subdocument": subdocument } });</pre></div><div></div></div><h3>&nbsp;Deleting</h3><div>Destroy an entire collection</div><div><pre class="brush:js">db.collection.drop();</pre><br /><div>Delete a document selectively</div><pre class="brush:js">db.collection.remove({"_id": ObjectId("xxxx"));</pre><br /><h3>Utilities</h3></div></div><div>Set the record limit returned to the console</div><div><pre class="brush:js">DBQuery.shellBatchSize = 100</pre></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

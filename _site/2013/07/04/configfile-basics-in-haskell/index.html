@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      ConfigFile Basics in Haskell &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">ConfigFile Basics in Haskell</h1>
+  <span class="post-date">04 Jul 2013</span>
+  <h1>ConfigFile Basics in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3>One of the first things that I reach for when writing an application that will be used outside the context of my development sandbox is a configuration library. Not having statically compiled values for variables is quite a valuable position to be in once your application has been deployed.<br /><br />Today's post will take you from 0 to up and running with a package called <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html">ConfigFile</a> that is specifically designed to serve your applications with configuration data.<br /><br />Most of the content in this post is lifted directly from the documentation, so you'll be better off reading through those to gain a deeper understanding of the library. This post is more of a short-cut to get up and running.<br /><br /><h3>Configuration format</h3>If you've had much experience with administering windows back in the day when INI files ruled the earth, you'll be right at home with <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html">ConfigFile</a>. For those of you who have never seen it before, it's really easy and you can read up on it <a href="http://en.wikipedia.org/wiki/INI_file">here</a>.<br /><br />Files are broken into sections which contain a list of key/value pairs - done!<br /><br />For today's example, the configuration file will look as follows:<br /><br /><script src="https://gist.github.com/tuttlem/5927536.js"></script> <br />We'll end up with two keys, "path" and "filename" that have corresponding values in the "Location" section.<br /><br /><h3>Structure</h3>The thing I like most about the part of the application is that we can make a nice record based data structure in Haskell that will marry up to how our configuration file looks. The simple file that we've defined above, would look like this:<br /><br /><script src="https://gist.github.com/tuttlem/5927562.js"></script> <br /><br />Once we fill one of these up, you can see that it'll be pretty natural to access these details.<br /><br /><h3>Reading and Building</h3>Finally - we need to read the values out of the config file and get them into our structure. The following block of code will do that for us.<br /><script src="https://gist.github.com/tuttlem/5927615.js"></script> <br /><br />There's a few interesting points in here to note. The Error Monad is being used here to keep track of any failures during the config read process. <a href="http://hackage.haskell.org/packages/archive/mtl/latest/doc/html/Control-Monad-Error.html#v:runErrorT">runErrorT</a> kicks this off for us. We then use <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html#v:readfile">readfile</a> to open the config file with a sane parser that knows how to speak INI. Pulling the actual strings from the config is done by using <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html#v:get">get</a>.<br /><br />From here, it's just wrapping the values up ready to send out. The final call is to <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:either">either</a>. Leaving the Error Monad, we're given an Either (left being the error, right being the value). I've used <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:either">either</a> here so I can provide an implementation for either scenario. If an error occurs (the first lambda) then I just toast-out of the application. If we get a config value back (the second lambda), that's what gets returned.<br /><br /><h3>Conclusion</h3>That's all there is to that. Remember, you won't escape from the IO Monad which is why the read function's return type has IO. When you want to use these values, it'll need to be within "do" constructs:<br /><script src="https://gist.github.com/tuttlem/5927677.js"></script> <br /><br /><br />Cheers.</div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Michael Tuttle</div>
+<div class='content'>
+readConfig here is using &quot;readfile&quot; internally to actually hit the config file. Take a look at alternatives here - for instance, I can see &quot;readhandle&quot; and &quot;readstring&quot; in the documentation. You may be able to open the config file yourself (by other means - &quot;openFile&quot;) without needing to give a full path.<br /><br />In every implementation I&#39;ve used this in, my config file has sat in the root of my cabal project. Specifying just the configuration filename has been sufficient.</div>
+</div>
+<div class='comment'>
+<div class='author'>Rose Perrone</div>
+<div class='content'>
+How can I run readConfig &quot;~/proj/config_filename.cfg&quot; without specifying a full path to the config file? I want other people to be able to use their local copy of my project without having to change this line in the source. I use an alias for running the haskell executable, so when I run the executable script from not within its directory, I get this error:<br /><br />Main: config_filename.cfg: openFile: does not exist (No such file or directory)</div>
+</div>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/21/building-a-tree/">
+        Building a Tree
+      </a>
+    </h1>
+
+    <span class="post-date">21 Jan 2013</span>
+
+    <h1>Building a Tree</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Following up from a <a href="http://cogsandlevers.blogspot.com.au/2013/01/basic-lexical-analysis-in-c.html">previous post</a>&nbsp;I had written on lexical analysis, I wanted to take you through the conversion of a list of scanned items into a tree that will become of more use once we start to compile to executable instructions.</div><div><br /></div><h3>Why a tree?</h3><div>When you look at a sequence of scanned items that come out of the lexer, its one-dimensional structure doesn't allow you to apply precedence easily. A tree structure lends itself very well to this problem exactly. See the following example. First, I'll give you an expression and then I'll (try) to put a tree together from said expression.</div><div><br /><pre class="brush:plain">As an expression:<br />(x &gt; 5) &amp;&amp; ((y &lt; 3) || (z &gt;= 6))<br /><br />As a tree:<br /><br />                 &amp;&amp;<br />               /    \<br />             /        \<br />            &gt;         ||<br />           / \       /  \<br />          x   5     &lt;    &gt;=<br />                   / \   / \<br />                  y   3 z  6 <br /></pre></div><div><br />I do appologise for my ASCII art, but you get the idea. We now have an order of&nbsp;precedence&nbsp;as we move from the root (or the top) of the tree down through the branches until we reach the leaf nodes which end up as our values that we're testing.<br /><br /><h3>Making the list into a tree</h3></div><div>We have a list of scanned items on one hand, we need to make it a tree. These (tree-related) problems lend themselves really well to recursive solutions, and you'll see this pop up quite a bit when working with tree structures. Here's how we define a node within the tree (which is actually how we'll refer to the tree overall).</div><div><br /><script src="https://gist.github.com/4583311.js"></script></div><div><br />Pretty easy and illustrative of the tree above. We have information "here" and we have further trees "left" and "right". The generation process is pretty straight forward. You need to keep in mind the following though:<br /><br /><ul><li>New scope (or a left paren) means we need to recurse a level deeper</li><li>End of scope (or a right paren) means we need to drop out to get back to a level above in the recursion stack</li><li>Any operator is just the value "here"</li></ul><div>Three simple rules all wrapped up in the crux of a switch statement here.</div><div><br /><script src="https://gist.github.com/4583314.js"></script></div><div><br /></div><div>This code is commented fairly well. It's a pretty straight forward concept anyway. From here you should have no trouble translating the expression tree which we've just generated into your own programs execution paradigms.</div><div><br />The source code that these articles are based upon is available in my <a href="https://github.com/tuttlem/">GitHub repository</a> in a project called <a href="https://github.com/tuttlem/Umpire">Umpire</a>.</div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/21/basic-lexical-analysis-in-c/">
+        Basic Lexical Analysis in C#
+      </a>
+    </h1>
+
+    <span class="post-date">21 Jan 2013</span>
+
+    <h1>Basic Lexical Analysis in C#</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Creating your own languages can be a fun challenge at times, it can also be a very intimidating beast if you don't break the problems down into small enough sub-problems. Each step of the compilation process is as important as the rest, so today's post is going to be about performing basic <a href="http://en.wikipedia.org/wiki/Lexical_analysis">Lexical Analysis</a>&nbsp;to tokenize your input.</div><div><br /></div><h3>Mission parameters</h3><div>We'll be designing a language that looks very similar to C-style boolean logic. It'll basically be an "if-statement machine" that we'll have in the end. The sorts of code strings that we'll look to analyse will be something like this.</div><div><br /><pre class="brush:plain">// numeric value comparison<br />4 &lt; 7<br /><br />// logic concatenation and scope<br />(4 &lt; 7) &amp;&amp; ((9 &gt;= 7) || (10 != 2))<br /><br />// string matching<br />"Hello" ~ "Hello, World"<br /></pre></div><div><br /></div><div>You can see how these will become quite complex quite quickly but that's not for us to worry about now. All we want to worry about is encountering items of interest in our strings and producing a list of tokens that we've found.<br /><br /><h3>Scanning the string</h3></div><div>"Things of interest" is what I called it above. The things of interest are say, the numeric values or the strings or the logical operator or the expression operators. When we want to interpret strings, we call on our friend Mr. Regular Expression.</div><div><br /></div><div>First thing I've done is to load an array with regular expressions matching the "things of interest" and generating a token for each of these.</div><div><br /><script src="https://gist.github.com/4581991.js"></script></div><div><br /></div><div>For every regular expression, you can see that I've assigned a symbolic token. That way we can scan a string and get a "hard-reference" to something of interest that we need to do something with. Scanning a string is just iterating over the characters, finding a regular expression match and adding it to the list.<br /><br /><script src="https://gist.github.com/4582060.js"></script> <br />By this point, we're either handed back a list of "ScanItem" objects that describes for us what our code is and looks like or an exception is thrown complaining about syntax problems. We can further use this list to start building expression trees to execute.<br /><br />The code in the article is based on a project that I'm currently working on called Umpire. The source code can be found in my <a href="https://github.com/tuttlem/Umpire/">GitHub repository</a>.</div><div><br /></div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/19/migrating-from-bash-to-zsh-on-osx/">
+        Migrating from bash to zsh on OSX
+      </a>
+    </h1>
+
+    <span class="post-date">19 Jan 2013</span>
+
+    <h1>Migrating from bash to zsh on OSX</h1>
+<div class='post'>
+<h3>Introduction</h3><div>There's plenty of shells around these days to try out and see what fits. I've forever used bash and have become quite accustomed to it in day to day usage. I've heard plenty of murmurs around the use of zsh and how all of my bash skills would translate directly but I would get some extra added benefits.</div><div><br /></div><div>It's time for me to dive in!&nbsp;This post is to take you through a migration process from bash to zsh. I expect that this post will grow over time.</div><div><br /></div><h3>Installation</h3><div>I'll assume that you're using <a href="http://mxcl.github.com/homebrew/">brew</a>&nbsp;in your installation of OSX just to lower the level of insanity of your life.</div><div><br /></div><div>Type the following in your shell to get zsh installed.</div><div><br /><pre class="brush:shell">$ brew install zsh</pre></div><div></div><br />Next, you'll need to register it as an acceptable shell for OSX to use, so to do this add a line referencing your newly installed zsh to your /etc/shells file. Here's how mine looks, my new entry was added to the bottom.<br /><br /><pre class="brush:plain"># List of acceptable shells for chpass(1).<br /># Ftpd will not allow users to connect who are not using<br /># one of these shells.<br /><br />/bin/bash<br />/bin/csh<br />/bin/ksh<br />/bin/sh<br />/bin/tcsh<br />/bin/zsh<br />/usr/local/bin/zsh<br /></pre><br />When brew installed zsh for me, it also reported that there was some extra administration that needed to happen. It said:<br /><blockquote class="tr_bq">If you have administrator privileges, you must fix an Apple missconfiguration in Mac OS X 10.7 Lion by renaming /etc/zshenv to/etc/zprofile, or Zsh will have the wrong PATH when executednon-interactively by scripts. <br /><br />Alternatively, install Zsh with /etc disabled: <br /><br />&nbsp;&nbsp;brew install --disable-etcdir zsh </blockquote>So, I just renamed /etc/zshenv to /etc/zprofile with the following command to comply.<br /><br /><pre class="brush:shell">$ sudo mv /etc/zshenv /etc/zprofile</pre><br />Now you can register zsh as the default shell for OSX with the following command.<br /><br /><pre class="brush:shell">$ chsh -s /usr/local/bin/zsh</pre><br />Fantastic. Close your terminal and reopen a new one - you're now in zsh.<br /><br /><h3>Kickstart</h3><div>To drop yourself "right in it", head on over to the <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>&nbsp;repository and get yourself some theming happening.&nbsp;The installation instructions over there are very straight forward, and you'll go from % sign to something spectacular in no time at all.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/19/enable-ati-drivers-in-debian-x64/">
+        Enable ATI Drivers in Debian x64
+      </a>
+    </h1>
+
+    <span class="post-date">19 Jan 2013</span>
+
+    <h1>Enable ATI Drivers in Debian x64</h1>
+<div class='post'>
+<h3>Introduction</h3>Today's post, I'll run through the procedures that I've just conducted to get AMD ATI drivers running on my T400 in Debian.<br /><br /><h3>Doing easily with "non-free"</h3>To save myself a few manual installation steps, I ended up just enabling non-free on my repositories. In order to do this, open up /etc/apt/sources.list and for your main repository line (which will look something similar to this)<br /><br /><pre class="brush:plain">deb http://http.us.debian.org/debian stable main contrib</pre><br />Just add "non-free" into repositories that you need, like so.<br /><br /><pre class="brush:plain">deb http://http.us.debian.org/debian stable main contrib non-free</pre><br />After performing any changes to your sources list, it's always an idea to update your package lists with the following command.<br /><br /><pre class="brush:shell">$ sudo aptitude update</pre><br /><h3>Installing the driver</h3>After you've enabled "non-free" on your repository, installation is a piece of cake. Remove the existing radeon driver from your system like so.<br /><br /><pre class="brush:shell">$ sudo apt-get remove --purge xserver-xorg-video-radeon</pre><br />Install the new drivers and associated utilities.<br /><br /><pre class="brush:shell">$ sudo apt-get install fglrx-driver fglrx-control fglrx-glx fglrx-atieventsd fglrx-modules-dkms</pre><br />Be sure to install 32-bit support for your 32-bit applications as well.<br /><br /><pre class="brush:shell">$ sudo apt-get install fglrx-glx-ia32</pre><br /><h3>Finishing up</h3>A minor amount of housekeeping is required to enable the driver for use. First up, the module that we've just installed needs to be enabled at boot. To do this, I've added "fglrx" to my /etc/modules file. The /etc/modules file on my Debian laptop reads like this.<br /><br /><pre class="brush:plain"># /etc/modules: kernel modules to load at boot time.<br />#<br /># This file contains the names of kernel modules that should be loaded<br /># at boot time, one per line. Lines beginning with "#" are ignored.<br /># Parameters can be specified after the module name.<br /><br />fglrx<br />firewire-sbp2<br />loop<br /></pre><br />Finally, X needs to be to told that you want to use the fglrx driver. This is pretty simple, by setting your "Driver" to "fglrx" in your /etc/X11/xorg.conf. For reference, here is my config.<br /><br /><pre class="brush:plain">Section "ServerLayout"<br /> Identifier     "aticonfig Layout"<br /> Screen      0  "aticonfig-Screen[0]-0" 0 0<br />EndSection<br /><br />Section "Module"<br />EndSection<br /><br />Section "Monitor"<br /> Identifier   "aticonfig-Monitor[0]-0"<br /> Option     "VendorName" "ATI Proprietary Driver"<br /> Option     "ModelName" "Generic Autodetecting Monitor"<br /> Option     "DPMS" "true"<br />EndSection<br /><br />Section "Device"<br /> Identifier  "aticonfig-Device[0]-0"<br /> Driver      "fglrx"<br /> BusID       "PCI:1:0:0"<br />EndSection<br /><br />Section "Screen"<br /> Identifier "aticonfig-Screen[0]-0"<br /> Device     "aticonfig-Device[0]-0"<br /> Monitor    "aticonfig-Monitor[0]-0"<br /> DefaultDepth     24<br /> SubSection "Display"<br />  Viewport   0 0<br />  Depth     24<br /> EndSubSection<br />EndSection<br /></pre><br />You should have no problems wowing all your friends with crazy window composition now! </div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/18/functors-in-haskell/">
+        Functors in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">18 Jan 2013</span>
+
+    <h1>Functors in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://cogsandlevers.blogspot.com.au/2013/01/derived-instances-for-types-in-haskell.html">In a previous post</a>, I had lightly grazed the surface of the topic of Functors in Haskell and I thought it was time to come back and be a little more comprehensive about it.</div><div><br /></div><div>Without further ado, let's talk about Functors.</div><div><br /></div><h3>What is a Functor?</h3><div>At the code level, a Functor is any type that is an instance of the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Functor">Functor</a> typeclass. At a concept level, a Functor is something that can be mapped over. As soon as anyone says something like this to me I immediately start thinking of any enumerated type (array, list, vector, etc) and this is right.&nbsp;</div><div><br /></div><div>A&nbsp;<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Functor">Functor</a>&nbsp;only needs to implement 1 function, <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:fmap">fmap</a>. How this looks in Haskell is as follows.</div><div><br /><script src="https://gist.github.com/4564195.js"></script></div><div><br /></div><div>Reading this gets to be a mouthful, but bear with me. This definition says: "for my first parameter, I want a function that takes an <b><i>a</i></b> type and returns a <b><i>b</i></b>; for my second parameter, I want an <b><i>a</i></b> value wrapped by this functor and I will return you a <b><i>b</i></b> value wrapped by this functor".<br /><br />I've tried to place emphasis on a's and b's in that previous sentence, otherwise it reads like rather difficult english.<br /><br />Applying this knowledge to a living-breathing example, I'll show you the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Maybe">Maybe</a> type.<br /><br /><script src="https://gist.github.com/4564268.js"></script></div><div>Looking at this we can see that when a "Just" value comes through, it's the value (wrapped in the Just) that has the function applied to it. When nothing comes through, we don't care for the function - we know that the return is going to be Nothing. The important thing to note here is that it's the value (wrapped in the Just) that's being operated on.<br /><br />Seeing this in action always helps an explanation.<br /><br /><pre class="brush:plain">ghci&gt; fmap (replicate 3) (Just 4)<br />Just [4, 4, 4]</pre><br />The way that I read this is: "A function" <b>(fmap)</b>&nbsp;"that takes a function" <b>(replicate 3)</b>&nbsp;"and a functor value" <b>(Just 4)</b>&nbsp;"that then maps that function" <b>(replicate 3)</b>&nbsp;"over the inner value" <b>(4)</b>&nbsp;"which gets wrapped up in the functor" <b>(Just)</b>.<br /><br />This is the best way that I could think of to structure this sentence. It makes sense to me, I hope it helps you also. Again, the important thing to remember is that it's the inner-value that's getting processed which is why we ended up with <i>Just [4, 4, 4]</i>&nbsp;rather than <i>[Just 4, Just 4, Just 4]</i>.<br /><br />Finally, when you're implementing functors of your own there are laws that must be met.<br /><br /><b>Law #1</b>: Mapping the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:id">id</a>&nbsp;function over any functor value should produce the functor value that we supplied. Meaning:<br /><br /><pre class="brush:plain">fmap id = id</pre><br /><b>Law #2</b>: Mapping two composed functions over a functor value should be the same as functionally composing those two functions. Meaning:<br /><br /><pre class="brush:plain">fmap (f . g) = fmap f . fmap g</pre><br />This second law makes sense once you think about performing fmap over a function, as it's just the same as function composition.<br /><br /><pre class="brush:plain">fmap (*15) (-2) == (*15) . (-2)</pre><br />This post should arm you sufficiently to start inflicting your own Functors on the world.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page18">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page16">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

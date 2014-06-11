@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Delegating Constructors in C++11 &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Delegating Constructors in C++11</h1>
+  <span class="post-date">17 Jan 2013</span>
+  <h1>Delegating Constructors in C++11</h1>
+<div class='post'>
+One of the annoyances I've always had with C++ was its lack of elegant handling of constructors. You'd always be forced to swallow the bitter pill of an initializer function that each of your constructors would call.<br /><br />It always felt clunky to me. With C++11 introducing Delegating Constructors, this has all gone now.<br /><br />Take this simple person class, for example. No magic going on here, just a straight forward class and is how we'd implement multiple constructors without the use of an initialiser.<br /><br /><script src="https://gist.github.com/4555283.js"></script> Here we have a "person" class with three constructors all providing their own implementation of how a person object should initialized. This just isn't nice for a couple of reasons. The first is violation of the <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>&nbsp;principle, we're repeating ourselves the whole time which goes hand in hand with the second - each constructor initializes the object in its own way.<br /><br />So, the previous answer to this problem was to implement an initializer function which did this work for us.<br /><br /><script src="https://gist.github.com/4555304.js"></script> This is better. We've got one way to initialize our class, we're not repeating ourselves. Life is good.<br /><br />But now (in C++11), there's a better way. Here I'll show you how to re-implement this class using delegating constructors for the most elegant of solutions.<br /><br /><script src="https://gist.github.com/4555333.js"></script> <br />We've got our most general case constructor (in this case the construct taking in all three names) actually doing the work. The remaining two constructors then just leverage off the functionality defined in the general case. No re-implementation, no initialization function needed.<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

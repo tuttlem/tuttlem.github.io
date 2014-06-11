@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      RAII for C++ &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">RAII for C++</h1>
+  <span class="post-date">13 Jan 2014</span>
+  <h3 id="introduction">Introduction</h3>
+
+<p>In programming, <a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">RAII</a> stands for &quot;Resource Acquisition is Initialization&quot; and it&#39;s an idiom or technique established by <a href="http://en.wikipedia.org/wiki/Bjarne_Stroustrup">Bjarne Stroustrup</a> to ease resource allocation and deallocation in C++.</p>
+
+<p>Common problems have been when an exception is thrown during initialization, any memory associated during construction (or underlying resources) aren&#39;t released, creating memory leaks in applications.</p>
+
+<h3 id="the-idea">The Idea</h3>
+
+<p>The basic premise is that resource allocation is to be performed in the constructor of your class. Release of the resources occurs in your destructor. The example given on the <a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">Wikipedia page</a> deals with holding a lock/mutex for a given file. When execution leaves the scope of the code (whether it be from premature termination of an exception or from the code naturally exiting), the destructors run to release the file handle and lock.</p>
+
+<p>The concept is a great way to not only clean up your code (as all of the &quot;if !null&quot; code is now redundant) but it&#39;s a great safe-guard that you can almost be absent minded about.</p>
+
+<p>It&#39;s important to note that this idiom doesn&#39;t allow you to ignore good exception handling practice. You&#39;re still expected to use exception handling in your code, this will just ensure that your cleanup/release code is executed as expected.</p>
+
+<h3 id="an-implementation">An Implementation</h3>
+
+<p>Implementing this idea into your own code is really quite simple. If you have a resource (handle) that you&#39;re managing manually, wrap it in a class.</p>
+
+<ul>
+<li>Ensure the constructor takes the handle in</li>
+<li>Release the handle in the destructor</li>
+</ul>
+
+<p>When working with OpenGL textures, I use a very small class that allows me to handle the resource cleanup, it just managed the generated texture id. When the class falls out of scope or there&#39;s a failure during initialization, the texture is cleaned up.</p>
+
+<div class="highlight"><pre><code class="cpp"><span class="k">class</span> <span class="nc">texture</span> <span class="p">{</span>
+  <span class="nl">public:</span>
+    <span class="c1">// manage the generated texture id</span>
+    <span class="n">texture</span><span class="p">(</span><span class="k">const</span> <span class="n">GLuint</span> <span class="n">t</span><span class="p">)</span> <span class="o">:</span> <span class="n">_reference</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    
+    <span class="c1">// cleanup of the allocated resource</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">texture</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+    <span class="c1">// provide access to the reference</span>
+    <span class="k">const</span> <span class="n">GLuint</span> <span class="n">reference</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_reference</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="nl">private:</span>
+    <span class="n">GLuint</span> <span class="n">_reference</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">texture</span><span class="o">::~</span><span class="n">texture</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// only run if we have something to clean up</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">_reference</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// clear out the texture  </span>
+    <span class="n">glDeleteTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">_reference</span><span class="p">);</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">_reference</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Strictly speaking, the constructor should probably do the generation of the texture itself. Where I&#39;m loading the texture is in another managed object of itself. Most importantly, if an exception is thrown during initialization, this class will remove anything allocated to it (if it did allocate).</p>
+
+<p>It should be mentioned that there are lots of extra attributes we can pile into RAII style classes. There&#39;s a really good write up (in depth) <a href="http://www.daniweb.com/software-development/cpp/tutorials/373787/beginning-c0x-making-a-raii-class">here</a>.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>RAII is a great idea to implement into your own classes. The more of this you can practice, the more exception-safe your code will become . . . from car accidents.</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

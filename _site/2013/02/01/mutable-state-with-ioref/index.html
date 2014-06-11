@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Mutable State with IORef &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Mutable State with IORef</h1>
+  <span class="post-date">01 Feb 2013</span>
+  <h1>Mutable State with IORef</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Haskell goes to great lengths to control state but one way you can achieve mutable state in Haskell is by use of <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-IORef.html">IORef</a>. IORef gives you the ability to assign a reference to a variable in the <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/System-IO.html#t:IO">IO monad</a>. This at least decorates your code in such a way that it's obvious to you, the developer and Haskell that there will be side effects.</div><div><br /></div><div>Today's post, I'll create a very simple example usage of IORef. We'll construct a counter that we can increment and decrement.</div><div><br /></div><h3>Declaring our type</h3><div><br /><script src="https://gist.github.com/4689143.js"></script> First of all, we import Data.IORef to give us access to IORef. We declare our counter data type using record style, the only member of which is the value that counts. It's an IORef Int to mean it references a variable in the IO monad that will be of type Int. So, it's not so blatant that you're dragging the integer value around with you, rather you're dragging something closer to a pointer to the value or reference.<br /><br />To build one of our types, we need to use <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Data-IORef.html#v:newIORef">newIORef</a>&nbsp;which references our actual value and we wrap it up in our Counter data type.<br /><br /><script src="https://gist.github.com/4689602.js"></script> <br /><br />makeCounter takes in an initial integer that will seed our counter and returns a Counter in the IO monad.<br /><br />Getting our hands on the reference and doing something with it is pretty simple with the use of <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Data-IORef.html#v:modifyIORef">modifyIORef</a>. Using this information, we can increment our counter with the following function.<br /><br /><script src="https://gist.github.com/4689654.js"></script> modifyIORef actually gives us the ability to pass a function to modify the referenced value. Be careful with modifyIORef though. As with a lot of things in Haskell, this is lazy. We're operating on IO actions here so it's all "promises to do something" or "will do it later when I need to" type operations, so repeatedly calling this without emitting the value will make these promises pile up. There is a strict and non-lazy evaluated version called modifyIORef'.<br /><br />Finally, when we want to get our hands on the referenced value and do something with it (in our example here, we'll just present it to screen) we use <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Data-IORef.html#v:readIORef">readIORef</a>. readIORef will take our IORef and just made it a value in the IO monad meaning we can simply use "&lt;-" to emit the value.<br /><br /><script src="https://gist.github.com/4689688.js"></script> This all pretty straight forward. Seeing this Counter run from GHCI is pretty straight forward.<br /><br /><pre>λ&gt; c &lt;- makeCounter 1<br />λ&gt; showCounter c<br />1<br />λ&gt; incCounter 1 c<br />λ&gt; showCounter c<br />2<br /></pre><br />There you have it - mutable state with IORef.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

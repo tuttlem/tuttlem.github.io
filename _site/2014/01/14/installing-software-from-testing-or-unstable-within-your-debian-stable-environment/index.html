@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Installing Software from Testing or Unstable within your Debian Stable Environment &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Installing Software from Testing or Unstable within your Debian Stable Environment</h1>
+  <span class="post-date">14 Jan 2014</span>
+  <h3 id="introduction">Introduction</h3>
+
+<p>The great thing about using the current stable version of <a href="www.debian.org">Debian</a> is that you&#39;re assured that a lot of testing has gone in to ensure that all of the packages you&#39;re looking at are in fact stable - sometimes this works against us as it takes so long for packages to become stable, making the Debian stable repository quite stale with its versions.</p>
+
+<p>In today&#39;s post, I&#39;ll show you how you can install a package from a different repository (other than stable) within your stable Debian environment.</p>
+
+<p>At the time of this writing, I&#39;m currently using &quot;Wheezy&quot; (codename for Stable). This makes &quot;Jessie&quot; the codename for Testing and &quot;Sid&quot; the codename for Unstable.</p>
+
+<h3 id="adding-software-sources">Adding Software Sources</h3>
+
+<p>In order to install software from another repository, you need to tell &quot;apt&quot; where to get the software from. Before making any changes, my /etc/apt/sources.list looks like this:</p>
+
+<div class="highlight"><pre><code class="text">deb http://ftp.au.debian.org/debian/ wheezy main
+deb-src http://ftp.au.debian.org/debian/ wheezy main
+
+deb http://security.debian.org/ wheezy/updates main
+deb-src http://security.debian.org/ wheezy/updates main
+
+deb http://ftp.au.debian.org/debian/ wheezy-updates main
+deb-src http://ftp.au.debian.org/debian/ wheezy-updates main</code></pre></div>
+
+<p>The man page for &quot;sources.list&quot; will fill you in on the structure of these lines in your sources.list. For the purposes of this post, just take note that each line mentions &quot;wheezy&quot; at the end.</p>
+
+<p>Without modification, if we were to use &quot;apt-cache policy&quot; we can find out what versions of a particular package are available to us. For the purposes of this post, I&#39;ll use &quot;haskell-platform&quot;. Taking a look at the cache policy for this package:</p>
+
+<div class="highlight"><pre><code class="text">$ apt-cache policy haskell-platform
+haskell-platform:
+  Installed: (none)
+  Candidate: 2012.2.0.0
+  Version table:
+     2012.2.0.0 0
+        500 http://ftp.au.debian.org/debian/ wheezy/main amd64 Packages</code></pre></div>
+
+<p>We&#39;ve got version &quot;2012.2.0.0&quot; available to us in the stable repository. With &quot;2013.2.0.0&quot; as the current version, we can see that stable is a little behind. Let&#39;s try and fix that.</p>
+
+<p>We&#39;re going to add some software from the testing repository, so we&#39;re going to link up with the binary source pointed to &quot;jessie&quot;. To do this, we&#39;ll add one extra line to /etc/apt/sources.list, like so:</p>
+
+<div class="highlight"><pre><code class="text">deb http://ftp.au.debian.org/debian/ wheezy main
+deb-src http://ftp.au.debian.org/debian/ wheezy main
+deb http://ftp.au.debian.org/debian/ jessie main
+
+deb http://security.debian.org/ wheezy/updates main
+deb-src http://security.debian.org/ wheezy/updates main
+
+deb http://ftp.au.debian.org/debian/ wheezy-updates main
+deb-src http://ftp.au.debian.org/debian/ wheezy-updates main</code></pre></div>
+
+<p>Note the third line (new) that mentions &quot;jessie&quot;.</p>
+
+<h3 id="setting-priorities">Setting Priorities</h3>
+
+<p>Now that we&#39;ve confused apt, by mixing software sources - we need to set some priorities where the stable repository will take precedence over the testing repository.</p>
+
+<p>To do this, we open/create the file <code>/etc/apt/preferences</code>. In this file, we can list out all of the repositories that we&#39;d like to use and assign a priority to them. Here&#39;s the sample putting a higher priority on stable:</p>
+
+<div class="highlight"><pre><code class="text">Package: *
+Pin: release a=stable
+Pin-Priority: 700
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 600</code></pre></div>
+
+<p>The instructions here are defining what packages these rules apply to, which release they apply to and what priority is to be applied. Now that we&#39;ve put these priorities in place, we&#39;ll update our local software cache:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update</code></pre></div>
+
+<p>Then, we can take a look at the policy:</p>
+
+<div class="highlight"><pre><code class="text">haskell-platform:
+  Installed: (none)
+  Candidate: 2012.2.0.0
+  Version table:
+     2013.2.0.0.debian3 0
+        600 http://ftp.au.debian.org/debian/ jessie/main amd64 Packages
+     2012.2.0.0 0
+        700 http://ftp.au.debian.org/debian/ wheezy/main amd64 Packages</code></pre></div>
+
+<p>We now have the ability to install the later package!</p>
+
+<h3 id="installing">Installing</h3>
+
+<p>With all of these rules in place now, installing software from a particular repository is as simple as:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get -t testing install haskell-platform</code></pre></div>
+
+<p>We&#39;ve passed the repository the <code>-t</code> option. This will take haskell-platform and associated dependencies from the testing repository.</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

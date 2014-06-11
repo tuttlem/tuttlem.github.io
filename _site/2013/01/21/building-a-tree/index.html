@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Building a Tree &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Building a Tree</h1>
+  <span class="post-date">21 Jan 2013</span>
+  <h1>Building a Tree</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Following up from a <a href="http://cogsandlevers.blogspot.com.au/2013/01/basic-lexical-analysis-in-c.html">previous post</a>&nbsp;I had written on lexical analysis, I wanted to take you through the conversion of a list of scanned items into a tree that will become of more use once we start to compile to executable instructions.</div><div><br /></div><h3>Why a tree?</h3><div>When you look at a sequence of scanned items that come out of the lexer, its one-dimensional structure doesn't allow you to apply precedence easily. A tree structure lends itself very well to this problem exactly. See the following example. First, I'll give you an expression and then I'll (try) to put a tree together from said expression.</div><div><br /><pre class="brush:plain">As an expression:<br />(x &gt; 5) &amp;&amp; ((y &lt; 3) || (z &gt;= 6))<br /><br />As a tree:<br /><br />                 &amp;&amp;<br />               /    \<br />             /        \<br />            &gt;         ||<br />           / \       /  \<br />          x   5     &lt;    &gt;=<br />                   / \   / \<br />                  y   3 z  6 <br /></pre></div><div><br />I do appologise for my ASCII art, but you get the idea. We now have an order of&nbsp;precedence&nbsp;as we move from the root (or the top) of the tree down through the branches until we reach the leaf nodes which end up as our values that we're testing.<br /><br /><h3>Making the list into a tree</h3></div><div>We have a list of scanned items on one hand, we need to make it a tree. These (tree-related) problems lend themselves really well to recursive solutions, and you'll see this pop up quite a bit when working with tree structures. Here's how we define a node within the tree (which is actually how we'll refer to the tree overall).</div><div><br /><script src="https://gist.github.com/4583311.js"></script></div><div><br />Pretty easy and illustrative of the tree above. We have information "here" and we have further trees "left" and "right". The generation process is pretty straight forward. You need to keep in mind the following though:<br /><br /><ul><li>New scope (or a left paren) means we need to recurse a level deeper</li><li>End of scope (or a right paren) means we need to drop out to get back to a level above in the recursion stack</li><li>Any operator is just the value "here"</li></ul><div>Three simple rules all wrapped up in the crux of a switch statement here.</div><div><br /><script src="https://gist.github.com/4583314.js"></script></div><div><br /></div><div>This code is commented fairly well. It's a pretty straight forward concept anyway. From here you should have no trouble translating the expression tree which we've just generated into your own programs execution paradigms.</div><div><br />The source code that these articles are based upon is available in my <a href="https://github.com/tuttlem/">GitHub repository</a> in a project called <a href="https://github.com/tuttlem/Umpire">Umpire</a>.</div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

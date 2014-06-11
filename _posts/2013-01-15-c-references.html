@@ -1,0 +1,13 @@
+---
+layout: post
+title: C++ References
+date: 2013-01-15
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've always thought of a reference as the half-way house between pointers and statically allocated objects. References are in-fact addresses but they are used within our code just like objects as opposed to requiring pointer syntax.</div><div><br /></div><h3>Some facts ..</h3><div><b>How reference are defined</b></div><div><b><br /></b></div><div>You declare a reference variable using the ampersand (&amp;) to modify the type declaration.</div><blockquote class="tr_bq"><span style="font-family: Courier New, Courier, monospace;">type&amp; var;&nbsp;</span></blockquote><div><b>A reference must be&nbsp;initialised</b></div><div><br /></div><div>This is pretty basic, it just means that when you declare your reference it must start out with a place to reference.</div><div><br /><script src="https://gist.github.com/4537852.js"></script><br /></div><div></div><div><b>A reference cannot be changed</b></div><div><b><br /></b></div><div>When we initialise a reference to point to a variable, that's it. We can't change what the reference points to. This caught be out to begin with, but it's pretty easy stuff.</div><div><br /><script src="https://gist.github.com/4537892.js"></script></div><div><br /></div><div>Makes sense. Gives references a sense of stubbornness (and sanity).<br /><br /><b>Pointer&nbsp;compatibility&nbsp;through dereferencing</b><br /><b><br /></b>I see a fair bit of banter on "how to convert pointer to reference", etc. It's really quite simple and it's also &nbsp;subject to the same assignment laws as above.<br /><br /><script src="https://gist.github.com/4537933.js"></script> <br />These concepts really come into their own (I think) once you start using them within your own class structures. It's a much more natural feel to deal with references rather than pointers and a bit easier to read as well.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

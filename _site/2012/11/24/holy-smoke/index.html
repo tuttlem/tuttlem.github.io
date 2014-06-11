@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Holy smoke! &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Holy smoke!</h1>
+  <span class="post-date">24 Nov 2012</span>
+  <p>Well, not really.</p>
+
+<p>Nostalgia got the better of me today in the form of some good old mode 13 demo code. All the hours I&#39;d blown previously developing little tid-bit apps like this and I never saved off any of my code. Thankfully, I have a good memory and whilst my assembly skills aren&#39;t &quot;top shelf&quot;, they&#39;re certainly up to the task of re-creating this sort of effect.</p>
+
+<h3 id="smoke,-fire,-flame?">Smoke, Fire, Flame?</h3>
+
+<p>They&#39;re all the same. They work of the same principal. </p>
+
+<ul>
+<li>Set a palette that suits your effect (yellows, reds, orange for fire), (black to white for smoke)</li>
+<li>Create some noise as far south as you can on the video buffer</li>
+<li>Blur the pixels out on the screen making your resulting pixels ascend and decay</li>
+</ul>
+
+<p>Easy!</p>
+
+<h3 id="on-to-the-code-...">On to the code ...</h3>
+
+<p>So, I&#39;ll present this little demo in a couple of chunks and explain them as I show them. The code is pretty well documented anyway so that reading it line for line should be very self-explanitory.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nf">.model</span> <span class="nv">small</span>
+<span class="nf">.stack</span> <span class="mh">100h</span>
+
+<span class="nf">.code</span>
+<span class="nl">start:</span>
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0013h</span>    <span class="c1">; set 320x200x256 mode</span>
+    <span class="nf">int</span> <span class="mh">10h</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0a000h</span>   <span class="c1">; we can&#39;t directly address ES so </span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span> <span class="nb">ax</span>          <span class="c1">; we do so through AX. ES = A000</span>
+    
+    <span class="nf">call</span>    <span class="nv">setup_palette</span>   <span class="c1">; setup a palette with greyscale </span>
+                <span class="c1">; to support the smoke effect</span>
+
+<span class="nl">no_kbhit:</span>
+
+    <span class="nf">call</span>    <span class="nv">randomize_lines</span> <span class="c1">; draw some random pixels </span>
+    <span class="nf">call</span>    <span class="nb">bl</span><span class="nv">oom</span>       <span class="c1">; average out the video buffer</span>
+    
+    <span class="nf">mov</span> <span class="nb">ah</span><span class="p">,</span> <span class="mh">01h</span>      <span class="c1">; test for a key press</span>
+    <span class="nf">int</span> <span class="mh">16h</span>
+    <span class="nf">jz</span>  <span class="nv">no_kbhit</span>    <span class="c1">; continue running if no key was hit</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0003h</span>    <span class="c1">; set text mode</span>
+    <span class="nf">int</span> <span class="mh">10h</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">4c00h</span>    <span class="c1">; return control back to dos</span>
+    <span class="nf">int</span> <span class="mh">21h</span>
+
+<span class="c1">; -- subroutines removed for brevity</span>
+
+<span class="nf">end</span> <span class="nv">start</span>
+
+<span class="nf">end</span></code></pre></div>
+
+<p>This is the main program. It needs to drop us into the required video mode, make sure we don&#39;t want to quit (i.e. was there a key hit?), actually perform the effect (the loop of random/average) and then clean up (send us back to text mode, return control to dos).</p>
+
+<h3 id="giving-the-effect-some-colour">Giving the effect some colour</h3>
+
+<p>Setting up the palette in this type of routine really does determine the &quot;type&quot; of routine that it is. As I&#39;d said above:</p>
+
+<ul>
+<li>Purely greyscale will give you a smokey effect on screen</li>
+<li>Gradients running through black, red, orange, yellow, white will give you fire/flame</li>
+<li>Black, blue up to purple will give you a cool alcohol type fire</li>
+<li>Greens will give you something alien</li>
+</ul>
+
+<p>The idea is to experiment with palette creation to see what comes out best for you. Here&#39;s how I setup a greyscale palette.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">setup_palette:</span>
+
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; 256 colour indicies to set</span>
+    
+<span class="nl">next_colour_idx:</span>
+    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; setup al so that we&#39;re setting</span>
+    <span class="nf">sub</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">cl</span>           <span class="c1">; colour indicies from low to high</span>
+    
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c7h</span>     <span class="c1">; this port selects the colour index</span>
+                    <span class="c1">; that we&#39;ll set r,g,b for</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>
+    
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c9h</span>     <span class="c1">; this port sets the r,g,b components</span>
+                        <span class="c1">; for the selected index</span>
+                            
+    <span class="nf">shr</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; rgb intensities are in range of 0..63</span>
+                    <span class="c1">; so, divide by 4 to adjust</span>
+                            
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the red</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the green</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the blue</span>
+
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next colour</span>
+    <span class="nf">jnz</span> <span class="nv">next_colour_idx</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, just a touch of VGA theory here. Unlike today&#39;s video modes, the 256 colour VGA supported 256 indices that each had an RGB intensity set ranging (0..63) each. Sometime, I don&#39;t know how we ever used this video mode, but we got by -- and made some damn cool stuff using it. So, software port <code>3c7</code> takes a colour index. 3c8 can be used to read the colour intensities (not used in this program). <code>3c9</code> is the port we use to write (r,g,b) intensities. Dividing by 4 allows me to interpolate 0..255 against 0..63 so that 0 is the colour with least intensity up to 255 which has the greatest.</p>
+
+<h3 id="(not-so)-random">(not so) Random</h3>
+
+<p>Getting psuedo random numbers with nothing in the toolbox is difficult. The method that I&#39;ve used here is to constantly read from <a href="http://www.inversereality.org/tutorials/interrupt%20programming/timerinterrupt.html">software port 40h</a> which is tightly coupled with the timer interrupt but it keeps a fairly steady count. The uniformity of these numbers actually provides a very tame smoke effect, you&#39;re not going to see much chaos.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">randomize_lines:</span>
+    
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">640</span>          <span class="c1">; we&#39;re going to set two rows of pixels</span>
+                    <span class="c1">; at the bottom of the screen to be </span>
+                    <span class="c1">; random colours, so that&#39;s 640 pixels</span>
+                            
+    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">63360</span>        <span class="c1">; we&#39;re going to start writing these </span>
+                    <span class="c1">; pixels on the last two lines so that&#39;s</span>
+                    <span class="c1">; 64000 - 640</span>
+                            
+<span class="nl">next_rand_pixel:</span>
+
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">40h</span>          <span class="c1">; we get quasi-random values from port 40h</span>
+    <span class="nf">in</span>  <span class="nb">al</span><span class="p">,</span> <span class="nb">dx</span>
+    
+    <span class="nf">stosb</span>               <span class="c1">; store the pixel on screen</span>
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next pixel</span>
+    <span class="nf">jnz</span> <span class="nv">next_rand_pixel</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, following along with the effect we only randomize the last two rows of the video array. Simple.</p>
+
+<h3 id="airbrush,-airbrush!!">Airbrush, Airbrush!!</h3>
+
+<p>It&#39;s just an averaging effect. We take the average of the current pixel, left, right and top most. We then re-set the pixel back into video memory 1 pixel above our current location. Therefore, we have no interest in trying to process the top-most row of video memory.</p>
+
+<p>The only other part that is a little awkward to look at in this code block will be the <code>ADC</code> instructions. We&#39;re dealing with bytes (values of 0..255). We&#39;re adding 4 of these together so we&#39;re going to quickly overflow a byte sized register. <code>ADC</code> (or add with carry adjustment) allows us to overflow this information into <code>AX</code>&#39;s higher-order byte (<code>AH</code>). When it comes time to divide (or take the arithmetic average) of this pixel&#39;s intensity, we&#39;ll be able to perform this operation on the word sized <code>AX</code> register. Neat. Check it out:</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">bloom:</span>
+
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">63680</span>        <span class="c1">; we average every pixel except the top row</span>
+    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">320</span>          <span class="c1">; we start at the 2nd row</span>
+    
+<span class="nl">next_avg:</span>
+    <span class="nf">xor</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">ax</span>           <span class="c1">; clear out our accumulator</span>
+    
+    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="p">]</span>        <span class="c1">; get the current pixel</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the left</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the right</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">]</span> <span class="c1">; add the pixel above</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">shr</span> <span class="nb">ax</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; divide by 4 to get the average</span>
+    
+    <span class="nf">cmp</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; can we dampen?</span>
+    <span class="nf">jz</span>  <span class="nv">no_damp</span>         <span class="c1">; jump over if we can&#39;t</span>
+    
+    <span class="nf">dec</span> <span class="nb">al</span>          <span class="c1">; dampen the colour by 1</span>
+    
+<span class="nl">no_damp:</span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">],</span> <span class="nb">al</span>    <span class="c1">; put the averaged pixel 1 pixel above</span>
+    
+    <span class="nf">inc</span> <span class="nb">di</span>          <span class="c1">; next pixel</span>
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; keep count of how many we&#39;ve got left</span>
+    <span class="nf">jnz</span> <span class="nv">next_avg</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, when you put it all together (and run it in DosBox) you&#39;ll get something that looks like this:</p>
+
+<p><img src="http://2.bp.blogspot.com/-0SUcxXs8a_k/ULCQvxj-8qI/AAAAAAAAAhQ/hlD_2uNejwE/s400/Screen+Shot+2012-11-24+at+7.16.37+PM.png" alt="Smoke application running"></p>
+
+<p>Well.. I&#39;m feeling all nostalgic now. Might go and fire up DosBox and play a couple of games of Double Dragon.</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

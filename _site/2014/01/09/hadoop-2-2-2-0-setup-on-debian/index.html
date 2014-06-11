@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Hadoop 2 (2.2.0) setup on Debian &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Hadoop 2 (2.2.0) setup on Debian</h1>
+  <span class="post-date">09 Jan 2014</span>
+  <p>Today&#39;s post will just be a walk through of the steps required to install Hadoop 2 on Debian Linux. Please note that this is for a single node installation only. This guide is heavily based on the Ubuntu instructions found <a href="http://codesfusion.blogspot.com.au/2013/10/setup-hadoop-2x-220-on-ubuntu.html">here</a>.</p>
+
+<h3 id="install-java">Install Java</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># install the java jdk</span>
+<span class="nv">$ </span>sudo apt-get install openjdk-7-jdk
+ 
+<span class="c"># make a jdk symlink</span>
+<span class="nv">$ </span><span class="nb">cd</span> /usr/lib/jvm
+<span class="nv">$ </span>ln -s java-7-openjdk-amd64 jdk
+ 
+<span class="c"># make sure that ssh server is installed</span>
+<span class="nv">$ </span>sudo apt-get install openssh-server</code></pre></div>
+
+<h3 id="add-hadoop-users-and-groups">Add Hadoop Users and Groups</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># create a new group for hadoop</span>
+<span class="nv">$ </span>sudo addgroup hadoop
+ 
+<span class="c"># create the hduser and put them in the hadoop group</span>
+<span class="nv">$ </span>sudo adduser --ingroup hadoop hduser
+ 
+<span class="c"># add them to the sudo group also</span>
+<span class="nv">$ </span>sudo adduser hduser sudo</code></pre></div>
+
+<p>Now login as &quot;hduser&quot;.</p>
+
+<h3 id="ssh-certificates">SSH Certificates</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># generate your key</span>
+<span class="nv">$ </span>ssh-keygen -t rsa -P <span class="s1">&#39;&#39;</span>
+ 
+<span class="c"># set your public key as authorized</span>
+<span class="nv">$ </span>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+ 
+<span class="c"># test out ssh</span>
+<span class="nv">$ </span>ssh localhost</code></pre></div>
+
+<h3 id="download-hadoop">Download Hadoop</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># downoad the package</span>
+<span class="nv">$ </span><span class="nb">cd</span> ~
+<span class="nv">$ </span>wget http://mirror.rackcentral.com.au/apache/hadoop/common/hadoop-2.2.0/hadoop-2.2.0.tar.gz
+ 
+<span class="c"># extract the package</span>
+<span class="nv">$ </span>sudo tar vxzf hadoop-2.2.0.tar.gz -C /usr/local
+<span class="nv">$ </span><span class="nb">cd</span> /usr/local
+<span class="nv">$ </span>sudo mv hadoop-2.2.0 hadoop
+ 
+<span class="c"># get the hduser to take ownership</span>
+<span class="nv">$ </span>sudo chown -R hduser:hadoop hadoop</code></pre></div>
+
+<h3 id="setup-environment-variables">Setup Environment Variables</h3>
+
+<p>Add the following lines to your <code>~/.bashrc</code></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Hadoop variables</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk/
+<span class="nb">export </span><span class="nv">HADOOP_INSTALL</span><span class="o">=</span>/usr/local/hadoop
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HADOOP_INSTALL</span>/bin
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HADOOP_INSTALL</span>/sbin
+<span class="nb">export </span><span class="nv">HADOOP_MAPRED_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">HADOOP_COMMON_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">HADOOP_HDFS_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">YARN_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span></code></pre></div>
+
+<p>Add the following lines to <code>/usr/local/hadoop/etc/hadoop/hadoop-env.sh</code></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># modify JAVA_HOME</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk/</code></pre></div>
+
+<p>Re-login to your machine as hduser, and check the hadoop version.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>hadoop version</code></pre></div>
+
+<h3 id="configure-hadoop">Configure Hadoop</h3>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/core-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>hdfs://localhost:9000<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/yarn-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>mapreduce_shuffle<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Make a copy of the mapred-site template file</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mv mapred-site.xml.template mapred-site.xml
+<span class="nv">$ </span>vi mapred-site.xml</code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/mapred-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>mapreduce.framework.name<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>yarn<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<h3 id="prepare-the-filesystem">Prepare the Filesystem</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># create the physical directories</span>
+<span class="nv">$ </span><span class="nb">cd</span> ~
+<span class="nv">$ </span>mkdir -p mydata/hdfs/namenode
+<span class="nv">$ </span>mkdir -p mydata/hdfs/datanode</code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node <code>/usr/local/hadoop/etc/hadoop/hdfs-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>1<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.namenode.name.dir<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>file:/home/hduser/mydata/hdfs/namenode<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>file:/home/hduser/mydata/hdfs/datanode<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Format the namenode</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>hdfs namenode -format</code></pre></div>
+
+<h3 id="start-hadoop">Start Hadoop</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>start-dfs.sh
+<span class="nv">$ </span>start-yarn.sh
+ 
+<span class="c"># check that services are running</span>
+<span class="nv">$ </span>jps</code></pre></div>
+
+<p>Run the Example</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> /usr/local/hadoop
+<span class="nv">$ </span>hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5</code></pre></div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

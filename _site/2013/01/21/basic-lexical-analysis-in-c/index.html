@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Basic Lexical Analysis in C# &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Basic Lexical Analysis in C#</h1>
+  <span class="post-date">21 Jan 2013</span>
+  <h1>Basic Lexical Analysis in C#</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Creating your own languages can be a fun challenge at times, it can also be a very intimidating beast if you don't break the problems down into small enough sub-problems. Each step of the compilation process is as important as the rest, so today's post is going to be about performing basic <a href="http://en.wikipedia.org/wiki/Lexical_analysis">Lexical Analysis</a>&nbsp;to tokenize your input.</div><div><br /></div><h3>Mission parameters</h3><div>We'll be designing a language that looks very similar to C-style boolean logic. It'll basically be an "if-statement machine" that we'll have in the end. The sorts of code strings that we'll look to analyse will be something like this.</div><div><br /><pre class="brush:plain">// numeric value comparison<br />4 &lt; 7<br /><br />// logic concatenation and scope<br />(4 &lt; 7) &amp;&amp; ((9 &gt;= 7) || (10 != 2))<br /><br />// string matching<br />"Hello" ~ "Hello, World"<br /></pre></div><div><br /></div><div>You can see how these will become quite complex quite quickly but that's not for us to worry about now. All we want to worry about is encountering items of interest in our strings and producing a list of tokens that we've found.<br /><br /><h3>Scanning the string</h3></div><div>"Things of interest" is what I called it above. The things of interest are say, the numeric values or the strings or the logical operator or the expression operators. When we want to interpret strings, we call on our friend Mr. Regular Expression.</div><div><br /></div><div>First thing I've done is to load an array with regular expressions matching the "things of interest" and generating a token for each of these.</div><div><br /><script src="https://gist.github.com/4581991.js"></script></div><div><br /></div><div>For every regular expression, you can see that I've assigned a symbolic token. That way we can scan a string and get a "hard-reference" to something of interest that we need to do something with. Scanning a string is just iterating over the characters, finding a regular expression match and adding it to the list.<br /><br /><script src="https://gist.github.com/4582060.js"></script> <br />By this point, we're either handed back a list of "ScanItem" objects that describes for us what our code is and looks like or an exception is thrown complaining about syntax problems. We can further use this list to start building expression trees to execute.<br /><br />The code in the article is based on a project that I'm currently working on called Umpire. The source code can be found in my <a href="https://github.com/tuttlem/Umpire/">GitHub repository</a>.</div><div><br /></div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

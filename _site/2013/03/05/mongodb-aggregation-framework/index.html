@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      MongoDB Aggregation Framework &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">MongoDB Aggregation Framework</h1>
+  <span class="post-date">05 Mar 2013</span>
+  <h1>MongoDB Aggregation Framework</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Sometimes having the power of MapReduce at your fingertips and applying this technology to simpler aggregate queries can be more hassle than it needs to be. MongoDB provides a simpler solution (for a simpler class of problems) in the form of the <a href="http://docs.mongodb.org/manual/applications/aggregation/">Aggregation framework</a>. This framework allows you to develop queries within the mongo environment that are analogous to <a href="http://www.w3schools.com/sql/sql_groupby.asp">GROUP BY</a>, <a href="http://www.w3schools.com/sql/sql_having.asp">HAVING</a>, <a href="http://www.w3schools.com/sql/sql_func_count.asp">COUNT</a>, <a href="http://www.w3schools.com/sql/sql_func_sum.asp">SUM</a>, etc. that you would normally use in "relational land".</div><div><br /></div><div>Today's post, I want to walk through a couple of simple queries on using this framework to maximise productivity when pivoting data.</div><div><br /></div><h3>Marrying the old with the new</h3><div>As a bit of a cheat's reference, the following table provides the some examples of aggregate queries in a relational database and how they transpose over to the Mongo aggregation environment.<br /><br />The source of this table can be found <a href="http://docs.mongodb.org/manual/reference/sql-aggregation-comparison/">here</a>.</div><div><br /><table> <tbody><tr>  <td><b>Technique</b></td>  <td><b>Relational</b></td>  <td><b>Aggregation Framework</b></td> </tr><tr>  <td>Criteria matching</td>  <td>WHERE</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Grouping</td>  <td>GROUP BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/group/#_S_group">$group</a></td> </tr><tr>  <td>Aggregate criteria filtering</td>  <td>HAVING</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Result projection</td>  <td>SELECT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/project/#_S_project">$project</a></td> </tr><tr>  <td>Record sorting</td>  <td>ORDER BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sort/#_S_sort">$sort</a></td> </tr><tr>  <td>Limiting result sets</td>  <td>LIMIT or TOP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/limit/#_S_limit">$limit</a></td> </tr><tr>  <td>Accumulation</td>  <td>SUM</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Counting</td>  <td>COUNT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Dropping</td>  <td>SKIP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/skip/#_S_skip">$skip</a></td> </tr></tbody></table></div><div><br /><b>Counting records</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*) AS count<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            count: { $sum: 1 } } } <br />] )</pre><br /><br /><b>Accumulating values</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT SUM(price) AS total<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier and sorting</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id<br />ORDER BY total</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $sort: { total: 1 } } <br />] )</pre><br /><br /><b>Multiple Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, count(*)<br />FROM items<br />GROUP BY category_id<br />HAVING count(*) &gt; 1</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            count: { $sum: 1 } } },<br />{ $match: { count: { $gt: 1 } } }  <br />] )</pre><br /><br /><b>Multiple Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when, SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }  <br />] )</pre><br /><br /><b>Aggregate with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } }<br />] )</pre><br /><br /><b>Aggregate Filtration with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }<br />] )</pre><br /><br /><b>Aggregated joins</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(co.weight) AS weight<br />FROM items i, components co<br />WHERE co.item_id = i.id<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $unwind: "$components" },<br />{ $group: { _id: "$category_id",<br />            weight: { $sum: "$components.weight" } } }<br />] )</pre><br /><br /><b>Sub-query Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*)<br />FROM (SELECT category_id, when<br />      FROM items<br />      GROUP BY category_id, when) AS Table1<br /></pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id", <br />                   when: "$when" } } },<br />{ $group: { _id: null, count: { $sum: 1 } } }<br />] )</pre><br /><h3></h3></div><div>These are just some examples to get up and running. The documentation will guide you much better!</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

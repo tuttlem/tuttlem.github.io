@@ -1,0 +1,13 @@
+---
+layout: post
+title: Mode X.. plus some!
+date: 2012-11-29
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+So, not much of tutorial here - just a neat layout of setup code for a few mode X modes I've come across now and then.<br /><br />First of all, just some formalities. Setting Mode X tweaks to the VGA is a massive port-out exercise. Creating the following macro cut down on my code heaps.<br /><br /><script src="https://gist.github.com/4168905.js?file=gistfile1.asm"></script> <br />So you can see, &nbsp;it just gives sending a byte out to a port a bit of syntactical sugar in assembly language. Easy.<br /><br />The only other piece of formality is, you must have set the video display into MCGA (mode 13) first:<br /><br /><script src="https://gist.github.com/4168969.js?file=gistfile1.asm"></script> <br />On to the modes.<br /><br /><script src="https://gist.github.com/4168909.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168920.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168932.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168936.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168939.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168949.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168963.js?file=gistfile1.asm"></script> <br /><br />I will have an update to this post. There are some nuances that I'd much prefer explain to you with a couple of nice code blocks rather than how I'm just going to throw it into the page.<br /><br />These chunks will be helpful in page selection and optimizing page draws to multiple pages at once.<br /><br /><br /><pre class="brush:plain;"> ; setting a page<br /> ; activeOffset = vgapage + (page * pageSize / 4);<br /> <br /> ; enable all planes<br /> ; outp 03c4h, 02h<br /> ; outp 03c5h, 0fh<br /></pre><br />Some really good references on this topic are<br /><br />Mode X on Wikipedia<br /><a href="http://en.wikipedia.org/wiki/Mode_X">http://en.wikipedia.org/wiki/Mode_X</a><br /><br />Bob Pendleton's Mode X Tutorial<br /><a href="http://www.gameprogrammer.com/3-tweak.html">http://www.gameprogrammer.com/3-tweak.html</a> <br /><br />Well, that's it for now.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

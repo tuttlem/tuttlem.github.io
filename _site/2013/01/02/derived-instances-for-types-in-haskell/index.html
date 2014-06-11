@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Derived Instances for Types in Haskell &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Derived Instances for Types in Haskell</h1>
+  <span class="post-date">02 Jan 2013</span>
+  <h1>Derived Instances for Types in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3>When constructing your own types in Haskell, you can make your type support a particular&nbsp;behavior&nbsp;by making it an instance of the&nbsp;behavioral&nbsp;type class required. I'll walk through each of these derivable&nbsp;behaviours and how they can help.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Eq">Eq</a></h3>Eq gives your type a sense of equality amongst values of the same type. It allows you to use the "==" operator as it was intended, returning you a boolean.<br /><br /><script src="https://gist.github.com/4433571.js"></script> <br />From now on, the "==" operator will do a comparison on the contents of the three strings in the Employee record for us.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Show">Show</a></h3>In my personal experience when defining types, I would be out of my mind not to make them derive "Show". "Show" allows a value of your type to be put into string format - very useful for debug situations.<br /><br /><script src="https://gist.github.com/4433617.js"></script> Just for the printing value, you can see how "Show" is worth its weight in gold.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Read">Read</a></h3>"Read" provides the reverse-service of what "Show" does. You'll be able to take a type in its serialized format and re-construct a type from it. Again, rather useful in debug situations.<br /><br /><script src="https://gist.github.com/4433642.js"></script> I've also used this to do user-input rather cheaply. Probably not quite a "production solution" though having your users enter type data directly.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Ord">Ord</a></h3>"Ord" gives your value order. Once you apply "Ord" you can sort or use operators like "&gt;", "&lt;", "&gt;=", &nbsp;"&lt;=".<br /><br /><script src="https://gist.github.com/4433758.js"></script> Quite useful for when you need to do these sorts of comparisons.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Bounded">Bounded</a></h3><div>"Bounded" will give your type a sense of the lowest and highest values achievable. You'll be able to ask questions of the type to see what these corresponding values are.</div><div><br /></div><div><br /></div><script src="https://gist.github.com/4433847.js"></script> <br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Enum">Enum</a></h3><div>"Enum" will give your type a sense of the predecessor and successor values. This is most important when dealing with ranges in using your type. Take a look at the following deck assembly. Without "Bounded" the list comprehensions would not be possible and this code would be a lot more verbose.</div><br /><script src="https://gist.github.com/4433859.js"></script> That's derived instances for you anyway. They're a great help when constructing your own types in Haskell.<br /><br />I think an important follow up to this blog post is being able to use these classes in conjunction with the <a href="http://www.haskell.org/haskellwiki/Keywords#instance">instance</a>&nbsp;keyword so that we can supply the implementation to the definition.<br /><br />Using the card example, we could supply an Eq and Show instance as follows.<br /><br /><script src="https://gist.github.com/4438758.js"></script> <br />You can see here that it's quite counter-productive to supply our own Eq implementation, but if we did have some funky rules on how we wanted equality operators to work it would be worth it. In the show implementation, I've tried to make the suits read a little more humanly. Around the card table, you would normally hear someone say "Do you have a 2 of clubs?" rather than "Do you have a 2 of club?". The trailing "s" has been added in the show implementation. Neat.<br /><br /><h3><a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t:Functor">Functor</a></h3><div>"Functor" is applied to wrapper types. You'll commonly see examples used with Maybe. You'll use "Functor" when ever you need to supply an <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:fmap">fmap</a>&nbsp;implementation. Here is a simple example that creates a wrapper data type.</div><div><br /><script src="https://gist.github.com/4440349.js"></script></div><div><br /></div><div><br /></div><div>"Functor" is useful for types that contain something, Lists, Maps, etc.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

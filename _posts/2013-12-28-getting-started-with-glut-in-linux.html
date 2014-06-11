@@ -1,0 +1,13 @@
+---
+layout: post
+title: Getting started with GLUT in Linux
+date: 2013-12-28
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><a href="http://www.opengl.org/resources/libraries/glut/">GLUT</a> is the OpenGL Utility Toolkit which is a standard set of APIs that you should be able to use on any platform to write OpenGL programs. It takes care of the boilerplate code that your applications would need to integrate with the host windowing system. More can be found about GLUT on its <a href="http://www.opengl.org/resources/libraries/glut/">website</a>.<br /><br />Today's post, I'll focus on getting your Linux environment up to speed to start writing programs with this framework.<br /><br /><h3>Installation</h3>In order to write programs using this library, you'll need to install the development library. Using your favorite package manager, you'll need to install freeglut.<br /><br /><pre class="brush: shell">$ sudo apt-get install freeglut3-dev<br /></pre><br />After that's finished, it's time to write a test application to make sure everything went to plan.<br /><br /><h3>A Simple Example</h3>The following program will just open a window and continually clear the window.<br /><br /><br /><script src="https://gist.github.com/tuttlem/8156737.js"></script> <br />Putting this code into "test.c", we built it into a program with the following command:<br /><br /><pre class="brush: shell">$ gcc test.c -lGL -lGLU -lglut -o test<br /></pre><br />That's it! Run "test" at the command prompt and if everything has gone to plan, you've installed freeglut correctly!<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

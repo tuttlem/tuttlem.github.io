@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/17/delegating-constructors-in-c-11/">
+        Delegating Constructors in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">17 Jan 2013</span>
+
+    <h1>Delegating Constructors in C++11</h1>
+<div class='post'>
+One of the annoyances I've always had with C++ was its lack of elegant handling of constructors. You'd always be forced to swallow the bitter pill of an initializer function that each of your constructors would call.<br /><br />It always felt clunky to me. With C++11 introducing Delegating Constructors, this has all gone now.<br /><br />Take this simple person class, for example. No magic going on here, just a straight forward class and is how we'd implement multiple constructors without the use of an initialiser.<br /><br /><script src="https://gist.github.com/4555283.js"></script> Here we have a "person" class with three constructors all providing their own implementation of how a person object should initialized. This just isn't nice for a couple of reasons. The first is violation of the <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>&nbsp;principle, we're repeating ourselves the whole time which goes hand in hand with the second - each constructor initializes the object in its own way.<br /><br />So, the previous answer to this problem was to implement an initializer function which did this work for us.<br /><br /><script src="https://gist.github.com/4555304.js"></script> This is better. We've got one way to initialize our class, we're not repeating ourselves. Life is good.<br /><br />But now (in C++11), there's a better way. Here I'll show you how to re-implement this class using delegating constructors for the most elegant of solutions.<br /><br /><script src="https://gist.github.com/4555333.js"></script> <br />We've got our most general case constructor (in this case the construct taking in all three names) actually doing the work. The remaining two constructors then just leverage off the functionality defined in the general case. No re-implementation, no initialization function needed.<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/getting-c-11-support-in-debian/">
+        Getting C++11 support in Debian
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>Getting C++11 support in Debian</h1>
+<div class='post'>
+<h3>Introduction</h3>The repository for the current stable version of Debian (squeeze) doesn't include a compiler with C++11 support. Today's post will take you through adding a testing repository so that you can get a compiler with this support in it.<br /><br />We needed to do <a href="http://cogsandlevers.blogspot.com.au/2012/12/installing-haskell-platform-on-debian.html">something similar</a>&nbsp;in a previous post when we were upgrading haskell platform for Debian. This won't stray to far from that.<br /><br /><h3>The Steps</h3><div>First up, we need to enable the testing repository. Adding the following lines to /etc/apt/sources.list will do this for us.</div><div><br /><pre>deb http://mirror.to.debian.repo/debian/ wheezy main    <br />deb-src http://mirror.to.debian.repo/debian/ wheezy main</pre></div><div><br />Next, we'll add an entry into the /etc/apt/preferences file to give preference to the "squeeze" (stable) repository over "wheezy" (testing) by adding these lines.<br /><br /><pre>Package: *            <br />Pin: release n=squeeze<br />Pin-Priority: 900     <br />                      <br />Package: *            <br />Pin: release n=wheezy <br />Pin-Priority: 200</pre><br />Finally, you'll be able to install clang with the following command. Take note that we're giving the install command the switches "--target-release testing", which tells aptitude to install this unit of software and its dependencies from the testing repository.<br /><br /><pre>$ sudo aptitude update &amp;&amp; sudo aptitude upgrade<br />$ sudo aptitude --target-release testing install clang</pre><br />You're done. C++11 support on your Debian box.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/defaulted-and-deleted-functions-in-c-11/">
+        Defaulted and Deleted Functions in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>Defaulted and Deleted Functions in C++11</h1>
+<div class='post'>
+A default (and more efficient) implementation can be given to your functions using the "default" keyword. This is the usage of a defaulted function in C++11.&nbsp;In this example, my "person" class has no written implementation for its constructor or destructor.<br /><br /><script src="https://gist.github.com/4543939.js"></script> The opposite to a defaulted function is a deleted function. The deleted function allows you to remove the implementation of a function by specifying the "delete" keyword. In C++ this is useful to us if we want to remove the copy constructor from classes that C++ so nicely provides for us. In this example, you can see that we've shut down the copy constructor as well as the assignment operator so that copying will no longer be supported.<br /><br /><script src="https://gist.github.com/4543965.js"></script> <br />That's it for these two features. Simple, but effective.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/auto-and-decltype-in-c-11/">
+        auto and decltype in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>auto and decltype in C++11</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Type brevity has never been C++'s strong suit, especially when you start dealing with template classes. It's just a mess! One of the nifty features that comes along with the C++11 standard is the ability to not need to specify the type. This leaves it as the job for the compiler to complete.</div><div><br /></div><div>This will only be a short post on auto and decltype's usage.</div><div><br /></div><h3>Usage</h3><div>To use the "auto" keyword, just declare your variables as "auto". Here are some variables for some simple data types/</div><div><br /><script src="https://gist.github.com/4542642.js"></script></div><div>One of the problems I've always had, iterating over STL containers is how verbose the type becomes when you declare your iterator. You can use the "auto" keyword here to simplify this greatly now.<br /><br /><script src="https://gist.github.com/4542661.js"></script></div><div>That is an improvement out of sight!<br /><br />decltype operates along the same paradigm but instead of operating on a variable's type, it will take the type of an expression's result and allow you to bind a name to it.<br /><br /><script src="https://gist.github.com/4542697.js"></script></div><div><br /></div><div>Using "auto" throughout your code guarantees you that there won't be any conversions going on to that variable. This in itself is a few layers of performance sapping translation gone! Just the cleanliness of the code is worth its weight in gold!</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/viewing-rdoc-sets/">
+        Viewing RDoc Sets
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Viewing RDoc Sets</h1>
+<div class='post'>
+You can start an internal web server that will serve all of your installed gemsets' documentation simply by issuing the following command at the console.<br /><br /><pre class="brush:shell">$ gem server<br />Server started at http://0.0.0.0:8808</pre><br />Point your web browers to the machine on port 8808 and you're away!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page20">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page18">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

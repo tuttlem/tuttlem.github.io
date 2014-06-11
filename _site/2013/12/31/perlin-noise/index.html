@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Perlin Noise &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Perlin Noise</h1>
+  <span class="post-date">31 Dec 2013</span>
+  <h1>Perlin Noise</h1>
+<div class='post'>
+<h3>Introduction</h3>Noise functions in computer applications allow programmers to make the machine act a little more naturally. It's the randomness introduced with these algorithms that gives the computer what appears to be "free thought" or unexpected decisions.<br /><br />Today, I'll walk through the <a href="http://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise</a> algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.<br /><br />Here are some examples of the Perlin Noise function output into two dimensions:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg" imageanchor="1"><img border="0" height="200" src="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s200/perlin1.jpg" width="200" /></a><a href="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png" imageanchor="1"><img border="0" height="200" src="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s200/perlin2.png" width="200" /></a></div><br />In today's post, I'll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.<br /><h3>Understanding Noise</h3>The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.<br /><br />A common noise function for two parameters that I have found used over the web is as follows:<br /><br /><script src="https://gist.github.com/tuttlem/8192352.js"></script> There's a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you'll get repeatable results.<br /><br />Next we'll smooth out the noise between two points. We'll do this by sampling the corners, sides and centre of the point we're currently generating for.<br /><br /><script src="https://gist.github.com/tuttlem/8192396.js"></script> With the above function, we can now sample a small area for a given point. All based on our random number generator.<br /><br />For the fractional parts that occur between solid boundaries, we'll use a specific interpolation method. I've defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.<br /><br /><script src="https://gist.github.com/tuttlem/8193345.js"></script> <br />Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are "octaves" and "persistence". "octaves" defines how many iterations that will be performed and "persistence" defines how much of the spectrum we'll utilise. It's highly interactive to the main curve co-effecients: frequency and amplitude.<br /><br /><script src="https://gist.github.com/tuttlem/8193366.js"></script> This now provides us with a way to create a map (or 2d array) to produce images much like I'd pasted in above. Here is a typical build loop.<br /><br /><script src="https://gist.github.com/tuttlem/8193381.js"></script> That should be enough to get you going.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

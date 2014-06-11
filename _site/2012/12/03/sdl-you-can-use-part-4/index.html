@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      SDL you can use (part 4) &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">SDL you can use (part 4)</h1>
+  <span class="post-date">03 Dec 2012</span>
+  <h1>SDL you can use (part 4)</h1>
+<div class='post'>
+<h3>Introduction</h3><div>The audio of a game/demo/application can be a maker or breaker. You can really set the mood of your game with the right sound effects and music.</div><div><br /></div><div>This tutorial, I'll walk you through setting up the audio system, loading some sound bytes, playing them and the cleaning up. You'll need to have <a href="http://www.libsdl.org/projects/SDL_mixer/">SDL_mixer</a> installed. Make sure that's installed and continue on!</div><div><br /></div><div>Lets just jump straight in.<br /><br /></div><h3>Setup</h3><br />Issuing a call to <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_11.html">Mix_OpenAudio</a>&nbsp;is all that's needed to initialize the audio system. It's as simple as this:<br /><br /><script src="https://gist.github.com/4194246.js?file=gistfile1.c"></script> <br /><br />From here you can load both music files and sound files. There is a difference. Music will run in the background where as sound effects will be one-shot deals. You'll need to use <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_55.html#SEC55">Mix_LoadMUS</a>&nbsp;to load a music file and <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_19.html#SEC19">Mix_LoadWAV</a>&nbsp;to load a sound file.<br /><br /><script src="https://gist.github.com/4194302.js?file=gistfile1.c"></script> <br /><br /><h3>Playing&nbsp;</h3><div>You can play a sound effect on a particular channel (or all channels) using <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html#SEC28">Mix_PlayChannel</a>&nbsp;or start and stop music in the background using <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_57.html#SEC57">Mix_PlayMusic</a>&nbsp;and <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_62.html#SEC62">Mix_PauseMusic</a>.&nbsp;</div><div><br /><script src="https://gist.github.com/4194363.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div><h3>Cleaning up</h3></div><div>It's just common courtesy to free all of the resources that you allocate, so the following functions will allow you to deallocate sounds, music files and the audio system.</div><div><br /><script src="https://gist.github.com/4194395.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div>Well, that's about it.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

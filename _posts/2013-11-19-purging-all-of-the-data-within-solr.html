@@ -1,0 +1,13 @@
+---
+layout: post
+title: Purging all of the data within Solr
+date: 2013-11-19
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+During the test phases of getting your software setup, you'll find it useful to completely toast what ever data you've already indexed to start fresh.<br /><br />This is as simple as issuing a delete query with open criteria (*.*). The full query should translate to &lt;delete&gt;&lt;query&gt;*.*&lt;/query&gt;&lt;/delete&gt;.<br /><br />As a URL it'll look like this:<br /><br /><pre class="brush: plain">http://[your solr server]:8080/solr/update?<br />stream.body=%3Cdelete%3E%3Cquery%3E*:*%3C/query%3E%3C/delete%3E&amp;commit=true</pre><br />Note that there is a commit at the end of this URL which will perform the delete and commit the result all in the one invocation.<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

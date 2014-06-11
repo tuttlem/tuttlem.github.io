@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Function currying in Haskell &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Function currying in Haskell</h1>
+  <span class="post-date">26 Dec 2012</span>
+  <h1>Function currying in Haskell</h1>
+<div class='post'>
+I think it's important to follow up my previous post on <a href="http://cogsandlevers.blogspot.com.au/2012/12/anonymous-functions-in-haskell.html">anonymous functions</a>&nbsp;with a post on currying. One of the more difficult concepts to think about (only because Haskell does a great job of separating you from this) is that every function only has 1 argument.<br /><br />Take this basic greeting example which expects the name of someone who is doing the greeting and the name of someone who is being greeted:<br /><br /><script src="https://gist.github.com/4377706.js"></script> <br />This is a pretty trivial example. Give it two names and the computer will appear to play nice between these two people:<br /><br /><pre>*Main&gt; sayHello "John" "Peter"<br />"Peter says Hello to John"</pre><br />We like John so much, that we're going to make a new function using this existing one.<br /><script src="https://gist.github.com/4377714.js"></script> <br />So now, we can get anyone to play nice with John:<br /><br /><pre>*Main&gt; sayHelloToJohn "Peter"<br />"Peter says Hello to John"<br />*Main&gt; sayHelloToJohn "Joe"<br />"Joe says Hello to John"<br />*Main&gt; sayHelloToJohn "Jane"<br />"Jane says Hello to John"</pre><br />Great! We've just made a partially applied function. When you don't specify enough parameters to a function, you're actually returned a function (or, partially applied function) that you can continue to use.&nbsp;Breaking down how this works, when Jane is saying hello to John she is actually doing so by doing this:<br /><br /><script src="https://gist.github.com/4377723.js"></script> This should at least explain my outlandish claims above of functions only having one argument, anyway.<br /><br />You've just witnessed function currying in motion.<br /><br />These principles are also directly applicable on infix functions as well, they just need a little extra help to be told so. Take this for example:<br /><br /><script src="https://gist.github.com/4385044.js"></script> <br />Ignoring the function definition, you can see that all you need to do for infix functions is to&nbsp;surround then with parenthesis. You need to supply the value that makes it a partial application of course!<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

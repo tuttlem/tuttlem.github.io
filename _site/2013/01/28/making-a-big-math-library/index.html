@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Making a Big Math Library &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Making a Big Math Library</h1>
+  <span class="post-date">28 Jan 2013</span>
+  <h1>Making a Big Math Library</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In most of your day to day applications, numbers that fit within 8, 16, 32 and 64 bits are enough. Sometimes you may need to stretch out into your floating point processor to include some more precision and start looking at 80 bit numbers.</div><div><br /></div><div>Today's post, I want to start on a library in assembly language that works on even bigger numbers. There are going to be some caveats or conditions that we'll establish up front, but they will be big numbers!</div><div><br /></div><div>The design considerations for this library will be as follows:</div><div><ul><li>Unsigned integers</li><li>Fixed size</li></ul><div>With this information, we can now start to build our library.</div></div><div><br /></div><h3>The big number data type</h3><div>Well, it's not really that special at all. We just need to define an array of quad-words to the length that we want. So, an example would look like this.</div><div><br /><script src="https://gist.github.com/4652710.js"></script></div><div><br /></div><div>That's all pretty simple. A number is just an array of a pre-defined length. With a length to 10, at 64 bits per array index we've got ourselves a 640 bit number. Quite large. In fact, we're talking numbers up to 4.562441e+192. Now that's impressive.<br /><br /><h3>Lets operate!</h3></div><div>We've got a very impressive data type that we can declare where ever we want, but how do we use it? We need to define all of the management, arithmetic, logic and printing ourselves. First of all though, we'll want to be able to zero out our number, which is just continually writing zeros over our memory buffer (much like a memset).</div><div><br /><script src="https://gist.github.com/4652737.js"></script></div><div><br /><br />Excellent. We can initialize our big number now to zero so that we have a starting point. Next, we'll want to be able to debug any problems that we may have while building this library, so its going to be of great benefit to be able to see what the value is of our number.<br /><br />The following code leans on some assembly I had written in a <a href="http://cogsandlevers.blogspot.com.au/2013/01/printing-registers-value-in-hex.html">previous article</a> which displays the value in RAX. Here's how we'll print our big number to screen.<br /><br /><script src="https://gist.github.com/4652780.js"></script> <br />Most obvious thing to note here is that we're moving through the bignumber back-to-front so that it's presented on screen in a human manner. We can test what we have so far is working by writing a small piece of test code.<br /><br /><script src="https://gist.github.com/4652889.js"></script> </div><div>Which, rather uninterestingly will just spit out a massive list of zeros.<br /><br /><pre>0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</pre><br />So, lets do something a little more interesting. The smallest pieces of arithmetic that I think we can implement for these numbers is increment and decrement.<br /><br /><h3>Increment</h3></div><div>This is straight forward. Add 1 to the lowest part of the number. If that part of the number just "clocked", or reset to zero - we must carry our value onto a higher block.</div><div><br /><script src="https://gist.github.com/4652917.js"></script></div><div><br />Alright, we've got incrementation going on here. The most interesting case for us to test is when a block is sitting on the carry boundary or sitting at 0xffffffffffffffff. After we increment that, we should see that clear out to zero and the next block to get a 1.<br /><script src="https://gist.github.com/4652929.js"></script> <br />Which results in the following.<br /><br /><pre>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF<br /><br />0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000<br /></pre><br />Those massive trails of zeros are getting annoying. We can clean them up later by making our print routine a little smarter. But you can see that we've successfully incremented over a boundary so that our next higher block gets a one.<br /><br /><h3>Decrement</h3></div><div>This is pretty much as straight forward as incrementing, on this time we're not going to carry to a higher quad-word, we're going to borrow from it if we do cross a boundary. Here's the code for a decrement.</div><div><br /><script src="https://gist.github.com/4652945.js"></script></div><div><br />This really is the increment routine just with the numeric direction reversed. Making sure that we are on the right track, we can test out the decrement across a boundary again.<br /><br /><script src="https://gist.github.com/4652953.js"></script> <br />The output of which looks like this.<br /><br /><pre>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF<br /><br />0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000<br /><br />000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF<br /></pre><br />Again, it's pretty hideous with the trailing zeros, but you can see this in action now. Back and forth, across boundaries - no sweat.<br /><br /><h3>Conclusion</h3></div><div>Well, this is just the tip of the iceberg for this particular library. I'd hope to demonstrate logical testing, addition, subtraction, multiplication and division as well shortly.</div><div><br /></div><div>The best part about these routines is that if you wanted to operate on 6400 bit numbers, all you have to do is change the constant "bignum_size" that I'd set earlier to 100.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

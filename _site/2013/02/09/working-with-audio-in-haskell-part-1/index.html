@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Working with Audio in Haskell (Part 1) &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Working with Audio in Haskell (Part 1)</h1>
+  <span class="post-date">09 Feb 2013</span>
+  <h1>Working with Audio in Haskell (Part 1)</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://en.wikipedia.org/wiki/Digital_signal_processing">Digital signal processing</a>, <a href="http://en.wikipedia.org/wiki/Audio_signal_processing">audio processing</a>&nbsp;and the like are all rather complex topics of study. I have a personal interest in these fields as I try to create guitar processing effects from time to time. Today's post is all about taking the first steps in getting our hands on some audio and associated information from within Haskell.</div><div><br /></div><h3>hsndfile</h3><div>For today's post, I'll be using the library <a href="http://www.haskell.org/haskellwiki/Hsndfile">hsndfile</a>&nbsp;to do all of the heavy lifting as far as opening audio files and interpreting information. The files that we'll work with will need to be in <a href="http://en.wikipedia.org/wiki/WAV">wave format</a>. The demonstration in this post will simply open an audio file, read some information about the file and then close the file.</div><div><br /></div><h3>Project setup</h3><div>I've created a Haskell project using cabal so that I can manage the hsndfile dependency locally to this application. You may already have this installed globally on your system, but if you follow along here, you should have it installed to your project in not time.</div><div><br /></div><div>Setup your project as usual:</div><div><br /><pre class="brush:shell">$ mkdir sndtest<br />$ cd sndtest<br />$ touch LICENSE<br />$ cabal init<br /></pre></div><div><br />Just select all of the defaults when setting up your project (well, that's what I did, anyway).<br /><br />We need to add&nbsp;<a href="http://www.haskell.org/haskellwiki/Hsndfile">hsndfile</a>&nbsp;as a dependency to our project, so we'll specify this in our "sndtest.cabal" file. Open it up and make sure that your "build-depends" reads as follows.<br /><br /><pre class="brush:plain">build-depends:         base ==4.5.*,<br />                       hsndfile ==0.5.3<br /></pre><br />Of course, you may have some different version of base, but here's where I was at anyway.<br /><br />Create a new file in your project called "Test.hs". We'll now fill out this file with the code that will open a file, read its information, close the file and then display the information to screen.<br /><br /><script src="https://gist.github.com/tuttlem/4743448.js"></script> <br />This is pretty straight forward. First up, we import "Sound.File.SndFile" qualified as "SF" so we know when we're using something from this import.<br /><br />Dissecting the main function, firstly we open the file using <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:openFile">openFile</a>. This function expects the path to the audio file (in this case we're using "test.wav" which by the way you'll have to find something), we're only reading from the file at the moment so we specify <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:ReadMode">ReadMode</a>&nbsp;and finally we have the info parameter which is useful to us when we're writing a new file (so we can tell it what format to write in, etc), but for reading we just use <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:defaultInfo">defaultInfo</a>.<br /><br />We now read the stream information about the file using <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:hInfo">hInfo</a>, the result of which will give us back a value of type <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#t:Info">Info</a>. This info packet tells us the number of frames in the file, the sample rate, number of channels, header and sample format, number of sections and if the file is seekable or not.<br /><br />Now that we have the information from the stream, we can close it off. We do this with <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:hClose">hClose</a>. Now we can interrogate the Info value with a series of print statements.<br /><br />We've got a module ready to run, but we need to tell our project that it's the entry point to run. In the "sndtest.cabal" file, make sure you set your "main-is:" attribute like so.<br /><br /><pre class="brush:plain">main-is:           Test.hs</pre><br /><h3>Build and Run</h3></div><div>We've created our project and finished our code. Let's build and run the application.</div><div><br /></div><div>The first build is going to take a bit more time as cabal-dev will need to resolve all of the dependencies that it doesn't yet have. Get this process moving with the following command.</div><div><br /></div><div><pre class="brush:shell">$ cabal-dev install</pre><br />All going well, you should be able to launch your executable and check out the results:<br /><br /><pre class="brush:shell">$ dist/build/sndtest/sndtest<br />format:      Format {headerFormat = HeaderFormatWav, sampleFormat = SampleForm<br />atPcm16, endianFormat = EndianFile}<br />sample rate: 48000<br />channels:    2<br />frames:      302712<br /></pre><br />That's it for today's post. Hopefully I'll get back to this topic soon so I can write some more about audio processing.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

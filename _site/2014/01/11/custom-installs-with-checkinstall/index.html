@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Custom Installs with Checkinstall &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Custom Installs with Checkinstall</h1>
+  <span class="post-date">11 Jan 2014</span>
+  <h3 id="introduction">Introduction</h3>
+
+<p>Sometimes it&#39;s necessary to install a piece of software from source. This is normally an awkward process when you&#39;ve had a package manager taking care of all your software needs when you&#39;re faced with the proposition of installing something that the package manager is unaware of. Another concern is that some software developers don&#39;t do the simple things well - some makefiles won&#39;t even offer you the ability to uninstall a piece of software leaving you to try to remove the files that have been peppered into your system directories.</p>
+
+<p>In today&#39;s post, I&#39;ll walk through a sample usage of the application <a href="https://wiki.debian.org/CheckInstall">CheckInstall</a> for Debian based Linux distributions.</p>
+
+<h3 id="what-is-it?">What is it?</h3>
+
+<p>From the <a href="https://wiki.debian.org/CheckInstall">CheckInstall</a> page on the Debian Wiki:</p>
+
+<blockquote>
+<p>CheckInstall keeps track of all the files created or modified by your  installation script (&quot;make&quot; &quot;make install&quot; &quot;make install_modules&quot;,  &quot;setup&quot;, etc), builds a standard binary package and installs it in your  system giving you the ability to uninstall it with your distribution&#39;s  standard package management utilities. </p>
+</blockquote>
+
+<p>The thing I love about the Debian distribution is the stability of the packages in its repositories. Sometimes, it&#39;s also what I&#39;m not to fond of as software vendors are bringing out new versions of their software and they don&#39;t make it into the stable repositories until they&#39;re deemed stable (which takes ages!) or they may never make it into the repositories.</p>
+
+<h3 id="using-checkinstall">Using CheckInstall</h3>
+
+<p>I&#39;ve used CheckInstall for quite a few packages in the past. Just recently, I&#39;ve used it to manage the installation of SDL2 onto my system.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># extract your source package</span>
+<span class="nv">$ </span>tar -zxvf SDL2-2.0.1.tar.gz
+
+<span class="c"># configure and build as usual</span>
+<span class="nv">$ </span><span class="nb">cd </span>SDL2-2.0.1
+<span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+
+<span class="c"># use checkinstall on the installation step</span>
+<span class="nv">$ </span>sudo checkinstall make install</code></pre></div>
+
+<p>After this process had finished, a deb file was created for me which represented the files that had been installed on the system and the deb itself had been applied to the system.</p>
+
+<p>The idea here is that it simplifies re-installation and removal by proxy of the generated deb package.</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Applying Applicative &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Applying Applicative</h1>
+  <span class="post-date">25 Jan 2013</span>
+  <h1>Applying Applicative</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In a <a href="http://cogsandlevers.blogspot.com.au/2013/01/applicative-functors-in-haskell.html">previous post</a>, I had pretty much got the textbook definition down for an Applicative Functor and shown some of its pre-existing uses. Today's post, I want to walk through some code that I've written that implements Applicative.</div><div><br /></div><h3>Put it in context!</h3><div>Right on! It's all about context. When making instances of the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Functor">Functor</a> typeclass, it's all about defining <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:fmap">fmap</a> appropriately to "operate" on the data that sits in a context.</div><div><br /></div><div>What's a context then? The books and articles that I've read use pre-existing types as examples. A list for instance is a context, <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Either">Either</a> is a context, <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Maybe">Maybe</a> is a context. All of these things wrap data. So, let's make our own context to put something in.</div><div><br /><script src="https://gist.github.com/4633650.js"></script></div><div><br /></div><div>There's our context, "CustomContext". It just wraps around something .. anything. We can apply a functor instance to this with the following.<br /><br /><script src="https://gist.github.com/4633664.js"></script></div><div><br /><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:fmap">fmap</a>&nbsp;allows a function to get inside the context and operate on the inner data - alright, I've said this already. Proof that all of this is working is as follows.<br /><br /><pre>λ&gt; let x = CustomContext 10<br />λ&gt; x                       <br />CustomContext 10           <br />λ&gt; fmap (+5) x             <br />CustomContext 15           <br /></pre><br />We wrapped 10 in a context. We applied the function (+5) to the value inside our context. We got back a 15 wrapped in a context.</div><div><br /></div><div>Moving into Applicative territory now, it's not only the value that we operate on that has the context this time - it's also the function that we apply. We use the "pure" function to lift a value inside a context and we use "&lt;*&gt;" to apply a function to a value (both being inside their respective contexts).<br /><br />Here's how we'll define Applicative for our type.<br /><br /><script src="https://gist.github.com/4633738.js"></script> <br />The implementation of "pure" is straight forward, we're just going to pop the value in a "CustomContext" context. The sequential application function "&lt;*&gt;" is implemented very much how fmap was implemented, in fact it's the same. The difference comes in with how the parameters are supplied. We're taking the function out of the context, we take the value out of the context - we apply the function and wrap the result in the context.<br /><br />Here it is in action.<br /><br /><pre>λ&gt; CustomContext (+5) &lt;*&gt; CustomContext 10<br />CustomContext 15                          <br /><br /></pre>Also, with the use of "pure" lifting our values or functions into the context.<br /><br /><pre>λ&gt; pure (+5) &lt;*&gt; CustomContext 10<br />CustomContext 15                 <br />λ&gt; CustomContext (+5) &lt;*&gt; pure 10<br />CustomContext 15                 <br /></pre><br />Excellent. We've done it.<br /><br /><h3>Conclusion</h3></div><div>This may not be the most feature-rich example, but it should give you good insight into the implementation and workings of Applicative.</div><div>&nbsp;</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+---
+layout: post
+title: Assembly on OSX
+date: 2013-01-07
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've <a href="http://cogsandlevers.blogspot.com.au/2012/11/hello-64bit-assembly.html">previously written</a> about writing "Hello World" applications in assembly for 64bit architectures in a Unix environment, however I haven't written about the nuances of doing this in OSX.</div><div><br /></div><div>My primary environment that I work in at home is OSX, so I wanted to get this post out of the way anyway so that I've got assembly &amp; linking instructions written down. To follow along, you'll want to install <a href="http://www.nasm.us/">NASM</a>.</div><div><br /></div><h3>The Code</h3><div><br /><script src="https://gist.github.com/4474479.js"></script></div><br />I've tried to comment the code above as best I can. It's pretty clear to see that we're calling the <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?write+2">write</a> and <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?exit+2">exit</a> syscalls. The only line that stands out is having to adjust esp after our write syscall. Regardless, this is what OSX expects!<br /><br />Building this application into something runnable for mach is pretty simple. You assemble the file into an object file like so.<br /><br /><pre class="brush:shell">$ nasm -f macho hello.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello hello.o</pre><br />Pretty simple. You're now ready to attack OSX with your assembler!<br /><br /><h3>In 64bits please!</h3><div>Continuing the discussion a bit further, we can bring our program into today by upgrading NASM to a version that supports the macho64 format. The source to our program changes a bit, especially the way that we pass parameters into our syscalls now. The <a href="http://en.wikipedia.org/wiki/Application_binary_interface">ABI</a> had changed dramatically favouring separate registers to pass values as opposed to using the stack.<br /><br />Here's the 64bit source.</div><div><br /></div><div><br /><script src="https://gist.github.com/4474618.js"></script></div><div><br /></div><div><br /></div>It still does look a lot like its 32bit counterpart. Notice how we're not magically adjusting esp by hand now? Those parameters being passed as registers has helped!<br /><br />Assembling your 64bit assembly code now looks like this.<br /><br /><pre class="brush:shell">$ nasm -f macho64 hello64.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello64 hello64.o</pre><br />This is a good place to be. Now you've got choice!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

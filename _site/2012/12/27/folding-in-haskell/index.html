@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Folding in Haskell &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Folding in Haskell</h1>
+  <span class="post-date">27 Dec 2012</span>
+  <h1>Folding in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In this post I would like to present some basic concepts in folding. This really will be over in a flash, so don't blink - it's easy.</div><h3>tl;dr</h3><div>The Haskell functions <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:foldl">foldl</a> and <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:foldr">foldr</a> allow you to "fold" functions between values.</div><h3>Diagram it for me!</h3><div>If you read up on these functions in the documentation, you'll see mention of "reducing values in a list" and such. All this really means, is that you're going to iterate through a list apply a function at every stop and finish up with a "reduced" answer.</div><div><br /></div><div>Here, take a look at this. I have an array spanning 1 through 5.<br /><br /><pre>[1, 2, 3, 4, 5]</pre><br /></div><div>I want to add all of the values together, so I use&nbsp;<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:foldl">foldl</a>&nbsp;to move through the list applying the "+" operator.<br /><br /><pre>foldl (+) 0 [1,2,3,4,5]</pre><br />This command in english says, apply the "+" operator between each element in the list (moving left to right) with an initial value of 0. Or:<br /><br /><pre>0 + 1 + 2 + 3 + 4 + 5 = 15</pre><br /><h3>Bring it back the other way!</h3></div><div>Folding right is interesting. No so much for the example that we have above, as addition moving left or right is at identity with each other.&nbsp;I've prepared a more interesting example for moving to the right.</div><div><br />Take a look at the following and the results:<br /><br /><pre>foldl (-) 10 [10, 20, 30]<br />-50<br /><br />foldr (-) 10 [10, 20, 30]<br />10</pre><br />Wow, that's quite the difference. When folding right, the reduction occurs in reverse (values right to left) and then it's applied to the initial value.<br /><br /><pre>(foldl)</pre><pre>10 - 10 - 20 - 30     = -50 </pre><pre></pre><pre>(foldr)</pre><pre>10 - (20 - (30 - 10)) = 10</pre><br />So, there we are folding to the right!&nbsp;That's (very basic) folding for you anyway.<br /><br />An interesting follow-up to this article is the function foldl'. By nature foldl that we've just discussed is lazy, meaning it will build the list of computations to execute using the source array and only execute those computations once the array is depleted (internally). It's been shown that this model of execution can cause stack overflow errors for larger lists because of this deferred execution model. foldl' solves this by not deferring execution. So, the overall result will be the same it's just that foldl' won't be lazy in getting the answer back to you.<br /><br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

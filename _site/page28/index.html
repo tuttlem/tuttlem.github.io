@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/31/os-kernel-development-filesystems/">
+        Os Kernel Development Filesystems
+      </a>
+    </h1>
+
+    <span class="post-date">31 Dec 2012</span>
+
+    <h1>Os Kernel Development Filesystems</h1>
+<div class='post'>
+http://www.jamesmolloy.co.uk/tutorial_html/8.-The%20VFS%20and%20the%20initrd.html<br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/31/os-kernel-development-environment/">
+        Os Kernel Development Environment
+      </a>
+    </h1>
+
+    <span class="post-date">31 Dec 2012</span>
+
+    <h1>Os Kernel Development Environment</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I'm working on an operating system at the moment just for a bit of fun to fill in some of the gaps when I find them. It's in no way a competitor to the <a href="http://kernel.org/">big</a> <a href="https://lists.apple.com/mailman/listinfo/darwin-kernel">boys</a> <a href="http://en.wikipedia.org/wiki/Windows_kernel">in</a> <a href="http://www.freebsd.org/cgi/cvsweb.cgi/">the</a> <a href="http://en.wikipedia.org/wiki/IBM_AIX">market</a>, it's just a sandbox that I can try stuff out in, blow stuff up, you get the picture.</div><div><br /></div><div>So, I thought I might post of my journey through the OS kernel development rabbit-hole and see where it takes us. The first post, I'd like to talk about setting up a development environment that makes it a piece of cake to make changes to your source and test your changes rapidly.</div><div><br /></div><div>At any time, you can pull down the code for the progress that I've made so far in my github repository <a href="https://github.com/tuttlem/phoenix">here</a>.</div><div><br /></div><h3>Assumptions</h3><div>Unless you're interested in getting nowhere fast - some assumptions have to be made. This is a very complex development and testing process so in the interest of maintaining the hair on your head you have to pick some technologies.</div><div><br />Development of this operating system is done on any POSIX style OS.<br /><br /></div><div>Rather than writing a bootloader of my own, I've made this project follow the multi-boot standard and it'll boot through grub.</div><div><br /></div><div>With this said, to begin with you'll need to prepare yourself a floppy disk image with grub installed. There are <a href="https://help.ubuntu.com/community/GrubHowto/BootFloppy">plenty</a>&nbsp;of <a href="http://wiki.osdev.org/Disk_Images">resources</a> <a href="http://cstein.kings.cam.ac.uk/~chris/bootgrub.html">around</a> the <a href="http://orgs.man.ac.uk/documentation/grub/grub_3.html">web</a> that you can follow to get this accomplished. If you are really struggling though, I have a floppy.img file sitting in the bin folder of phoenix&nbsp;<a href="https://github.com/tuttlem/phoenix">here</a>.</div><div><br /></div><h3>Virtualise!</h3><div>I don't have spare computer around to test my OS on every time.. well, that's actually a big-fat-lie. I've got heaps of computers around here that I could test my code on, but I just couldn't be bothered. I'm much prefer to manage the process virtually using the free virtual machine manager <a href="http://bochs.sourceforge.net/">Bochs</a>.&nbsp;</div><div><br /></div><div>If you setup your build script right, you'll be able to compile your kernel and add it to the boot floppy ready for grub to execute. All you really need to do is run Bochs to check out the results.</div><div><br /></div><div>You can use the following to add a kernel image to the grub floppy.</div><div><br /><pre class="brush:shell">#!/bin/bash<br /><br />sudo losetup /dev/loop0 floppy.img<br />sudo mount /dev/loop0 /mnt<br />sudo cp kernel /mnt/kernel<br />sudo umount /dev/loop0<br />sudo losetup -d /dev/loop0</pre></div><div><br />Actually getting the image in there is quite easy. You'll also need a bochs configuration file to look like this as follows.<br /><br /><pre>boot: floppy<br />floppya: 1_44="bin/floppy.img", status=inserted<br /></pre><br />Alright, I've left you here in a pretty inconsistent state. You've got the environment, but nothing to do in it just yet. In my next tutorial, I'll walk you though the boot code and making it over into C land!<br /><br />Stay tuned.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/31/hoogle/">
+        Hoogle
+      </a>
+    </h1>
+
+    <span class="post-date">31 Dec 2012</span>
+
+    <h1>Hoogle</h1>
+<div class='post'>
+<br />I needed to make a note of this particular link. Hoogle is a search engine for looking up API calls and modules. It's quite a neat search engine.<div><br /></div><div><a href="http://www.haskell.org/hoogle/">http://www.haskell.org/hoogle/</a></div><div><br /></div><div>HackageDB is also a great resource for looking at Haskell packages in cabal format.</div><div><br /></div><div><a href="http://hackage.haskell.org/packages/hackage.html">http://hackage.haskell.org/packages/hackage.html</a></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/31/haskell-s-function-application-operator/">
+        Haskell's Function Application Operator ($)
+      </a>
+    </h1>
+
+    <span class="post-date">31 Dec 2012</span>
+
+    <h1>Haskell's Function Application Operator ($)</h1>
+<div class='post'>
+<br />Sometimes, Haskell's syntax is so alien to read (to my eyes at least anyway). I've seen wide-spread use of the "$" operator all over lots of people's code and never really had a grasp on what it is/does.<br /><div><br /></div><div>In the end, it's really quite simple.</div><div><br /></div><div>The whitespace character has a very high precedence order, so when you're using spaces the precedence order looks like this.</div><div><br /><pre>f a b c = ((f a) b) c</pre></div><div><br /></div><div>This is classified as being left-associative. In contrast, using the "$" operator allows us to be right-associative. An example.<br /><br /><pre>f $ a $ b $ c = f (a (b c))</pre><br />Looking at this, it's starting to look very much how our programming languages are structured with function calls. We're very right-associative. Because Haskell uses the white space character to denote left-associations, it takes a lot of parenthesis to make a complex state right-associative as you need to change the precedence order by hand.<br /><br />This is the true power of the "$" function. We can use the "$" to free us for parenthesising everything, so that a transformation as below occurs.<br /><br /><pre>putStrLn (show num) <br />putStrLn $ show num</pre><br />This simple scenario doesn't illustrate exactly how much the "$" operator will help us out. Here's another slightly more complex scenario. It becomes clear here that "$" is working to make our code more readable.<br /><br /><pre>sum (take 10 (cycle [1,2,3]))<br />sum $ take 10 $ cycle [1,2,3]</pre><br />In character-space length they're equivalent, but the second version looks less LISP-y. I guess this is what was being aimed at.<br /><br />Anyway, until next time.<br /><br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/31/24-days-of-hackage/">
+        24 days of Hackage
+      </a>
+    </h1>
+
+    <span class="post-date">31 Dec 2012</span>
+
+    <h1>24 days of Hackage</h1>
+<div class='post'>
+As I can, I've been following along in the 24 days of Hackage series. I'd see the posts come across my desk from proggit.<br /><br />The articles I have read have been very interesting and I want to go through the rest.<br /><br />Check it out.<br /><br /><a href="http://ocharles.org.uk/blog/">http://ocharles.org.uk/blog/</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page29">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page27">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

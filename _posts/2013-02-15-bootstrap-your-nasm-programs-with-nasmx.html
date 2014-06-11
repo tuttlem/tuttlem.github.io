@@ -1,0 +1,13 @@
+---
+layout: post
+title: Bootstrap your NASM programs with NASMX
+date: 2013-02-15
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3>I'd been looking over the past couple of nights for a way that I could simplify the <a href="http://en.wikipedia.org/wiki/System_call">syscall interface</a> from NASM's perspective, just so I could clean up a lot of code that filled registers directly. I made a start on a couple of prototype projects, but never even thought to look outside and find out if someone had done the same.<br /><br />"Surely, someone has been here before", I thought!<br /><br /><h3>NASMX</h3><div>Yes, someone has been here before! <a href="http://www.asmcommunity.net/projects/nasmx/">NASMX</a>&nbsp;is a collection of include files specifically designed to wrap all of this system call code&nbsp;intuitively&nbsp;into a rather nicely presentable interface. Their <a href="http://sourceforge.net/projects/nasmx/">SourceForge project page</a>&nbsp;doesn't contain much documentation, but once you download the library you'll also receive a handful of demonstration programs using the library.</div><div><br /></div><h3>An example</h3><div>First of all, you include the required header files.</div><div><br /><script src="https://gist.github.com/tuttlem/4956583.js"></script></div><div><br /></div>Next, like any decent "Hello World" application you declare the data you require.<br /><br /><script src="https://gist.github.com/tuttlem/4956598.js"></script> <br />Finally, the application call looks very human (for assembly language)<br /><br /><script src="https://gist.github.com/tuttlem/4956613.js"></script> <br />That's it! The code above is not my own, I've just dissected the "Hello World" example that comes in the library's zip package.<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

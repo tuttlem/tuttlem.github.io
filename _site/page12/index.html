@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/19/free-pascal-and-lazarus/">
+        Free Pascal and Lazarus
+      </a>
+    </h1>
+
+    <span class="post-date">19 Mar 2013</span>
+
+    <h1>Free Pascal and Lazarus</h1>
+<div class='post'>
+<div class="separator" style="clear: both; text-align: center;"><a href="http://www.lazarus.freepascal.org/splash_logo.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="213" src="http://www.lazarus.freepascal.org/splash_logo.png" width="320" /></a></div><br /><br />As a bit of a bookmark note to myself, for one of those rainy days when I want to take a trip back to the 90's - it seems that some serious traction has been made in the Pascal community through the projects <a href="http://www.freepascal.org/">Free Pascal</a> and <a href="http://www.lazarus.freepascal.org/">Lazarus</a>.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/11/ascii-star-field/">
+        ASCII Star field
+      </a>
+    </h1>
+
+    <span class="post-date">11 Mar 2013</span>
+
+    <h1>ASCII Star field</h1>
+<div class='post'>
+<h3>Introduction</h3><div>With everything getting quite busy around here, I'd found less and less time to pay any attention to my Haskell programming adventures. I have found a little bit of time over the previous weekend to put together a small useless tidbit that incorporates some concepts that I'd like to use later.</div><div><br /></div><div>The project that I've put together is a 3D star field simulation, written to the terminal using a set of Haskell <a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a> bindings calls <a href="http://hackage.haskell.org/packages/archive/hscurses/1.3.0.2/doc/html/UI-HSCurses-Curses.html">hscurses</a>.</div><div><br /></div><div>Today's post will take you through the whole unit itself (don't worry, it's quite simple and short) but outline some of the challenges and implementation ideas.</div><div><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-mn6VD5_GYis/UT3NS1QFArI/AAAAAAAAAnE/jR3qXLYta78/s1600/Screen+Shot+2013-03-11+at+10.25.01+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="247" src="http://2.bp.blogspot.com/-mn6VD5_GYis/UT3NS1QFArI/AAAAAAAAAnE/jR3qXLYta78/s320/Screen+Shot+2013-03-11+at+10.25.01+PM.png" width="320" /></a></div><div style="text-align: center;">Trust me, it's so much more impressive when it's in motion <b>*facepalm*</b></div><div style="text-align: center;"><b><br /></b></div></div><h3>Data structure</h3><div>The first job is to define a data structure that will suit our star field, or at least just 1 star in the field. We can make a list of these data structures later and call that list a "star field". Whilst there are some more interesting characteristics we could define about a star, I've gone very simplistic making the star nothing more than a point in 3D space using record syntax.</div><div><br /><script src="https://gist.github.com/tuttlem/5133608.js"></script></div><div><br />We have an x, y and z co-ordinate to define that our star is "somewhere".<br /><br /><h3>Playing god</h3><div>We're able to define a star now that we have the structure to define it. Now it's time to "create" a star somewhere in our universe. In the following code snippet, I've created a star using a random number generator and have adjusted the numbers so that 0 is the mid point. The range should work out from -1 up to 1 for the x and y axis' and -500 up to -1 for the z axis (with negative numbers travelling into the screen).</div><div><br /><script src="https://gist.github.com/tuttlem/5133634.js"></script></div><div><br /></div><div></div>Making a star just ends up being a little bit of random number generator management. We're using it three times, so we need to keep track of what it is throughout these generations and we'll also send it out at the end so that we can continue to use it.<br /><br />We can use this creation function in a recursive function that will allow us to build a randomized "field" of stars. Up above, I said that a star field was just a list of stars, and this is exactly what we return (plus the random number generator).<br /><br /><script src="https://gist.github.com/tuttlem/5133656.js"></script> <br />This is a little bit awkward, only because we also need to be able to get the random number generator back out once we've used it so that it can continue to be "further random" in our program.<br /><br /><h3>Moving through space</h3><div>Now that we've created a universe of stars (or a star field), we now need to be able to move ourselves within the field. To simulate this movement, all we're going to do is increment the z position of each star. Now we all know that it's not actually the stars that move, it should be us - but, we're in a computer simulation, so we'll just pretend.</div><div><br /></div><div>The code is pretty straight forward. It'll take a list of stars (or a star field) in - increment the z co-ordinate for each and send out the adjusted list.</div><div><br /><script src="https://gist.github.com/tuttlem/5133720.js"></script></div><div><br /></div><div><br /></div><div><h3>Don't go through the screen!!</h3></div><div>We're incrementing these stars, over-and-over-and-over ... they're going to make it out of the screen, eeiiik! Even worse, they could get stuck right on the surface of the monitor screen! Whilst this may sound ok right now, later on we're going to "project" these 3D co-ordinates onto a 2D plane. In order to do this, we'll be dividing by that z co-ordinate, so we're really not in the business of dividing by zero here.</div><div><br /></div><div>The following function will determine which stars need to be removed "dead", which stars are still "good" and it will also generate new stars for us if need be.</div><div><br /></div><div>Of course, in the off chance that we do need to generate more stars, we must supply the random number generator to do so.</div><div><br /><script src="https://gist.github.com/tuttlem/5133758.js"></script></div><div><br /></div><div><br /></div><div><h3>3D Projection</h3></div><div>Turning a 3D point into a 2D point is a fairly straight-forward operation (if you've got all the facts). There are much, much, much more complex ways to do this but for the purposes of this demo I have simply divided by the z co-ordinate and added an offset based on the screen size.</div><div><br /><script src="https://gist.github.com/tuttlem/5133766.js"></script></div><div><br /></div><div><br /></div><div>We take in a star, the screen width and screen height. The formula ends up looking something like this:<br /><br /><pre>x_2d = ((x_3d * 127) / z_3d) + (width / 2)<br />y_2d = ((y_3d * 127) / z_3d) + (height / 2)</pre><br /></div>The constant 127 just gives us and adjustment for our viewport. It works quite well for this purpose, but you can read up more on the topic <a href="http://en.wikipedia.org/wiki/3D_projection">here</a>.<br /><br /><h3>Processing a frame</h3></div><div>To move through one "quantum" of time in our star field we really want to move the stars and make sure we're not going to do anything bad when we go to do our projections. So using advance and process, we can wrap this up for a frame like so.</div><div><br /><script src="https://gist.github.com/tuttlem/5133815.js"></script></div><div><br /></div><div>Most of the management of the star field is done now. We can now draw our star field using curses. Before we do that, lets look at some of these ncurses bindings for Haskell through hscurses.<br /><br /><h3>Setting the scene</h3></div><div>The following code is pretty well commented and these curses calls align pretty well to their native library analogs. All of the custom code mentioned in here will only be for our star field. Here's the main function for our star field.</div><div><br /><script src="https://gist.github.com/tuttlem/5133857.js"></script></div><div><br /></div><div><br /></div><div>The actual work of the star field is buried within "runStars" which I've commented below also.<br /><br /><script src="https://gist.github.com/tuttlem/5133873.js"></script></div><div><br />Finally, actually drawing a star. This is so simple. We move to the correct character cell and we put (of course) an asterisk!<br /><br /><script src="https://gist.github.com/tuttlem/5133890.js"></script> You can see that I've assumed the terminal to be 80x25, but it's easy enough to ask curses what the dimensions of the terminal are and adjust them accordingly.<br /><br /><h3>Conclusion</h3></div><div>Well, that's it really. It's simple, crude but so nerdy :-)</div><div><br /></div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/05/mongodb-aggregation-framework/">
+        MongoDB Aggregation Framework
+      </a>
+    </h1>
+
+    <span class="post-date">05 Mar 2013</span>
+
+    <h1>MongoDB Aggregation Framework</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Sometimes having the power of MapReduce at your fingertips and applying this technology to simpler aggregate queries can be more hassle than it needs to be. MongoDB provides a simpler solution (for a simpler class of problems) in the form of the <a href="http://docs.mongodb.org/manual/applications/aggregation/">Aggregation framework</a>. This framework allows you to develop queries within the mongo environment that are analogous to <a href="http://www.w3schools.com/sql/sql_groupby.asp">GROUP BY</a>, <a href="http://www.w3schools.com/sql/sql_having.asp">HAVING</a>, <a href="http://www.w3schools.com/sql/sql_func_count.asp">COUNT</a>, <a href="http://www.w3schools.com/sql/sql_func_sum.asp">SUM</a>, etc. that you would normally use in "relational land".</div><div><br /></div><div>Today's post, I want to walk through a couple of simple queries on using this framework to maximise productivity when pivoting data.</div><div><br /></div><h3>Marrying the old with the new</h3><div>As a bit of a cheat's reference, the following table provides the some examples of aggregate queries in a relational database and how they transpose over to the Mongo aggregation environment.<br /><br />The source of this table can be found <a href="http://docs.mongodb.org/manual/reference/sql-aggregation-comparison/">here</a>.</div><div><br /><table> <tbody><tr>  <td><b>Technique</b></td>  <td><b>Relational</b></td>  <td><b>Aggregation Framework</b></td> </tr><tr>  <td>Criteria matching</td>  <td>WHERE</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Grouping</td>  <td>GROUP BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/group/#_S_group">$group</a></td> </tr><tr>  <td>Aggregate criteria filtering</td>  <td>HAVING</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Result projection</td>  <td>SELECT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/project/#_S_project">$project</a></td> </tr><tr>  <td>Record sorting</td>  <td>ORDER BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sort/#_S_sort">$sort</a></td> </tr><tr>  <td>Limiting result sets</td>  <td>LIMIT or TOP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/limit/#_S_limit">$limit</a></td> </tr><tr>  <td>Accumulation</td>  <td>SUM</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Counting</td>  <td>COUNT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Dropping</td>  <td>SKIP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/skip/#_S_skip">$skip</a></td> </tr></tbody></table></div><div><br /><b>Counting records</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*) AS count<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            count: { $sum: 1 } } } <br />] )</pre><br /><br /><b>Accumulating values</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT SUM(price) AS total<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier and sorting</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id<br />ORDER BY total</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $sort: { total: 1 } } <br />] )</pre><br /><br /><b>Multiple Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, count(*)<br />FROM items<br />GROUP BY category_id<br />HAVING count(*) &gt; 1</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            count: { $sum: 1 } } },<br />{ $match: { count: { $gt: 1 } } }  <br />] )</pre><br /><br /><b>Multiple Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when, SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }  <br />] )</pre><br /><br /><b>Aggregate with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } }<br />] )</pre><br /><br /><b>Aggregate Filtration with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }<br />] )</pre><br /><br /><b>Aggregated joins</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(co.weight) AS weight<br />FROM items i, components co<br />WHERE co.item_id = i.id<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $unwind: "$components" },<br />{ $group: { _id: "$category_id",<br />            weight: { $sum: "$components.weight" } } }<br />] )</pre><br /><br /><b>Sub-query Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*)<br />FROM (SELECT category_id, when<br />      FROM items<br />      GROUP BY category_id, when) AS Table1<br /></pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id", <br />                   when: "$when" } } },<br />{ $group: { _id: null, count: { $sum: 1 } } }<br />] )</pre><br /><h3></h3></div><div>These are just some examples to get up and running. The documentation will guide you much better!</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/04/stored-javascripts-in-mongodb/">
+        Stored Javascripts in MongoDB
+      </a>
+    </h1>
+
+    <span class="post-date">04 Mar 2013</span>
+
+    <h1>Stored Javascripts in MongoDB</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Coming from a relational database background, technologies such as stored procedures and user defined functions have always helped out when building a database infrastructure. MongoDB provides the same sort of code storage in stored javascripts in the database.&nbsp;</div><div><br /></div><h3>Creating a stored javascript</h3><div>Creating a stored javascript into a database is a straight forward process of adding an item to the system.js collection.</div><div><br /><pre>&gt; db.collection.js.save({_id: "greaterThan10", <br />...                      value: function (x) { return x &gt; 10 }});</pre></div><div><br />Ok, this isn't the most useful of functions. We're testing if the value passed in the greater than 10. We're able to use this in queries of our own using $where syntax like so:<br /><br /><pre>&gt; db.people.find({$where: "greaterThan10(this.age)"})</pre><br />This would get all of the "people" documents out of the database where they were over the age of 10. This is quite verbose of such a simple example, but you can see that by filling out the function in the saved javascript with more complex operations, you could achieve a lot with a little.<br /><br /><h3>Removing a stored javascript</h3></div><div>Working with the collection as usual, you can simply remove your stored javascript by id.</div><div><br /></div><div><pre>&gt; db.collection.js.remove({_id: "greaterThan10"})</pre></div><br /><h3>Testing&nbsp;</h3><div>As a final note, once you've created your stored javascript you can test it using eval easy enough.</div><div><br /></div><pre>&gt; db.eval("return greaterThan10(9);")<br />false<br />&gt; db.eval("return greaterThan10(11);")<br />true</pre><div><br />This is just a short introduction into the world of stored javascripts. The internal workings of MongoDB is all based on javascript, so it's a good idea to have your skills nice and sharp before going in!<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/04/mapreduce-parameters-in-mongo/">
+        MapReduce parameters in Mongo
+      </a>
+    </h1>
+
+    <span class="post-date">04 Mar 2013</span>
+
+    <h1>MapReduce parameters in Mongo</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I had <a href="http://cogsandlevers.blogspot.com.au/2013/01/a-brief-mapreduce-tutorial-for-mongodb.html">previously written</a> about MapReduce within the MongoDB context and as I refer back to that article I'm noticing that I'm using more features of this framework than I have explained initially. I today's post, I want to go through all of the parameters when defining a MapReduce query within MongoDB.</div><div><br /></div><h3>MapReduce</h3><div>Referring back to <a href="http://docs.mongodb.org/manual/applications/map-reduce/">the manual on MapReduce</a>, the function signature looks as follows:</div><div><br /><pre>db.collection.mapReduce(<br />  &lt;mapfunction&gt;,<br />  &lt;reducefunction&gt;,<br />  {<br />    out: &lt;collection&gt;,<br />    query: &lt;document&gt;,<br />    sort: &lt;document&gt;,<br />    limit: &lt;number&gt;,<br />    finalize: &lt;function&gt;,<br />    scope: &lt;document&gt;,<br />    jsMode: &lt;boolean&gt;,<br />    verbose: &lt;boolean&gt;<br />  }<br />)</pre></div><div><br /><b>mapFunction</b><br /><div>The map function is a function that takes no arguments that you use to associate values to keys. Using the emit function, you can map values to a key for use later in your reduce function.</div><div><br /></div><b>reduceFunction</b><br />The reduce function is a function that will take in a single key and an array of values. The purpose of the code inside the reduce function is to reduce your mapped values down into the aggregate values that you're looking for.<br /><br /><b>out</b></div><div>The out parameter takes the name of the collection that your mapReduce query will target. This is where the result will be stored.</div><div><br /></div><b>query</b><br /><div>The query parameter takes a document which acts as query criteria that will filter the data set that the map function (and therefore by process - the reduce function) will actually see.</div><div><br /></div><b>limit</b><br /><div>The limit parameter allows you to constrain the number of items presented to your mapReduce process.</div><div><br /></div><b>finalize</b><br /><div>The finalize function is a function that is executed after your reduce process. It's presented with a key and reduced value to work with. This is where you'd perform any ancillary processing on the reduced set prior to returning the result.</div><div><br /></div><b>scope</b><br /><div>The scope parameter allows you to specify global variables that your map, reduce and finalize functions can access. This is particularly handy for MapReduce operations that are reliant on parameters external to your process.</div><div><br /></div><b>jsMode</b><br /><div>The jsMode parameter determines how the MapReduce process will handle data between the map and reduce steps. Turning this on will force mongo to not convert your mapped results into BSON objects. This can make your queries run faster but they are constrained by the number of unique keys that can be worked on.</div><div><br /></div><b>verbose</b><br />Turning the verbose parameter on will give you some timing profiling for your query.<br /><br /><br />&nbsp;That's it for the MapReduce function call within Mongo.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page13">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page11">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

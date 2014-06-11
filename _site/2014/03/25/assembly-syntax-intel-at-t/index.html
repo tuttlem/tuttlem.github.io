@@ -1,0 +1,70 @@
+<p>This post is just a little cheat sheet for myself on Intel &amp; AT&amp;T syntax.</p>
+
+<p>A useful table mapping some simple instructions between the two syntaxes linked through from the <a href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html#s3">GCC-Inline-Assembly-HOWTO</a>:</p>
+
+<table><thead>
+<tr>
+<th>Intel Code</th>
+<th>AT&amp;T Code</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>mov     eax,1</code></td>
+<td><code>movl    $1,%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     ebx,0ffh</code></td>
+<td><code>movl    $0xff,%ebx</code></td>
+</tr>
+<tr>
+<td><code>int     80h</code></td>
+<td><code>int     $0x80</code></td>
+</tr>
+<tr>
+<td><code>mov     ebx, eax</code></td>
+<td><code>movl    %eax, %ebx</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ecx]</code></td>
+<td><code>movl    (%ecx),%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ebx+3]</code></td>
+<td><code>movl    3(%ebx),%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ebx+20h]</code></td>
+<td><code>movl    0x20(%ebx),%eax</code></td>
+</tr>
+<tr>
+<td><code>add     eax,[ebx+ecx*2h]</code></td>
+<td><code>addl    (%ebx,%ecx,0x2),%eax</code></td>
+</tr>
+<tr>
+<td><code>lea     eax,[ebx+ecx]</code></td>
+<td><code>leal    (%ebx,%ecx),%eax</code></td>
+</tr>
+<tr>
+<td><code>sub     eax,[ebx+ecx*4h-20h]</code></td>
+<td><code>subl    -0x20(%ebx,%ecx,0x4),%eax</code></td>
+</tr>
+</tbody></table>
+
+<p>Some important points to note:</p>
+
+<ul>
+<li>Source and destinations are flipped in opcodes.
+
+<ul>
+<li>Intel is dest, src</li>
+<li>AT&amp;T is src, dest</li>
+</ul></li>
+<li>AT&amp;T decorates registers and immediates
+
+<ul>
+<li>Registers are prefixed with a &quot;%&quot;</li>
+<li>Immediates are prefixed with a &quot;$&quot;. This applies to variables being passed in from C (when you&#39;re inline).</li>
+</ul></li>
+<li>Intel decorates memory operands to denote the operand&#39;s size, AT&amp;T uses different mnemonics to accomplish the same.</li>
+<li>Intel syntax to dereference a memory location is &quot;[ ]&quot;. AT&amp;T uses &quot;( )&quot;.</li>
+</ul>

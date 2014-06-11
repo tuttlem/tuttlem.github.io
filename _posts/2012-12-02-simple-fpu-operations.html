@@ -1,0 +1,13 @@
+---
+layout: post
+title: Simple FPU Operations
+date: 2012-12-02
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+The CPU itself is an impressive piece of kit just by itself however it does struggle to do complex floating point mathematics. Chip designers noticed this deficiency pretty quickly and bolted on a floating-point arithmetic unit.<br /><br />It should be noted at this point that many, many other tutorial/article writers have gone into great depth explaining how to program FPU's and they have been great references to me in previous times:<br /><br /><a href="http://www.website.masmforum.com/tutorials/fptute/">Simply FPU</a><br /><br /><a href="http://qlibdos32.sourceforge.net/tutor/tutor-fpu.php">80387+ Coprocessor Programming</a><br /><br /><a href="http://www.intel.com/content/www/us/en/processors/architectures-software-developer-manuals.html">Intel Manuals</a><br /><br />Anyway, this blog post is just going to show you a few nuggets that you can use straight away. It's always fun seeing this stuff in action.<br /><br />This snippet will sum (accumulate) together an array of doubles.<br /><br /><br /><script src="https://gist.github.com/4188241.js?file=gistfile1.asm"></script> <br />This following snippet will show you a simple addition, subtraction, multiplication and division. You'll notice a pretty distinct pattern in what to do in these situations. It'll follow:<br /><br /><ul><li>Load the first term (fld)</li><li>Apply the operator (fadd,fsub,fmul,fdiv) with the second term</li><li>Store the result into memory</li></ul><div><br /><script src="https://gist.github.com/4188267.js?file=gistfile1.asm"></script> <br />With a bit of extra help from the C library, you can print out values that you're using in the FPU. The following snippet prints PI to the console.<br /><br /><script src="https://gist.github.com/4198408.js?file=gistfile1.asm"></script><br /><br /></div><div>As I find other snippets in old pieces of code, I'll be sure to add them to this page.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

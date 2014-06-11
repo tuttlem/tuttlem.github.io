@@ -1,0 +1,13 @@
+---
+layout: post
+title: Scanning in Haskell
+date: 2012-12-31
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+In a previous post, I had written about <a href="http://cogsandlevers.blogspot.com.au/2012/12/folding-in-haskell.html">Folding in Haskell</a>&nbsp;which in itself is a very powerful tool. We spent a brief moment in that tutorial actually working through a problem and writing the folding process out long hand.<br /><br />Well, scanning (<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:scanl">scanl</a> and <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:scanr">scanr</a>) does this for you! It shows you the reduction steps in the form of an array returned back to you.<br /><br />A quick example:<br /><br /><pre>Prelude&gt; scanl (*) 5 [1,2,3,4]<br />[5,5,10,30,120]<br />Prelude&gt; foldl (*) 5 [1,2,3,4]<br />120<br /></pre><br />Here you can see the fold's process "working-sheet".<br /><br /><pre>5  * 1 = 5<br />5  * 2 = 10<br />10 * 3 = 30<br />30 * 4 = 120<br /></pre><br />120 being the overall answer as demonstrated by the foldl call above.<br /><br />Easy.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

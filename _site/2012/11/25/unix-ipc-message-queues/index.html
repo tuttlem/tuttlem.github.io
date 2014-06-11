@@ -1,0 +1,38 @@
+<p>Message queues are pretty common structures for inter-process communication. A common queue is created by one of the processes, from there it can be connected to by any other process and have messages submitted to it.</p>
+
+<p>This snippet shows the creation of a queue and sending a message. Another block below this will show receiving a message from the queue.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">msqid</span><span class="p">;</span>
+<span class="kt">key_t</span> <span class="n">key</span><span class="p">;</span>
+ 
+<span class="cm">/* --- message sender --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* create the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span> <span class="o">|</span> <span class="n">IPC_CREAT</span><span class="p">));</span>
+ 
+<span class="cm">/* put a message onto the queue */</span>
+<span class="n">msgsnd</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+ 
+<span class="cm">/* destroy (remove) the message queue */</span>
+<span class="n">msgctl</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="n">IPC_RMID</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+ 
+ 
+<span class="cm">/* --- message receiver --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* connect to the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span><span class="p">);</span>
+<span class="cm">/* receive the message off the queue */</span>
+<span class="n">msgrcv</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok">The ftok system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget">The msgget system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd">The msgsnd system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl">The msgctl system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv">The msgrcv system call</a></p>

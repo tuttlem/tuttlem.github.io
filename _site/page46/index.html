@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/16/universe-basic-cheatsheet/">
+        UniVerse BASIC cheatsheet
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2012</span>
+
+    <p>A cheatsheet for writing UniVerse BASIC programs</p>
+
+<h3 id="program-management">Program Management</h3>
+
+<p>Creating a directory for programs</p>
+
+<div class="highlight"><pre><code class="text">&gt; CREATE.FILE BP 19</code></pre></div>
+
+<p>Creating a file to store a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED BP PROGRAM.NAME</code></pre></div>
+
+<p>Compiling a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; BASIC BP PROGRAM.NAME</code></pre></div>
+
+<p>Running a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; RUN BP PROGRAM.NAME</code></pre></div>
+
+<h3 id="sourcecode-editing">Sourcecode Editing</h3>
+
+<p>Formatting sourcecode</p>
+
+<div class="highlight"><pre><code class="text">----: FORMAT</code></pre></div>
+
+<h3 id="file-io">File IO</h3>
+
+<p>Opening a file</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;filename&#39; TO FILE.VAR ELSE STOP &quot;Couldn&#39;t open filename&quot;</code></pre></div>
+
+<p>Reading a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READ RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE RECORD.VALUE = &#39;&#39;</code></pre></div>
+
+<p>Writing a record to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a record from a file into an array</p>
+
+<div class="highlight"><pre><code class="text">0001= MATREAD RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE MAT RECORD.VAR = &#39;&#39;</code></pre></div>
+
+<p>Writing a record from an array into a file</p>
+
+<div class="highlight"><pre><code class="text">0001= MATWRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a single field from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READV TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;, 1 ELSE TYPE.DESC = &#39;&#39;</code></pre></div>
+
+<p>Writing a single field to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITEV TYPE.DESC TO FILE.VAR, &#39;TEST.WRITE&#39;, 1</code></pre></div>
+
+<p>Deleting a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= DELETE FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>Locking records for update</p>
+
+<div class="highlight"><pre><code class="text">0000= READU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= MATREADU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= READVU TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED</code></pre></div>
+
+<p>Locking records from read</p>
+
+<div class="highlight"><pre><code class="text">0000= READL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= MATREADL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= READVL TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>An example record read</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= READ VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE VOC.RECORD = &#39;&#39; 
+0003= PRINT VOC.RECORD</code></pre></div>
+
+<p>An example record read to an array</p>
+
+<div class="highlight"><pre><code class="text">0001= DIM VOC.RECORD(10) 
+0002= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0003= MATREAD VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE MAT VOC.RECORD = &#39;&#39; 
+0004= FOR FIELD.NUMBER = 1 TO 10 
+0005= PRINT VOC.RECORD(FIELD.NUMBER) 
+0006= NEXT FIELD.NUMBER</code></pre></div>
+
+<p>An example record read from a select list</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= EOF = 0 
+0003= EXECUTE &#39;SELECT VOC WITH TYPE = &quot;M&quot;&#39; 
+0004= LOOP 
+0005= READNEXT VOC.KEY ELSE EOF = 1 
+0006= UNTIL EOF 
+0007= PRINT VOC.KEY 
+0008= REPEAT</code></pre></div>
+
+<p>References</p>
+
+<p><a href="http://www.mannyneira.com/universe/">life, the universe, and everything</a></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/16/ripping-discs-at-the-console/">
+        Ripping Discs at the Console
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2012</span>
+
+    <p>A <em>very brief</em> guide to ripping DVD media at the console with <strong>handbrake</strong>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Rip a disc with the normal preset</span>
+HandBrakeCLI -i /dev/dvd -o output.mp4 --preset<span class="o">=</span>Normal --main-feature  
+
+<span class="c"># Scan a disc for chapter data</span>
+HandBrakeCLI -i /dev/dvd -t &lt;chapter&gt; --scan
+
+<span class="c"># Rip a specific chapter</span>
+HandBrakeCLI -i /dev/dvd -o output.mp4 --preset<span class="o">=</span>Normal -t &lt;chapter&gt;</code></pre></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/16/rails-3-cheatsheet/">
+        Rails 3 Cheatsheet
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2012</span>
+
+    <p>A cheatsheet of Rails 3 commands once all of the software infrastructure has been setup and is running.</p>
+
+<h3 id="creating-and-destroying-things">Creating and destroying things</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Create a new application</span>
+rails new ApplicationName
+
+<span class="c"># Create a new model</span>
+rails generate/g model ModelName
+
+<span class="c"># Create a new controller</span>
+rails generate/g controller ControllerName
+
+<span class="c"># Create a new migration</span>
+rails generate/g migration MigrationName
+
+<span class="c"># Create a scaffolded controller, model and view </span>
+rails generate/g scaffold ModelName ControllerName
+
+<span class="c"># Destroy a new model</span>
+rails destroy model ModelName
+
+<span class="c"># Destroy a new controller</span>
+rails destroy controller ControllerName
+
+<span class="c"># Destroy a new migration</span>
+rails destroy migration MigrationName</code></pre></div>
+
+<h3 id="controlling-the-application">Controlling the application</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Start the rails server</span>
+rails server/s
+
+<span class="c"># Install a plugin</span>
+rails plugin install PluginName
+
+<span class="c"># Start the rails console</span>
+rails console/c
+
+<span class="c"># Start the database console</span>
+rails dbconsole/db
+
+<span class="c"># Benchmark/Profile the application</span>
+rails performance</code></pre></div>
+
+<h3 id="manage-the-database">Manage the database</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Create the database</span>
+rake db:create
+
+<span class="c"># Drop the database  </span>
+rake db:drop
+
+<span class="c"># Migrate the database</span>
+rake db:migrate
+
+<span class="c"># Drop and recreate database from schema</span>
+rake db:reset
+
+<span class="c"># Rollback the latest migration</span>
+rake db:rollback
+
+<span class="c"># Create the schema file</span>
+rake db:schema:dump
+
+<span class="c"># Create a sessions migration</span>
+rake db:sessions:create</code></pre></div>
+
+<h3 id="utility-tasks">Utility tasks</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Build the RDOC html files</span>
+rake doc:app
+
+<span class="c"># List all available tasks</span>
+rake –tasks
+
+<span class="c"># Truncate log files</span>
+rake log:clear
+
+<span class="c"># Clear session, cache and socket files</span>
+rake tmp:clear
+
+<span class="c"># Print out all defined application routes</span>
+rake routes</code></pre></div>
+
+<h3 id="testing-your-application">Testing your application</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Run all tests</span>
+rake <span class="nb">test</span>
+
+<span class="c"># Run functional tests</span>
+rake <span class="nb">test</span>:functionals
+
+<span class="c"># Run integration tests</span>
+rake <span class="nb">test</span>:integration
+
+<span class="c"># Run unit tests</span>
+rake <span class="nb">test</span>:units</code></pre></div>
+
+<h3 id="working-with-gems">Working with Gems</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Lock this application&#39;s gem set</span>
+rake rails:freeze:gems
+
+<span class="c"># List dependent gems</span>
+rake gems
+
+<span class="c"># Install all required gems</span>
+rake gems:install
+
+<span class="c"># List all installed gems </span>
+gem list
+
+<span class="c"># Install a gem</span>
+gem install GemName
+
+<span class="c"># Uninstall a gem</span>
+gem uninstall GemName
+
+<span class="c"># Start the gem server</span>
+gem server</code></pre></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/16/installing-universe-10-3-personal-edition-on-centos-6-3-amd64/">
+        Installing UniVerse 10.3 (Personal Edition) on CentOS 6.3 amd64
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2012</span>
+
+    <p>A guide for installing the <strong>UniVerse</strong> database system on a <strong>RedHat</strong> flavored distribution.</p>
+
+<h3 id="installation-pre-requisites">Installation Pre-requisites</h3>
+
+<p>As the database server is being installed to a 64bit system, some 32bit libraries are required for the installation to succeed.</p>
+
+<div class="highlight"><pre><code class="bash">yum install glibc.i686 libstdc++.so.6 pam.i686</code></pre></div>
+
+<h3 id="running-the-installer">Running the installer</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Unpack the database installation into a temporary location.</span>
+unzip uvpe_rhlinux_10.3.3.zip
+
+<span class="c"># Extract the uv.load script out of the archive</span>
+cpio -ivcBdum uv.load &lt; ./STARTUP
+
+<span class="c"># Set the date on the system to satisfy licensing requirements</span>
+date -s 1/1/2009
+
+<span class="c"># Run the uv.load script</span>
+./uv.load</code></pre></div>
+  
+
+<h3 id="completing-the-installation">Completing the installation</h3>
+
+<p>Select the first option from the first menu:  </p>
+
+<div class="highlight"><pre><code class="text">1) Make &#39;root&#39; the default owner and administrator of uniVerse.  
+The current installation continues uninterrupted.</code></pre></div>
+ 
+
+<p>On the second menu, change the rewind and no-rewind tape names to the location of the installation files.  </p>
+
+<div class="highlight"><pre><code class="text">4) Rewind tape name          /tmp/uvpe  
+5) No-rewind tape name        /tmp/uvpe</code></pre></div>
+ 
+
+<h3 id="starting-the-rpc-daemon">Starting the RPC daemon</h3>
+
+<p>Before attempting to start the RPC daemon from within the uv environment, an entry for the service itself needs to be added to the <em>/etc/services</em> file   </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">echo</span> <span class="s2">&quot;uvrpc 31438/tcp # uvNet rpc port&quot;</span> &gt;&gt; /etc/services</code></pre></div>
+ 
+
+<h3 id="references">References</h3>
+
+<p>Installing UniVerse on CentOS 6.2<br /><a href="http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/"><a href="http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/">http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/</a></a></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/16/burning-discs-at-the-console/">
+        Burning Discs at the Console
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2012</span>
+
+    <p>A <em>very short </em>guide to burning CD and DVD media at the console with <strong>growisofs</strong>.</p>
+
+<h3 id="control">Control</h3>
+
+<p>Ejecting the drive</p>
+
+<div class="highlight"><pre><code class="bash">eject</code></pre></div>
+  
+
+<p>Retracting the drive </p>
+
+<div class="highlight"><pre><code class="bash">eject -T</code></pre></div>
+
+<h3 id="burning">Burning</h3>
+
+<p>Burn the contents of a directory  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd -R -J -pad <span class="s2">&quot;/path/to/data&quot;</span></code></pre></div>
+
+<p>Burn the contents of multiple directories  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd -R -J -pad -graft-points <span class="s2">&quot;/foo=/path/to/foo&quot;</span> <span class="s2">&quot;/chu=/path/to/chu&quot;</span></code></pre></div>
+
+<p>Burn an ISO to a disc</p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd<span class="o">=</span>/path/to/image.iso</code></pre></div>
+
+<h3 id="rw-burning">RW Burning</h3>
+
+<p>Formatting a RW disc for burning  </p>
+
+<div class="highlight"><pre><code class="bash">dvd+rw-format -force /dev/dvd</code></pre></div>
+
+<p>Appending data to a RW disc  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -M /dev/dvd -R -J -pad -graft-points <span class="s2">&quot;/foo=/path/to/additional/data&quot;</span></code></pre></div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page47">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page45">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

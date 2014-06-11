@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Unit Testing with QuickCheck &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Unit Testing with QuickCheck</h1>
+  <span class="post-date">30 Dec 2012</span>
+  <h1>Unit Testing with QuickCheck</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Seems I'm forever making card games <i>in Haskell</i>, so it only seemed right that I try and make a library of routines and data types that will get me going quicker. Don't get me wrong, I intend on doing something serious with Haskell one day - I just seriously lack the chops to do so right now.</div><div><br /></div><div>As with any development process, you as a developer should write unit tests. Not only is it good practice but it also gives you a repeatable base of executions to assure you that the last change you put in won't break your masterpiece.</div><div><br /></div><div>Today I want to talk about the <a href="http://en.wikipedia.org/wiki/QuickCheck">QuickCheck</a> unit testing library for Haskell.</div><div><br /></div><h3>What are we testing?</h3><div>To give you an idea of the playing field we're on, I'll just post some of the simple routines that I have done so far. First up is the data types that will help us represent a single playing card.</div><div><br /><script src="https://gist.github.com/4412543.js"></script></div><div><br /></div><div><br /></div><div>A card has a suit and a value. Pretty straight forward. I could have made a type that wrapped an array of the Card type and called it "Deck", but I'm happy just handling an array of Card. Now to build a deck and to shuffle it!<br /><br /><script src="https://gist.github.com/4412555.js"></script> <br />When a deck is built with "makeDeck" the cards are ordered just like they are when you open a fresh deck of cards, so we need to shuffle them in order to make this game any fun! "seedCards" assigns a random value to each card that it is passed and then "makeShuffledDeck" saves the day by ordering by this random seed to give a shuffled deck.<br /><br />That's all pretty simple still and that's where the "testable" parts stop. So, still the question: what are we testing? Well, I'm sure there are plenty of other scenarios, but for today's purposes we'll test the following:<br /><br /><ul><li>Are there 52 cards in a deck made by "makeDeck"</li><li>Are there still 52 cards in a deck after they've been processed by "makeShuffledDeck"</li><li>Is the deck made by "makeDeck" not in the same order as the deck made by "makeShuffledDeck"?</li></ul><br />Great. With these three scenarios in mind, here's how easy it is to assert these facts using QuickCheck.<br /><br /><script src="https://gist.github.com/4412589.js"></script> <br />As it should be, these tests read rather humanly. And after running this suite of tests we end up with the following results:<br /><br /><pre>+++ OK, passed 1 tests.<br />+++ OK, passed 100 tests.<br />+++ OK, passed 100 tests.</pre><br />Hold on! 100 tests? We only defined 3 tests though. How can this be? You'll see that for the second and third tests actually have an anonymous function passed to them. Because both of these depend on a random number generator (to shuffle the deck), I've passed in <a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>'s integer that it maps to a generator from the function's parameter list.<br /><br />QuickCheck grabbed hold of this and rather than just running 1 test, it went ahead and gave the anonymous function 100 random values. That's much better coverage for what is seemingly the cost of defining the test as an anonymous method.<br /><br />Immediately you can see the power of unit testing with such a simple framework and how you can be productive relatively quickly.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

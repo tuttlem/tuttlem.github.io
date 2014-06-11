@@ -1,0 +1,13 @@
+---
+layout: post
+title: SDL you can use (part 4)
+date: 2012-12-03
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><div>The audio of a game/demo/application can be a maker or breaker. You can really set the mood of your game with the right sound effects and music.</div><div><br /></div><div>This tutorial, I'll walk you through setting up the audio system, loading some sound bytes, playing them and the cleaning up. You'll need to have <a href="http://www.libsdl.org/projects/SDL_mixer/">SDL_mixer</a> installed. Make sure that's installed and continue on!</div><div><br /></div><div>Lets just jump straight in.<br /><br /></div><h3>Setup</h3><br />Issuing a call to <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_11.html">Mix_OpenAudio</a>&nbsp;is all that's needed to initialize the audio system. It's as simple as this:<br /><br /><script src="https://gist.github.com/4194246.js?file=gistfile1.c"></script> <br /><br />From here you can load both music files and sound files. There is a difference. Music will run in the background where as sound effects will be one-shot deals. You'll need to use <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_55.html#SEC55">Mix_LoadMUS</a>&nbsp;to load a music file and <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_19.html#SEC19">Mix_LoadWAV</a>&nbsp;to load a sound file.<br /><br /><script src="https://gist.github.com/4194302.js?file=gistfile1.c"></script> <br /><br /><h3>Playing&nbsp;</h3><div>You can play a sound effect on a particular channel (or all channels) using <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html#SEC28">Mix_PlayChannel</a>&nbsp;or start and stop music in the background using <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_57.html#SEC57">Mix_PlayMusic</a>&nbsp;and <a href="http://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_62.html#SEC62">Mix_PauseMusic</a>.&nbsp;</div><div><br /><script src="https://gist.github.com/4194363.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div><h3>Cleaning up</h3></div><div>It's just common courtesy to free all of the resources that you allocate, so the following functions will allow you to deallocate sounds, music files and the audio system.</div><div><br /><script src="https://gist.github.com/4194395.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div>Well, that's about it.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

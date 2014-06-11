@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      MapReduce parameters in Mongo &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">MapReduce parameters in Mongo</h1>
+  <span class="post-date">04 Mar 2013</span>
+  <h1>MapReduce parameters in Mongo</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I had <a href="http://cogsandlevers.blogspot.com.au/2013/01/a-brief-mapreduce-tutorial-for-mongodb.html">previously written</a> about MapReduce within the MongoDB context and as I refer back to that article I'm noticing that I'm using more features of this framework than I have explained initially. I today's post, I want to go through all of the parameters when defining a MapReduce query within MongoDB.</div><div><br /></div><h3>MapReduce</h3><div>Referring back to <a href="http://docs.mongodb.org/manual/applications/map-reduce/">the manual on MapReduce</a>, the function signature looks as follows:</div><div><br /><pre>db.collection.mapReduce(<br />  &lt;mapfunction&gt;,<br />  &lt;reducefunction&gt;,<br />  {<br />    out: &lt;collection&gt;,<br />    query: &lt;document&gt;,<br />    sort: &lt;document&gt;,<br />    limit: &lt;number&gt;,<br />    finalize: &lt;function&gt;,<br />    scope: &lt;document&gt;,<br />    jsMode: &lt;boolean&gt;,<br />    verbose: &lt;boolean&gt;<br />  }<br />)</pre></div><div><br /><b>mapFunction</b><br /><div>The map function is a function that takes no arguments that you use to associate values to keys. Using the emit function, you can map values to a key for use later in your reduce function.</div><div><br /></div><b>reduceFunction</b><br />The reduce function is a function that will take in a single key and an array of values. The purpose of the code inside the reduce function is to reduce your mapped values down into the aggregate values that you're looking for.<br /><br /><b>out</b></div><div>The out parameter takes the name of the collection that your mapReduce query will target. This is where the result will be stored.</div><div><br /></div><b>query</b><br /><div>The query parameter takes a document which acts as query criteria that will filter the data set that the map function (and therefore by process - the reduce function) will actually see.</div><div><br /></div><b>limit</b><br /><div>The limit parameter allows you to constrain the number of items presented to your mapReduce process.</div><div><br /></div><b>finalize</b><br /><div>The finalize function is a function that is executed after your reduce process. It's presented with a key and reduced value to work with. This is where you'd perform any ancillary processing on the reduced set prior to returning the result.</div><div><br /></div><b>scope</b><br /><div>The scope parameter allows you to specify global variables that your map, reduce and finalize functions can access. This is particularly handy for MapReduce operations that are reliant on parameters external to your process.</div><div><br /></div><b>jsMode</b><br /><div>The jsMode parameter determines how the MapReduce process will handle data between the map and reduce steps. Turning this on will force mongo to not convert your mapped results into BSON objects. This can make your queries run faster but they are constrained by the number of unique keys that can be worked on.</div><div><br /></div><b>verbose</b><br />Turning the verbose parameter on will give you some timing profiling for your query.<br /><br /><br />&nbsp;That's it for the MapReduce function call within Mongo.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

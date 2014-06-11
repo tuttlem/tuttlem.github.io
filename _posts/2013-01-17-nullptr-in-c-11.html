@@ -1,0 +1,13 @@
+---
+layout: post
+title: nullptr in C++11
+date: 2013-01-17
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+It happened! It finally happened! "NULL" has a real identity within the language. Forever I'd used the notion of NULL in my C &amp; C++ to really mean "0" (zero) under the covers.<br /><br /><script src="https://gist.github.com/4552930.js"></script> <br />Of course, I'd never defined it myself. It was always done for me in one of the many include files drawn into my program. One of the problems with this particular define is for overloaded methods. If you were to pass "NULL" in its defined state above, you'd be guessing as to which overload is called.<br /><br /><br /><script src="https://gist.github.com/4552962.js"></script> <br />Well, now we have "nullptr" in C++11. "nullptr" is castable to any pointer type.<br /><br /><script src="https://gist.github.com/4552990.js"></script> The castability also covers off on boolean expressions, so the following if-trees will still work.<br /><br /><script src="https://gist.github.com/4552999.js"></script> <br />Finally, "nullptr" is of type "nullptr_t". If you're going to find it of use to you to guarantee that a null pointer is going to be passed into a method, you could type your method using the type "nullptr_t".<br /><br />Null now has a home.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

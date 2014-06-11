@@ -1,0 +1,13 @@
+---
+layout: post
+title: Shebang, Ruby and RVM
+date: 2013-01-09
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+I needed to distribute one of my ruby programs to be setup as a job, so I needed to add a <a href="http://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a>&nbsp;to the top of the file. I run my development environment using RVM so I had no idea how to address ruby in the shebang. Then it hit me ..<br /><div><br /><pre class="brush:shell">#!/usr/bin/env ruby</pre></div><div><br />Interestingly, things are a little different when trying to execute a ruby with one of your RVM installed rubies from a cron job. The rvm website has a whole <a href="https://rvm.io/integration/cron/">section</a>&nbsp;regarding the topic of cron integration. The command that I passed to successfully execute these jobs needed to be addressed absolutely:<br /><br /><pre class="brush:shell">bash -c "/home/user/.rvm/bin/ruby /path/to/script.rb"</pre><br /><br />Easy.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

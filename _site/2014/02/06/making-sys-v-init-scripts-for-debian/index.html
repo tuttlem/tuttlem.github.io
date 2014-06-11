@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Making Sys-V Init Scripts for Debian &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Making Sys-V Init Scripts for Debian</h1>
+  <span class="post-date">06 Feb 2014</span>
+  <h3 id="introduction">Introduction</h3>
+
+<p>Sometimes it&#39;s necessary to run programs (applications or daemons) in the background at different stages of a machine&#39;s up time. The most common use case of which centralises around starting something at boot and stopping something at shutdown.</p>
+
+<p>In today&#39;s post, I&#39;ll be doing a write up on preparing init scripts for Sys-V style systems.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>Debian&#39;s Sys-V style init system relies on the scripts under <code>/etc/init.d</code> to instruct the operating system on how to start or stop particular programs. A header that sits at the top of these scripts informs the init system under what conditions this script should start and stop.</p>
+
+<p>Here&#39;s an example of this header from an excerpt taken from <code>/etc/init.d/README</code></p>
+
+<p>All <code>init.d</code> scripts are expected to have a LSB style header documenting
+dependencies and default runlevel settings.  The header look like this
+(not all fields are required):</p>
+
+<div class="highlight"><pre><code class="text">### BEGIN INIT INFO
+# Provides:          skeleton
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      $portmap
+# Should-Stop:       $portmap
+# X-Start-Before:    nis
+# X-Stop-After:      nis
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Example initscript
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
+### END INIT INFO</code></pre></div>
+
+<p>The insserv man page will take you further in-depth as to what each of these means for your init script.</p>
+
+<p>A full example of an init script is given on the Debian administration website here. It doesn&#39;t use the header above - which is acceptable as these fields aren&#39;t required by the script.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c">#! /bin/sh</span>
+<span class="c"># /etc/init.d/blah</span>
+<span class="c">#</span>
+
+<span class="c"># Some things that run always</span>
+touch /var/lock/blah
+
+<span class="c"># Carry out specific functions when asked to by the system</span>
+<span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+  start<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Starting script blah &quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Could do more here&quot;</span>
+    <span class="p">;;</span>
+  stop<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Stopping script blah&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Could do more here&quot;</span>
+    <span class="p">;;</span>
+  *<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Usage: /etc/init.d/blah {start|stop}&quot;</span>
+    <span class="nb">exit </span>1
+    <span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="nb">exit </span>0</code></pre></div>
+
+<p>Putting this script into a text file (into your home directory) and applying execute permissions on the file, allows you to test it at the console. I&#39;ve put this script into a file called &quot;blah&quot;.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>chmod 755 blah
+
+<span class="nv">$ </span>./blah
+Usage: /etc/init.d/blah <span class="o">{</span>start<span class="p">|</span>stop<span class="o">}</span>
+
+<span class="nv">$ </span>./blah start
+Starting script blah
+Could <span class="k">do </span>more here
+
+<span class="nv">$ </span>./blah stop
+Stopping script blah
+Could <span class="k">do </span>more here</code></pre></div>
+
+<p>The script implements a &quot;start&quot; and &quot;stop&quot; instruction.</p>
+
+<h3 id="installation">Installation</h3>
+
+<p>Now that you&#39;ve developed your script and are happy with its operation (after testing it at the console), you can install it on your system.</p>
+
+<p>The first step is to copy your script (in this case &quot;blah&quot;) up into <code>/etc/init.d/</code>. This makes it available to the init system to use. It won&#39;t actually use it though until you establish some symlinks between the script and the runlevel script sets.</p>
+
+<p>You can check that it&#39;s available to your system using the &quot;service&quot; command, like so:</p>
+
+<div class="highlight"><pre><code class="text">$ sudo service --status-all
+ [ + ]  acpid
+ [ + ]  atd
+ [ ? ]  blah
+ [ - ]  bootlogs
+ [ ? ]  bootmisc.sh
+ . . .
+ . . .
+ . . .
+ . . .</code></pre></div>
+
+<p>You can see that &quot;blah&quot; is being registered here as an init script and as such can also be started and stopped using the &quot;service&quot; command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service blah start
+Starting script blah
+Could <span class="k">do </span>more here
+
+<span class="nv">$ </span>sudo service blah stop
+Stopping script blah
+Could <span class="k">do </span>more here</code></pre></div>
+
+<p>Now we&#39;ll attach this init script to the startup and shut down of the computer. update-rc.d will help with this process. You can get the script installed with the following command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d blah defaults</code></pre></div>
+
+<p>If you no longer want the script to execute on your system, you can remove it from the script sets with the following command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>update-rc.d -f blah remove</code></pre></div>
+
+<p>After removing it, you&#39;ll still have your script in <code>/etc/init.d/</code>, just in case you want to set it up again.</p>
+
+<p>That&#39;s it for today. </p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

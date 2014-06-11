@@ -1,0 +1,6 @@
+<h1>Unix Ipc Semaphores</h1>
+<div class='post'>
+Semaphores can simplify access to shared resources. The following snippet will show you how to create a semaphore set and destroy it.<br /><br /><pre class="brush:c;">key_t key;<br />int semid;<br /><br />/* get an IPC key */<br />key = ftok("filename", 'E');<br />/* create the new semaphore set */<br />semid = semget(key, 10, 0666 | IPC_CREAT);<br /><br /><br />/* destroy the semaphore */<br />semctl(semid, 0, IPC_RMID);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semget">The semget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semctl">The semctl system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

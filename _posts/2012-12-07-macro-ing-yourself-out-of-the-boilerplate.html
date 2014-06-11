@@ -1,0 +1,13 @@
+---
+layout: post
+title: Macro-ing yourself out of the boilerplate
+date: 2012-12-07
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+Just working on a "build your own clone" style tutorial and going over some older code here, I thought it'd be interesting to note some funky work I'd done with macros.&nbsp;When you're working with 2-d array style states you get very good a writing for-loops over and over and over and ...<br /><br />So, thinking about this in a very generic sense - take a look at this macro<br /><br /><script src="https://gist.github.com/4230103.js?file=gistfile1.c"></script> <br />Working your way through the "enum_field_blocks" macro here, the parameters are:<br /><br /><ul><li>A horizontal axis iterator "x"</li><li>A vertical axis iterator "y"</li><li>A memory location (array index) iterator "o"</li><li>and "fn"</li></ul><div>So, what's "fn"? "fn" here allows the developer to specify what they want to execute inside the nested for loops:</div><div><br /><script src="https://gist.github.com/4230130.js?file=gistfile1.c"></script> <br /></div><div>If you're thinking "why didn't he just use <a href="http://www.kernel.org/doc/man-pages/online/pages/man3/memset.3.html">memset</a>&nbsp;to set all of the items in this array to NULL" - you've missed the point. The example is quite a bad one, I agree, but it does demonstrate that you can write any code that you'd like and have it execute for every item in the specific array cutting down on boilerplate that you have to write (just get the C pre-processor to do it for you).<br /><br />Super.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

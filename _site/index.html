@@ -56,6 +56,98 @@
     
       
     
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -87,205 +179,238 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/02/introducing-lanyon/">
-        Introducing Lanyon
+      <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+        Assembly Syntax Intel At T
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2014</span>
+    <span class="post-date">25 Mar 2014</span>
 
-    <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It&#39;s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
+    <p>This post is just a little cheat sheet for myself on Intel &amp; AT&amp;T syntax.</p>
 
-<h3>Built on Poole</h3>
+<p>A useful table mapping some simple instructions between the two syntaxes linked through from the <a href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html#s3">GCC-Inline-Assembly-HOWTO</a>:</p>
 
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
+<table><thead>
+<tr>
+<th>Intel Code</th>
+<th>AT&amp;T Code</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>mov     eax,1</code></td>
+<td><code>movl    $1,%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     ebx,0ffh</code></td>
+<td><code>movl    $0xff,%ebx</code></td>
+</tr>
+<tr>
+<td><code>int     80h</code></td>
+<td><code>int     $0x80</code></td>
+</tr>
+<tr>
+<td><code>mov     ebx, eax</code></td>
+<td><code>movl    %eax, %ebx</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ecx]</code></td>
+<td><code>movl    (%ecx),%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ebx+3]</code></td>
+<td><code>movl    3(%ebx),%eax</code></td>
+</tr>
+<tr>
+<td><code>mov     eax,[ebx+20h]</code></td>
+<td><code>movl    0x20(%ebx),%eax</code></td>
+</tr>
+<tr>
+<td><code>add     eax,[ebx+ecx*2h]</code></td>
+<td><code>addl    (%ebx,%ecx,0x2),%eax</code></td>
+</tr>
+<tr>
+<td><code>lea     eax,[ebx+ecx]</code></td>
+<td><code>leal    (%ebx,%ecx),%eax</code></td>
+</tr>
+<tr>
+<td><code>sub     eax,[ebx+ecx*4h-20h]</code></td>
+<td><code>subl    -0x20(%ebx,%ecx,0x4),%eax</code></td>
+</tr>
+</tbody></table>
+
+<p>Some important points to note:</p>
 
 <ul>
-<li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-<li>Mobile friendly design and development</li>
-<li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
-<li>Support for a wide gamut of HTML elements</li>
-<li>Related posts (time-based, because Jekyll) below each post</li>
-<li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
-
-<h3>Lanyon features</h3>
-
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
+<li>Source and destinations are flipped in opcodes.
 
 <ul>
-<li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
-<li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-<li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code>&lt;body&gt;</code> classes</li>
-<li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code>&lt;body&gt;</code> classes</li>
+<li>Intel is dest, src</li>
+<li>AT&amp;T is src, dest</li>
+</ul></li>
+<li>AT&amp;T decorates registers and immediates
+
+<ul>
+<li>Registers are prefixed with a &quot;%&quot;</li>
+<li>Immediates are prefixed with a &quot;$&quot;. This applies to variables being passed in from C (when you&#39;re inline).</li>
+</ul></li>
+<li>Intel decorates memory operands to denote the operand&#39;s size, AT&amp;T uses different mnemonics to accomplish the same.</li>
+<li>Intel syntax to dereference a memory location is &quot;[ ]&quot;. AT&amp;T uses &quot;( )&quot;.</li>
 </ul>
-
-<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
-
-<h3>Browser support</h3>
-
-<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
-
-<h3>Download</h3>
-
-<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
-
-<p>Thanks!</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/01/example-content/">
-        Example content
+      <a href="/2014/03/24/xargs-i/">
+        xargs -i
       </a>
     </h1>
 
-    <span class="post-date">01 Jan 2014</span>
+    <span class="post-date">24 Mar 2014</span>
 
-    <div class="message">
-  Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
-</div>
+    <p>This post is a just a tid-bit for the use of <a href="http://en.wikipedia.org/wiki/Xargs">xargs</a> in <a href="http://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a>.</p>
 
-<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. <em>Aenean eu leo quam.</em> Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+<p>If you can get a list of work to do from a file or stream, you can pipe these into <code>xargs</code> to do further work. An example of this, I&#39;ve taken from <a href="http://www.cyberciti.biz/faq/linux-unix-bsd-xargs-construct-argument-lists-utility/">here</a>. This will find all of the *.bak in or below the current directory and delete them.</p>
 
-<blockquote>
-<p>Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-</blockquote>
+<div class="highlight"><pre><code class="bash">find . -name <span class="s2">&quot;*.bak&quot;</span> -type f -print <span class="p">|</span> xargs /bin/rm -f</code></pre></div>
 
-<p>Etiam porta <strong>sem malesuada magna</strong> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+<p>Extending the usage of <code>xargs</code> to incorporate the <code>-i</code> switch, you can replace &quot;{}&quot; with the line of text read in the preprended command.</p>
 
-<h2>Inline HTML elements</h2>
+<div class="highlight"><pre><code class="bash">cat url_endings <span class="p">|</span> xargs -i wget <span class="s2">&quot;http://somewhere.com&quot;</span></code></pre></div>
 
-<p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
+<p>In this command, it&#39;s expected that the file &quot;url_endings&quot; would be data that looks like this:</p>
 
-<ul>
-<li><strong>To bold text</strong>, use <code>&lt;strong&gt;</code>.</li>
-<li><em>To italicize text</em>, use <code>&lt;em&gt;</code>.</li>
-<li>Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use <code>&lt;abbr&gt;</code>, with an optional <code>title</code> attribute for the full phrase.</li>
-<li>Citations, like <cite>&mdash; Mark otto</cite>, should use <code>&lt;cite&gt;</code>.</li>
-<li><del>Deleted</del> text should use <code>&lt;del&gt;</code> and <ins>inserted</ins> text should use <code>&lt;ins&gt;</code>.</li>
-<li>Superscript <sup>text</sup> uses <code>&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code>&lt;sub&gt;</code>.</li>
-</ul>
-
-<p>Most of these elements are styled by browsers with few modifications on our part.</p>
-
-<h2>Heading</h2>
-
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-
-<h3>Code</h3>
-
-<p>Cum sociis natoque penatibus et magnis dis <code>code element</code> montes, nascetur ridiculus mus.</p>
-
-<div class="highlight"><pre><code class="js"><span class="c1">// Example can be run directly in your JavaScript console</span>
-
-<span class="c1">// Create a function that takes two arguments and returns the sum of those arguments</span>
-<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;return a + b&quot;</span><span class="p">);</span>
-
-<span class="c1">// Call the function</span>
-<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="c1">// &gt; 8</span></code></pre></div>
-
-<p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-
-<h3>Lists</h3>
-
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-
-<ul>
-<li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-<li>Donec id elit non mi porta gravida at eget metus.</li>
-<li>Nulla vitae elit libero, a pharetra augue.</li>
-</ul>
-
-<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-
-<ol>
-<li>Vestibulum id ligula porta felis euismod semper.</li>
-<li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-<li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-</ol>
-
-<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-
-<dl>
-  <dt>HyperText Markup Language (HTML)</dt>
-  <dd>The language used to describe and define the content of a Web page</dd>
-
-  <dt>Cascading Style Sheets (CSS)</dt>
-  <dd>Used to describe the appearance of Web content</dd>
-
-  <dt>JavaScript (JS)</dt>
-  <dd>The programming language used to build advanced Web sites and applications</dd>
-</dl>
-
-<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-
-<h3>Tables</h3>
-
-<p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Upvotes</th>
-      <th>Downvotes</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <td>Totals</td>
-      <td>21</td>
-      <td>23</td>
-    </tr>
-  </tfoot>
-  <tbody>
-    <tr>
-      <td>Alice</td>
-      <td>10</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <td>Bob</td>
-      <td>4</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>Charlie</td>
-      <td>7</td>
-      <td>9</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-
-<hr>
-
-<p>Want to see something else added? <a href="https://github.com/poole/poole/issues/new">Open an issue.</a></p>
+<div class="highlight"><pre><code class="text">/files/first
+/files/second
+/files/third
+etc . .</code></pre></div>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/12/31/whats-jekyll/">
-        What's Jekyll?
+      <a href="/2014/03/19/a-quick-lap-with-mvar/">
+        A Quick Lap with MVar
       </a>
     </h1>
 
-    <span class="post-date">31 Dec 2013</span>
+    <span class="post-date">19 Mar 2014</span>
 
-    <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/mojombo/jekyll/blob/master/README.markdown">the project&#39;s readme</a>:</p>
+    <h3 id="introduction">Introduction</h3>
+
+<p>Concurrent programming is hard. It&#39;s made a lot easier with good tools and MVar is one of them. MVars is just a location for a value. It can contain a value or contain nothing and the API will block accordingly, providing a safe concurrent programming environment for mutable state.</p>
+
+<p>From the Hackage page for <code>Control.Concurrent.MVar</code>:</p>
 
 <blockquote>
-<p>Jekyll is a simple, blog aware, static site generator. It takes a template directory [...] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
+<p>An MVar t is mutable location that is either empty or contains a value of type t. It has two fundamental operations: putMVar which fills an MVar if it is empty and blocks otherwise, and takeMVar which empties an MVar if it is full and blocks otherwise. </p>
 </blockquote>
 
-<p>It&#39;s an immensely useful tool and one we encourage you to use here with Hyde.</p>
+<h3 id="key-points">Key Points</h3>
 
-<p>Find out more by <a href="https://github.com/mojombo/jekyll">visiting the project on GitHub</a>.</p>
+<ul>
+<li><code>newEmptyMVar</code> creates an MVar that has no value to begin with</li>
+<li><code>newMVar</code> creates an MVar that has an initial value</li>
+<li><code>takeMVar</code> returns the current value of the MVar. It&#39;ll block until the MVar contains a value</li>
+<li><code>putMVar</code> puts a value into the MVar. It&#39;ll block until the MVar doesn&#39;t contain a value</li>
+</ul>
+
+<h3 id="an-example">An Example</h3>
+
+<div class="highlight"><pre><code class="haskell"><span class="kr">import</span> <span class="nn">Control.Concurrent</span>
+<span class="kr">import</span> <span class="nn">Control.Concurrent.MVar</span>
+ 
+<span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+    <span class="c1">-- create an empty mvar</span>
+    <span class="n">m</span> <span class="ow">&lt;-</span> <span class="n">newEmptyMVar</span>
+    <span class="c1">-- get another thread to put a value in it</span>
+    <span class="n">forkIO</span> <span class="o">$</span> <span class="n">putMVar</span> <span class="n">m</span> <span class="s">&quot;A value&quot;</span>
+    <span class="c1">-- take the value</span>
+    <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">takeMVar</span> <span class="n">m</span>
+    <span class="n">putStrLn</span> <span class="n">x</span></code></pre></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/03/19/a-quick-lap-with-lens/">
+        A Quick Lap with Lens
+      </a>
+    </h1>
+
+    <span class="post-date">19 Mar 2014</span>
+
+    <h3 id="introduction">Introduction</h3>
+
+<p>When working with complex data structures in Haskell, burying down to observe a piece of information can be tedious. The <a href="http://hackage.haskell.org/package/lens-4.0.7/docs/Control-Lens.html">Lens library</a> has been created to ease this problem. From the <a href="https://github.com/ekmett/lens/wiki/Overview">Lens wiki page</a>:</p>
+
+<blockquote>
+<p>Lenses are composable functional references. They allow you to access and modify data potentially very deep within a structure! </p>
+</blockquote>
+
+<p>The Lens library allows you to interact with your data structures in a composable manner, making your code easier to understand - and more fun to write.</p>
+
+<h3 id="key-points">Key Points</h3>
+
+<ul>
+<li>Whilst there are a lot of different functions, <code>(^.)</code> allows you to get some data and <code>(.~)</code> allows you to set some data</li>
+<li><code>makeLenses</code> is what does all the magic of creating your accessors</li>
+<li>I haven&#39;t found anywhere that specifically says this, but it seems that your fields in a record structure need to be preceded with an underscore</li>
+</ul>
+
+<h3 id="an-example">An Example</h3>
+
+<div class="highlight"><pre><code class="haskell"><span class="cm">{-# LANGUAGE TemplateHaskell #-}</span>
+ 
+<span class="kr">import</span> <span class="nn">Control.Lens</span>
+ 
+<span class="kr">data</span> <span class="kt">Ball</span> <span class="ow">=</span> <span class="kt">Ball</span> <span class="p">{</span> <span class="n">_position</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">Double</span><span class="p">),</span> <span class="n">_velocity</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)</span> <span class="p">}</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
+ 
+<span class="c1">-- create the accessors for the Ball type</span>
+<span class="nf">makeLenses</span> <span class="kt">&#39;&#39;Ball</span>
+ 
+<span class="c1">-- | Animates a ball&#39;s position with respect to a timestep.</span>
+<span class="c1">-- Takes a ball&#39;s existing position and velocity and animates it</span>
+<span class="c1">-- by the time step provided</span>
+<span class="c1">--</span>
+<span class="nf">animate</span> <span class="ow">::</span> <span class="kt">Ball</span> <span class="ow">-&gt;</span> <span class="kt">Double</span> <span class="ow">-&gt;</span> <span class="kt">Ball</span>
+<span class="nf">animate</span> <span class="n">b</span> <span class="n">t</span> <span class="ow">=</span> <span class="kr">do</span>
+    <span class="n">position</span> <span class="o">.~</span> <span class="p">(</span><span class="n">px</span> <span class="o">+</span> <span class="n">vx</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="n">py</span> <span class="o">+</span> <span class="n">vy</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">$</span> <span class="n">b</span>
+  <span class="kr">where</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">)</span> <span class="ow">=</span> <span class="n">b</span> <span class="o">^.</span> <span class="n">position</span>
+        <span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">)</span> <span class="ow">=</span> <span class="n">b</span> <span class="o">^.</span> <span class="n">velocity</span>
+ 
+<span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+    <span class="c1">-- the original ball</span>
+    <span class="kr">let</span> <span class="n">b</span> <span class="ow">=</span> <span class="kt">Ball</span> <span class="p">{</span> <span class="n">_position</span> <span class="ow">=</span> <span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">),</span> <span class="n">_velocity</span> <span class="ow">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span> <span class="p">}</span>
+    <span class="c1">-- animate the ball by 1 full timestep</span>
+    <span class="kr">let</span> <span class="n">b&#39;</span> <span class="ow">=</span> <span class="n">animate</span> <span class="n">b</span> <span class="mi">1</span>
+ 
+    <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Initial ball : &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Animated ball: &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">b&#39;</span><span class="p">)</span></code></pre></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/03/16/cabal-sandbox-ghci/">
+        cabal sandbox ghci
+      </a>
+    </h1>
+
+    <span class="post-date">16 Mar 2014</span>
+
+    <p>A very quick post that is based on the information from <a href="http://stackoverflow.com/questions/17014270/how-can-i-use-ghci-with-the-new-cabal-1-17-sandboxes">this stack overflow article</a> on how to get a GHCi session up and running with the libraries referenced that you&#39;ve installed using your cabal sandbox.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">cd</span> <span class="nv">$YOUR_PACKAGE_DIR</span>
+ 
+<span class="c"># For GHC &gt;= 7.6</span>
+ghci -no-user-package-db -package-db .cabal-sandbox/i386-linux-ghc-7.6.1-packages.conf.d
+ 
+<span class="c"># For GHC &lt; 7.6</span>
+ghci -no-user-package-conf -package-conf .cabal-sandbox/i386-linux-ghc-7.4.2-packages.conf.d</code></pre></div>
 
   </div>
   
@@ -293,7 +418,7 @@
 
 <div class="pagination">
   
-    <span class="pagination-item older">Older</span>
+    <a class="pagination-item older" href="/page2">Older</a>
   
   
     <span class="pagination-item newer">Newer</span>

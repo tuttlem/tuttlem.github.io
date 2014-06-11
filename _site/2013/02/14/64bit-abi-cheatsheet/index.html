@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      64bit ABI Cheatsheet &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">64bit ABI Cheatsheet</h1>
+  <span class="post-date">14 Feb 2013</span>
+  <h1>64bit ABI Cheatsheet</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Using a few different articles around the web, I thought it might be a good idea to aggregate all of the information around calling conventions in 64bit land. This could come in handy when wanting to write a cross OS compliant library at the assembly level.</div><div><br /></div><div>This particular article will directly target the assembly programming layer so that topics like C++ name mangling and caller clean-up are removed from its scope.</div><h3>References</h3><div>x86 calling conventions</div><div><a href="http://en.wikipedia.org/wiki/X86_calling_conventions">http://en.wikipedia.org/wiki/X86_calling_conventions</a></div><div><br /></div><div>x86-64.org documentation</div><div><a href="http://www.x86-64.org/documentation/">http://www.x86-64.org/documentation/</a></div><div><br /></div><div>Mac OSX 64 bit Assembly System Calls</div><div><a href="http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/">http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/</a></div><div><br /></div><h3>Microsoft</h3><div>Windows will use <b>RCX</b>, <b>RDX</b>, <b>R8 </b>and <b>R9 </b>for the first four integer or pointer arguments. <b>XMM0</b>, <b>XMM1</b>, <b>XMM2 </b>and <b>XMM3 </b>are used for floating point arguments. Additional arguments are passed via the stack (right to left).</div><div><br /></div><div>An integer or pointer return value will be returned in <b>RAX</b>. Floating point return will be in <b>XMM0</b>.</div><div><br /></div><h3>System V</h3><div>System V operating systems will use <b>RDI</b>, <b>RSI</b>, <b>RDX</b>, <b>RCX</b>, <b>R8 </b>and <b>R9</b>. <b>XMM0</b>, <b>XMM1</b>, <b>XMM2</b>, <b>XMM3</b>, <b>XMM4</b>, <b>XMM5</b>, <b>XMM6 </b>and <b>XMM7 </b>will be used to pass floating point parameters. <b>RAX </b>will hold the syscall number. Additional arguments are passed via the stack (right to left).</div><div><br /></div><div>Return values are sent back via <b>RAX</b>.</div><div><br /></div><h3>Syscall Numbers</h3><div>It's interesting to note the structure of the syscall number when it comes time to execute. Looking at <a href="http://www.opensource.apple.com/source/xnu/xnu-792.13.8/osfmk/mach/i386/syscall_sw.h">syscall_sw.h</a>, you'll see that apple machines want a 2 in the higher-order double word such that the "write" syscall, normally passed as 0x04 would be passed as 0x2000004 in OSX.</div><div><br /></div><div>That's it for today. Just a cheat sheet really.</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Clojure and Leiningen quickstart &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Clojure and Leiningen quickstart</h1>
+  <span class="post-date">28 Dec 2012</span>
+  <h1>Clojure and Leiningen quickstart</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://clojure.org/">Clojure</a> is the modern <a href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">LISP</a>. Clojure is an elegant, dynamic programming language that runs a-top the JVM. In today's post, I'll show you how to get started with Clojure &amp; <a href="http://leiningen.org/">Leiningen</a>.</div><h3><br /></h3><h3>Getting installed</h3><div>I've written this article from the perspective of a Debian user. Translating these steps into your own native environments should be as easy as re-structuring the installation steps to target your package manager of choice.</div><div><br /></div><div>Installing Clojure &amp; Leiningen was a simple as this:</div><div><pre># aptitude install clojure leiningen</pre></div><div><br /></div><div>You're done. You should now have Clojure and Leiningen at your disposal.</div><div><h3><br /></h3><h3>Initial steps</h3></div><div>You'll want to kick the tires on this puppy, so from your bash prompt fire up the REPL environment and try a few commands:</div><div><br /><pre>$ clojure<br /><br />Clojure 1.2.1<br />user=&gt; (+ 2 4)<br />6<br /><br />user=&gt; (print "Clojure is installed!")<br />Clojure is installed!nil<br /><br />user=&gt; (if (= 1 1) (print "Yes, 1 does equal 1") (print "Mathematics just stopped<br />working"))<br />Yes, 1 does equal 1nil<br /></pre></div><div><br /></div><div>Alright! Enough of this already. Let's generate a project.<br /><br /><a href="http://leiningen.org/">Leiningen</a>&nbsp;is a painless way to get started on your Clojure project. All you have to do, is issue the following commands and you've got a project ready to go:<br /><br /><pre>$ lein new projname</pre><br /></div><div>Where "projname" is the name of your project. For this test, I just called mine "myproj". If you have a look inside the directory that Leiningen has just generated for you, you'll see the following sub-directories:<br /><br /><pre>lib         - holds your programs dependencies<br />project.clj - a clojure file describing your project <br />README      - duh! <br />src         - your source files <br />test        - any tests for your application<br /></pre><br />This is a pretty neat-and-tidy layout, ready for you to start coding.<br /><br /><h3>Bulding and running and cleaning, oh my!</h3><div>Leiningen also makes it very easy to build, run and cleanup your project. Here's how. From within your project directory:</div><div><br />You can build your project by:<br /><pre>$ lein compile</pre><br />You can clean any built files by:<br /><pre>$ lein clean</pre><br />You can run your project with:<br /><pre>$ lein run</pre></div><div><br /></div>Too easy.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

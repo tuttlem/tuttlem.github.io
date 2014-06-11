@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/02/15/bootstrap-your-nasm-programs-with-nasmx/">
+        Bootstrap your NASM programs with NASMX
+      </a>
+    </h1>
+
+    <span class="post-date">15 Feb 2013</span>
+
+    <h1>Bootstrap your NASM programs with NASMX</h1>
+<div class='post'>
+<h3>Introduction</h3>I'd been looking over the past couple of nights for a way that I could simplify the <a href="http://en.wikipedia.org/wiki/System_call">syscall interface</a> from NASM's perspective, just so I could clean up a lot of code that filled registers directly. I made a start on a couple of prototype projects, but never even thought to look outside and find out if someone had done the same.<br /><br />"Surely, someone has been here before", I thought!<br /><br /><h3>NASMX</h3><div>Yes, someone has been here before! <a href="http://www.asmcommunity.net/projects/nasmx/">NASMX</a>&nbsp;is a collection of include files specifically designed to wrap all of this system call code&nbsp;intuitively&nbsp;into a rather nicely presentable interface. Their <a href="http://sourceforge.net/projects/nasmx/">SourceForge project page</a>&nbsp;doesn't contain much documentation, but once you download the library you'll also receive a handful of demonstration programs using the library.</div><div><br /></div><h3>An example</h3><div>First of all, you include the required header files.</div><div><br /><script src="https://gist.github.com/tuttlem/4956583.js"></script></div><div><br /></div>Next, like any decent "Hello World" application you declare the data you require.<br /><br /><script src="https://gist.github.com/tuttlem/4956598.js"></script> <br />Finally, the application call looks very human (for assembly language)<br /><br /><script src="https://gist.github.com/tuttlem/4956613.js"></script> <br />That's it! The code above is not my own, I've just dissected the "Hello World" example that comes in the library's zip package.<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/02/14/64bit-abi-cheatsheet/">
+        64bit ABI Cheatsheet
+      </a>
+    </h1>
+
+    <span class="post-date">14 Feb 2013</span>
+
+    <h1>64bit ABI Cheatsheet</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Using a few different articles around the web, I thought it might be a good idea to aggregate all of the information around calling conventions in 64bit land. This could come in handy when wanting to write a cross OS compliant library at the assembly level.</div><div><br /></div><div>This particular article will directly target the assembly programming layer so that topics like C++ name mangling and caller clean-up are removed from its scope.</div><h3>References</h3><div>x86 calling conventions</div><div><a href="http://en.wikipedia.org/wiki/X86_calling_conventions">http://en.wikipedia.org/wiki/X86_calling_conventions</a></div><div><br /></div><div>x86-64.org documentation</div><div><a href="http://www.x86-64.org/documentation/">http://www.x86-64.org/documentation/</a></div><div><br /></div><div>Mac OSX 64 bit Assembly System Calls</div><div><a href="http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/">http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/</a></div><div><br /></div><h3>Microsoft</h3><div>Windows will use <b>RCX</b>, <b>RDX</b>, <b>R8 </b>and <b>R9 </b>for the first four integer or pointer arguments. <b>XMM0</b>, <b>XMM1</b>, <b>XMM2 </b>and <b>XMM3 </b>are used for floating point arguments. Additional arguments are passed via the stack (right to left).</div><div><br /></div><div>An integer or pointer return value will be returned in <b>RAX</b>. Floating point return will be in <b>XMM0</b>.</div><div><br /></div><h3>System V</h3><div>System V operating systems will use <b>RDI</b>, <b>RSI</b>, <b>RDX</b>, <b>RCX</b>, <b>R8 </b>and <b>R9</b>. <b>XMM0</b>, <b>XMM1</b>, <b>XMM2</b>, <b>XMM3</b>, <b>XMM4</b>, <b>XMM5</b>, <b>XMM6 </b>and <b>XMM7 </b>will be used to pass floating point parameters. <b>RAX </b>will hold the syscall number. Additional arguments are passed via the stack (right to left).</div><div><br /></div><div>Return values are sent back via <b>RAX</b>.</div><div><br /></div><h3>Syscall Numbers</h3><div>It's interesting to note the structure of the syscall number when it comes time to execute. Looking at <a href="http://www.opensource.apple.com/source/xnu/xnu-792.13.8/osfmk/mach/i386/syscall_sw.h">syscall_sw.h</a>, you'll see that apple machines want a 2 in the higher-order double word such that the "write" syscall, normally passed as 0x04 would be passed as 0x2000004 in OSX.</div><div><br /></div><div>That's it for today. Just a cheat sheet really.</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/02/10/entering-unicode-characters-in-vim/">
+        Entering Unicode Characters in VIM
+      </a>
+    </h1>
+
+    <span class="post-date">10 Feb 2013</span>
+
+    <h1>Entering Unicode Characters in VIM</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Just a quick tip sheet on how to enter unicode characters into a text page when using vim. From time to time I've needed characters listed up <a href="http://www.fileformat.info/info/unicode/char/search.htm">here</a>&nbsp;just to give my applications that little extra touch.</div><div><br /></div><h3>Entering characters by code</h3><div>To enter a character by its decimal value</div><div><br /><pre>^Vnnn</pre><br /></div><div>To enter a character by its octal value</div><div><br /><pre>^Vonnn</pre><br /></div><div>To enter a character by its hex value</div><div><br /><pre>^Vxnn</pre><br /></div><div>To enter a character by its hex value for BMP unicode codepoints</div><div><br /><pre>^Vunnnn</pre><br /></div><div>To enter a character by its hex value for any unicode codepoint</div><div><br /><pre>^VUnnnnnnnn</pre><br /></div><div>In all of these examples, the n's are the code and ^V means Control-V.<br /><br />That's it!</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/02/09/working-with-audio-in-haskell-part-1/">
+        Working with Audio in Haskell (Part 1)
+      </a>
+    </h1>
+
+    <span class="post-date">09 Feb 2013</span>
+
+    <h1>Working with Audio in Haskell (Part 1)</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://en.wikipedia.org/wiki/Digital_signal_processing">Digital signal processing</a>, <a href="http://en.wikipedia.org/wiki/Audio_signal_processing">audio processing</a>&nbsp;and the like are all rather complex topics of study. I have a personal interest in these fields as I try to create guitar processing effects from time to time. Today's post is all about taking the first steps in getting our hands on some audio and associated information from within Haskell.</div><div><br /></div><h3>hsndfile</h3><div>For today's post, I'll be using the library <a href="http://www.haskell.org/haskellwiki/Hsndfile">hsndfile</a>&nbsp;to do all of the heavy lifting as far as opening audio files and interpreting information. The files that we'll work with will need to be in <a href="http://en.wikipedia.org/wiki/WAV">wave format</a>. The demonstration in this post will simply open an audio file, read some information about the file and then close the file.</div><div><br /></div><h3>Project setup</h3><div>I've created a Haskell project using cabal so that I can manage the hsndfile dependency locally to this application. You may already have this installed globally on your system, but if you follow along here, you should have it installed to your project in not time.</div><div><br /></div><div>Setup your project as usual:</div><div><br /><pre class="brush:shell">$ mkdir sndtest<br />$ cd sndtest<br />$ touch LICENSE<br />$ cabal init<br /></pre></div><div><br />Just select all of the defaults when setting up your project (well, that's what I did, anyway).<br /><br />We need to add&nbsp;<a href="http://www.haskell.org/haskellwiki/Hsndfile">hsndfile</a>&nbsp;as a dependency to our project, so we'll specify this in our "sndtest.cabal" file. Open it up and make sure that your "build-depends" reads as follows.<br /><br /><pre class="brush:plain">build-depends:         base ==4.5.*,<br />                       hsndfile ==0.5.3<br /></pre><br />Of course, you may have some different version of base, but here's where I was at anyway.<br /><br />Create a new file in your project called "Test.hs". We'll now fill out this file with the code that will open a file, read its information, close the file and then display the information to screen.<br /><br /><script src="https://gist.github.com/tuttlem/4743448.js"></script> <br />This is pretty straight forward. First up, we import "Sound.File.SndFile" qualified as "SF" so we know when we're using something from this import.<br /><br />Dissecting the main function, firstly we open the file using <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:openFile">openFile</a>. This function expects the path to the audio file (in this case we're using "test.wav" which by the way you'll have to find something), we're only reading from the file at the moment so we specify <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:ReadMode">ReadMode</a>&nbsp;and finally we have the info parameter which is useful to us when we're writing a new file (so we can tell it what format to write in, etc), but for reading we just use <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:defaultInfo">defaultInfo</a>.<br /><br />We now read the stream information about the file using <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:hInfo">hInfo</a>, the result of which will give us back a value of type <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#t:Info">Info</a>. This info packet tells us the number of frames in the file, the sample rate, number of channels, header and sample format, number of sections and if the file is seekable or not.<br /><br />Now that we have the information from the stream, we can close it off. We do this with <a href="http://hackage.haskell.org/packages/archive/hsndfile/latest/doc/html/Sound-File-Sndfile.html#v:hClose">hClose</a>. Now we can interrogate the Info value with a series of print statements.<br /><br />We've got a module ready to run, but we need to tell our project that it's the entry point to run. In the "sndtest.cabal" file, make sure you set your "main-is:" attribute like so.<br /><br /><pre class="brush:plain">main-is:           Test.hs</pre><br /><h3>Build and Run</h3></div><div>We've created our project and finished our code. Let's build and run the application.</div><div><br /></div><div>The first build is going to take a bit more time as cabal-dev will need to resolve all of the dependencies that it doesn't yet have. Get this process moving with the following command.</div><div><br /></div><div><pre class="brush:shell">$ cabal-dev install</pre><br />All going well, you should be able to launch your executable and check out the results:<br /><br /><pre class="brush:shell">$ dist/build/sndtest/sndtest<br />format:      Format {headerFormat = HeaderFormatWav, sampleFormat = SampleForm<br />atPcm16, endianFormat = EndianFile}<br />sample rate: 48000<br />channels:    2<br />frames:      302712<br /></pre><br />That's it for today's post. Hopefully I'll get back to this topic soon so I can write some more about audio processing.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/02/09/gui-programming-with-gtk-in-haskell/">
+        GUI Programming with Gtk in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">09 Feb 2013</span>
+
+    <h1>GUI Programming with Gtk in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>If you do spend a bit of time writing applications in Haskell, you'll probably be writing a lot of console programs. I love writing console programs but sometimes you just want a bit of GUI. In today's post, I want to do a walkthrough of getting an application up and running with the help of Gtk Haskell bindings&nbsp;<a href="http://projects.haskell.org/gtk2hs/">Gtk2Hs</a>. The result code is actually the "Hello World" example they provide, but this should still serve as a good walkthrough.</div><div><br /></div><h3>Gtk2Hs</h3><div>As I mentioned in the introduction, we'll be using the Haskell bindings for Gtk&nbsp;<a href="http://projects.haskell.org/gtk2hs/">Gtk2Hs</a>&nbsp;to accomplish our UI. As you'd expect, it's very much like writing Gtk applications using other language bindings, only this way we get to use our functional brains to get there.</div><div><br /></div><div>Take a look through the package up on <a href="http://hackage.haskell.org/package/gtk-0.12.0">Hackage</a>&nbsp;as well as the <a href="http://www.haskell.org/haskellwiki/Gtk2Hs">Wiki Article</a> about the library. This should give even the uninitiated a bit of the background story behind the library.</div><div><br /></div><h3>Project Setup</h3><div>Start a new project in the usual fashion with cabal.</div><div><br /><pre class="brush:shell">$ mkdir guitest<br />$ cd guitest<br />$ touch LICENSE<br />$ cabal init<br /></pre></div><div><br />There are quite a list of dependencies to use the package "gtk" as listed on the&nbsp;<a href="http://hackage.haskell.org/package/gtk-0.12.0">Hackage</a>&nbsp;page. One dependency is that you need to have "gtk2hs-buildtools" installed. Get these installed into your project with the following command.<br /><br /><pre class="brush:shell">$ cabal-dev install gtk2hs-buildtools</pre><br />Now that you've installed these tools, you'll need to get them on your path so that they are available at compile time. You can do this with the following command.<br /><br /><pre class="brush:shell">$ export PATH=~/projdir/cabal-dev/bin:$PATH</pre><br />The other requirements which might just be localised to my environment (OSX 10.8) is that I needed to make pkg-config aware of the "pc" files for X11. I did this simply by running the following command.<br /><br /><pre class="brush:shell">export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig/</pre><br />Finally for dependencies is making your project file aware of the dependencies on the application. As I mentioned before, there are a few and these just get listed under your "build-depends" attribute in your cabal project file. Here's how mine looks.<br /><br /><pre class="brush:plain">build-depends:       base ==4.5.*,   <br />                     gtk ==0.12.4,   <br />                     cairo ==0.12.4, <br />                     glib ==0.12.4,  <br />                     pango ==0.12.4, <br />                     gio ==0.12.4    </pre><br /><br />Create a new file in your project called "Test.hs" and add the following code. This code is very simple. It opens a window, adds a button (with an event handler attached) and that's about it.<br /><br /><script src="https://gist.github.com/tuttlem/4744834.js"></script> <br />This code is pretty straight forward and it almost reads like english so you can see exactly what it's doing.<br /><br />Now that we have a main module, it's time to tell our project file that it exists and that it's where we'll find our "main" function. You do this by setting the "main-is" attribute to this file's name "Test.hs" in your cabal file.<br /><br /><pre class="brush:plain">main-is:             Test.hs</pre><br /><h3>Build and Run</h3></div><div>It's time to give this bad boy a go. This first build will feel like it's taking forever, but it'll only be on the first time while cabal-dev gets all of the dependencies together and builds them. Subsequent builds will be much quicker.</div><div><br /></div><div>Build your project with the following command.</div><div><br /><pre class="brush: shell">$ cabal-dev install</pre></div><div><br />Go and make a coffee, then another one .. do all of your shopping, come back ... aaannnnndd ....<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-Mz5UA3upxBM/URYw0pKxg_I/AAAAAAAAAmQ/DoK8SkCl4YM/s1600/Screen+Shot+2013-02-09+at+9.18.58+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-Mz5UA3upxBM/URYw0pKxg_I/AAAAAAAAAmQ/DoK8SkCl4YM/s1600/Screen+Shot+2013-02-09+at+9.18.58+PM.png" /></a></div>You end up with a rather unimpressive (but working) gtk application! Well, there's still more to learn on this topic, this is only the start.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page15">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page13">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

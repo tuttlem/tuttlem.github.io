@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/25/unix-ipc-unix-sockets/">
+        Unix Ipc Unix Sockets
+      </a>
+    </h1>
+
+    <span class="post-date">25 Nov 2012</span>
+
+    <h1>Unix Ipc Unix Sockets</h1>
+<div class='post'>
+Unix sockets talk locally on the machine. Their operation is very similar to standard socket operations (as they are the same in every way). This snippet will show you a server and client.<br /><br /><pre class="brush:c;">int s, s2, t, len;<br />struct sockaddr_un local, remote;<br />char str[100];<br /><br />/* --- as a server --- */<br /><br />/* create the socket to serve on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to listen on */<br />local.sun_family = AF_UNIX;<br />strcpy(local.sun_path, SOCK_PATH);<br />unlink(local.sun_path);<br />len = strlen(local.sun_path) + sizeof(local.sun_family);<br /><br />/* bind the socket to this name */<br />bind(s, (struct sockaddr *)&amp;local, len);<br />/* listen on this socket */<br />listen(s, 5);<br />/* accept any incoming connection */<br />s2 = accept(s, (struct sockaddr *)&amp;remote, &amp;t));<br />/* receive some data */<br />n = recv(s2, str, 100, 0);<br />/* close the client */<br />close(s2);<br /><br /><br />/* --- as a client --- */<br /><br />/* create a socket to connect on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to connect to */<br />remote.sun_family = AF_UNIX;<br />strcpy(remote.sun_path, SOCK_PATH);<br />len = strlen(remote.sun_path) + sizeof(remote.sun_family);<br /><br />/* connect on this socket */<br />connect(s, (struct sockaddr *)&amp;remote, len);<br /><br />/* send some data */<br />send(s, str, strlen(str), 0);<br />/* close the socket */<br />close(s);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?bind+2">The bind system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?listen+2">The listen system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?accept+2">The accept system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?connect+2">The connect system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send+2">The send system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv+2">The recv system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/25/unix-ipc-shared-memory/">
+        Unix Ipc Shared Memory
+      </a>
+    </h1>
+
+    <span class="post-date">25 Nov 2012</span>
+
+    <h1>Unix Ipc Shared Memory</h1>
+<div class='post'>
+Shared memory allows multiple processes to view, modify and control shared segments of memory. This snippet will show you how to obtain a pointer to some shared memory and then release the pointer.<br /><br /><pre class="brush:c;">key_t key;<br />int shmid;<br /><br />/* get an ipc key */<br />key = ftok("filename", 'R');<br /><br />/* connect to the segment */<br />shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT);<br /><br />/* attach to the segment */<br />data = shmat(shmid, (void *)0, 0);<br /><br />/* perform writes and reads on the "data" pointer */<br /><br />/* detach from the segment */<br />shmdt(data);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmget">The shmget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmat">The shmat system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmdt">The shmdt system call</a><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/25/unix-ipc-semaphores/">
+        Unix Ipc Semaphores
+      </a>
+    </h1>
+
+    <span class="post-date">25 Nov 2012</span>
+
+    <h1>Unix Ipc Semaphores</h1>
+<div class='post'>
+Semaphores can simplify access to shared resources. The following snippet will show you how to create a semaphore set and destroy it.<br /><br /><pre class="brush:c;">key_t key;<br />int semid;<br /><br />/* get an IPC key */<br />key = ftok("filename", 'E');<br />/* create the new semaphore set */<br />semid = semget(key, 10, 0666 | IPC_CREAT);<br /><br /><br />/* destroy the semaphore */<br />semctl(semid, 0, IPC_RMID);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semget">The semget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semctl">The semctl system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/25/unix-ipc-pipes-and-fifos/">
+        Unix Ipc Pipes And Fifos
+      </a>
+    </h1>
+
+    <span class="post-date">25 Nov 2012</span>
+
+    <h1>Unix Ipc Pipes And Fifos</h1>
+<div class='post'>
+This snippet will show you two processes communicating between each other using a pipe.<br /><br /><pre class="brush:c;">int pfds[2];<br />char buf[30];<br /><br />/* open the pipe */<br />pipe(pfds);<br /><br />if (!fork()) {<br />	/* the child will write to the pipe */<br />    write(pfds[1], "test", 5);<br />    exit(0);<br />} else {<br />	/* the parent will read from the pipe */<br />    read(pfds[0], buf, 5);<br />    wait(NULL);<br />}<br /></pre><br />FIFOs are just pipes that have a specific name. In this snippet the name is a constant defined elsewhere called FIFO_NAME.<br /><br /><pre class="brush:c;">/* first program writes to the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for writing */<br />fd = open(FIFO_NAME, O_WRONLY);<br />/* write to the pipe */<br />write(fd, buffer, strlen(buffer));<br /><br /><br />/* second program reads from the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for reading */<br />fd = open(FIFO_NAME, O_RDONLY);<br />/* read from the pipe */<br />read(fd, s, 20);<br /></pre><br />Further reading:<br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?mknod">The mknod system call</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/25/unix-ipc-message-queues/">
+        Unix Ipc Message Queues
+      </a>
+    </h1>
+
+    <span class="post-date">25 Nov 2012</span>
+
+    <p>Message queues are pretty common structures for inter-process communication. A common queue is created by one of the processes, from there it can be connected to by any other process and have messages submitted to it.</p>
+
+<p>This snippet shows the creation of a queue and sending a message. Another block below this will show receiving a message from the queue.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">msqid</span><span class="p">;</span>
+<span class="kt">key_t</span> <span class="n">key</span><span class="p">;</span>
+ 
+<span class="cm">/* --- message sender --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* create the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span> <span class="o">|</span> <span class="n">IPC_CREAT</span><span class="p">));</span>
+ 
+<span class="cm">/* put a message onto the queue */</span>
+<span class="n">msgsnd</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+ 
+<span class="cm">/* destroy (remove) the message queue */</span>
+<span class="n">msgctl</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="n">IPC_RMID</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+ 
+ 
+<span class="cm">/* --- message receiver --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* connect to the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span><span class="p">);</span>
+<span class="cm">/* receive the message off the queue */</span>
+<span class="n">msgrcv</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok">The ftok system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget">The msgget system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd">The msgsnd system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl">The msgctl system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv">The msgrcv system call</a></p>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page41">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page39">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

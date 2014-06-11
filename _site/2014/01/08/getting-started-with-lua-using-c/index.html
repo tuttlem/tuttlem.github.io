@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Getting started with Lua using C++ &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Getting started with Lua using C++</h1>
+  <span class="post-date">08 Jan 2014</span>
+  <h1>Getting started with Lua using C++</h1>
+<div class='post'>
+<h3>Introduction</h3><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It's put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.<br /><br />In today's post, I'll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.<br /><br /><h3>Library Installation</h3>Before you get downloading and building this library, you'll just need to ensure that you have a build environment installed and are able to compile. <br /><br />At the time of writing this article,&nbsp; the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine.<br /><br />Following along with their building instructions, issuing "make linux test" whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the "make local" option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).<br /><br />When it comes to downloading the latest versions of libraries, I'll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.<br /><br />From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:<br /><br /><pre>.<br />└── lua-5.2.3<br />    ├── include<br />    │&nbsp;&nbsp; ├── lauxlib.h<br />    │&nbsp;&nbsp; ├── luaconf.h<br />    │&nbsp;&nbsp; ├── lua.h<br />    │&nbsp;&nbsp; ├── lua.hpp<br />    │&nbsp;&nbsp; └── lualib.h<br />    └── lib<br />        ├── liblua.a<br />        └── lua<br />            └── 5.2<br /></pre><br />I have all of the development headers available (under the "include" folder) and a static version of the Lua library (under lib).<br /><br /><h3>Building applications</h3>When building Lua applications, you'll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I'd written, the following command line compiled an application for me without any trouble.<br /><br /><pre class="brush: shell">$ g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</pre><br />You can see at the end there, mention of both the "lua" and "dl" libraries.<br /><br /><h3>Test application</h3>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.<br /><br />Here's our Lua script:<br /><br /><script src="https://gist.github.com/tuttlem/8310670.js"></script> <br />Pretty simple. We have one variable "x" set to 10. Now here's the C++ code that we use to read that one variable out and present it to screen.<br /><br /><script src="https://gist.github.com/tuttlem/8310746.js"></script> I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.<br /><br /><br />That's it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

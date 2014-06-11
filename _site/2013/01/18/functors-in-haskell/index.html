@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Functors in Haskell &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Functors in Haskell</h1>
+  <span class="post-date">18 Jan 2013</span>
+  <h1>Functors in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://cogsandlevers.blogspot.com.au/2013/01/derived-instances-for-types-in-haskell.html">In a previous post</a>, I had lightly grazed the surface of the topic of Functors in Haskell and I thought it was time to come back and be a little more comprehensive about it.</div><div><br /></div><div>Without further ado, let's talk about Functors.</div><div><br /></div><h3>What is a Functor?</h3><div>At the code level, a Functor is any type that is an instance of the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Functor">Functor</a> typeclass. At a concept level, a Functor is something that can be mapped over. As soon as anyone says something like this to me I immediately start thinking of any enumerated type (array, list, vector, etc) and this is right.&nbsp;</div><div><br /></div><div>A&nbsp;<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Functor">Functor</a>&nbsp;only needs to implement 1 function, <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:fmap">fmap</a>. How this looks in Haskell is as follows.</div><div><br /><script src="https://gist.github.com/4564195.js"></script></div><div><br /></div><div>Reading this gets to be a mouthful, but bear with me. This definition says: "for my first parameter, I want a function that takes an <b><i>a</i></b> type and returns a <b><i>b</i></b>; for my second parameter, I want an <b><i>a</i></b> value wrapped by this functor and I will return you a <b><i>b</i></b> value wrapped by this functor".<br /><br />I've tried to place emphasis on a's and b's in that previous sentence, otherwise it reads like rather difficult english.<br /><br />Applying this knowledge to a living-breathing example, I'll show you the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#t:Maybe">Maybe</a> type.<br /><br /><script src="https://gist.github.com/4564268.js"></script></div><div>Looking at this we can see that when a "Just" value comes through, it's the value (wrapped in the Just) that has the function applied to it. When nothing comes through, we don't care for the function - we know that the return is going to be Nothing. The important thing to note here is that it's the value (wrapped in the Just) that's being operated on.<br /><br />Seeing this in action always helps an explanation.<br /><br /><pre class="brush:plain">ghci&gt; fmap (replicate 3) (Just 4)<br />Just [4, 4, 4]</pre><br />The way that I read this is: "A function" <b>(fmap)</b>&nbsp;"that takes a function" <b>(replicate 3)</b>&nbsp;"and a functor value" <b>(Just 4)</b>&nbsp;"that then maps that function" <b>(replicate 3)</b>&nbsp;"over the inner value" <b>(4)</b>&nbsp;"which gets wrapped up in the functor" <b>(Just)</b>.<br /><br />This is the best way that I could think of to structure this sentence. It makes sense to me, I hope it helps you also. Again, the important thing to remember is that it's the inner-value that's getting processed which is why we ended up with <i>Just [4, 4, 4]</i>&nbsp;rather than <i>[Just 4, Just 4, Just 4]</i>.<br /><br />Finally, when you're implementing functors of your own there are laws that must be met.<br /><br /><b>Law #1</b>: Mapping the <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:id">id</a>&nbsp;function over any functor value should produce the functor value that we supplied. Meaning:<br /><br /><pre class="brush:plain">fmap id = id</pre><br /><b>Law #2</b>: Mapping two composed functions over a functor value should be the same as functionally composing those two functions. Meaning:<br /><br /><pre class="brush:plain">fmap (f . g) = fmap f . fmap g</pre><br />This second law makes sense once you think about performing fmap over a function, as it's just the same as function composition.<br /><br /><pre class="brush:plain">fmap (*15) (-2) == (*15) . (-2)</pre><br />This post should arm you sufficiently to start inflicting your own Functors on the world.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

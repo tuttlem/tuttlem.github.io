@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/01/09/hadoop-2-2-2-0-setup-on-debian/">
+        Hadoop 2 (2.2.0) setup on Debian
+      </a>
+    </h1>
+
+    <span class="post-date">09 Jan 2014</span>
+
+    <p>Today&#39;s post will just be a walk through of the steps required to install Hadoop 2 on Debian Linux. Please note that this is for a single node installation only. This guide is heavily based on the Ubuntu instructions found <a href="http://codesfusion.blogspot.com.au/2013/10/setup-hadoop-2x-220-on-ubuntu.html">here</a>.</p>
+
+<h3 id="install-java">Install Java</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># install the java jdk</span>
+<span class="nv">$ </span>sudo apt-get install openjdk-7-jdk
+ 
+<span class="c"># make a jdk symlink</span>
+<span class="nv">$ </span><span class="nb">cd</span> /usr/lib/jvm
+<span class="nv">$ </span>ln -s java-7-openjdk-amd64 jdk
+ 
+<span class="c"># make sure that ssh server is installed</span>
+<span class="nv">$ </span>sudo apt-get install openssh-server</code></pre></div>
+
+<h3 id="add-hadoop-users-and-groups">Add Hadoop Users and Groups</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># create a new group for hadoop</span>
+<span class="nv">$ </span>sudo addgroup hadoop
+ 
+<span class="c"># create the hduser and put them in the hadoop group</span>
+<span class="nv">$ </span>sudo adduser --ingroup hadoop hduser
+ 
+<span class="c"># add them to the sudo group also</span>
+<span class="nv">$ </span>sudo adduser hduser sudo</code></pre></div>
+
+<p>Now login as &quot;hduser&quot;.</p>
+
+<h3 id="ssh-certificates">SSH Certificates</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># generate your key</span>
+<span class="nv">$ </span>ssh-keygen -t rsa -P <span class="s1">&#39;&#39;</span>
+ 
+<span class="c"># set your public key as authorized</span>
+<span class="nv">$ </span>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+ 
+<span class="c"># test out ssh</span>
+<span class="nv">$ </span>ssh localhost</code></pre></div>
+
+<h3 id="download-hadoop">Download Hadoop</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># downoad the package</span>
+<span class="nv">$ </span><span class="nb">cd</span> ~
+<span class="nv">$ </span>wget http://mirror.rackcentral.com.au/apache/hadoop/common/hadoop-2.2.0/hadoop-2.2.0.tar.gz
+ 
+<span class="c"># extract the package</span>
+<span class="nv">$ </span>sudo tar vxzf hadoop-2.2.0.tar.gz -C /usr/local
+<span class="nv">$ </span><span class="nb">cd</span> /usr/local
+<span class="nv">$ </span>sudo mv hadoop-2.2.0 hadoop
+ 
+<span class="c"># get the hduser to take ownership</span>
+<span class="nv">$ </span>sudo chown -R hduser:hadoop hadoop</code></pre></div>
+
+<h3 id="setup-environment-variables">Setup Environment Variables</h3>
+
+<p>Add the following lines to your <code>~/.bashrc</code></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Hadoop variables</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk/
+<span class="nb">export </span><span class="nv">HADOOP_INSTALL</span><span class="o">=</span>/usr/local/hadoop
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HADOOP_INSTALL</span>/bin
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HADOOP_INSTALL</span>/sbin
+<span class="nb">export </span><span class="nv">HADOOP_MAPRED_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">HADOOP_COMMON_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">HADOOP_HDFS_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span>
+<span class="nb">export </span><span class="nv">YARN_HOME</span><span class="o">=</span><span class="nv">$HADOOP_INSTALL</span></code></pre></div>
+
+<p>Add the following lines to <code>/usr/local/hadoop/etc/hadoop/hadoop-env.sh</code></p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># modify JAVA_HOME</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk/</code></pre></div>
+
+<p>Re-login to your machine as hduser, and check the hadoop version.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>hadoop version</code></pre></div>
+
+<h3 id="configure-hadoop">Configure Hadoop</h3>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/core-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>hdfs://localhost:9000<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/yarn-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>mapreduce_shuffle<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Make a copy of the mapred-site template file</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mv mapred-site.xml.template mapred-site.xml
+<span class="nv">$ </span>vi mapred-site.xml</code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node within <code>/usr/local/hadoop/etc/hadoop/mapred-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>mapreduce.framework.name<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>yarn<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<h3 id="prepare-the-filesystem">Prepare the Filesystem</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># create the physical directories</span>
+<span class="nv">$ </span><span class="nb">cd</span> ~
+<span class="nv">$ </span>mkdir -p mydata/hdfs/namenode
+<span class="nv">$ </span>mkdir -p mydata/hdfs/datanode</code></pre></div>
+
+<p>Add the following lines into the <code>&lt;configuration&gt;</code> node <code>/usr/local/hadoop/etc/hadoop/hdfs-site.xml</code></p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>1<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.namenode.name.dir<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>file:/home/hduser/mydata/hdfs/namenode<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;property&gt;</span>
+   <span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir<span class="nt">&lt;/name&gt;</span>
+   <span class="nt">&lt;value&gt;</span>file:/home/hduser/mydata/hdfs/datanode<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/property&gt;</span></code></pre></div>
+
+<p>Format the namenode</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>hdfs namenode -format</code></pre></div>
+
+<h3 id="start-hadoop">Start Hadoop</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>start-dfs.sh
+<span class="nv">$ </span>start-yarn.sh
+ 
+<span class="c"># check that services are running</span>
+<span class="nv">$ </span>jps</code></pre></div>
+
+<p>Run the Example</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> /usr/local/hadoop
+<span class="nv">$ </span>hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5</code></pre></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/01/08/getting-started-with-lua-using-c/">
+        Getting started with Lua using C++
+      </a>
+    </h1>
+
+    <span class="post-date">08 Jan 2014</span>
+
+    <h1>Getting started with Lua using C++</h1>
+<div class='post'>
+<h3>Introduction</h3><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It's put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.<br /><br />In today's post, I'll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.<br /><br /><h3>Library Installation</h3>Before you get downloading and building this library, you'll just need to ensure that you have a build environment installed and are able to compile. <br /><br />At the time of writing this article,&nbsp; the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine.<br /><br />Following along with their building instructions, issuing "make linux test" whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the "make local" option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).<br /><br />When it comes to downloading the latest versions of libraries, I'll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.<br /><br />From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:<br /><br /><pre>.<br />└── lua-5.2.3<br />    ├── include<br />    │&nbsp;&nbsp; ├── lauxlib.h<br />    │&nbsp;&nbsp; ├── luaconf.h<br />    │&nbsp;&nbsp; ├── lua.h<br />    │&nbsp;&nbsp; ├── lua.hpp<br />    │&nbsp;&nbsp; └── lualib.h<br />    └── lib<br />        ├── liblua.a<br />        └── lua<br />            └── 5.2<br /></pre><br />I have all of the development headers available (under the "include" folder) and a static version of the Lua library (under lib).<br /><br /><h3>Building applications</h3>When building Lua applications, you'll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I'd written, the following command line compiled an application for me without any trouble.<br /><br /><pre class="brush: shell">$ g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</pre><br />You can see at the end there, mention of both the "lua" and "dl" libraries.<br /><br /><h3>Test application</h3>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.<br /><br />Here's our Lua script:<br /><br /><script src="https://gist.github.com/tuttlem/8310670.js"></script> <br />Pretty simple. We have one variable "x" set to 10. Now here's the C++ code that we use to read that one variable out and present it to screen.<br /><br /><script src="https://gist.github.com/tuttlem/8310746.js"></script> I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.<br /><br /><br />That's it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/01/06/windows-development-with-masm32-part-7/">
+        Windows Development with MASM32 (part 7)
+      </a>
+    </h1>
+
+    <span class="post-date">06 Jan 2014</span>
+
+    <h1>Windows Development with MASM32 (part 7)</h1>
+<div class='post'>
+Windows Resource Compiler</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/01/05/installing-sdl2-on-linux/">
+        Installing SDL2 on Linux
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2014</span>
+
+    <h1>Installing SDL2 on Linux</h1>
+<div class='post'>
+<h3>Introduction</h3><a href="http://www.libsdl.org/download-2.0.php">SDL2</a> was released a little while ago, but still hasn't made it into the stable repositories of some Linux distributions. After doing a big of digging, it's not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums <a href="http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu">here</a>.<br /><br />In today's post, we'll install SDL2 on a Debian/Ubuntu style distribution from source.<br /><h3>Dependencies</h3>First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:<br /><br /><pre class="brush: shell">$ sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev</pre><br />Once all of these have installed successfully, you'll need to download a copy of the source. All downloads can be found <a href="http://www.libsdl.org/download-2.0.php">here</a>. This guide will assume that you'll download the .tar.gz source archive.<br /><br /><h3>Compilation and Installation</h3>Extract the package into a directory under your home directory, somewhere . . .<br /><br /><pre class="brush: shell">$ tar -xzf SDL2-*.tar.gz<br />$ cd SDL2-*</pre><br />Next we'll configure, build and install the libraries.<br /><br /><pre class="brush: shell">$ ./configure<br />$ make<br />$ sudo make install</pre><br />Once compilation and installation have complete, you'll need to update your library links/cache. Do this with the following command:<br /><br /><pre class="brush: shell">$ sudo ldconfig</pre><br /><br />That's all there is to it.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/01/02/introducing-lanyon/">
+        Introducing Lanyon
+      </a>
+    </h1>
+
+    <span class="post-date">02 Jan 2014</span>
+
+    <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It&#39;s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
+
+<h3 id="built-on-poole">Built on Poole</h3>
+
+<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
+
+<ul>
+<li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
+<li>Mobile friendly design and development</li>
+<li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
+<li>Support for a wide gamut of HTML elements</li>
+<li>Related posts (time-based, because Jekyll) below each post</li>
+<li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
+</ul>
+
+<h3 id="lanyon-features">Lanyon features</h3>
+
+<p>In addition to the features of Poole, Lanyon adds the following:</p>
+
+<ul>
+<li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
+<li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
+<li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code>&lt;body&gt;</code> classes</li>
+<li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code>&lt;body&gt;</code> classes</li>
+</ul>
+
+<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
+
+<h3 id="browser-support">Browser support</h3>
+
+<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
+
+<h3 id="download">Download</h3>
+
+<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
+
+<p>Thanks!</p>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page6">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page4">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

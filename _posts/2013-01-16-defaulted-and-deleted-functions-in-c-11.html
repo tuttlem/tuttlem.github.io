@@ -1,0 +1,13 @@
+---
+layout: post
+title: Defaulted and Deleted Functions in C++11
+date: 2013-01-16
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+A default (and more efficient) implementation can be given to your functions using the "default" keyword. This is the usage of a defaulted function in C++11.&nbsp;In this example, my "person" class has no written implementation for its constructor or destructor.<br /><br /><script src="https://gist.github.com/4543939.js"></script> The opposite to a defaulted function is a deleted function. The deleted function allows you to remove the implementation of a function by specifying the "delete" keyword. In C++ this is useful to us if we want to remove the copy constructor from classes that C++ so nicely provides for us. In this example, you can see that we've shut down the copy constructor as well as the assignment operator so that copying will no longer be supported.<br /><br /><script src="https://gist.github.com/4543965.js"></script> <br />That's it for these two features. Simple, but effective.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      2D in OpenGL &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">2D in OpenGL</h1>
+  <span class="post-date">01 Dec 2012</span>
+  <h1>2D in OpenGL</h1>
+<div class='post'>
+Whilst OpenGL enjoys a lot of fame as a 3D graphics package, it's also a fully featured 2D graphics library as well. In this short tutorial, I'll walk you through the code required to put OpenGL into 2D mode.<br /><div><br /></div><div>This tutorial does assume that you're ready to run some OpenGL code. It won't be a primer in how to use SDL or GLUT, etc.</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4180890.js?file=gistfile1.c"></script></div><div><br />First off, we use <a href="http://www.opengl.org/sdk/docs/man/xhtml/glGet.xml">glGetIntegerv</a><span id="goog_1753577021"></span><span id="goog_1753577022"></span><a href="http://www.blogger.com/"></a>&nbsp;to read the dimensions of the viewport. You will probably already have these values on hand anyway, but getting the viewport this way just generalises the code and it's not expensive to do so.<br /><br />We generate an orthographic matrix next using <a href="http://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml">glOrtho</a>&nbsp;and the viewport information we retrieved in the first step. The model view matrix is then kept clean - out of habbit, i'd say and finally <a href="http://www.khronos.org/opengles/documentation/opengles1_0/html/glEnable.html">glDisable</a>&nbsp;is used to turn off depth testing.<br /><br />We're in 2D. No Z-Axis, no depth testing!<br /><br />That's it! You can draw what you need to as simply as this:<br /><br /><script src="https://gist.github.com/4180941.js?file=gistfile1.c"></script> <br />Have fun.<br /><br />Quick update to this one - I switched the parameters around in the call to&nbsp;<a href="http://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml">glOrtho</a>&nbsp;so that it's a much more natural drawing experience (putting 0,0 in the top left hand corner of the screen). It's not perfect mathematically but it sure does help any of your existing code that assumes your screen goes positive to the right and positive to the bottom!&nbsp;</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

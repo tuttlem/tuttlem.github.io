@@ -1,0 +1,13 @@
+---
+layout: post
+title: Testing REST APIs with cURL
+date: 2013-05-16
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3>Testing is a large component of any software development done, sometimes though - you don't want to go through a full unit test suite just to see what a REST service is doing. I've come across some interesting concepts with cURL that will certainly be a shortcut benefit to seeing what responses your REST services are returning.<br /><br /><h3>Requests</h3>You can simulate all of the different HTTP verbs against any URL you'd like using cURL with the following syntax at the console:<br /><br />Retrieve person (id: 1)<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people/1</pre><br /><br />Retrieve all people<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people</pre><br /><br />Delete person (id: 1)<br /><pre class="brush: shell">$ curl -i -X DELETE http://localhost/service/people/1</pre><br /><br />Create a new person<br /><pre class="brush: shell">$ curl -i -X POST -H 'Content-Type: application/json' -d '{"first_name": "John", "last_name": "Smith"}' http://localhost/service/people</pre><br /><br />Modify a person (id: 1)<br /><pre class="brush: shell">$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"first_name": "Jane", "last_name": "Smith"}' http://localhost/service/people/1</pre><br /><br />Only a quick one.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

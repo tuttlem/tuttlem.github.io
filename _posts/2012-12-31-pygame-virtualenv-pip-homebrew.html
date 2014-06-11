@@ -1,0 +1,13 @@
+---
+layout: post
+title: Pygame, Virtualenv, PIP & Homebrew
+date: 2012-12-31
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+I finally just got an installation up and running on my MBP for pygame inside of virtualenv. It took a little bit of investigation, but the following should get anyone out of the installation rut (if they're interested in keeping their environments isolated).<br /><br />First, all of your SDL stuff should be installed before going any further. If it's not, it's as easy as this from the command shell.<br /><br /><pre>$ brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi</pre><br />You're almost done. Create your virtual environment and switch into it. Once you've done that, you just need to issue the following and you're done.<br /><br /><pre>$ pip install hg+http://bitbucket.org/pygame/pygame</pre><br />That will grind away and before you know it, you're ready to go.<br /><br />Then it's onto reading <a href="http://thepythongamebook.com/en:pygame:step000">The Python Game Book</a>, <a href="http://www.pygame.org/docs/tut/chimp/ChimpLineByLine.html">The Line-by-Line Chimp Example</a>&nbsp;and any other tutorials you can <a href="http://www.pygame.org/wiki/tutorials">get your hands on</a>.<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

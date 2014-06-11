@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/09/making-cleaner-nasm-code-with-macros/">
+        Making Cleaner NASM Code with Macros
+      </a>
+    </h1>
+
+    <span class="post-date">09 Jan 2013</span>
+
+    <h1>Making Cleaner NASM Code with Macros</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Cleaner, clearer code is better. It's easier to debug, it's easier to read, it's just plain - better. Assembly code isn't known for its ability to allow the developer to make their intentions clear in its source code, but we can get closer with some carefully craft macros.</div><div><br /></div><div>Macros are symbols that you can use in your code to represent a block of code. Macros are allowed to take parameters which makes them an extremely flexible and valuable tool in your arsenal. These symbols that you use in your code are swapped out by nasm at the time of assembly for the blocks of code that they represent.</div><div><br /></div><div>If you want to go further in depth to the nasm pre-processor and macros, check it out in the manual <a href="http://www.nasm.us/doc/nasmdoc4.html">here</a>.</div><div><br /></div><div>Today's post will be focused on cleaning up the code that we'd written in <a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">this</a> previous article to look a little more human.</div><div><br /></div><h3>Revisiting write and strlen</h3><div>In the previous article "<a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">strlen() implementation in NASM</a>", we'd put together a couple of ways to take the length of a string. This article will assume that we're already using this code. With this in mind, we can put together a general purpose print function that will display a zero terminated string with the following.</div><div><br /><script src="https://gist.github.com/4492430.js"></script></div><div><br /></div><div><br /></div><div>Ok, that's a nice and neat little bundle. Now, everytime that we want to call this function, we need to write code that looks like the following.<br /><br /><script src="https://gist.github.com/4492450.js"></script></div><div><br />Which, isn't too bad I guess. We can make it look better though. Consider the following code that wraps this code into a macro.<br /><br /><script src="https://gist.github.com/4492469.js"></script> <br />The syntax here may look a little alien to begin with, but it'll all make sense in a minute. So, we start the macro block off with a "%macro" directive. What follows is the name of the macro, in this case "print" and after that is the number of parameters that this macro will expect (we want one parameter, being the string to print). We have the print code between the directives. You'll see that rdi gets loaded with "%1" which just means "replace %1 with the first thing passed to this macro". To finish up your macro, you have "%endmacro".<br /><br />With that macro defined, you can now print a message to screen by doing this.<br /><br /><script src="https://gist.github.com/4492503.js"></script> <br />This is starting to look a little higher-level now. A bit more "human" on the eyes.<br /><br />Another nifty trick that I'd picked up a while ago was a macro for defining strings. In all of the examples we've seen so far, you'd declare strings in the data segment with the following syntax.<br /><br /><script src="https://gist.github.com/4492529.js"></script> <br />This is perfectly fine, however we can wrap this string declaration up into a macro of its own as well allowing us to define strings where ever we are. We need to be careful though. Defining a string in the code segment without the appropriate jumps is dangerous as we run the risk of executing the string data. The following macro does this safely.<br /><br /><script src="https://gist.github.com/4492549.js"></script> You can see that we've declared a macro that expects two parameters. The first parameter is the name of the variable that we declare. This name is also used to formulate the labels that we jump to so that they are unique between string definitions. The second parameter is the actual string data itself.<br /><br />Now that we have both of these macros defined, the following code is perfectly legal and works a treat.<br /><br /><script src="https://gist.github.com/4492568.js"></script> <br />Well, this is only the start of what you can accomplish with macros. An exercise to the reader would be to implement your own version of "print" that prints a new line after it prints the string - you never know, you might even want to call it "println"!<br /><br />Enjoy.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/09/a-light-cron-tutorial/">
+        A Light cron Tutorial
+      </a>
+    </h1>
+
+    <span class="post-date">09 Jan 2013</span>
+
+    <h1>A Light cron Tutorial</h1>
+<div class='post'>
+<h3>Introduction</h3><div><a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;is the time-based task scheduler for Unix. I think the wikipedia article sums up its description best, so I won't try and reproduce it:</div><blockquote class="tr_bq">Cron is the time-based job scheduler in Unix-like computer operating systems. Cron enables users to schedule jobs (commands or shell scripts) to run periodically at certain times or dates.</blockquote>Today's post will be a light tutorial in setting up jobs using&nbsp;<a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;.<br /><br /><h3>&nbsp;Job types</h3><div>Within the&nbsp;<a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;system there are two flavors of tasks. The first is at the system level the other is at the user level. The main difference being, the system level tasks (controlled by administrators) are able to run as any particular user. User jobs are setup by the user and installed for the user.</div><div><br /></div><h3>Job installation and modification</h3><div>Start an editing session of the cron table (<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html">crontab</a>) by issuing the following command.</div><div><br /><pre class="brush:shell;">$ crontab -e</pre></div><div><br />You'll now be looking at the job definitions that are setup.<br /><br />To add a job to the list, you need to add it in the following format.<br /><br /><pre class="brush:plain">Minute Hours Day Month DayOfWeek Command [args]</pre><br /><ul><li>"Minute" is specified as (0 - 59)</li><li>"Hours" is specified as (0 - 23)</li><li>"Day" is specified as (0 - 31)</li><li>"Month" is specified as (0 - 12 where 12 is December)</li><li>"DayOfWeek" is specified as (0 - 7 where 7 or 0 are Sunday)</li><li>"Command" is the shell command you want to execute</li></ul><div>For a system level task, a new field to specify the username is added into this format.</div><div><br /></div><div><pre class="brush:plain">Minute Hours Day Month DayOfWeek Username Command [args]</pre><br /><ul></ul></div><div>This will only apply to system level tasks that are added. Operators can be used in conjunction with literal values to short-cut some of the more common tasks.<br /><br /><ul><li>Use an asterisk (*) to define all values for a field</li><li>Use a comma (,) to separate multiple values for a field</li><li>Use a dash (-) to define a range</li></ul></div><div>To make some more sense out of the time fields, here are a few examples and when they'd execute.</div><div><br /></div><div><table><tbody><tr><td><b>crontab entry</b></td><td><b>interval</b></td></tr><tr><td>0 1 * * * script.sh</td><td>Run at 1 in the morning everyday</td></tr><tr><td>0 6 1 * * script.sh</td><td>Run at 6am on the first of every month</td></tr><tr><td>0 11 * * 1-5 script.sh</td><td>Run at 11am every weekday</td></tr><tr><td>0 17 5 5 *</td><td>Run at 5 in the afternoon on the 5th of May</td></tr><tr><td>0 7-19/2 * * *</td><td>Run every 2 hours from 7 in the morning until 7 at night</td></tr></tbody></table><br />Out of the box, a cron job will email your local unix account with the results of the job run. If you don't want to receive this email just pipe the output of your cron command to null, like so.<br /><br /><pre class="brush:plain">0 7 * * * test.sh &gt;/dev/null 2&gt;&amp;1</pre><br />Some short-cut "special variables" that you can use in conjunction with the times that these jobs run look like this (these really clean up the way a crontab reads).<br /><br /><table><tbody><tr><td><b>variable</b></td><td><b>meaning</b></td><td><b>cron equiv.</b></td></tr><tr><td>@reboot</td><td>Run once, at startup</td><td><br /></td></tr><tr><td>@yearly /&nbsp;@annually</td><td>Run once per year&nbsp;</td><td>0 0 1 1 *</td></tr><tr><td>@monthly</td><td>Run once per month</td><td>0 0 1 * *</td></tr><tr><td>@weekly</td><td>Run once per week</td><td>0 0 * * 0</td></tr><tr><td>@daily /&nbsp;@midnight</td><td>Run once per day</td><td>0 0 * * *</td></tr><tr><td>@hourly</td><td>Run once per hour</td><td>0 * * * *</td></tr></tbody></table><br /><h3>Other maintenance</h3><div>You can list the cron table with the following command.</div><div><br /><pre class="brush:shell;"># crontab -l<br /># crontab -u user -l</pre></div><br />You can remove all entries out of the cron table with the following command.<br /><br /><pre class="brush:shell;"># crontab -r<br /># crontab -u user -r</pre><br /><br /><br />That's it! A nice light tutorial.</div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/08/strlen-implementation-in-nasm/">
+        strlen() implementation in NASM
+      </a>
+    </h1>
+
+    <span class="post-date">08 Jan 2013</span>
+
+    <h1>strlen() implementation in NASM</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Seeing so many "Hello, world" concepts for getting up an running in Assembly has annoyed me a little bit. I see people using the "$ - msg" macro to calculate the length of their string at assemble time.</div><div><br /></div><div>In today's post, I'll show you how to measure the length of your string at runtime so you'll be able to provide the <a href="http://en.wikipedia.org/wiki/Write_(system_call)">write</a>&nbsp;syscall's third parameter a little more flexibly.&nbsp;</div><div><br /></div><h3>The logic</h3><div>The logic behind this procedure is dead-simple. Test the current byte for being null, if it is get out now if its not keep counting! Here's how the code looks.</div><div><br /><script src="https://gist.github.com/4478792.js"></script></div><div>This is just straight-forward memory testing, no great advancements in computer science here! The function expects that the string that requires testing will be in the rdi register.<br /><br />To actually use this function in your application though, you'll need to transport the result (which sits in rax by the time the function has completed execution) into the register that write expects its length parameter. On a debian linux system, the length is expected in rdx which there is an example of <a href="http://cogsandlevers.blogspot.com.au/2012/11/hello-64bit-assembly.html">here</a>. OSX's ABI is slightly different but confusingly expects the length in the same register. You can read up on that <a href="http://cogsandlevers.blogspot.com.au/2013/01/assembly-on-osx.html">here</a>.<br /><br />Here's how you use your new strlen function (in the Debian scenario).<br /><br /><script src="https://gist.github.com/4478850.js"></script> So you can see that this is quite straight forward. We setup rdx before we setup the rest of the registers. We could have done this the other way around - to be on the safe side, I've done it this way as you never know what registers get mowed over in people's functions.<br /><br />I tried to help this also in the _strlen implementation by saving the only work register that I use (rcx).<br /><br />Anyway, that's how you measure your string.<br /><br /><h3>A more optimal way?</h3></div><div>After completing this article, I'd thought about the "brute-forcish" way that I'd crunched out the numbers to derive a string's length and thought to myself, what if I could just scan the string of bytes - find the null character and subtract this found index from the original starting point. Mathematically I would have calculated the distance in bytes between the start of the string and the NULL character, ergo the string length.</div><div><br /></div><div>So, I've written a new string length implementation that does just this and here it is.</div><div><br /><script src="https://gist.github.com/4480719.js"></script></div><div><br />It may look longer than the first implementation however this second implementation uses <a href="http://courses.engr.illinois.edu/ece390/archive/spr2002/books/labmanual/inst-ref-scasb.html">SCASB</a>&nbsp;which will be heaps more optimal than my hand-rolled loop.<br /><br />Enjoy.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/08/printing-a-register-s-value-in-hex/">
+        Printing a Register's Value in Hex
+      </a>
+    </h1>
+
+    <span class="post-date">08 Jan 2013</span>
+
+    <h1>Printing a Register's Value in Hex</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Putting some of the knowledge we've picked up in <a href="http://cogsandlevers.blogspot.com.au/2013/01/assembly-on-osx.html">previous</a> <a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">posts</a>, todays post is going to be about getting the value that sits in a register out on screen. This post will assume that we're not going to lean on a call like printf, we're going to do it by hand.</div><div><br /></div><h3>How to attack the problem?</h3><div>The solution that I present may immediately strike your eye as verbose &amp; long-winded and this is on purpose. We're going to build something that works to begin with then we can do an analysis of what we've written and optimise it later.</div><div><br /></div><div>I've split the larger problem of printing a register's value (in this case we're printing RAX) into a few smaller problems so as we knock off each problem, we get closer to an overall result. The sub-problems that I have cut this into are:</div><div><ul><li>Printing a nibble (half a byte or 4bit value)</li><li>Printing a byte</li><li>Printing the register value</li></ul><div>So you can see that we're going to implement a solution by solving these smaller issues top to bottom. Let's take a look at some code.</div></div><div><br /></div><h3>Characters and Nibbles</h3><div>We're going to print a nibble. A nibble is 4 bits of data spanning values from 0 up to F hexadecimal or 0 up to 15 in decimal. The plan of attack is to isolate this 4 bits in such a way that we can use it as an offset into a string of characters organised from 0 up to F.&nbsp;</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4483534.js"></script></div><div><br /></div><div><br /></div><div>The code is documented pretty well, and you can see that the crux of the work is just offsetting the base address of the string by the nibble that we want to print. Nifty. Keep in mind that the registers used here are assuming that you're compiling for OSX. If you are compiling for another type of unix make sure that the parameters are being passed through the correct registers, otherwise you'll be segfaulting all the way to the pub!<br /><br /><h3>Stepping up to a byte</h3></div><div>Now we want to chain two "_print_nibble" calls together so that we can print an entire byte out on the screen (0 up to FF). We've already got a procedure that prints the lower 4 bits of al out to the screen, all we really need to do is be creative with al so we can print the higher 4 bits first then the lower 4 bits so that the number comes out to the console in the right order!</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4483628.js"></script></div><div><br /></div><div><br /></div><div>This function holds the same assumption as printing a nibble. There can't be any junk in the higher bits (from al) of rax otherwise this solution will turn to mud.<br /><br /><h3>Going the whole hog!</h3></div><div>We're now able to print any byte we would like, so lets string 8 bytes together to make a 64bit integer that we can print. Again, it's all about shuffling the value that we want to print around correctly so that the number is written to the console in the correct order. It might be confusing to see pushes and pops inside of the loop that I'll present, but I re-use these registers to calculate things on the fly.</div><div><br /></div><div>Again, I've commented this code pretty verbosely so it should read like a bedtime story. Here's the code.</div><div><br /><script src="https://gist.github.com/4483840.js"></script></div><div><br /></div><div><br /></div><div>The key is byte isolation. Using rcx we can count from the top byte down to the bottom with creative shifting.<br /><br />Now that we've implemented all of this code, we can print some boobies to the screen. This is the moment you've been waiting for.<br /><br /><script src="https://gist.github.com/4483880.js"></script> <br />The output of which should just print "B000B135B000B135" to the console. Yes, there's boobies in the article, see!<br /><br />Whilst this may not appear to be the most useful function right now, it'll serve as a very useful debugging tool for us in the future.<br /><br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/07/assembly-on-osx/">
+        Assembly on OSX
+      </a>
+    </h1>
+
+    <span class="post-date">07 Jan 2013</span>
+
+    <h1>Assembly on OSX</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've <a href="http://cogsandlevers.blogspot.com.au/2012/11/hello-64bit-assembly.html">previously written</a> about writing "Hello World" applications in assembly for 64bit architectures in a Unix environment, however I haven't written about the nuances of doing this in OSX.</div><div><br /></div><div>My primary environment that I work in at home is OSX, so I wanted to get this post out of the way anyway so that I've got assembly &amp; linking instructions written down. To follow along, you'll want to install <a href="http://www.nasm.us/">NASM</a>.</div><div><br /></div><h3>The Code</h3><div><br /><script src="https://gist.github.com/4474479.js"></script></div><br />I've tried to comment the code above as best I can. It's pretty clear to see that we're calling the <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?write+2">write</a> and <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?exit+2">exit</a> syscalls. The only line that stands out is having to adjust esp after our write syscall. Regardless, this is what OSX expects!<br /><br />Building this application into something runnable for mach is pretty simple. You assemble the file into an object file like so.<br /><br /><pre class="brush:shell">$ nasm -f macho hello.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello hello.o</pre><br />Pretty simple. You're now ready to attack OSX with your assembler!<br /><br /><h3>In 64bits please!</h3><div>Continuing the discussion a bit further, we can bring our program into today by upgrading NASM to a version that supports the macho64 format. The source to our program changes a bit, especially the way that we pass parameters into our syscalls now. The <a href="http://en.wikipedia.org/wiki/Application_binary_interface">ABI</a> had changed dramatically favouring separate registers to pass values as opposed to using the stack.<br /><br />Here's the 64bit source.</div><div><br /></div><div><br /><script src="https://gist.github.com/4474618.js"></script></div><div><br /></div><div><br /></div>It still does look a lot like its 32bit counterpart. Notice how we're not magically adjusting esp by hand now? Those parameters being passed as registers has helped!<br /><br />Assembling your 64bit assembly code now looks like this.<br /><br /><pre class="brush:shell">$ nasm -f macho64 hello64.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello64 hello64.o</pre><br />This is a good place to be. Now you've got choice!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page23">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page21">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

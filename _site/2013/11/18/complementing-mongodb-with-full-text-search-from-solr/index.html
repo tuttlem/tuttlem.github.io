@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Complementing MongoDB with Full Text Search from Solr &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Complementing MongoDB with Full Text Search from Solr</h1>
+  <span class="post-date">18 Nov 2013</span>
+  <h1>Complementing MongoDB with Full Text Search from Solr</h1>
+<div class='post'>
+<h3>Introduction</h3>MongoDB is a great database, but one area that I've noticed it's been deficient in is full text search. Thankfully, there are some great tools around that we can employ to compliment Mongo and give it this functionality.<br /><br />Today's post will be a walk through to getting Solr &amp; mongo-connector installed and configured on Debian Wheezy.<br /><br /><h3>Get the software</h3>First up, install Solr on tomcat with the tomcat administration tools<br /><br /><pre class="brush: shell">$ sudo apt-get install solr-tomcat tomcat6-admin</pre><br />Straight after this has installed, you'll need to configure a user to access these applications. Use your favorite text editor and open /etc/tomcat6/tomcat-users.xml. This file (like all of the configuration files) is really well commented. The steps I took here were:<br /><ul><li>Added a "role" node for "manager-gui"</li><li>Added "manager-gui" as a role to the "tomcat" user</li></ul>In the end, you should have something sort-of like this:<br /><br /><pre class="brush: plain">&lt;role rolename="tomcat"/&gt;<br />&lt;role rolename="manager-gui"/&gt;<br />&lt;user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/&gt; <br /></pre><br />Now that you've finished configuring all of the user access, restart tomcat.<br /><br /><pre class="brush: shell">$ sudo service tomcat restart</pre><br />You can now check that tomcat is up and running by pointing your web browser at <a href="http://localhost:8080/">http://localhost:8080/</a>. When you click on the manager-app link, you'll be prompted for a username and password. As defined by the user configuration above, the username is "tomcat" and the password is "tomcat". Have a click around, you should also see Solr installed in there also. <br /><br /><h3>Solr Schema</h3>Now it's time we tell Solr exactly what we want to index. Remember, it's going to be a client to our mongo database - so any interesting fields that you want indexed will need to be mentioned here.<br /><br />Solr's schema file is found at /etc/solr/conf/schema.xml. Everyone's requirements are way to broad for me to go into depth here on what to do, but it would be a good time to look up the documentation and learn about how you want your data attributed: <a href="http://wiki.apache.org/solr/SchemaXml">http://wiki.apache.org/solr/SchemaXml</a>.<br /><br /><h3>Connecting to Mongo</h3>Next, we're going to connect Solr to mongo using <a href="http://blog.mongodb.org/post/29127828146/introducing-mongo-connector">mongo-connect</a>. There's some more software that's needed to be installed here. mongo-connect is a python package that listens to mongo's oplog for "interesting" things, and then stores them away into Solr for fast searching later.<br /><br />We will need pip.<br /><br /><pre class="brush: shell">$ sudo apt-get install python-dev python-pip</pre><br />We're also going to need some xml dependencies that mongo-connect relies on.<br /><br /><pre class="brush: shell">$ sudo apt-get install libxml2 libxml2-dev libxslt-dev</pre><br />Install the lxml &amp; cssselect python packages<br /><br /><pre class="brush: shell">$ sudo pip install lxml cssselect</pre><br />Finally, we install the mongo-connector <br /><br /><pre class="brush: shell">$ sudo pip install mongo-connector</pre><br /><h3>Running the connector</h3>Now that you're all installed, it's time to start indexing some data. Again, everyone's requirements are going to be quite different - so it's a good time to go out and take a look at the <a href="https://github.com/10gen-labs/mongo-connector">mongo-connector github page</a> to understand the full usage of the command.<br /><br />A typical execution of the command would look like this:<br /><br /><pre class="brush: shell">$ mongo-connector -m localhost:27217 -t http://localhost:8080/solr -o oplog_progress.txt -n alpha.foo,test.test -u _id -k auth.txt -a admin -d ./doc_managers/solr_doc_manager.py</pre><br />From here, mongo-connector listens to changes and stores them away in Solr so that your full text search facility has them available.<br /><br />That's it for Solr &amp; MongoDB.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

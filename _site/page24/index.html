@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/05/os-kernel-development-library-routines/">
+        Os Kernel Development Library Routines
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2013</span>
+
+    <h1>Os Kernel Development Library Routines</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In the <a href="http://cogsandlevers.blogspot.com.au/2013/01/os-kernel-development-bootloader.html">previous post</a> to this series, we implemented a boot loader that would integrate with the multi-boot standard to get your kernel going (in first gear). It's time to change gears and make our life a little easier by implementing some library routines that we'll use a lot of.</div><div><br /></div><h3>What routines will we need?</h3><div>By keeping the scope minimal we won't overwhelm ourselves and just leave this project in a steaming heap in the corner. I think if we can get the following accomplished, we'll be in a really good place to start with.</div><div><ul><li>Port communication I/O</li><li>Basic console handling</li></ul><div>There's still a mountain of work for us in the library arena. But if we can get these two knocked off, we'll at least be able to get our kernel to say something when it boots up rather than that rather unfriendly blank screen.</div></div><div><br /></div><h3>Ports</h3><div>We set different pieces of hardware state on our computer by pushing data out to ports. We also find out state information about our computer by drawing data from these ports. In our particular case, we want to know where the cursor is on screen we also want to be able to move the cursor about. These things don't just happen by themselves you know, there is underlying magic with ports to give the console a human feel.</div><div><br /></div><div>The following code will allow us to read in a byte (8 bits), read in a short (16 bits) and write a byte to and from the ports.</div><div><br /><script src="https://gist.github.com/4461056.js"></script></div><div><br /></div><div><br /></div><div>If we wanted to, we could have implemented these directly in an assembly module. These do assume that a particular architecture has been chosen for your kernel, so the portability of this code is minimal.<br /><br /><h3>Console</h3></div><div>Now that we have a few routines that will allow us to do some port communication, we can put these to work by doing our console simulation.</div><div><br /></div><div>The console itself is represented on screen as a cartesian plane but it's certainly not this way in memory. In memory the console is a linear block of memory that has a pair of bytes per cell on the screen. One byte being for the actual character in that cell and the other byte to decorate that cell (background &amp; foreground colours). This memory buffer is located at segment 0xB800 (of course, again, on an intel architecture).</div><div><br /></div><div>The block of most interest when putting a character on screen looks like this.</div><div><br /><script src="https://gist.github.com/4461077.js"></script></div><div><br /></div><div>You can see that we're handling cases for backspace, tab, line feed &amp; carriage return and of course any actual character that we want printed. Most of the others are just routine cursor maintenance. The last segment in the if tree, you can see that location is calculated and then the char is spat into the cell.<br /><br />Writing a string to the console makes great use of this char writer.<br /><br />The full source to these routines can be found in my GitHub repository for Phoenix, <a href="https://github.com/tuttlem/phoenix/">here</a>.</div><div><br /></div><div><br /></div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/05/loading-an-image-with-sdl-image-for-opengl/">
+        Loading an image with SDL_Image for OpenGL
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2013</span>
+
+    <h1>Loading an image with SDL_Image for OpenGL</h1>
+<div class='post'>
+<h3>Introduction</h3><div>One of those "routine tasks" that comes up each time I go to write a game in C/C++ is loading an image using SDL and getting it in context of OpenGL. Today I'll post the code that I use to get the job done. It's pretty common code and straight forward so it won't need much explanation.</div><div><br /></div><h3>The Code</h3><div>First up, we have some variables that I like to hang on to. Your choice weather you hold onto the the format and number of colours, but you'll certainly want to keep track of the texture variable.</div><div><br /><script src="https://gist.github.com/4460207.js"></script></div><div><br />Next up is the crux of the work. The file/IO and transformation is really done by the <a href="http://www.libsdl.org/projects/SDL_image/">SDL_Image</a> library. So helpful, so easy! Keep in mind that you'll need to link against it at compile time (-lSDL_Image).<br /><br /><script src="https://gist.github.com/4460230.js"></script> The code does assume that you're giving this program a texture with dimensions on the power-of-2 as OpenGL expects. If you don't - it's at your own peril. Like I said, there's nothing really out of the ordinary here. Load the file, find out some format parameters, build the OpenGL texture.<br /><br />At this point we have a texture that we can call <a href="http://www.khronos.org/opengles/sdk/docs/man/xhtml/glBindTexture.xml">glBindTexture</a> on, ready to go. You will want to make sure that TEXTURE_2D is enabled of course during your program's initialisation.<br /><br />Tearing down is really quite simple (and naturally OpenGL) also.<br /><br /><script src="https://gist.github.com/4460259.js"></script> Job's done!<br /><br />If you are interested, I've encapsulated a fair bit of this in an SDL helper library that I'm building at the moment called sdlper. You can grab it from my GitHub repository <a href="https://github.com/tuttlem/libsdlper/">here</a>.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/05/either-type-in-haskell/">
+        Either type in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2013</span>
+
+    <h1>Either type in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Doing some further work in the world of Haskell and have come across the <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a> type from the base library on a few occasions. Today I'll post about how to work with this type as you'll come across it a bit and it is quite handy.</div><div><br /></div><h3>Background</h3><div>Just as its english counterpart describes,&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;can represent one value or another. Scenarios where this might be the return value from a function where you may get the successful result value or you might get an error value.</div><div><br /></div><div>The&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;data type is defined as follows.</div><div><br /><script src="https://gist.github.com/4459889.js"></script></div><div><br />You construct an&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;by calling either the Left or Right constructor.&nbsp;So,&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;is just a wrapper around a value that can be either one or the other.<br /><br /><h3>Working with it</h3></div><div>In GHCI I have created two instances of Either. "lefty" is constructed using Left, "righty" with Right.</div><div><br /><pre>&gt; let lefty = Left 10<br />&gt; let righty = Right "John"<br /></pre><pre>&gt; :t lefty<br />lefty :: Either Integer b<br /></pre><pre>&gt; :t righty<br />righty :: Either a [Char]<br /></pre></div><div><br />That all seems pretty straight forward. Calling Left or Right gives us back a value of an incomplete type. Haskell only really knows how to fill the types out that we've actually used.<br /><br />Having a look at the values that we've created, we're reminded that they are either Left or Right values as such.<br /><br /><pre>&gt; lefty<br />Left 10<br /></pre><pre>&gt; righty<br />Right "John"<br /></pre><br />Convenient, but if we're going to have a chance of using these values for anything real, we'll need to extract or unbox the value from the Either construct. The Either type has two functions which will take the boxed values into array called "lefts" and "rights". This makes sense. Take a look at how these functions interact with lefty and righty.<br /><br /><pre>&gt; lefts [lefty]<br />[10]<br />&gt; rights [lefty]<br />[]<br /></pre><pre>&gt; lefts [righty]<br />[]<br />&gt; rights [righty]<br />["John"]<br /></pre><br />They've now been taken out of the Either construct and are values ready to be processed sitting in a list.<br /><br />In the next example, we use pattern matching to detect if we're trying to divide by zero. Even though my preference is to always say that it's infinity, computers just like to complain about it.<br /><br /><script src="https://gist.github.com/4459950.js"></script> <br />The type that's used here "Either String Float" says that we're either going to receive a String or a Float in this value. You can see the case for zero division offering a String on the Left, otherwise we supply the quotient on the Right.<br /><br />There ya have it!</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/04/write-an-llvm-backend-tutorial-for-cpu0/">
+        Write an LLVM Backend Tutorial for Cpu0
+      </a>
+    </h1>
+
+    <span class="post-date">04 Jan 2013</span>
+
+    <h1>Write an LLVM Backend Tutorial for Cpu0</h1>
+<div class='post'>
+One day, when I get a chance I will get through this entire article and actually give it a crack, but, until they invent the 48 hour day I'm stuck with just making a bookmark post.<br /><br />I've scratched the surface of this article and it's comprehensive. Really very interesting if it's your sort of thing.<br /><br /><a href="http://jonathan2251.github.com/lbd/index.html">http://jonathan2251.github.com/lbd/index.html</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/04/recursive-data-structures-in-haskell/">
+        Recursive Data Structures in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">04 Jan 2013</span>
+
+    <h1>Recursive Data Structures in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>As I've been following along in <a href="http://learnyouahaskell.com/">Learn You a Haskell for Great Good</a>, I've been coming across some really interesting material around the type system. In today's post, I want to walk through the Tree data type that they define in this book for the section on recursive data structures.</div><div><br /></div><h3>What it is?</h3><div>A recursive data structure is a type that has itself as a type amongst its fields. Pretty wild idea, but really useful for situations of Child-&gt;Parent, Tree-&gt;Leaf, etc. In today's example we're going to be using the Tree structure which looks like this.</div><div><br /><script src="https://gist.github.com/4447497.js"></script></div><div><br /></div><div><br /></div><div>This data type reads as, a "Tree" can either be an EmptyTree or it can have two nodes (that are also trees). You can start to see that this would be a best-fit as a binary search tree. Using an instance of Functor, we can give the the Tree data type&nbsp;recursively&nbsp;iterative&nbsp;properties through fmap.<br /><br /><script src="https://gist.github.com/4447642.js"></script> <br /><h3>Using the type</h3></div><div>Getting data into the tree is done cleverly (or so I think) with some basic pattern matching. I think it's done cleverly because it reads so well/humanly (perhaps I'm easily pleased).<br /><br /><script src="https://gist.github.com/4447669.js"></script> <br />Inserting an EmptyTree node will result in a node with an EmptyTree either side.&nbsp;Inserting data for key that exists will overwrite the existing data. Inserting a lesser key (lesser according to Ord) will put the node on the left, greater onto the right.<br /><br />Actually building a tree can be as simple as the following.<br /><br /><script src="https://gist.github.com/4447713.js"></script> <br />This results in a tree that looks like this.<br /><br /><pre>*Main&gt; fmap (*1) (foldr treeInsert EmptyTree [5,7,3])<br />Node 3 EmptyTree (Node 7 (Node 5 EmptyTree EmptyTree) EmptyTree)</pre><br />3 is at the trunk with no left-hand-side. 3's right hand side has a 7 with 5 for its left hand side and no right hand sides (for 5 or 7). Reading the dump out from ghci is going to be better for your understanding than trying to read my English describing the tree's structure.<br /><br />The important part that I wanted to illustrate really was the use of fmap here. We map the function (*1) so that none of the values in our source array change. We apply "treeInsert" in a fold-right starting with EmptyTree across the source array [5,7,3].<br /><br />If you ask me, that's pretty cool.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page25">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page23">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

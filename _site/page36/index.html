@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/02/building-sdl-applications-on-osx/">
+        Building SDL applications on OSX
+      </a>
+    </h1>
+
+    <span class="post-date">02 Dec 2012</span>
+
+    <h1>Building SDL applications on OSX</h1>
+<div class='post'>
+I have seen a fair bit of information around regarding building SDL applications on the OSX platform. Most of these posts have all mentioned some "glue code" in the form of SDLMain.m.<br /><br />I haven't taken this approach and have found my code tree to be nice and clean. The following are just the make rules that I use to do the job.<br /><br /><script src="https://gist.github.com/4185380.js?file=gistfile1.mak"></script> <br />Seems like leaning on 'sdl-config' is the way to go. It simplifies building - out of sight!<br /><br />The "-framework OpenGL" in the linker statement isn't required to build SDL applications. I just use openGL a fair bit when I'm writing SDL applications, so i've kept it there.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/01/snow-flakes-keep-falling-on-my-screen/">
+        Snow flakes keep falling on my... screen?
+      </a>
+    </h1>
+
+    <span class="post-date">01 Dec 2012</span>
+
+    <h1>Snow flakes keep falling on my... screen?</h1>
+<div class='post'>
+A very simple effect this time around. It's snow flakes. The operating premise for the effect is very simple and goes like this:<br /><br /><ul><li>Generate 1 new snow flake at the top of the screen at every frame</li><li>A snow flake has an absolute floor of the last line in video memory</li><li>A snow flake should come to rest if it lands on top of another</li></ul><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-pE0K1mfiABg/ULoEn3kZ6bI/AAAAAAAAAiQ/BVre5BA5iy0/s1600/Screen+Shot+2012-12-01+at+11.10.27+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="265" src="http://1.bp.blogspot.com/-pE0K1mfiABg/ULoEn3kZ6bI/AAAAAAAAAiQ/BVre5BA5iy0/s400/Screen+Shot+2012-12-01+at+11.10.27+PM.png" width="400" /></a></div><div><br /></div><div>That's it! So, immediately we need a way to get random numbers.</div><div><br /></div><div>We're using a 320x200 screen here and my dodgy routine for getting random numbers only returns us 8 bit numbers (which gets us to 255). We need to add some more width to these numbers if we expect to be able to randomize across the whole 320 column positions. Calling the random port twice and adjusting the resolution of the second number should do it for us, such that:</div><div><br /></div><div>8 bits (256) and 6 bits (64) will give us 320 - or the ability to add using 14 bits worth of numbers, which in this configuration takes us up to 320. Perfect.</div><div><br /></div><div>Here's the code!</div><div><br /><script src="https://gist.github.com/4182207.js?file=gistfile1.asm"></script></div><div><br /><br />Excellent. We can span the breadth of our screen with random flakes. Now it's time to progress them down the screen. Here's the main frame routine to do so.<br /><br /><script src="https://gist.github.com/4182214.js?file=gistfile1.asm"></script> <br />The code itself above is pretty well commented, you shouldn't need me to add much more here. There are a couple too many labels in the code, but they should help to add readability.<br /><br />I'll leave it as an exercise to the reader to implement different speeds, colours and maybe even some horizontal movement (wind).<br /><br />Cool stuff.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/01/mandelbrot-set/">
+        Mandelbrot set
+      </a>
+    </h1>
+
+    <span class="post-date">01 Dec 2012</span>
+
+    <h1>Mandelbrot set</h1>
+<div class='post'>
+Another cool routine built off of some relatively simple mathematics is the mandelbrot set. Wikipedia has a really good write up if you're a little rusty on the ins and outs of a <a href="http://en.wikipedia.org/wiki/Mandelbrot_set">mandelbrot set</a>.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-p31g56qoaeA/ULnOyLAQItI/AAAAAAAAAiA/U2LUMbXz0ic/s1600/Screen+Shot+2012-12-01+at+7.31.22+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="265" src="http://1.bp.blogspot.com/-p31g56qoaeA/ULnOyLAQItI/AAAAAAAAAiA/U2LUMbXz0ic/s400/Screen+Shot+2012-12-01+at+7.31.22+PM.png" width="400" /></a></div><br /><br />This tutorial assumes that you've already got a video display ready with a pointer to your buffer.&nbsp;We'll just focus on the function that makes the doughnuts. Here's the code, explanation to follow. This code has been lifted out of a file that I had in an old dos program. It was written using turbo C, but will port over to anything pretty easily.<br /><br />Anyway, on to the code!<br /><br /><script src="https://gist.github.com/4181270.js?file=gistfile1.c"></script> <br /><br />So, you can see this code is very simple - to the point. We need to investigate all of the pixels (in this case 320x200 - or 64,000) and we calculate the iteration intersection at each point.<br /><br />The variables passed into the function allows the caller to animate the mandelbrot. "zoom" will take you further into the pattern, "xofs" and "yofs" will translate your position by this (x,y) pair. "max_iter" just determines how many cycles the caller wants to spend working out the iteration count. A higher number means that the plot comes out more detailed, but it slower to generate.<br /><br />Anyway, only a quick one - don't want to hold you up. Go make something cool!<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/12/01/2d-in-opengl/">
+        2D in OpenGL
+      </a>
+    </h1>
+
+    <span class="post-date">01 Dec 2012</span>
+
+    <h1>2D in OpenGL</h1>
+<div class='post'>
+Whilst OpenGL enjoys a lot of fame as a 3D graphics package, it's also a fully featured 2D graphics library as well. In this short tutorial, I'll walk you through the code required to put OpenGL into 2D mode.<br /><div><br /></div><div>This tutorial does assume that you're ready to run some OpenGL code. It won't be a primer in how to use SDL or GLUT, etc.</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4180890.js?file=gistfile1.c"></script></div><div><br />First off, we use <a href="http://www.opengl.org/sdk/docs/man/xhtml/glGet.xml">glGetIntegerv</a><span id="goog_1753577021"></span><span id="goog_1753577022"></span><a href="http://www.blogger.com/"></a>&nbsp;to read the dimensions of the viewport. You will probably already have these values on hand anyway, but getting the viewport this way just generalises the code and it's not expensive to do so.<br /><br />We generate an orthographic matrix next using <a href="http://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml">glOrtho</a>&nbsp;and the viewport information we retrieved in the first step. The model view matrix is then kept clean - out of habbit, i'd say and finally <a href="http://www.khronos.org/opengles/documentation/opengles1_0/html/glEnable.html">glDisable</a>&nbsp;is used to turn off depth testing.<br /><br />We're in 2D. No Z-Axis, no depth testing!<br /><br />That's it! You can draw what you need to as simply as this:<br /><br /><script src="https://gist.github.com/4180941.js?file=gistfile1.c"></script> <br />Have fun.<br /><br />Quick update to this one - I switched the parameters around in the call to&nbsp;<a href="http://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml">glOrtho</a>&nbsp;so that it's a much more natural drawing experience (putting 0,0 in the top left hand corner of the screen). It's not perfect mathematically but it sure does help any of your existing code that assumes your screen goes positive to the right and positive to the bottom!&nbsp;</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/30/plasma-plasma-plasma/">
+        Plasma, plasma, plasma!
+      </a>
+    </h1>
+
+    <span class="post-date">30 Nov 2012</span>
+
+    <h1>Plasma, plasma, plasma!</h1>
+<div class='post'>
+Kicking back into old, old, old school mode, I had found another cool effect laying around that seemed to work really well in dosbox. It's a plasma (if you couldn't tell from the title).<br /><br />Plasmas are the cool, blobby sort of shapeless eye-grabbers that are seriously cool and simple.<br /><br />The basic mathematical thory of the plasma is simple.<br /><ul><li>4 state counters for the program track where you're up to overall</li><li>4 state counters per frame render track where you're up to for that frame</li><li>Each pixel is the result of these 4 cosine wave intersections. You can include the x and y counting dimensions to add the 6 intersections.</li></ul>That's it really. There's a little special sauce to make the plasma move and mutate but they really have no bearing over the generation of the effect itself.<br /><br /><h3>Cosine? Easy, I'll just call cosf()!</h3>Well, not quite. This is a demo routine that will entirely written in assembly language (8086 assembly language to be exact) and as such we won't have the luxury of a math library (or math-coprocessor) to do the work of finding out cosine values.<br /><br />So, we must pre-calculate. A small C application gives us all the table pre-calculation we'll need for this application. It's good to keep this application handy to re-pre-calculate this table to taste. If you like a little extra calculation to go into your cos table, that is. Me, I like nerdy numbers. So, according to this cos table, there are 256 degress in a circle (see what I did there) and the top of the cos curve (1.0) is 255 moving through the centre point (0.0) at 127 all the way down to the bottom point (-1.0) at 0.<br /><br />Here's the code to generate that table.<br /><br /> <script src="https://gist.github.com/4172261.js?file=gistfile1.c"></script> <br />Here is the table that is generated when running this code.<br /><br /><pre class="brush:plain;">costab DB 0feh, 0fdh, 0fdh, 0fdh, 0fdh, 0fdh, 0fch, 0fch <br />       DB 0fbh, 0fah, 0fah, 0f9h, 0f8h, 0f7h, 0f6h, 0f5h <br />       DB 0f4h, 0f3h, 0f1h, 0f0h, 0efh, 0edh, 0ebh, 0eah <br />       DB 0e8h, 0e6h, 0e5h, 0e3h, 0e1h, 0dfh, 0ddh, 0dah <br />       DB 0d8h, 0d6h, 0d4h, 0d1h, 0cfh, 0cdh, 0cah, 0c8h <br />       DB 0c5h, 0c2h, 0c0h, 0bdh, 0bah, 0b8h, 0b5h, 0b2h <br />       DB 0afh, 0ach, 0a9h, 0a6h, 0a3h, 0a0h, 09dh, 09ah <br />       DB 097h, 094h, 091h, 08eh, 08bh, 088h, 085h, 082h <br />       DB 07fh, 07bh, 078h, 075h, 072h, 06fh, 06ch, 069h <br />       DB 066h, 063h, 060h, 05dh, 05ah, 057h, 054h, 051h <br />       DB 04eh, 04bh, 048h, 045h, 043h, 040h, 03dh, 03bh <br />       DB 038h, 035h, 033h, 030h, 02eh, 02ch, 029h, 027h <br />       DB 025h, 023h, 020h, 01eh, 01ch, 01ah, 018h, 017h <br />       DB 015h, 013h, 012h, 010h, 00eh, 00dh, 00ch, 00ah <br />       DB 009h, 008h, 007h, 006h, 005h, 004h, 003h, 003h <br />       DB 002h, 001h, 001h, 000h, 000h, 000h, 000h, 000h <br />       DB 000h, 000h, 000h, 000h, 000h, 000h, 001h, 001h <br />       DB 002h, 003h, 003h, 004h, 005h, 006h, 007h, 008h <br />       DB 009h, 00ah, 00ch, 00dh, 00eh, 010h, 012h, 013h <br />       DB 015h, 017h, 018h, 01ah, 01ch, 01eh, 020h, 023h <br />       DB 025h, 027h, 029h, 02ch, 02eh, 030h, 033h, 035h <br />       DB 038h, 03bh, 03dh, 040h, 043h, 045h, 048h, 04bh <br />       DB 04eh, 051h, 054h, 057h, 05ah, 05dh, 060h, 063h <br />       DB 066h, 069h, 06ch, 06fh, 072h, 075h, 078h, 07bh <br />       DB 07eh, 082h, 085h, 088h, 08bh, 08eh, 091h, 094h <br />       DB 097h, 09ah, 09dh, 0a0h, 0a3h, 0a6h, 0a9h, 0ach <br />       DB 0afh, 0b2h, 0b5h, 0b8h, 0bah, 0bdh, 0c0h, 0c2h <br />       DB 0c5h, 0c8h, 0cah, 0cdh, 0cfh, 0d1h, 0d4h, 0d6h <br />       DB 0d8h, 0dah, 0ddh, 0dfh, 0e1h, 0e3h, 0e5h, 0e6h <br />       DB 0e8h, 0eah, 0ebh, 0edh, 0efh, 0f0h, 0f1h, 0f3h <br />       DB 0f4h, 0f5h, 0f6h, 0f7h, 0f8h, 0f9h, 0fah, 0fah <br />       DB 0fbh, 0fch, 0fch, 0fdh, 0fdh, 0fdh, 0fdh, 0fdh<br /></pre><br /><br />Ooooh aaahhh, that's a nerdy cosine table!<br /><br />Now that we've solved all of the world's mathematical problems here, it's on to the effect! Just getting 4 counters to run over this cosine table and intersect with each other can produce a mesmerising result. Without setting a palette (the standard vga palette is a bit: ewwwwww), here's how the effect looks:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-qsvAge9ukJU/ULindu0nksI/AAAAAAAAAhw/uky0JwHqooA/s1600/plasma.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="263" src="http://1.bp.blogspot.com/-qsvAge9ukJU/ULindu0nksI/AAAAAAAAAhw/uky0JwHqooA/s400/plasma.png" width="400" /></a></div><br />Feel like you're at Woodstock yet?<br /><br />So, the effect really spans across two smaller functions, which I've tried to comment as best I can below. Here's drawing a single frame:<br /><br /><br /><script src="https://gist.github.com/4175519.js?file=gistfile1.asm"></script> <br /><br />Drawing a single frame isn't too difficult at all. It's important to remember that es:[di] is pointing to the vga buffer to draw to where as ds:[si] is pointing at the cosine table. We're using bx as a base pointer to offset si such that it acts as our array index. Neat-O!<br /><br />Between frame draws, we need to make the plasma MOVE!!.. This is just some simple additions or subtractions. Using random values adds a sense of entropy to the process making the plasma move in an almost unpredictable way. It's a little more organic this way.<br /><br />I haven't done it this way though. The code you'll see below moves the plasma by fixed amounts per frame. Still gives it some movement.<br /><br /><br /><script src="https://gist.github.com/4175531.js?file=gistfile1.asm"></script> Wrapping those two calls in a loop that waits for a key to be pressed is all you should need to draw a plasma to the screen.<br /><br />Things for you to do:<br /><br /><br /><ul><li>Change the cosine table generation to produce a more interesting cosine curve</li><li>Apply a palette to take the 60's-ness out of the default palette</li><li>Apple a palette that you can cycle through (like 1024 or 2048 entries in size) so that the palette (and therefore the plasma) will morph colour as frames progress</li><li>Add randomness.</li></ul><div>Have fun.</div><br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page37">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page35">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

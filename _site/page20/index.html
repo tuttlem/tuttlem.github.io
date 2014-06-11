@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Cogs and Levers &middot; A blog full of technical stuff
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/using-cabal-dev-to-keep-a-tidy-house/">
+        Using cabal-dev to keep a tidy house
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Using cabal-dev to keep a tidy house</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've fallen into the trap (not just with Haskell) on many occasions. You install that one library dependency that ends up mowing over every other working application's dependencies and then BOOM... you've just lost most of your hair.</div><div><br /></div><div><a href="http://hackage.haskell.org/package/cabal-dev">cabal-dev</a>&nbsp;gives Haskell developers the luxury of sandboxed development allowing them isolation between library versions installed.</div><div><br /></div><div>I don't know why I haven't written about this sooner, but here's a short guide to using cabal-dev.</div><div><br /></div><h3>Quick usage</h3><div>Starting a new application with cabal</div><div><br /><pre class="brush:shell">$ mkdir myapp<br />$ cd myapp<br />$ touch LICENSE<br />$ cabal init  <br /></pre></div><div><br />Compiling and installing your application<br /><br /><pre class="brush:shell">$ cabal-dev install</pre><br />Installing libraries<br /><br /><pre class="brush:shell">$ cabal-dev install package-name</pre><div><br /></div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/lambda-expressions-with-c-11/">
+        Lambda Expressions with C++11
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Lambda Expressions with C++11</h1>
+<div class='post'>
+<h3>Introduction</h3><div>A whole raft of goodness has been delivered with the most recent C++ standard, <a href="http://en.wikipedia.org/wiki/C%2B%2B11">C++11</a>. One of these features is the inclusion of lambda expressions. Today's post will take you through the basic syntax for lambdas in C++.</div><div><br /></div><h3>Basic Assignment</h3><div>You can assign a lambda to a variable quite simply with the following syntax.</div><div><br /><script src="https://gist.github.com/4538150.js"></script></div><div><br />I agree that this is a pretty ass-about-face way of printing "Hello, World" to the screen - but it's done through C++11's lambda syntax.<br /><br />Passing variables into a lambda expression and getting return values is quite trivial also.<br /><br /><script src="https://gist.github.com/4538172.js"></script> <br />You can nest lambdas pretty easily also. Heres is a multiply-then-divide example where the division operation is the nested operation. Multiplication occurs at the top-level lambda.<br /><br /><script src="https://gist.github.com/4538211.js"></script> <br />This syntax also allows you to define higher-order functions, so that you can return function object back to the caller for later use. Here, I've made a multiplier factory. You give it one side of the multiplication and it'll hand you back a function that will multiply by that number.<br /><br /><script src="https://gist.github.com/4538232.js"></script> <br />We've done something a little bit different here. You can see that we've used a term inside the square brackets for the returned function. C++ having a major focus on performance gives the developer as much flexibility as possible when handling values. The information specified within the square braces tells the lambda closure how to handle variables referenced within.<br /><br /><h3>Handling outside state within a lambda</h3></div><div>The developer describes to the lambda how she wants variables captured by making specifications within the square brackets. Some examples of what you might see look like this.</div><div><br /><table><tbody><tr><td><b>Specification</b></td><td><b>Meaning</b></td></tr><tr><td>[]</td><td>Don't capture anything</td></tr><tr><td>[&amp;]</td><td>Capture any variable by reference</td></tr><tr><td>[=]</td><td>Capture any variable used making a copy of it</td></tr><tr><td>[=, &amp;x]</td><td>Capture any variable used making a copy of it except for x. Capture x by reference.</td></tr><tr><td>[y]</td><td>Capture y by making a copy but nothing else.</td></tr><tr><td>[this]</td><td>Capture the enclosing class' pointer</td></tr></tbody></table></div><div><br /></div><div>So, we can be quite specific in telling the compiler how we want referenced variables handled within our lambda closure.<br /><br />Finally, I want to present some code on using lambdas with existing constructs. In this example, I'll reduce a list of integers by accumulating them into a variable referenced outside of a closure.<br /><br /><script src="https://gist.github.com/4538430.js"></script> <br />You can see that is is quite a fluent style for writing lambdas.<br /><br />This post only scratches the surface. Applying these in a real project is going to be key to discovering the depths of lambdas, but they're alive and well in C++(11) land, that's for sure.</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>nick black</div>
+<div class='content'>
+Great post, thanks! I think there might have been more difference between C++11 and C++03 than there was C++03 and C99.</div>
+</div>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/haskell-setup-on-osx/">
+        Haskell Setup on OSX
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Haskell Setup on OSX</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Just a quick post to note down the steps that I follow to setup my Haskell development environment. A lot of this has been lifted from this article <a href="http://bob.ippoli.to/archives/2013/01/11/getting-started-with-haskell/">here</a>, which is a great "getting started" style article - certainly worth the read.</div><div><br /></div><div>This setup is for OSX. Homebrew is used to perform software installations.</div><div><br /></div><h3>Guide</h3><div>Step 1. Install haskell-platform with brew</div><div><br /><pre class="brush:shell">$ brew install haskell-platform</pre></div><div><br />Step 2. Ensure that ~/.cabal/bin takes priority in your PATH variable by adding the following into your ~/.bashrc file.<br /><br /><pre class="brush:shell">export PATH=/home/user/.cabal/bin:$PATH</pre><br />Step 3. Update cabal<br /><br /><pre class="brush:shell">$ cabal update</pre><br />Step 4. Turn on library profiling using the following command<br /><br /><pre class="brush:shell">$ for f in ~/.cabal/config; do \<br />    cp $f $f.old &amp;&amp; \<br />    sed -E 's/(-- )?(library-profiling: )False/\2True/' &lt; $f.old &gt; $f; \<br />done</pre><br />Step 5. Install cabal-install<br /><br /><pre class="brush:shell">$ cabal install cabal-install</pre><br />Step 6. Install cabal-dev (from source)<br /><br /><pre class="brush:shell">$ git clone https://github.com/creswick/cabal-dev.git /tmp/cabal-dev-src &amp;&amp; \<br />    (cd /tmp/cabal-dev-src; cabal install) &amp;&amp; \<br />    rm -rf /tmp/cabal-dev-src</pre><br />Step 7. Setup GHCi so it has a sane prompt<br /><br /><pre class="brush:shell">$ echo ':set prompt "λ&gt; "' &gt;&gt; ~/.ghci</pre><br /><br />That's it. Development environment is ready to go.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/c-references/">
+        C++ References
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>C++ References</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've always thought of a reference as the half-way house between pointers and statically allocated objects. References are in-fact addresses but they are used within our code just like objects as opposed to requiring pointer syntax.</div><div><br /></div><h3>Some facts ..</h3><div><b>How reference are defined</b></div><div><b><br /></b></div><div>You declare a reference variable using the ampersand (&amp;) to modify the type declaration.</div><blockquote class="tr_bq"><span style="font-family: Courier New, Courier, monospace;">type&amp; var;&nbsp;</span></blockquote><div><b>A reference must be&nbsp;initialised</b></div><div><br /></div><div>This is pretty basic, it just means that when you declare your reference it must start out with a place to reference.</div><div><br /><script src="https://gist.github.com/4537852.js"></script><br /></div><div></div><div><b>A reference cannot be changed</b></div><div><b><br /></b></div><div>When we initialise a reference to point to a variable, that's it. We can't change what the reference points to. This caught be out to begin with, but it's pretty easy stuff.</div><div><br /><script src="https://gist.github.com/4537892.js"></script></div><div><br /></div><div>Makes sense. Gives references a sense of stubbornness (and sanity).<br /><br /><b>Pointer&nbsp;compatibility&nbsp;through dereferencing</b><br /><b><br /></b>I see a fair bit of banter on "how to convert pointer to reference", etc. It's really quite simple and it's also &nbsp;subject to the same assignment laws as above.<br /><br /><script src="https://gist.github.com/4537933.js"></script> <br />These concepts really come into their own (I think) once you start using them within your own class structures. It's a much more natural feel to deal with references rather than pointers and a bit easier to read as well.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/14/glfw-b-from-haskell/">
+        GLFW-b from Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">14 Jan 2013</span>
+
+    <h1>GLFW-b from Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've previously posted about getting up and running with OpenGL from Haskell <a href="http://cogsandlevers.blogspot.com.au/2013/01/opengl-glut-haskell.html">here</a>, but I've since learned of <a href="http://www.glfw.org/">GLFW</a>&nbsp;and some of its bindings into Haskell in the form of <a href="http://hackage.haskell.org/package/GLFW">glfw</a>&nbsp;and <a href="http://hackage.haskell.org/package/GLFW-b">glfw-b</a>. The posts that I have been reading seem to present glfw-b with a more Haskell-style interface so this is the binding choice that I've decided to go with.</div><div><br /></div><div>Today, I'll walk you through a very simple application that will present you with a 2D drawing surface ready to go. It will demonstrate how to respond to window resize events, key input, GL setup and teardown.</div><div><br /></div><div>There is some great resources around for these bindings. The <a href="http://www.haskell.org/haskellwiki/GLFW">Haskell Wiki</a> has an article on GLFW with a link to some GLFW-b ports of the <a href="http://nehe.gamedev.net/">nehe tutorials</a> <a href="http://hackage.haskell.org/package/nehe-tuts">here</a>.</div><div><br /></div><div>The code for this is available in my <a href="https://github.com/tuttlem/haskets">haskets</a> repository. Here's the <a href="https://raw.github.com/tuttlem/haskets/master/glfw/First.hs">direct link</a> to the file we'll be analysing.&nbsp;</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-aPw7-CRRMjw/UPPCxR9z0dI/AAAAAAAAAk4/J2ZUX2_6jHc/s1600/Screen+Shot+2013-01-14+at+6.32.45+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="326" src="http://1.bp.blogspot.com/-aPw7-CRRMjw/UPPCxR9z0dI/AAAAAAAAAk4/J2ZUX2_6jHc/s400/Screen+Shot+2013-01-14+at+6.32.45+PM.png" width="400" /></a></div><div><br /></div><h3>The code</h3><div>First off, we'll take a look at what's being imported into this application.</div><div><br /><script src="https://gist.github.com/4528618.js"></script></div><div><br />The GLFW bindings come into the program on the first line. This really is the bridge between OpenGL and your presentation layer to get a window running and some sort of eventing communication being routed into your program.<br /><br />OpenGL and GLU raw are just as they say. You'll see code in this tutorial that looks directly from these APIs. The names aren't lying.<br /><br />Finally here we just have some program management handling exit codes and execution life.<br /><br />After we've imported everything that we need, it's time to setup the GL scene as if all of the window management stuff has already been done.<br /><br /><script src="https://gist.github.com/4529208.js"></script> These are all looking like very natural GL calls. The code commentary should guide you through what's happening here.<br /><br />When the window that's hosting our application changes dimensions, our program will be sent a message updating us on what the new dimensions are. Here's how we adapt to these changes in 2D.<br /><br /><script src="https://gist.github.com/4529230.js"></script> These are all standard OpenGL calls also. The signature of the resize function delivers us the updated width and height to use.<br /><br />Drawing our scene is extremely basic. We're clearing the screen (to black, as above). That's it.<br /><script src="https://gist.github.com/4529240.js"></script> <br /><br />'nuff said. To destroy all of the resources we've utilised in the target windowing system we issue some teardown functions.<br /><br /><script src="https://gist.github.com/4529256.js"></script> <br />Handling keyboard input is just a matter of using KeyCallback.<br /><br />The teardown handler is entered when the escape key is hit. Any other key is ignored.<br /><script src="https://gist.github.com/4529268.js"></script> All of these function definitions are really no good to us unless we can bind them into the framework. This will bring all of these functions to life. The next block of code is the main program for the application. It'll be heavily commented.<br /><br /><script src="https://gist.github.com/4529317.js"></script> So, that's it for GLFW-b for Haskell. Not so intimidating and actually quite inviting to develop against!</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page21">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page19">Newer</a>
+    
+  
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

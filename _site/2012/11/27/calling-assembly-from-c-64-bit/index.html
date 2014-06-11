@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Calling Assembly from C (64 bit) &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Calling Assembly from C (64 bit)</h1>
+  <span class="post-date">27 Nov 2012</span>
+  <h1>Calling Assembly from C (64 bit)</h1>
+<div class='post'>
+In a <a href="http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html">previous blog post</a>, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.<br /><br />I'll be using the same technology stack as last time with <a href="http://www.nasm.us/">NASM </a>as my assembler and <a href="http://gcc.gnu.org/">GCC</a> as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.<br /><br />Alright then. On with the code!<br /><br />The C-code is not different from the 32-bit version as mentioned in my previous post. Now <b>that's</b>&nbsp;portability for you!<br /><br /><script src="https://gist.github.com/4142080.js?file=gistfile1.c"></script> The assembly language module has changed somewhat though.<br /><br /><script src="https://gist.github.com/4151995.js?file=gistfile1.asm"></script> <br />Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.<br /><br />The change in calling convention can be studied in further detail <a href="http://www.x86-64.org/documentation/abi.pdf">here</a>, however it's just important to mention this:<br /><blockquote class="tr_bq"><blockquote class="tr_bq">Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:</blockquote><blockquote class="tr_bq">If the class is MEMORY, pass the argument on the stack.</blockquote><blockquote class="tr_bq">If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used</blockquote></blockquote>So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html">Intel</a>&nbsp;and <a href="http://en.wikipedia.org/wiki/X86-64">Wikipedia</a>&nbsp;are both excellent resources.<br /><br />Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.<br /><br /><script src="https://gist.github.com/4152023.js?file=gistfile1.sh"></script> We're done!<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

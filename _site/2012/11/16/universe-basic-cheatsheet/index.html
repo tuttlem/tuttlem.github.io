@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      UniVerse BASIC cheatsheet &middot; Cogs and Levers
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2014. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Cogs and Levers</a>
+            <small>A blog full of technical stuff</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">UniVerse BASIC cheatsheet</h1>
+  <span class="post-date">16 Nov 2012</span>
+  <p>A cheatsheet for writing UniVerse BASIC programs</p>
+
+<h3 id="program-management">Program Management</h3>
+
+<p>Creating a directory for programs</p>
+
+<div class="highlight"><pre><code class="text">&gt; CREATE.FILE BP 19</code></pre></div>
+
+<p>Creating a file to store a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED BP PROGRAM.NAME</code></pre></div>
+
+<p>Compiling a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; BASIC BP PROGRAM.NAME</code></pre></div>
+
+<p>Running a program</p>
+
+<div class="highlight"><pre><code class="text">&gt; RUN BP PROGRAM.NAME</code></pre></div>
+
+<h3 id="sourcecode-editing">Sourcecode Editing</h3>
+
+<p>Formatting sourcecode</p>
+
+<div class="highlight"><pre><code class="text">----: FORMAT</code></pre></div>
+
+<h3 id="file-io">File IO</h3>
+
+<p>Opening a file</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;filename&#39; TO FILE.VAR ELSE STOP &quot;Couldn&#39;t open filename&quot;</code></pre></div>
+
+<p>Reading a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READ RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE RECORD.VALUE = &#39;&#39;</code></pre></div>
+
+<p>Writing a record to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a record from a file into an array</p>
+
+<div class="highlight"><pre><code class="text">0001= MATREAD RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE MAT RECORD.VAR = &#39;&#39;</code></pre></div>
+
+<p>Writing a record from an array into a file</p>
+
+<div class="highlight"><pre><code class="text">0001= MATWRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a single field from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READV TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;, 1 ELSE TYPE.DESC = &#39;&#39;</code></pre></div>
+
+<p>Writing a single field to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITEV TYPE.DESC TO FILE.VAR, &#39;TEST.WRITE&#39;, 1</code></pre></div>
+
+<p>Deleting a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= DELETE FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>Locking records for update</p>
+
+<div class="highlight"><pre><code class="text">0000= READU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= MATREADU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= READVU TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED</code></pre></div>
+
+<p>Locking records from read</p>
+
+<div class="highlight"><pre><code class="text">0000= READL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= MATREADL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= READVL TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>An example record read</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= READ VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE VOC.RECORD = &#39;&#39; 
+0003= PRINT VOC.RECORD</code></pre></div>
+
+<p>An example record read to an array</p>
+
+<div class="highlight"><pre><code class="text">0001= DIM VOC.RECORD(10) 
+0002= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0003= MATREAD VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE MAT VOC.RECORD = &#39;&#39; 
+0004= FOR FIELD.NUMBER = 1 TO 10 
+0005= PRINT VOC.RECORD(FIELD.NUMBER) 
+0006= NEXT FIELD.NUMBER</code></pre></div>
+
+<p>An example record read from a select list</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= EOF = 0 
+0003= EXECUTE &#39;SELECT VOC WITH TYPE = &quot;M&quot;&#39; 
+0004= LOOP 
+0005= READNEXT VOC.KEY ELSE EOF = 1 
+0006= UNTIL EOF 
+0007= PRINT VOC.KEY 
+0008= REPEAT</code></pre></div>
+
+<p>References</p>
+
+<p><a href="http://www.mannyneira.com/universe/">life, the universe, and everything</a></p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/03/25/assembly-syntax-intel-at-t/">
+            Assembly Syntax Intel At T
+            <small>25 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/24/xargs-i/">
+            xargs -i
+            <small>24 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/03/19/a-quick-lap-with-mvar/">
+            A Quick Lap with MVar
+            <small>19 Mar 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

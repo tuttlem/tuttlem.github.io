@@ -1,0 +1,13 @@
+---
+layout: post
+title: Virtualenv & pip cheat-sheet
+date: 2012-12-15
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+Here are a couple of the common commands I need day-to-day in order to navigate around&nbsp;<a href="http://www.virtualenv.org/en/latest/">virtualenv</a>.<br /><br />Creating a new virtual envrionment<br /><pre class="brush:shell;">$ virtualenv env</pre><br />Using a virtual environment<br /><pre class="brush:shell;">$ source env/bin/activate</pre><br />Getting out of a virtual environment<br /><pre class="brush:shell;">$ deactivate</pre><br />Re-hydrating a requirements file into your environment<br /><pre class="brush:shell;">$ pip install -r requirements.txt</pre><br />Serializing all of your environment's packages into a requirements file<br /><pre class="brush:shell;">$ pip freeze &gt; requirements.txt</pre><br />That's some basics that will get you up and running.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

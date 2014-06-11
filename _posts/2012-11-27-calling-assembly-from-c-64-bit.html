@@ -1,0 +1,13 @@
+---
+layout: post
+title: Calling Assembly from C (64 bit)
+date: 2012-11-27
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+In a <a href="http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html">previous blog post</a>, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.<br /><br />I'll be using the same technology stack as last time with <a href="http://www.nasm.us/">NASM </a>as my assembler and <a href="http://gcc.gnu.org/">GCC</a> as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.<br /><br />Alright then. On with the code!<br /><br />The C-code is not different from the 32-bit version as mentioned in my previous post. Now <b>that's</b>&nbsp;portability for you!<br /><br /><script src="https://gist.github.com/4142080.js?file=gistfile1.c"></script> The assembly language module has changed somewhat though.<br /><br /><script src="https://gist.github.com/4151995.js?file=gistfile1.asm"></script> <br />Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.<br /><br />The change in calling convention can be studied in further detail <a href="http://www.x86-64.org/documentation/abi.pdf">here</a>, however it's just important to mention this:<br /><blockquote class="tr_bq"><blockquote class="tr_bq">Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:</blockquote><blockquote class="tr_bq">If the class is MEMORY, pass the argument on the stack.</blockquote><blockquote class="tr_bq">If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used</blockquote></blockquote>So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html">Intel</a>&nbsp;and <a href="http://en.wikipedia.org/wiki/X86-64">Wikipedia</a>&nbsp;are both excellent resources.<br /><br />Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.<br /><br /><script src="https://gist.github.com/4152023.js?file=gistfile1.sh"></script> We're done!<br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

@@ -1,0 +1,13 @@
+---
+layout: post
+title: Using cabal-dev to keep a tidy house
+date: 2013-01-15
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've fallen into the trap (not just with Haskell) on many occasions. You install that one library dependency that ends up mowing over every other working application's dependencies and then BOOM... you've just lost most of your hair.</div><div><br /></div><div><a href="http://hackage.haskell.org/package/cabal-dev">cabal-dev</a>&nbsp;gives Haskell developers the luxury of sandboxed development allowing them isolation between library versions installed.</div><div><br /></div><div>I don't know why I haven't written about this sooner, but here's a short guide to using cabal-dev.</div><div><br /></div><h3>Quick usage</h3><div>Starting a new application with cabal</div><div><br /><pre class="brush:shell">$ mkdir myapp<br />$ cd myapp<br />$ touch LICENSE<br />$ cabal init  <br /></pre></div><div><br />Compiling and installing your application<br /><br /><pre class="brush:shell">$ cabal-dev install</pre><br />Installing libraries<br /><br /><pre class="brush:shell">$ cabal-dev install package-name</pre><div><br /></div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>

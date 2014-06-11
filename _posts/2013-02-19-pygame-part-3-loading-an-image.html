@@ -1,0 +1,13 @@
+---
+layout: post
+title: Pygame Part 3: Loading an Image
+date: 2013-02-19
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<h3>Introduction</h3><div>In the previous tutorials in this series, we learnt how to <a href="http://cogsandlevers.blogspot.com.au/2013/02/pygame-part-1-window.html">open a window</a> and how to <a href="http://cogsandlevers.blogspot.com.au/2013/02/pygame-part-2-eventing.html">respond to the quit event</a>. In today's post, we're going to actually put something on the screen!</div><div><br /></div><div>Depending on how your pygame installation has been applied, you may or may not have access to load different sorts of graphic formats into your game. For today's purposes, I'll just be loading <a href="http://en.wikipedia.org/wiki/BMP_file_format">bitmap format</a> (BMP) - seems pretty common amongst a lot of people's installations.</div><div><br /></div><h3>Images</h3><div>To load and work with images in our game, we'll be employing the help of the <a href="http://www.pygame.org/docs/ref/image.html">pygame.image</a> module. The <a href="http://www.pygame.org/docs/ref/image.html#pygame.image.load">load function</a>&nbsp;in this module takes in a path to where your image is on disk and returns you a <a href="http://www.pygame.org/docs/ref/surface.html">Surface</a> with your image loaded up on it. The other item of interest in the example code is that because we have been returned a&nbsp;<a href="http://www.pygame.org/docs/ref/surface.html">Surface</a>, we get all of the goodies that come along with it including being able to get the rectangle that bounds the image so we can measure it on screen.</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/tuttlem/4985286.js"></script></div><div><br /><br />This still hasn't changed much through all of these posts. You'll see that actually getting the image involved in your game is achieved by using the <a href="http://www.pygame.org/docs/ref/surface.html#Surface.blit">blit</a> function which draws a surface to another using a rectangle.<br /><br />Providing your image is called spot and it's a blue ball, you should have something like this:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-eXL7kfPAjxk/USNsSXZqX5I/AAAAAAAAAmw/YaAlL7XXgB4/s1600/Screen+Shot+2013-02-19+at+10.11.52+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="277" src="http://2.bp.blogspot.com/-eXL7kfPAjxk/USNsSXZqX5I/AAAAAAAAAmw/YaAlL7XXgB4/s320/Screen+Shot+2013-02-19+at+10.11.52+PM.png" width="320" /></a></div><br /><br />That's about it really.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
