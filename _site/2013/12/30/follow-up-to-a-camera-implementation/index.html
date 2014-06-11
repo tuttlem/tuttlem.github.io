@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -178,12 +170,50 @@
         <div class="post">
   <h1 class="post-title">Follow up to a Camera Implementation</h1>
   <span class="post-date">30 Dec 2013</span>
-  <h1>Follow up to a Camera Implementation</h1>
-<div class='post'>
-<h3>Introduction </h3>In a <a href="http://cogsandlevers.blogspot.com.au/2013/12/a-camera-implementation-in-c.html">previous post</a> I'd written about a simple camera implementation that you can use in projects of your own. This post I'll show how I've implemented this camera with some mouse handling routines to make it feel like you're orienting your head with the mouse.<br /><br /><h3>The Idea . . .</h3>We'll capture all of the mouse movements given in an application and see how far the mouse deviates from a given origin point. I think that the most sane origin point to go from is the center of your window.<br /><br />For each movement that the mouse makes from the center of the window, we need to:<br /><ul><li>Determine how much movement occurred on the x axis</li><li>Determine how much movement occurred on the y axis</li><li>Deaden this movement by a co-efficient to simulate mouse "sensitivity"</li><li>Set the yaw and pitch (head up/down, left/right) of the camera</li><li>Reset the mouse back to the origin point</li></ul>Here's how I've done it in code:<br /><br /><script src="https://gist.github.com/tuttlem/8179902.js"></script> You can see that I'm using GLUT to do these demos. The only GLUT-specific piece of code here is the warp command which puts the mouse back onto the origin point. You should have an equivalent function to do the same in the framework of your choice.<br /><br />Well, there you have it. You can now orient your camera using your mouse.&nbsp; </div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <h3 id="introduction">Introduction</h3>
+
+<p>In a <a href="/2013/12/30/a-camera-implementation-in-c/">previous post</a> I&#39;d written about a simple camera implementation that you can use in projects of your own. This post I&#39;ll show how I&#39;ve implemented this camera with some mouse handling routines to make it feel like you&#39;re orienting your head with the mouse.</p>
+
+<h3 id="the-idea">The Idea</h3>
+
+<p>We&#39;ll capture all of the mouse movements given in an application and see how far the mouse deviates from a given origin point. I think that the most sane origin point to go from is the center of your window. For each movement that the mouse makes from the center of the window, we need to:</p>
+
+<ul>
+<li>Determine how much movement occurred on the x axis</li>
+<li>Determine how much movement occurred on the y axis</li>
+<li>Deaden this movement by a co-efficient to simulate mouse &quot;sensitivity&quot;</li>
+<li>Set the yaw and pitch (head up/down, left/right) of the camera</li>
+<li>Reset the mouse back to the origin point</li>
+</ul>
+
+<p>Here&#39;s how I&#39;ve done it in code:</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">void</span> <span class="nf">mouseMotion</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// calculate the origin point (shifting right divides by two, remember!)</span>
+  <span class="kt">int</span> <span class="n">halfWidth</span> <span class="o">=</span> <span class="n">windowWidth</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">halfHeight</span> <span class="o">=</span> <span class="n">windowHeight</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="c1">// calculate how far we deviated from the origin point and deaden this</span>
+  <span class="c1">// by a factor of 20</span>
+  <span class="kt">float</span> <span class="n">deltaX</span> <span class="o">=</span> <span class="p">(</span><span class="n">halfWidth</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">deltaY</span> <span class="o">=</span> <span class="p">(</span><span class="n">halfHeight</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>
+
+  <span class="c1">// don&#39;t do anything if there wasn&#39;t any movement to report</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">deltaX</span> <span class="o">==</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">deltaY</span> <span class="o">==</span> <span class="mf">0.0f</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// set the camera&#39;s orientation</span>
+  <span class="n">cam</span><span class="p">.</span><span class="n">yaw</span><span class="p">(</span><span class="n">deltaX</span><span class="p">);</span>
+  <span class="n">cam</span><span class="p">.</span><span class="n">pitch</span><span class="p">(</span><span class="n">deltaY</span><span class="p">);</span>
+
+  <span class="c1">// reset the mouse pointer back to the origin point</span>
+  <span class="n">glutWarpPointer</span><span class="p">(</span><span class="n">halfWidth</span><span class="p">,</span> <span class="n">halfHeight</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>You can see that I&#39;m using GLUT to do these demos. The only GLUT-specific piece of code here is the warp command which puts the mouse back onto the origin point. You should have an equivalent function to do the same in the framework of your choice.</p>
+
+<p>Well, there you have it. You can now orient your camera using your mouse.</p>
 
 </div>
 

@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,88 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/05/17/clojure-ui-links/">
-        Clojure UI Links
-      </a>
-    </h1>
-
-    <span class="post-date">17 May 2013</span>
-
-    <h1>Clojure UI Links</h1>
-<div class='post'>
-Here's a handful of links that I'll bookmark here for later to do with UI programming in Clojure.<br /><br /><div><br /></div><a href="http://lifeofaprogrammergeek.blogspot.com.au/2009/05/3d-grapher-in-clojure.html">http://lifeofaprogrammergeek.blogspot.com.au/2009/05/3d-grapher-in-clojure.html</a><br clear="all" /><div><br /></div><div>JOGL wikipedia example ported to Clojure</div><div><a href="https://groups.google.com/forum/?fromgroups=#%21topic/clojure/DCgw3GRBYgo">https://groups.google.com/forum/?fromgroups=#!topic/clojure/DCgw3GRBYgo</a><br /></div><div><br /></div><div>JOGL wikipedia</div><div><a href="http://en.wikipedia.org/wiki/Jogl">http://en.wikipedia.org/wiki/Jogl</a></div><div><br /></div><div>Example swing code</div><div><a href="https://groups.google.com/forum/?fromgroups=#%21topic/clojure/225S6DxYdBk">https://groups.google.com/forum/?fromgroups=#!topic/clojure/225S6DxYdBk</a></div><div><br /></div><div>MVC GUI Swing &amp; Clojure</div><div><a href="http://lifeofaprogrammergeek.blogspot.com.au/2009/05/model-view-controller-gui-in-clojure.html">http://lifeofaprogrammergeek.blogspot.com.au/2009/05/model-view-controller-gui-in-clojure.html</a></div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/17/android-development/">
-        Android Development
-      </a>
-    </h1>
-
-    <span class="post-date">17 May 2013</span>
-
-    <h1>Android Development</h1>
-<div class='post'>
-The rainy day will come where I'll want to further my Android Development skills, but it's just not today. This bookmark is to remind me to look at these <a href="http://android-by-example.blogspot.com.au/2013/01/recently-i-have-started-translating.html">Android and Java Tutorials</a> when that time comes.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/16/testing-rest-apis-with-curl/">
-        Testing REST APIs with cURL
-      </a>
-    </h1>
-
-    <span class="post-date">16 May 2013</span>
-
-    <h1>Testing REST APIs with cURL</h1>
-<div class='post'>
-<h3>Introduction</h3>Testing is a large component of any software development done, sometimes though - you don't want to go through a full unit test suite just to see what a REST service is doing. I've come across some interesting concepts with cURL that will certainly be a shortcut benefit to seeing what responses your REST services are returning.<br /><br /><h3>Requests</h3>You can simulate all of the different HTTP verbs against any URL you'd like using cURL with the following syntax at the console:<br /><br />Retrieve person (id: 1)<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people/1</pre><br /><br />Retrieve all people<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people</pre><br /><br />Delete person (id: 1)<br /><pre class="brush: shell">$ curl -i -X DELETE http://localhost/service/people/1</pre><br /><br />Create a new person<br /><pre class="brush: shell">$ curl -i -X POST -H 'Content-Type: application/json' -d '{"first_name": "John", "last_name": "Smith"}' http://localhost/service/people</pre><br /><br />Modify a person (id: 1)<br /><pre class="brush: shell">$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"first_name": "Jane", "last_name": "Smith"}' http://localhost/service/people/1</pre><br /><br />Only a quick one.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/15/a-tcp-server-haskell-example/">
-        A TCP Server Haskell Example
-      </a>
-    </h1>
-
-    <span class="post-date">15 May 2013</span>
-
-    <h1>A TCP Server Haskell Example</h1>
-<div class='post'>
-<h3>Introduction</h3>In today's post, I'll demonstrate (and explain) how to put together a very simple TCP server in Haskell. The most simple example that I can think of, that will still leave you with enough skeleton to get up and running yourself is an echo server.<br /><br /><h3>The Functional Specification</h3>An Echo server. The drab, beige, sensible-older-brother in the server world. We'll accept incoming connections on a port and recite (echo) any data sent to us by the client. Simple.<br /><h3>Design</h3>Using the network, concurrency and system modules in Haskell, you're actually allowed a pretty simple and fluid design. Of course, you can make this as "one-liner" as you'd like, but for demonstration purposes today I'll break the server over a few parts:<br /><ul><li>Main program</li><li>Socket handler</li><li>Echo implementation</li></ul>The main program will take care of getting us out of first gear. It'll setup a listening socket (or server socket) and then hand off client connection responsibilities to the socket handler. The socket handler will then hand the client off to the echo implementation to work with as well as ensure it's ready for any extra connections. Finally, the echo implementation will just facilitate the server's functionality layer in. It will just send back to the client what ever it has given.<br /><h3>Code Walkthrough </h3>The main program is very simple. Setup the server socket using <a href="http://hackage.haskell.org/packages/archive/network/2.3.0.14/doc/html/Network.html#v:listenOn">listenOn</a> and then hand control over to the client handler.<br /><br /><script src="https://gist.github.com/tuttlem/5583842.js"></script> <br />The client handler (or socket handler as I called it above) accepts incoming client connections from the server socket using <a href="http://hackage.haskell.org/packages/archive/network/2.3.0.14/doc/html/Network.html#v:accept">accept</a>. We can then set buffering options (to off) for the client connection with <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hSetBuffering">hSetBuffering</a>. From there we make the echo service implementation fire up on a thread of its own with <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkIO">forkIO</a>. <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkIO">forkIO</a> deserves a blog post of its own (as does the Concurrency module as a whole), and it will get one... just not today. Anyway, finally the client handler recurses on itself to handle the next client.<br /><br />It's a lot of text for some pretty simple code in the end.<br /><br /><script src="https://gist.github.com/tuttlem/5583932.js"></script> <br />Finally, we have the actual implementation. This is the code that makes our server an echo server. We'll take a line of text in from the client socket using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hGetLine">hGetLine</a> then we'll write it back to the client using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hPutStrLn">hPutStrLn</a>.<br /><br /><script src="https://gist.github.com/tuttlem/5583956.js"></script> <br />And that's it. The full code listing for this echo server is below.<br /><br /><script src="https://gist.github.com/tuttlem/5583974.js"></script><br /><br /><h3>Final thoughts</h3>There is a fairly basic pattern that you can establish out of the module here that you can adapt for more complex servers of your own. Some further study of the IO system would be needed to develop binary communication protocols of your own, but if you're ok with plain text protocols - this should do just fine!<br /><br />Enjoy. <br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Michael Tuttle</div>
-<div class='content'>
-That looks really cool - nice and neat and simple. Thanks for the tip!</div>
-</div>
-<div class='comment'>
-<div class='author'>Unknown</div>
-<div class='content'>
-The pipes and pipes network libraries are worth a look too. They let you work at a higher level of abstraction which is nice and haskell-ey. Here&#39;s a 2-line echo server using them:<br />https://gist.github.com/jhickner/5589907</div>
-</div>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/03/19/haskell-video-links/">
         Haskell Video Links
       </a>
@@ -271,6 +181,78 @@ The pipes and pipes network libraries are worth a look too. They let you work at
     <h1>Haskell Video Links</h1>
 <div class='post'>
 A small list of video library links on the topic of Haskell are accumulating in my inbox, so I thought I'd compile them here for viewing later.<br /><br />Haskell video collection on YouTube<br /><a href="http://www.youtube.com/user/cdsmithgoogle">http://www.youtube.com/user/cdsmithgoogle</a><br /><br />Happstack foundation example: ControlV paste board<br /><a href="http://www.youtube.com/watch?v=7Wmszk4wZxQ">http://www.youtube.com/watch?v=7Wmszk4wZxQ</a><br /><br />Happstack plugins<br /><a href="http://www.youtube.com/watch?v=ok_gf0QVLnE">http://www.youtube.com/watch?v=ok_gf0QVLnE</a><br /><br />Simon Peyton Jones: Haskell Tutorial (xmonad)<br /><a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-tutorial/index.htm">http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-tutorial/index.htm</a><br /><div><br /></div><div>Simon Peyton Jones: A History of Haskell</div><div><a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/history-of-haskell/index.htm">http://research.microsoft.com/en-us/um/people/simonpj/papers/history-of-haskell/index.htm</a><br /><br /></div><div></div><div>Video presentation on Haskell.org</div><div><a href="http://www.haskell.org/haskellwiki/Video_presentations">http://www.haskell.org/haskellwiki/Video_presentations</a> <br /><br />Code Deconstructed Series<br /><a href="http://www.youtube.com/user/jekor">http://www.youtube.com/user/jekor</a><br /><br /><br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/19/free-pascal-and-lazarus/">
+        Free Pascal and Lazarus
+      </a>
+    </h1>
+
+    <span class="post-date">19 Mar 2013</span>
+
+    <h1>Free Pascal and Lazarus</h1>
+<div class='post'>
+<div class="separator" style="clear: both; text-align: center;"><a href="http://www.lazarus.freepascal.org/splash_logo.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="213" src="http://www.lazarus.freepascal.org/splash_logo.png" width="320" /></a></div><br /><br />As a bit of a bookmark note to myself, for one of those rainy days when I want to take a trip back to the 90's - it seems that some serious traction has been made in the Pascal community through the projects <a href="http://www.freepascal.org/">Free Pascal</a> and <a href="http://www.lazarus.freepascal.org/">Lazarus</a>.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/11/ascii-star-field/">
+        ASCII Star field
+      </a>
+    </h1>
+
+    <span class="post-date">11 Mar 2013</span>
+
+    <h1>ASCII Star field</h1>
+<div class='post'>
+<h3>Introduction</h3><div>With everything getting quite busy around here, I'd found less and less time to pay any attention to my Haskell programming adventures. I have found a little bit of time over the previous weekend to put together a small useless tidbit that incorporates some concepts that I'd like to use later.</div><div><br /></div><div>The project that I've put together is a 3D star field simulation, written to the terminal using a set of Haskell <a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a> bindings calls <a href="http://hackage.haskell.org/packages/archive/hscurses/1.3.0.2/doc/html/UI-HSCurses-Curses.html">hscurses</a>.</div><div><br /></div><div>Today's post will take you through the whole unit itself (don't worry, it's quite simple and short) but outline some of the challenges and implementation ideas.</div><div><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-mn6VD5_GYis/UT3NS1QFArI/AAAAAAAAAnE/jR3qXLYta78/s1600/Screen+Shot+2013-03-11+at+10.25.01+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="247" src="http://2.bp.blogspot.com/-mn6VD5_GYis/UT3NS1QFArI/AAAAAAAAAnE/jR3qXLYta78/s320/Screen+Shot+2013-03-11+at+10.25.01+PM.png" width="320" /></a></div><div style="text-align: center;">Trust me, it's so much more impressive when it's in motion <b>*facepalm*</b></div><div style="text-align: center;"><b><br /></b></div></div><h3>Data structure</h3><div>The first job is to define a data structure that will suit our star field, or at least just 1 star in the field. We can make a list of these data structures later and call that list a "star field". Whilst there are some more interesting characteristics we could define about a star, I've gone very simplistic making the star nothing more than a point in 3D space using record syntax.</div><div><br /><script src="https://gist.github.com/tuttlem/5133608.js"></script></div><div><br />We have an x, y and z co-ordinate to define that our star is "somewhere".<br /><br /><h3>Playing god</h3><div>We're able to define a star now that we have the structure to define it. Now it's time to "create" a star somewhere in our universe. In the following code snippet, I've created a star using a random number generator and have adjusted the numbers so that 0 is the mid point. The range should work out from -1 up to 1 for the x and y axis' and -500 up to -1 for the z axis (with negative numbers travelling into the screen).</div><div><br /><script src="https://gist.github.com/tuttlem/5133634.js"></script></div><div><br /></div><div></div>Making a star just ends up being a little bit of random number generator management. We're using it three times, so we need to keep track of what it is throughout these generations and we'll also send it out at the end so that we can continue to use it.<br /><br />We can use this creation function in a recursive function that will allow us to build a randomized "field" of stars. Up above, I said that a star field was just a list of stars, and this is exactly what we return (plus the random number generator).<br /><br /><script src="https://gist.github.com/tuttlem/5133656.js"></script> <br />This is a little bit awkward, only because we also need to be able to get the random number generator back out once we've used it so that it can continue to be "further random" in our program.<br /><br /><h3>Moving through space</h3><div>Now that we've created a universe of stars (or a star field), we now need to be able to move ourselves within the field. To simulate this movement, all we're going to do is increment the z position of each star. Now we all know that it's not actually the stars that move, it should be us - but, we're in a computer simulation, so we'll just pretend.</div><div><br /></div><div>The code is pretty straight forward. It'll take a list of stars (or a star field) in - increment the z co-ordinate for each and send out the adjusted list.</div><div><br /><script src="https://gist.github.com/tuttlem/5133720.js"></script></div><div><br /></div><div><br /></div><div><h3>Don't go through the screen!!</h3></div><div>We're incrementing these stars, over-and-over-and-over ... they're going to make it out of the screen, eeiiik! Even worse, they could get stuck right on the surface of the monitor screen! Whilst this may sound ok right now, later on we're going to "project" these 3D co-ordinates onto a 2D plane. In order to do this, we'll be dividing by that z co-ordinate, so we're really not in the business of dividing by zero here.</div><div><br /></div><div>The following function will determine which stars need to be removed "dead", which stars are still "good" and it will also generate new stars for us if need be.</div><div><br /></div><div>Of course, in the off chance that we do need to generate more stars, we must supply the random number generator to do so.</div><div><br /><script src="https://gist.github.com/tuttlem/5133758.js"></script></div><div><br /></div><div><br /></div><div><h3>3D Projection</h3></div><div>Turning a 3D point into a 2D point is a fairly straight-forward operation (if you've got all the facts). There are much, much, much more complex ways to do this but for the purposes of this demo I have simply divided by the z co-ordinate and added an offset based on the screen size.</div><div><br /><script src="https://gist.github.com/tuttlem/5133766.js"></script></div><div><br /></div><div><br /></div><div>We take in a star, the screen width and screen height. The formula ends up looking something like this:<br /><br /><pre>x_2d = ((x_3d * 127) / z_3d) + (width / 2)<br />y_2d = ((y_3d * 127) / z_3d) + (height / 2)</pre><br /></div>The constant 127 just gives us and adjustment for our viewport. It works quite well for this purpose, but you can read up more on the topic <a href="http://en.wikipedia.org/wiki/3D_projection">here</a>.<br /><br /><h3>Processing a frame</h3></div><div>To move through one "quantum" of time in our star field we really want to move the stars and make sure we're not going to do anything bad when we go to do our projections. So using advance and process, we can wrap this up for a frame like so.</div><div><br /><script src="https://gist.github.com/tuttlem/5133815.js"></script></div><div><br /></div><div>Most of the management of the star field is done now. We can now draw our star field using curses. Before we do that, lets look at some of these ncurses bindings for Haskell through hscurses.<br /><br /><h3>Setting the scene</h3></div><div>The following code is pretty well commented and these curses calls align pretty well to their native library analogs. All of the custom code mentioned in here will only be for our star field. Here's the main function for our star field.</div><div><br /><script src="https://gist.github.com/tuttlem/5133857.js"></script></div><div><br /></div><div><br /></div><div>The actual work of the star field is buried within "runStars" which I've commented below also.<br /><br /><script src="https://gist.github.com/tuttlem/5133873.js"></script></div><div><br />Finally, actually drawing a star. This is so simple. We move to the correct character cell and we put (of course) an asterisk!<br /><br /><script src="https://gist.github.com/tuttlem/5133890.js"></script> You can see that I've assumed the terminal to be 80x25, but it's easy enough to ask curses what the dimensions of the terminal are and adjust them accordingly.<br /><br /><h3>Conclusion</h3></div><div>Well, that's it really. It's simple, crude but so nerdy :-)</div><div><br /></div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/05/mongodb-aggregation-framework/">
+        MongoDB Aggregation Framework
+      </a>
+    </h1>
+
+    <span class="post-date">05 Mar 2013</span>
+
+    <h1>MongoDB Aggregation Framework</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Sometimes having the power of MapReduce at your fingertips and applying this technology to simpler aggregate queries can be more hassle than it needs to be. MongoDB provides a simpler solution (for a simpler class of problems) in the form of the <a href="http://docs.mongodb.org/manual/applications/aggregation/">Aggregation framework</a>. This framework allows you to develop queries within the mongo environment that are analogous to <a href="http://www.w3schools.com/sql/sql_groupby.asp">GROUP BY</a>, <a href="http://www.w3schools.com/sql/sql_having.asp">HAVING</a>, <a href="http://www.w3schools.com/sql/sql_func_count.asp">COUNT</a>, <a href="http://www.w3schools.com/sql/sql_func_sum.asp">SUM</a>, etc. that you would normally use in "relational land".</div><div><br /></div><div>Today's post, I want to walk through a couple of simple queries on using this framework to maximise productivity when pivoting data.</div><div><br /></div><h3>Marrying the old with the new</h3><div>As a bit of a cheat's reference, the following table provides the some examples of aggregate queries in a relational database and how they transpose over to the Mongo aggregation environment.<br /><br />The source of this table can be found <a href="http://docs.mongodb.org/manual/reference/sql-aggregation-comparison/">here</a>.</div><div><br /><table> <tbody><tr>  <td><b>Technique</b></td>  <td><b>Relational</b></td>  <td><b>Aggregation Framework</b></td> </tr><tr>  <td>Criteria matching</td>  <td>WHERE</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Grouping</td>  <td>GROUP BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/group/#_S_group">$group</a></td> </tr><tr>  <td>Aggregate criteria filtering</td>  <td>HAVING</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/match/#_S_match">$match</a></td> </tr><tr>  <td>Result projection</td>  <td>SELECT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/project/#_S_project">$project</a></td> </tr><tr>  <td>Record sorting</td>  <td>ORDER BY</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sort/#_S_sort">$sort</a></td> </tr><tr>  <td>Limiting result sets</td>  <td>LIMIT or TOP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/limit/#_S_limit">$limit</a></td> </tr><tr>  <td>Accumulation</td>  <td>SUM</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Counting</td>  <td>COUNT</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/sum/">$sum</a></td> </tr><tr>  <td>Dropping</td>  <td>SKIP</td>  <td><a href="http://docs.mongodb.org/manual/reference/aggregation/skip/#_S_skip">$skip</a></td> </tr></tbody></table></div><div><br /><b>Counting records</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*) AS count<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            count: { $sum: 1 } } } <br />] )</pre><br /><br /><b>Accumulating values</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT SUM(price) AS total<br />FROM items</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: null,<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregation with identifier and sorting</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />GROUP BY category_id<br />ORDER BY total</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $sort: { total: 1 } } <br />] )</pre><br /><br /><b>Multiple Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } } <br />] )</pre><br /><br /><b>Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, count(*)<br />FROM items<br />GROUP BY category_id<br />HAVING count(*) &gt; 1</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: "$category_id",<br />            count: { $sum: 1 } } },<br />{ $match: { count: { $gt: 1 } } }  <br />] )</pre><br /><br /><b>Multiple Aggregate Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, when, SUM(price) AS total<br />FROM items<br />GROUP BY category_id, when<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id",<br />                   when: "$when" },<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }  <br />] )</pre><br /><br /><b>Aggregate with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } }<br />] )</pre><br /><br /><b>Aggregate Filtration with Source Filtration</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(price) AS total<br />FROM items<br />WHERE active = 1<br />GROUP BY category_id<br />HAVING total &gt; 100</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $match: { active: 1 } },<br />{ $group: { _id: "$category_id",<br />            total: { $sum: "$price" } } },<br />{ $match: { total: { $gt: 100 } } }<br />] )</pre><br /><br /><b>Aggregated joins</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT category_id, SUM(co.weight) AS weight<br />FROM items i, components co<br />WHERE co.item_id = i.id<br />GROUP BY category_id</pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $unwind: "$components" },<br />{ $group: { _id: "$category_id",<br />            weight: { $sum: "$components.weight" } } }<br />] )</pre><br /><br /><b>Sub-query Aggregation</b><br /><b><br /></b>Sql example:<br /><pre class="brush:plain">SELECT COUNT(*)<br />FROM (SELECT category_id, when<br />      FROM items<br />      GROUP BY category_id, when) AS Table1<br /></pre><br />Mongo example:<br /><pre class="brush:js">db.items.aggregate( [ <br />{ $group: { _id: { category_id: "$category_id", <br />                   when: "$when" } } },<br />{ $group: { _id: null, count: { $sum: 1 } } }<br />] )</pre><br /><h3></h3></div><div>These are just some examples to get up and running. The documentation will guide you much better!</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/03/04/stored-javascripts-in-mongodb/">
+        Stored Javascripts in MongoDB
+      </a>
+    </h1>
+
+    <span class="post-date">04 Mar 2013</span>
+
+    <h1>Stored Javascripts in MongoDB</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Coming from a relational database background, technologies such as stored procedures and user defined functions have always helped out when building a database infrastructure. MongoDB provides the same sort of code storage in stored javascripts in the database.&nbsp;</div><div><br /></div><h3>Creating a stored javascript</h3><div>Creating a stored javascript into a database is a straight forward process of adding an item to the system.js collection.</div><div><br /><pre>&gt; db.collection.js.save({_id: "greaterThan10", <br />...                      value: function (x) { return x &gt; 10 }});</pre></div><div><br />Ok, this isn't the most useful of functions. We're testing if the value passed in the greater than 10. We're able to use this in queries of our own using $where syntax like so:<br /><br /><pre>&gt; db.people.find({$where: "greaterThan10(this.age)"})</pre><br />This would get all of the "people" documents out of the database where they were over the age of 10. This is quite verbose of such a simple example, but you can see that by filling out the function in the saved javascript with more complex operations, you could achieve a lot with a little.<br /><br /><h3>Removing a stored javascript</h3></div><div>Working with the collection as usual, you can simply remove your stored javascript by id.</div><div><br /></div><div><pre>&gt; db.collection.js.remove({_id: "greaterThan10"})</pre></div><br /><h3>Testing&nbsp;</h3><div>As a final note, once you've created your stored javascript you can test it using eval easy enough.</div><div><br /></div><pre>&gt; db.eval("return greaterThan10(9);")<br />false<br />&gt; db.eval("return greaterThan10(11);")<br />true</pre><div><br />This is just a short introduction into the world of stored javascripts. The internal workings of MongoDB is all based on javascript, so it's a good idea to have your skills nice and sharp before going in!<br /><br /></div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,88 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/07/04/configfile-basics-in-haskell/">
-        ConfigFile Basics in Haskell
-      </a>
-    </h1>
-
-    <span class="post-date">04 Jul 2013</span>
-
-    <h1>ConfigFile Basics in Haskell</h1>
-<div class='post'>
-<h3>Introduction</h3>One of the first things that I reach for when writing an application that will be used outside the context of my development sandbox is a configuration library. Not having statically compiled values for variables is quite a valuable position to be in once your application has been deployed.<br /><br />Today's post will take you from 0 to up and running with a package called <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html">ConfigFile</a> that is specifically designed to serve your applications with configuration data.<br /><br />Most of the content in this post is lifted directly from the documentation, so you'll be better off reading through those to gain a deeper understanding of the library. This post is more of a short-cut to get up and running.<br /><br /><h3>Configuration format</h3>If you've had much experience with administering windows back in the day when INI files ruled the earth, you'll be right at home with <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html">ConfigFile</a>. For those of you who have never seen it before, it's really easy and you can read up on it <a href="http://en.wikipedia.org/wiki/INI_file">here</a>.<br /><br />Files are broken into sections which contain a list of key/value pairs - done!<br /><br />For today's example, the configuration file will look as follows:<br /><br /><script src="https://gist.github.com/tuttlem/5927536.js"></script> <br />We'll end up with two keys, "path" and "filename" that have corresponding values in the "Location" section.<br /><br /><h3>Structure</h3>The thing I like most about the part of the application is that we can make a nice record based data structure in Haskell that will marry up to how our configuration file looks. The simple file that we've defined above, would look like this:<br /><br /><script src="https://gist.github.com/tuttlem/5927562.js"></script> <br /><br />Once we fill one of these up, you can see that it'll be pretty natural to access these details.<br /><br /><h3>Reading and Building</h3>Finally - we need to read the values out of the config file and get them into our structure. The following block of code will do that for us.<br /><script src="https://gist.github.com/tuttlem/5927615.js"></script> <br /><br />There's a few interesting points in here to note. The Error Monad is being used here to keep track of any failures during the config read process. <a href="http://hackage.haskell.org/packages/archive/mtl/latest/doc/html/Control-Monad-Error.html#v:runErrorT">runErrorT</a> kicks this off for us. We then use <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html#v:readfile">readfile</a> to open the config file with a sane parser that knows how to speak INI. Pulling the actual strings from the config is done by using <a href="http://hackage.haskell.org/packages/archive/ConfigFile/1.0.5/doc/html/Data-ConfigFile.html#v:get">get</a>.<br /><br />From here, it's just wrapping the values up ready to send out. The final call is to <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:either">either</a>. Leaving the Error Monad, we're given an Either (left being the error, right being the value). I've used <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:either">either</a> here so I can provide an implementation for either scenario. If an error occurs (the first lambda) then I just toast-out of the application. If we get a config value back (the second lambda), that's what gets returned.<br /><br /><h3>Conclusion</h3>That's all there is to that. Remember, you won't escape from the IO Monad which is why the read function's return type has IO. When you want to use these values, it'll need to be within "do" constructs:<br /><script src="https://gist.github.com/tuttlem/5927677.js"></script> <br /><br /><br />Cheers.</div>
-<h2>Comments</h2>
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Michael Tuttle</div>
-<div class='content'>
-readConfig here is using &quot;readfile&quot; internally to actually hit the config file. Take a look at alternatives here - for instance, I can see &quot;readhandle&quot; and &quot;readstring&quot; in the documentation. You may be able to open the config file yourself (by other means - &quot;openFile&quot;) without needing to give a full path.<br /><br />In every implementation I&#39;ve used this in, my config file has sat in the root of my cabal project. Specifying just the configuration filename has been sufficient.</div>
-</div>
-<div class='comment'>
-<div class='author'>Rose Perrone</div>
-<div class='content'>
-How can I run readConfig &quot;~/proj/config_filename.cfg&quot; without specifying a full path to the config file? I want other people to be able to use their local copy of my project without having to change this line in the source. I use an alias for running the haskell executable, so when I run the executable script from not within its directory, I get this error:<br /><br />Main: config_filename.cfg: openFile: does not exist (No such file or directory)</div>
-</div>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/24/making-sense-of-the-linux-top-report/">
-        Making Sense of the Linux "top" Report
-      </a>
-    </h1>
-
-    <span class="post-date">24 May 2013</span>
-
-    <h1>Making Sense of the Linux "top" Report</h1>
-<div class='post'>
-<h3>Introduction</h3>Working in a Linux environment for more and more of the day, it pays to know your tools really well. One tool that I use frequently to understand what a machine is doing is the "top" command. Today's post will take you through all of the figures on this report to help you understand what each means.<br /><br /><h3>The Command</h3>The <a href="http://linux.die.net/man/1/top">top</a> command is a very common tool used to "display Linux tasks" as the man page so helpfully tells us. Issuing this command at the shell will present the user with a few rows of figures followed by a list of all running processes on the system. Here is an extract of the report (just the upper lines that this post will focus on).<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-J1dAUFv5Ub8/UZ9G0XzeA7I/AAAAAAAAAss/2CBdFVmMhQo/s1600/top-sample.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="51" src="http://1.bp.blogspot.com/-J1dAUFv5Ub8/UZ9G0XzeA7I/AAAAAAAAAss/2CBdFVmMhQo/s400/top-sample.png" width="400" /></a></div><br /><h3>Breaking Down the Summary</h3>You can see from the excerpt above that quite a lot of information is packed into this part of the report. To breakdown this report, I'll just got through it line by line.<br /><br /><pre>top - 20:52:24 up 24 min,  2 users,  load average: 0.93, 1.01, 0.93</pre><br />The first line tells us the following:<br /><ul><li>The current time (20:52:24)</li><li>The machine's up time (24 min)</li><li>How many user sessions currently (2)</li><li>The system's load average for the last minute (0.93), last 5 minutes (1.01) and last 15 minutes (0.93)</li></ul>The system load average is an interesting one. A general rule of thumb is to investigate if you're seeing averages above 0.7. An average of 1.0 suggests that just enough work is getting processed by the machine, but is leaving you no headroom to move. Seeing a load of 5 and above is panic-time, systems stalling, trouble.<br /><br />For more information about these load values, take a look at <a href="http://blog.scoutapp.com/articles/2009/07/31/understanding-load-averages">Understanding Linux CPU Load - when should you be worried?</a> <br /><br /><pre>Tasks: 111 total,   1 running, 110 sleeping,   0 stopped,   0 zombie</pre><br />The second line tells us the following:<br /><ul><li>The total number of tasks (111)</li><li>How many of those tasks are running (1)</li><li>How many of them are sleeping (110)</li><li>How many of them are stopped (0)</li><li>and, How many of them are waiting to be stopped (or zombie) (0)</li></ul><pre>%Cpu(s):  12.3 us,  4.9 sy,  0.0 ni, 81.8 id,  0.7 wa,  0.0 hi,  0.3 si,  0.0 st</pre><br />The third line gives you a point in time view of how busy the CPU is and where its cycles are being used. It tells us the percentage of CPU being used for:<br /><ul><li>User applications (12.3 us)</li><li>System applications (4.9 sy)</li><li>Applications that have had their "nice" value adjusted (0.0 ni)</li><li>Unused or Idle (81.8 id)</li><li>Waiting for I/O operations (0.7 wa)</li><li>Handling hardware interrupts (0.0 hi)</li><li>Handling software interrupts (0.3 si)</li><li>Stolen by the hypervisor (0.0 st) </li></ul><pre>KiB Mem:   8129072 total,  1402664 used,  6726408 free,    69512 buffers</pre><pre>KiB Swap:  9920508 total,        0 used,  9920508 free,   620016 cached</pre><br />The fourth and fifth lines deal with memory and swap utilisation. It tells us the following:<br /><ul><li>Total</li><li>Used</li><li>Free&nbsp;</li><li>Buffers &amp; Cached</li></ul>That's it for the summary of the machine's activity. These are all the aggregate values which will give you an "at a glance" feel for how the machine is going. The next part of this post will be all about reading specific information from the process report. Here's an excerpt of the report.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-96sIylwcoDQ/UZ9TaeqDLXI/AAAAAAAAAs8/gAGD-cIp_XM/s1600/proc-sample.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="31" src="http://3.bp.blogspot.com/-96sIylwcoDQ/UZ9TaeqDLXI/AAAAAAAAAs8/gAGD-cIp_XM/s400/proc-sample.png" width="400" /></a></div><br /><h3>Breaking Down the Process Report</h3>To interrogate a single process, you can use the details within the process report. It will list out all of the processes currently managed by your system. The report columns as you look at it will provide the following information:<br /><ul><li>The process ID (PID)</li><li>The user who owns the process (USER)</li><li>The priority (PR)</li><li>The nice value (NI)</li><li>Virtual memory used by the process (VIRT)</li><li>Physical memory used by the process (RES)</li><li>Shared memory for the process (SHR)</li><li>Status of the process (S) (<b>S</b>leeping, <b>R</b>unning, <b>Z</b>ombie)</li><li>Percentage of CPU used by this process (%CPU)</li><li>Percentage of memory used by this process (%MEM)</li><li>The time that this process has been active (TIME+)</li><li>The name of the process (COMMAND)</li></ul><br />That's it for the "top" command in Linux. Remember, always read the <a href="http://linux.die.net/man/1/top">man pages</a> for commands that you want to learn more about!</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/17/wysiwyg-editor-on-bootstrap/">
-        WYSIWYG Editor on Bootstrap
-      </a>
-    </h1>
-
-    <span class="post-date">17 May 2013</span>
-
-    <h1>WYSIWYG Editor on Bootstrap</h1>
-<div class='post'>
-A WYSIWYG editor to quick-start that next CMS based idea. <br /><br />This one is based on twitter bootstrap.<br /><a href="http://www.blogger.com/goog_259371517"><br /></a><a href="http://mindmup.github.io/bootstrap-wysiwyg/">http://mindmup.github.io/bootstrap-wysiwyg/</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/05/17/more-beautiful-text/">
-        More Beautiful Text
-      </a>
-    </h1>
-
-    <span class="post-date">17 May 2013</span>
-
-    <h1>More Beautiful Text</h1>
-<div class='post'>
-Getting a wider array of fonts into your website is a pretty simple task these days. There's quite a selection of fonts that you can use offered on the web. Just take a look at <a href="http://www.google.com/fonts/">Google's repository</a>&nbsp;to see what I'm talking about.<br /><br />Once you've selected the font that's right for your application, you can import it to pages using the following directive:<br /><br /><pre>@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);</pre><br />... and then finally use it in your css directives.<br /><br /><pre>font-family: "Droid Sans", arial, verdana, sans-serif;</pre><br />Easy.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/05/17/fasm-flat-assembler/">
         Fasm Flat Assembler
       </a>
@@ -273,6 +183,88 @@ Getting a wider array of fonts into your website is a pretty simple task these d
 A quick reminder post to myself to go and look at <a href="http://flatassembler.net/download.php">Flat Assembler</a>. Interest was sparked initially from a article that was more of an x86 assembly tutorial <a href="http://siyobik.info.gf/main/documents/view/x86-tutorial/">here</a>.</div>
 <h2>Comments</h2>
 <div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/05/17/clojure-ui-links/">
+        Clojure UI Links
+      </a>
+    </h1>
+
+    <span class="post-date">17 May 2013</span>
+
+    <h1>Clojure UI Links</h1>
+<div class='post'>
+Here's a handful of links that I'll bookmark here for later to do with UI programming in Clojure.<br /><br /><div><br /></div><a href="http://lifeofaprogrammergeek.blogspot.com.au/2009/05/3d-grapher-in-clojure.html">http://lifeofaprogrammergeek.blogspot.com.au/2009/05/3d-grapher-in-clojure.html</a><br clear="all" /><div><br /></div><div>JOGL wikipedia example ported to Clojure</div><div><a href="https://groups.google.com/forum/?fromgroups=#%21topic/clojure/DCgw3GRBYgo">https://groups.google.com/forum/?fromgroups=#!topic/clojure/DCgw3GRBYgo</a><br /></div><div><br /></div><div>JOGL wikipedia</div><div><a href="http://en.wikipedia.org/wiki/Jogl">http://en.wikipedia.org/wiki/Jogl</a></div><div><br /></div><div>Example swing code</div><div><a href="https://groups.google.com/forum/?fromgroups=#%21topic/clojure/225S6DxYdBk">https://groups.google.com/forum/?fromgroups=#!topic/clojure/225S6DxYdBk</a></div><div><br /></div><div>MVC GUI Swing &amp; Clojure</div><div><a href="http://lifeofaprogrammergeek.blogspot.com.au/2009/05/model-view-controller-gui-in-clojure.html">http://lifeofaprogrammergeek.blogspot.com.au/2009/05/model-view-controller-gui-in-clojure.html</a></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/05/17/android-development/">
+        Android Development
+      </a>
+    </h1>
+
+    <span class="post-date">17 May 2013</span>
+
+    <h1>Android Development</h1>
+<div class='post'>
+The rainy day will come where I'll want to further my Android Development skills, but it's just not today. This bookmark is to remind me to look at these <a href="http://android-by-example.blogspot.com.au/2013/01/recently-i-have-started-translating.html">Android and Java Tutorials</a> when that time comes.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/05/16/testing-rest-apis-with-curl/">
+        Testing REST APIs with cURL
+      </a>
+    </h1>
+
+    <span class="post-date">16 May 2013</span>
+
+    <h1>Testing REST APIs with cURL</h1>
+<div class='post'>
+<h3>Introduction</h3>Testing is a large component of any software development done, sometimes though - you don't want to go through a full unit test suite just to see what a REST service is doing. I've come across some interesting concepts with cURL that will certainly be a shortcut benefit to seeing what responses your REST services are returning.<br /><br /><h3>Requests</h3>You can simulate all of the different HTTP verbs against any URL you'd like using cURL with the following syntax at the console:<br /><br />Retrieve person (id: 1)<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people/1</pre><br /><br />Retrieve all people<br /><pre class="brush: shell">$ curl -i -X GET http://localhost/service/people</pre><br /><br />Delete person (id: 1)<br /><pre class="brush: shell">$ curl -i -X DELETE http://localhost/service/people/1</pre><br /><br />Create a new person<br /><pre class="brush: shell">$ curl -i -X POST -H 'Content-Type: application/json' -d '{"first_name": "John", "last_name": "Smith"}' http://localhost/service/people</pre><br /><br />Modify a person (id: 1)<br /><pre class="brush: shell">$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"first_name": "Jane", "last_name": "Smith"}' http://localhost/service/people/1</pre><br /><br />Only a quick one.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/05/15/a-tcp-server-haskell-example/">
+        A TCP Server Haskell Example
+      </a>
+    </h1>
+
+    <span class="post-date">15 May 2013</span>
+
+    <h1>A TCP Server Haskell Example</h1>
+<div class='post'>
+<h3>Introduction</h3>In today's post, I'll demonstrate (and explain) how to put together a very simple TCP server in Haskell. The most simple example that I can think of, that will still leave you with enough skeleton to get up and running yourself is an echo server.<br /><br /><h3>The Functional Specification</h3>An Echo server. The drab, beige, sensible-older-brother in the server world. We'll accept incoming connections on a port and recite (echo) any data sent to us by the client. Simple.<br /><h3>Design</h3>Using the network, concurrency and system modules in Haskell, you're actually allowed a pretty simple and fluid design. Of course, you can make this as "one-liner" as you'd like, but for demonstration purposes today I'll break the server over a few parts:<br /><ul><li>Main program</li><li>Socket handler</li><li>Echo implementation</li></ul>The main program will take care of getting us out of first gear. It'll setup a listening socket (or server socket) and then hand off client connection responsibilities to the socket handler. The socket handler will then hand the client off to the echo implementation to work with as well as ensure it's ready for any extra connections. Finally, the echo implementation will just facilitate the server's functionality layer in. It will just send back to the client what ever it has given.<br /><h3>Code Walkthrough </h3>The main program is very simple. Setup the server socket using <a href="http://hackage.haskell.org/packages/archive/network/2.3.0.14/doc/html/Network.html#v:listenOn">listenOn</a> and then hand control over to the client handler.<br /><br /><script src="https://gist.github.com/tuttlem/5583842.js"></script> <br />The client handler (or socket handler as I called it above) accepts incoming client connections from the server socket using <a href="http://hackage.haskell.org/packages/archive/network/2.3.0.14/doc/html/Network.html#v:accept">accept</a>. We can then set buffering options (to off) for the client connection with <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hSetBuffering">hSetBuffering</a>. From there we make the echo service implementation fire up on a thread of its own with <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkIO">forkIO</a>. <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkIO">forkIO</a> deserves a blog post of its own (as does the Concurrency module as a whole), and it will get one... just not today. Anyway, finally the client handler recurses on itself to handle the next client.<br /><br />It's a lot of text for some pretty simple code in the end.<br /><br /><script src="https://gist.github.com/tuttlem/5583932.js"></script> <br />Finally, we have the actual implementation. This is the code that makes our server an echo server. We'll take a line of text in from the client socket using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hGetLine">hGetLine</a> then we'll write it back to the client using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-IO.html#v:hPutStrLn">hPutStrLn</a>.<br /><br /><script src="https://gist.github.com/tuttlem/5583956.js"></script> <br />And that's it. The full code listing for this echo server is below.<br /><br /><script src="https://gist.github.com/tuttlem/5583974.js"></script><br /><br /><h3>Final thoughts</h3>There is a fairly basic pattern that you can establish out of the module here that you can adapt for more complex servers of your own. Some further study of the IO system would be needed to develop binary communication protocols of your own, but if you're ok with plain text protocols - this should do just fine!<br /><br />Enjoy. <br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Michael Tuttle</div>
+<div class='content'>
+That looks really cool - nice and neat and simple. Thanks for the tip!</div>
+</div>
+<div class='comment'>
+<div class='author'>Unknown</div>
+<div class='content'>
+The pipes and pipes network libraries are worth a look too. They let you work at a higher level of abstraction which is nice and haskell-ey. Here&#39;s a 2-line echo server using them:<br />https://gist.github.com/jhickner/5589907</div>
+</div>
 </div>
 
   </div>

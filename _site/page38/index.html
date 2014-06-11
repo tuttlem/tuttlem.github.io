@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,91 +171,365 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/27/music-calculators-big-snakes/">
-        Music, Calculators & Big Snakes
+      <a href="/2012/11/25/calling-assembly-from-c-32-bit/">
+        Calling Assembly from C (32 bit)
       </a>
     </h1>
 
-    <span class="post-date">27 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Music, Calculators & Big Snakes</h1>
-<div class='post'>
-<h3>Introduction</h3><div>I play a lot of music. I mean <u style="font-weight: bold;">a lot</u>&nbsp;of music. Guitar, Bass, Piano, Drums, Harp -- what ever I can get my hands on, I'll give it a go. So, the neurons in charge of keeping my technical side in check may have made their way into the creative side of my brain.</div><div><br /></div><div>The net result was me creating a project that mashes mathematics, data analysis and music theory into a few classed called <a href="https://github.com/tuttlem/musica">musica</a>.</div><div><br /></div><h3>So what?</h3><div>Yeah, basically.. But, I am who I am - so it' more of a matter of "why not?".</div><div><br /></div><div>I'd previously tried building a Ruby on Rails application to give me graphical representations of musically related elements on screen. A scale is a pattern of intervals realised once a root note is put in place. This scale can then be harmonised at every step of the scale by employing every second note from the specific step. How complex these harmonised chords are will depend on how many steps you include in the chords that you build.</div><div><br /></div><div>The most interesting part of this library, I think, is its distinct lack of database. It has made the code quite verbose in parts but I intend to fix this, even if it does mean employing an intermediary database at a later stage.<br /><br /><h3>What can it do?</h3></div><div>The major, harmonic &amp; melodic minor scales (and all of their modes) are statically provisioned. You can use these in code to perform operations like voicing a scale when used in conjunction with a Note object.</div><div><br /></div><div>Immediately, we can get information about notes:<br /><br /><script src="https://gist.github.com/4153854.js?file=gistfile1.py"></script> Information about scales:<br /><script src="https://gist.github.com/4153859.js?file=gistfile1.py"></script> Voicing a scale (in this instance voicing Ionian (major) over C) <br /><script src="https://gist.github.com/4153871.js?file=gistfile1.py"></script></div><div><br /></div><div><h3>Still so much to do ...</h3></div><div>Still, we need to get chords harmonising from these voiced scales. These are just patterns after all. An intelligent chord builder would also be of value I think. Something where we don't have to explicitly map out chord names to interval sets statically. Just knowing that a root, major third and perfect fifth are a major chord.</div><div><br /></div><div>That'd be a cool calculator, I think.</div><div><br /></div><div>If your interested, the git repo for this library is <a href="https://github.com/tuttlem/musica">here</a>.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>One of the biggest advantages of being able to write assembly code is to optimise any bits of your application that you want. That way you can maintain your code base in a half-sane language (like C) and roll your sleeves up to speed up the smaller parts that you want.</p>
+
+<p>This blog post will show you how to call a routine that you&#39;ve defined in assembly language from your C code. The example that I&#39;ll show has been done in a Linux environment using <a href="http://www.nasm.us/">NASM</a> as the assembler and <a href="http://gcc.gnu.org/">GCC</a> for the C compiler.</p>
+
+<p>First of all, let&#39;s write our C program. This will simply add two integers and output the results using <a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/printf.html">printf</a>.</p>
+
+<div class="highlight"><pre><code class="c"><span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="cm">/** Forward declaration for our add function */</span>
+<span class="kt">int</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+   <span class="cm">/* add some numbers */</span>
+   <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+
+   <span class="cm">/* print the result out */</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;5+4=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>There isn&#39;t anything of great interest in here. We have a forward declaration for our add function. That&#39;s about it. Now we have to supply an implementation for our add routine. For this we&#39;ll be using assembly language.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="k">global</span> <span class="nv">add</span>
+
+<span class="k">section</span> <span class="nv">.text</span>
+
+<span class="nl">add:</span>
+   <span class="nf">mov</span>   <span class="nb">eax</span><span class="p">,</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>    <span class="c1">; get the 1st param</span>
+   <span class="nf">mov</span>   <span class="nb">ecx</span><span class="p">,</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mi">8</span><span class="p">]</span>    <span class="c1">; get the 2nd param</span>
+   <span class="nf">add</span>   <span class="nb">eax</span><span class="p">,</span> <span class="nb">ecx</span>        <span class="c1">; add them together</span>
+                         <span class="c1">; leaving the return value in eax</span>
+
+   <span class="nf">ret</span></code></pre></div>
+
+<p>This is all pretty straight forward. We define a symbol &quot;add&quot; as global. In the code (or .text) section, we supply an implementation for it. The trickiest part here is being able to retrieve parameters that are passed in from the C level. You can see that we&#39;re addressing stack pointer to do so. </p>
+
+<p>Add takes two parameters. In this scenario (c-calling convention) the parameters to the function are pushed onto the stack in reverse order. So, the second parameter goes onto the stack first and then the first. Once all of the pushing has complete, the first parameter is at <code>[esp+4]</code> and the second is at <code>[esp+8]</code>. Remember - an integer (on this architecture) has 4 bytes (32 bits).</p>
+
+<p>Return values are always left in <code>eax</code>. You&#39;ll see that after the arithmetic completes, it&#39;ll be <code>eax</code> that holds the answer. It&#39;s what will be given back to the caller.</p>
+
+<p>Finally, all we need to do is compile these files and link together their object files. We do this from the Linux console with the following commands.</p>
+
+<div class="highlight"><pre><code class="bash">gcc -m32 -c -g add.c -o add.o
+nasm -felf32 maths.asm -o maths.o
+gcc -m32 add.o maths.o -o add</code></pre></div>
+
+<p>We&#39;re done. I&#39;ll be doing another one of these sorts of blog posts shortly demonstrating how we&#39;ll do this in the 64-bit arena.</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/27/calling-assembly-from-c-64-bit/">
-        Calling Assembly from C (64 bit)
+      <a href="/2012/11/24/pretty-code-is-readable-code/">
+        Pretty code is readable code
       </a>
     </h1>
 
-    <span class="post-date">27 Nov 2012</span>
+    <span class="post-date">24 Nov 2012</span>
 
-    <h1>Calling Assembly from C (64 bit)</h1>
-<div class='post'>
-In a <a href="http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html">previous blog post</a>, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.<br /><br />I'll be using the same technology stack as last time with <a href="http://www.nasm.us/">NASM </a>as my assembler and <a href="http://gcc.gnu.org/">GCC</a> as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.<br /><br />Alright then. On with the code!<br /><br />The C-code is not different from the 32-bit version as mentioned in my previous post. Now <b>that's</b>&nbsp;portability for you!<br /><br /><script src="https://gist.github.com/4142080.js?file=gistfile1.c"></script> The assembly language module has changed somewhat though.<br /><br /><script src="https://gist.github.com/4151995.js?file=gistfile1.asm"></script> <br />Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.<br /><br />The change in calling convention can be studied in further detail <a href="http://www.x86-64.org/documentation/abi.pdf">here</a>, however it's just important to mention this:<br /><blockquote class="tr_bq"><blockquote class="tr_bq">Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:</blockquote><blockquote class="tr_bq">If the class is MEMORY, pass the argument on the stack.</blockquote><blockquote class="tr_bq">If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used</blockquote></blockquote>So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html">Intel</a>&nbsp;and <a href="http://en.wikipedia.org/wiki/X86-64">Wikipedia</a>&nbsp;are both excellent resources.<br /><br />Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.<br /><br /><script src="https://gist.github.com/4152023.js?file=gistfile1.sh"></script> We're done!<br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>There&#39;s no doubt about it. Syntax highlighting in code is the cornerstone of readability (in my mind anyway). I was browsing around today and found an assembly language highlighter for visual studio <a href="http://asmhighlighter.codeplex.com">here</a>.</p>
+
+<p>Now my code looks like this (inside of VS).</p>
+
+<p><img src="http://1.bp.blogspot.com/-anD4yrKLxDE/ULAke-WtJsI/AAAAAAAAAhA/gNxQirJQAaU/s400/Screen+Shot+2012-11-24+at+11.35.06+AM.png" alt="Screen shot"></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/windows-development-with-masm32-part-3/">
-        Windows Development with MASM32 (part 3)
+      <a href="/2012/11/24/holy-smoke/">
+        Holy smoke!
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">24 Nov 2012</span>
 
-    <h1>Windows Development with MASM32 (part 3)</h1>
-<div class='post'>
-<h3>Introduction</h3><div>In the <a href="http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-2.html">last part</a>&nbsp;of this series, we finished off creating a message pump. The application did nothing (seemingly) on the surface, but underneath it set the platform for message processing which is so important in the windows environment.</div><div><br /></div><div>In this article we're going to create a simple window that will sit on this message pump architecture and be a first class citizen on our windows desktop.</div><div><br /></div><div>A little extra help (in the form of macros) has been employed in this example.&nbsp;</div><div><br /><script src="https://gist.github.com/4147906.js?file=gistfile1.asm"></script></div><div><br /></div>m2m is a neat little helper that wraps up that annoying memory location loading indirection problem that would normally see a little bit of stack gymnastics, and remember I'd previously said that all return values need to be in eax? Well, check out the macro "return". It's pretty self explanatory.<br /><h3>Window Classes</h3><div>Window classes are at the base of all windows that are created in windows. You fill out a structure (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633576(v=vs.85).aspx">WNDCLASS</a> or <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633577(v=vs.85).aspx">WNDCLASSEX</a>) and from there you can create windows using this window class as a template.&nbsp;</div><div><br /></div><div>Here we'll define the window class for the application.</div><div><br /></div><div><br /><script src="https://gist.github.com/4147911.js?file=gistfile1.asm"></script> <br />Some things of interest in this example is assigning the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx">window procedure</a>, giving the class a name (as we'll use it later) and finally the registration of the class using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633587(v=vs.85).aspx">RegisterClassEx</a>.<br /><br /><h3>Putting something on screen</h3></div><div>Finally, we'll put something on screen. So, the following snippet will create the window (using the class we registered above as the template) and give us back the handle (or <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HWND</a>) to the window.</div><div><br /><script src="https://gist.github.com/4147919.js?file=gistfile1.asm"></script></div><div><br /></div><div><br /></div><div>You can lookup <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632680(v=vs.85).aspx">CreateWindowEx</a> yourself to understand the parameters. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633548(v=vs.85).aspx">ShowWindow</a> and <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd145167(v=vs.85).aspx">UpdateWindow</a> are supplemental to the creation process to completeness.<br /><br /><h3>Responding when it counts</h3></div><div>Finally, we need to respond when the window does (or wants to do) something interesting. Remember, it's only a simple application so the&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx">window procedure</a>&nbsp;is not going to be a work of art. Really, it just lets everything go through to the default window procedure <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572(v=vs.85).aspx">DefWindowProc</a>. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx">WM_DESTROY</a>&nbsp;will post a quit message using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx">PostQuitMessage</a> which is really game over.</div><div><br /><script src="https://gist.github.com/4147927.js?file=gistfile1.asm"></script></div><div><br /></div><div><br /></div><div>This last code block also introduces some high-level if-then-else syntax provided by MASM. You could accomplish the same thing writing your cmp's and jmp's by hand. These <a href="http://msdn.microsoft.com/en-us/library/f4x287ff(v=vs.80).aspx">.IF</a>&nbsp;and <a href="http://msdn.microsoft.com/en-US/library/6f0ft3f1(v=vs.80).aspx">.ELSE</a>&nbsp;constructs provide a little syntactic sugar to make your assembly block read a little more in a structured fashion.<br /><br />Well, that wraps up part 3. You'll have a window glaring you in the face once you're up and running. Hitting the close button on the window will post a WM_CLOSE message which ultimately results in a&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx">WM_DESTROY</a>&nbsp;which your application will respond to by <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx">posting a quit message</a>&nbsp;and you're done.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Well, not really.</p>
+
+<p>Nostalgia got the better of me today in the form of some good old mode 13 demo code. All the hours I&#39;d blown previously developing little tid-bit apps like this and I never saved off any of my code. Thankfully, I have a good memory and whilst my assembly skills aren&#39;t &quot;top shelf&quot;, they&#39;re certainly up to the task of re-creating this sort of effect.</p>
+
+<h3 id="smoke,-fire,-flame?">Smoke, Fire, Flame?</h3>
+
+<p>They&#39;re all the same. They work of the same principal. </p>
+
+<ul>
+<li>Set a palette that suits your effect (yellows, reds, orange for fire), (black to white for smoke)</li>
+<li>Create some noise as far south as you can on the video buffer</li>
+<li>Blur the pixels out on the screen making your resulting pixels ascend and decay</li>
+</ul>
+
+<p>Easy!</p>
+
+<h3 id="on-to-the-code-...">On to the code ...</h3>
+
+<p>So, I&#39;ll present this little demo in a couple of chunks and explain them as I show them. The code is pretty well documented anyway so that reading it line for line should be very self-explanitory.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nf">.model</span> <span class="nv">small</span>
+<span class="nf">.stack</span> <span class="mh">100h</span>
+
+<span class="nf">.code</span>
+<span class="nl">start:</span>
+
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0013h</span>    <span class="c1">; set 320x200x256 mode</span>
+    <span class="nf">int</span> <span class="mh">10h</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0a000h</span>   <span class="c1">; we can&#39;t directly address ES so </span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span> <span class="nb">ax</span>          <span class="c1">; we do so through AX. ES = A000</span>
+    
+    <span class="nf">call</span>    <span class="nv">setup_palette</span>   <span class="c1">; setup a palette with greyscale </span>
+                <span class="c1">; to support the smoke effect</span>
+
+<span class="nl">no_kbhit:</span>
+
+    <span class="nf">call</span>    <span class="nv">randomize_lines</span> <span class="c1">; draw some random pixels </span>
+    <span class="nf">call</span>    <span class="nb">bl</span><span class="nv">oom</span>       <span class="c1">; average out the video buffer</span>
+    
+    <span class="nf">mov</span> <span class="nb">ah</span><span class="p">,</span> <span class="mh">01h</span>      <span class="c1">; test for a key press</span>
+    <span class="nf">int</span> <span class="mh">16h</span>
+    <span class="nf">jz</span>  <span class="nv">no_kbhit</span>    <span class="c1">; continue running if no key was hit</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0003h</span>    <span class="c1">; set text mode</span>
+    <span class="nf">int</span> <span class="mh">10h</span>
+    
+    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">4c00h</span>    <span class="c1">; return control back to dos</span>
+    <span class="nf">int</span> <span class="mh">21h</span>
+
+<span class="c1">; -- subroutines removed for brevity</span>
+
+<span class="nf">end</span> <span class="nv">start</span>
+
+<span class="nf">end</span></code></pre></div>
+
+<p>This is the main program. It needs to drop us into the required video mode, make sure we don&#39;t want to quit (i.e. was there a key hit?), actually perform the effect (the loop of random/average) and then clean up (send us back to text mode, return control to dos).</p>
+
+<h3 id="giving-the-effect-some-colour">Giving the effect some colour</h3>
+
+<p>Setting up the palette in this type of routine really does determine the &quot;type&quot; of routine that it is. As I&#39;d said above:</p>
+
+<ul>
+<li>Purely greyscale will give you a smokey effect on screen</li>
+<li>Gradients running through black, red, orange, yellow, white will give you fire/flame</li>
+<li>Black, blue up to purple will give you a cool alcohol type fire</li>
+<li>Greens will give you something alien</li>
+</ul>
+
+<p>The idea is to experiment with palette creation to see what comes out best for you. Here&#39;s how I setup a greyscale palette.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">setup_palette:</span>
+
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; 256 colour indicies to set</span>
+    
+<span class="nl">next_colour_idx:</span>
+    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; setup al so that we&#39;re setting</span>
+    <span class="nf">sub</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">cl</span>           <span class="c1">; colour indicies from low to high</span>
+    
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c7h</span>     <span class="c1">; this port selects the colour index</span>
+                    <span class="c1">; that we&#39;ll set r,g,b for</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>
+    
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c9h</span>     <span class="c1">; this port sets the r,g,b components</span>
+                        <span class="c1">; for the selected index</span>
+                            
+    <span class="nf">shr</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; rgb intensities are in range of 0..63</span>
+                    <span class="c1">; so, divide by 4 to adjust</span>
+                            
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the red</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the green</span>
+    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the blue</span>
+
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next colour</span>
+    <span class="nf">jnz</span> <span class="nv">next_colour_idx</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, just a touch of VGA theory here. Unlike today&#39;s video modes, the 256 colour VGA supported 256 indices that each had an RGB intensity set ranging (0..63) each. Sometime, I don&#39;t know how we ever used this video mode, but we got by -- and made some damn cool stuff using it. So, software port <code>3c7</code> takes a colour index. 3c8 can be used to read the colour intensities (not used in this program). <code>3c9</code> is the port we use to write (r,g,b) intensities. Dividing by 4 allows me to interpolate 0..255 against 0..63 so that 0 is the colour with least intensity up to 255 which has the greatest.</p>
+
+<h3 id="(not-so)-random">(not so) Random</h3>
+
+<p>Getting psuedo random numbers with nothing in the toolbox is difficult. The method that I&#39;ve used here is to constantly read from <a href="http://www.inversereality.org/tutorials/interrupt%20programming/timerinterrupt.html">software port 40h</a> which is tightly coupled with the timer interrupt but it keeps a fairly steady count. The uniformity of these numbers actually provides a very tame smoke effect, you&#39;re not going to see much chaos.</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">randomize_lines:</span>
+    
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">640</span>          <span class="c1">; we&#39;re going to set two rows of pixels</span>
+                    <span class="c1">; at the bottom of the screen to be </span>
+                    <span class="c1">; random colours, so that&#39;s 640 pixels</span>
+                            
+    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">63360</span>        <span class="c1">; we&#39;re going to start writing these </span>
+                    <span class="c1">; pixels on the last two lines so that&#39;s</span>
+                    <span class="c1">; 64000 - 640</span>
+                            
+<span class="nl">next_rand_pixel:</span>
+
+    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">40h</span>          <span class="c1">; we get quasi-random values from port 40h</span>
+    <span class="nf">in</span>  <span class="nb">al</span><span class="p">,</span> <span class="nb">dx</span>
+    
+    <span class="nf">stosb</span>               <span class="c1">; store the pixel on screen</span>
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next pixel</span>
+    <span class="nf">jnz</span> <span class="nv">next_rand_pixel</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, following along with the effect we only randomize the last two rows of the video array. Simple.</p>
+
+<h3 id="airbrush,-airbrush!!">Airbrush, Airbrush!!</h3>
+
+<p>It&#39;s just an averaging effect. We take the average of the current pixel, left, right and top most. We then re-set the pixel back into video memory 1 pixel above our current location. Therefore, we have no interest in trying to process the top-most row of video memory.</p>
+
+<p>The only other part that is a little awkward to look at in this code block will be the <code>ADC</code> instructions. We&#39;re dealing with bytes (values of 0..255). We&#39;re adding 4 of these together so we&#39;re going to quickly overflow a byte sized register. <code>ADC</code> (or add with carry adjustment) allows us to overflow this information into <code>AX</code>&#39;s higher-order byte (<code>AH</code>). When it comes time to divide (or take the arithmetic average) of this pixel&#39;s intensity, we&#39;ll be able to perform this operation on the word sized <code>AX</code> register. Neat. Check it out:</p>
+
+<div class="highlight"><pre><code class="nasm"><span class="nl">bloom:</span>
+
+    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">63680</span>        <span class="c1">; we average every pixel except the top row</span>
+    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">320</span>          <span class="c1">; we start at the 2nd row</span>
+    
+<span class="nl">next_avg:</span>
+    <span class="nf">xor</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">ax</span>           <span class="c1">; clear out our accumulator</span>
+    
+    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="p">]</span>        <span class="c1">; get the current pixel</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the left</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the right</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">]</span> <span class="c1">; add the pixel above</span>
+    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
+    
+    <span class="nf">shr</span> <span class="nb">ax</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; divide by 4 to get the average</span>
+    
+    <span class="nf">cmp</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; can we dampen?</span>
+    <span class="nf">jz</span>  <span class="nv">no_damp</span>         <span class="c1">; jump over if we can&#39;t</span>
+    
+    <span class="nf">dec</span> <span class="nb">al</span>          <span class="c1">; dampen the colour by 1</span>
+    
+<span class="nl">no_damp:</span>
+    <span class="nf">mov</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">],</span> <span class="nb">al</span>    <span class="c1">; put the averaged pixel 1 pixel above</span>
+    
+    <span class="nf">inc</span> <span class="nb">di</span>          <span class="c1">; next pixel</span>
+    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; keep count of how many we&#39;ve got left</span>
+    <span class="nf">jnz</span> <span class="nv">next_avg</span>
+    
+    <span class="nf">ret</span></code></pre></div>
+
+<p>So, when you put it all together (and run it in DosBox) you&#39;ll get something that looks like this:</p>
+
+<p><img src="http://2.bp.blogspot.com/-0SUcxXs8a_k/ULCQvxj-8qI/AAAAAAAAAhQ/hlD_2uNejwE/s400/Screen+Shot+2012-11-24+at+7.16.37+PM.png" alt="Smoke application running"></p>
+
+<p>Well.. I&#39;m feeling all nostalgic now. Might go and fire up DosBox and play a couple of games of Double Dragon.</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/unix-networking-server/">
-        Unix Networking Server
+      <a href="/2012/11/24/beej-s-tutorials/">
+        Beej's Tutorials
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">24 Nov 2012</span>
 
-    <h1>Unix Networking Server</h1>
-<div class='post'>
-The following snippet is a bare-bones server.<br /><br /><pre class="brush:c;">int sockfd, new_fd;  <br />struct addrinfo hints, *servinfo, *p;<br />struct sockaddr_storage their_addr; <br />socklen_t sin_size;<br />struct sigaction sa;<br />int yes=1;<br />char s[INET6_ADDRSTRLEN];<br />int rv;<br /><br />/* fill out the address structure */<br />memset(&amp;hints, 0, sizeof hints);<br />hints.ai_family = AF_UNSPEC;<br />hints.ai_socktype = SOCK_STREAM;<br />hints.ai_flags = AI_PASSIVE; <br /><br />/* get the address information */<br />getaddrinfo(NULL, PORT, &amp;hints, &amp;servinfo);<br /><br />/* open the socket */<br />sockfd = socket(p-&gt;ai_family, p-&gt;ai_socktype, p-&gt;ai_protocol);<br /><br />/* allow the socket to be re-used */<br />setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &amp;yes, sizeof(int));<br /><br />/* bind the socket to the address */<br />bind(sockfd, p-&gt;ai_addr, p-&gt;ai_addrlen);<br /><br />/* free up the address structure */<br />freeaddrinfo(servinfo); <br /><br />/* start the socket listening */<br />listen(sockfd, BACKLOG);<br /><br />/* accept the first connect */<br />new_fd = accept(sockfd, (struct sockaddr *)&amp;their_addr, &amp;sin_size);<br /><br />/* send the client some data */<br />send(new_fd, "Hello, world!", 13, 0);<br /> <br />/* finished with the client &amp; server */<br />close(new_fd);<br />close(sockfd);<br /></pre><br /><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?getaddrinfo+3">The getaddrinfo system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?bind+2">The bind system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?listen+2">The listen system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?accept+2">The accept system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv">The recv system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send">The send system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>For such a long time I have read over these tutorials. They have been a great source of information in doing things the &quot;unix way&quot;.</p>
+
+<p>Beej&#39;s site
+<a href="http://beej.us">http://beej.us</a></p>
+
+<p>Beej&#39;s Guide to Network Programming
+<a href="http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html">http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html</a></p>
+
+<p>Beej&#39;s Guide to Unix IPC
+<a href="http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html/">http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html</a></p>
+
+<p>Beej&#39;s Quick Guide to GDB
+<a href="http://beej.us/guide/bggdb/">http://beej.us/guide/bggdb/</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/unix-networking-client/">
-        Unix Networking Client
+      <a href="/2012/11/21/scissors-paper-rock/">
+        Scissors, Paper, Rock!
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">21 Nov 2012</span>
 
-    <h1>Unix Networking Client</h1>
-<div class='post'>
-The following snippet outlines the skeleton of a client socket application. It's the bare bones of what is needed to establish the client connection.<br /><br /><pre class="brush:c;">int sockfd, numbytes;  <br />char buf[MAXDATASIZE];<br />struct addrinfo hints, *servinfo, *p;<br />int rv;<br />char s[INET6_ADDRSTRLEN];<br /><br />/* fill out the address info */<br />memset(&amp;hints, 0, sizeof hints);<br />hints.ai_family = AF_UNSPEC;<br />hints.ai_socktype = SOCK_STREAM;<br /><br />/* create the actual server address */<br />getaddrinfo("www.remoteplace.com", PORT, &amp;hints, &amp;servinfo);<br /><br />/* create the socket file descriptor */<br />sockfd = socket(p-&gt;ai_family, p-&gt;ai_socktype, p-&gt;ai_protocol);<br /><br />/* perform the network connect */<br />connect(sockfd, p-&gt;ai_addr, p-&gt;ai_addrlen);<br /><br />/* free up the addres structure */<br />freeaddrinfo(servinfo); <br /><br />/* receive some data on the socket */<br />recv(sockfd, buf, MAXDATASIZE-1, 0));<br /><br />/* close the socket off */<br />close(sockfd);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?getaddrinfo+3">The getaddrinfo system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?connect">The connect system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv">The recv system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send">The send system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Haskell is a strange beast at times. I think you can see from the brute-force approach on this implementation of SPR that I was getting clearly frustrated with even some of the simplest of things.</p>
+
+<p>I really could have used &quot;Maybe&quot;
+I really could have used &quot;Read&quot;</p>
+
+<p>It&#39;s a learning experience:</p>
+
+<div class="highlight"><pre><code class="haskell"><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span>
+
+   <span class="kr">import</span> <span class="nn">System.IO</span>
+   <span class="kr">import</span> <span class="nn">System.Random</span>
+
+   <span class="kr">data</span> <span class="kt">Move</span> <span class="ow">=</span> <span class="kt">Scissors</span> <span class="o">|</span> <span class="kt">Paper</span> <span class="o">|</span> <span class="kt">Rock</span> <span class="o">|</span> <span class="kt">Unknown</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span><span class="kt">Show</span><span class="p">)</span>
+   <span class="kr">data</span> <span class="kt">Outcome</span> <span class="ow">=</span> <span class="kt">Winner</span> <span class="o">|</span> <span class="kt">Draw</span> <span class="o">|</span> <span class="kt">Loser</span> <span class="o">|</span> <span class="kt">ND</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
+
+   <span class="n">str2Move</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
+   <span class="n">str2Move</span> <span class="n">s</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="kr">case</span> <span class="n">s</span> <span class="kr">of</span>
+         <span class="s">&quot;s&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
+         <span class="s">&quot;p&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Paper</span>
+         <span class="s">&quot;r&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
+         <span class="kr">_</span>   <span class="ow">-&gt;</span> <span class="kt">Unknown</span>
+
+   <span class="n">getWinner</span> <span class="ow">::</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
+   <span class="n">getWinner</span> <span class="n">m</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
+         <span class="kt">Scissors</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
+         <span class="kt">Rock</span>     <span class="ow">-&gt;</span> <span class="kt">Paper</span>
+         <span class="kt">Paper</span>    <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
+         <span class="kt">Unknown</span>  <span class="ow">-&gt;</span> <span class="kt">Unknown</span>
+
+   <span class="n">getOutcome</span> <span class="ow">::</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Outcome</span>
+   <span class="n">getOutcome</span> <span class="n">player</span> <span class="n">cpu</span>
+      <span class="o">|</span> <span class="n">player</span> <span class="o">==</span> <span class="kt">Unknown</span> <span class="o">||</span> <span class="n">cpu</span> <span class="o">==</span> <span class="kt">Unknown</span> <span class="ow">=</span> <span class="kt">ND</span>
+      <span class="o">|</span> <span class="n">player</span> <span class="o">==</span> <span class="n">cpu</span> <span class="ow">=</span> <span class="kt">Draw</span>
+      <span class="o">|</span> <span class="n">cpu</span> <span class="o">==</span> <span class="n">winner</span> <span class="ow">=</span> <span class="kt">Loser</span>
+      <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="kt">Winner</span>
+      <span class="kr">where</span> <span class="n">winner</span> <span class="ow">=</span> <span class="n">getWinner</span> <span class="n">player</span>
+
+   <span class="n">getCpuMove</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
+   <span class="n">getCpuMove</span> <span class="n">gen</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="kr">let</span> <span class="p">(</span><span class="n">randNumber</span><span class="p">,</span> <span class="n">newGen</span><span class="p">)</span> <span class="ow">=</span> <span class="n">randomR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="n">gen</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">StdGen</span><span class="p">)</span>
+      <span class="kr">case</span> <span class="n">randNumber</span> <span class="kr">of</span>
+         <span class="mi">1</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
+         <span class="mi">2</span> <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
+         <span class="mi">3</span> <span class="ow">-&gt;</span> <span class="kt">Paper</span>
+
+   <span class="n">main</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="n">gen</span> <span class="ow">&lt;-</span> <span class="n">getStdGen</span>
+      <span class="n">putStr</span> <span class="s">&quot;Enter your choice (s, p or r): &quot;</span>
+      <span class="n">hFlush</span> <span class="n">stdout</span>
+      <span class="n">line</span> <span class="ow">&lt;-</span> <span class="n">getLine</span>
+
+      <span class="kr">let</span> <span class="n">player</span> <span class="ow">=</span> <span class="n">str2Move</span> <span class="n">line</span>
+      <span class="kr">let</span> <span class="n">cpu</span> <span class="ow">=</span> <span class="n">getCpuMove</span> <span class="n">gen</span>
+      <span class="kr">let</span> <span class="n">outcome</span> <span class="ow">=</span> <span class="n">getOutcome</span> <span class="n">player</span> <span class="n">cpu</span>
+
+      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Player Chose: &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">player</span><span class="p">)</span>
+      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Cpu Chose   : &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">cpu</span><span class="p">)</span>
+      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Outcome     : &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">outcome</span><span class="p">)</span></code></pre></div>
+
+<p>Some who have been nice enough to comment from time to time have suggested that I move forward with this implementation (inclusion of Lizard, Spock).</p>
+
+<p>Anyway, I&#39;ll keep struggling.</p>
 
   </div>
   

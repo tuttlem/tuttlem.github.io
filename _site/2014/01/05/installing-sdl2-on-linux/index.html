@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -178,12 +170,38 @@
         <div class="post">
   <h1 class="post-title">Installing SDL2 on Linux</h1>
   <span class="post-date">05 Jan 2014</span>
-  <h1>Installing SDL2 on Linux</h1>
-<div class='post'>
-<h3>Introduction</h3><a href="http://www.libsdl.org/download-2.0.php">SDL2</a> was released a little while ago, but still hasn't made it into the stable repositories of some Linux distributions. After doing a big of digging, it's not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums <a href="http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu">here</a>.<br /><br />In today's post, we'll install SDL2 on a Debian/Ubuntu style distribution from source.<br /><h3>Dependencies</h3>First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:<br /><br /><pre class="brush: shell">$ sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev</pre><br />Once all of these have installed successfully, you'll need to download a copy of the source. All downloads can be found <a href="http://www.libsdl.org/download-2.0.php">here</a>. This guide will assume that you'll download the .tar.gz source archive.<br /><br /><h3>Compilation and Installation</h3>Extract the package into a directory under your home directory, somewhere . . .<br /><br /><pre class="brush: shell">$ tar -xzf SDL2-*.tar.gz<br />$ cd SDL2-*</pre><br />Next we'll configure, build and install the libraries.<br /><br /><pre class="brush: shell">$ ./configure<br />$ make<br />$ sudo make install</pre><br />Once compilation and installation have complete, you'll need to update your library links/cache. Do this with the following command:<br /><br /><pre class="brush: shell">$ sudo ldconfig</pre><br /><br />That's all there is to it.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <h3 id="introduction">Introduction</h3>
+
+<p><a href="http://www.libsdl.org/download-2.0.php">SDL2</a> was released a little while ago, but still hasn&#39;t made it into the stable repositories of some Linux distributions. After doing a big of digging, it&#39;s not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums <a href="http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu">here</a>.</p>
+
+<p>In today&#39;s post, we&#39;ll install SDL2 on a Debian/Ubuntu style distribution from source.</p>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev</code></pre></div>
+
+<p>Once all of these have installed successfully, you&#39;ll need to download a copy of the source. All downloads can be found here. This guide will assume that you&#39;ll download the .tar.gz source archive.</p>
+
+<h3 id="compilation-and-installation">Compilation and Installation</h3>
+
+<p>Extract the package into a directory under your home directory, somewhere . . .</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>tar -xzf SDL2-*.tar.gz
+<span class="nv">$ </span><span class="nb">cd </span>SDL2-*</code></pre></div>
+
+<p>Next we&#39;ll configure, build and install the libraries.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+<span class="nv">$ </span>sudo make install</code></pre></div>
+
+<p>Once compilation and installation have complete, you&#39;ll need to update your library links/cache. Do this with the following command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo ldconfig</code></pre></div>
+
+<p>That&#39;s all there is to it. </p>
 
 </div>
 

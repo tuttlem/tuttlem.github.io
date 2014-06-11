@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,91 +171,161 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/unix-networking/">
-        Unix Networking
+      <a href="/2012/11/20/tools-for-webgeneers/">
+        Tools for Webgeneers
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">20 Nov 2012</span>
 
-    <h1>Unix Networking</h1>
-<div class='post'>
-I have just finished compiling two more blog posts for Unix Networking. Again, these aren't the&nbsp;definitive&nbsp;tutorial style blog posts, they're just code snippet short cuts to get moving quickly.<br /><br />Here are the links:<br /><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-networking-client.html">Client</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-networking-server.html">Server</a><br /><br />Further reading<br /><br /><a href="http://beej.us/guide/bgnet/">Beej's Guide to Network Programming</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>This one came across the news wire today. I just wanted to make a note of it so that I don&#39;t loose it.</p>
+
+<p>There&#39;s plenty in here that will allow you to take any site from 0 to hero.</p>
+
+<p><a href="http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html">http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/unix-ipc/">
-        Unix IPC
+      <a href="/2012/11/20/daemons-in-python/">
+        Daemons in Python
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">20 Nov 2012</span>
 
-    <h1>Unix IPC</h1>
-<div class='post'>
-I have just put together a set of blog posts on the topic of inter-process communication in the Unix environment. These are by no means meant to be full tutorials on their respective parts, more just shortcuts to get something running quickly.<br /><br />If you are looking for something more substantial on the theory side, there is more than enough information strewn about the internet regarding these topics. The Unix man pages are also an excellent source of information.<br /><br />Like a code-snippet reference.<br /><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-forking-and-waiting.html">Forking and Waiting</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-working-with-signals.html">Working with Signals</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-pipes-and-fifos.html">Pipes and FIFOs</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-locking-files.html">Locking Files</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-message-queues.html">Message Queues</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-semaphores.html">Semaphores</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-shared-memory_25.html">Shared Memory</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-memory-mapped-files.html">Memory Mapped Files</a><br /><a href="http://cogsandlevers.blogspot.com.au/2012/11/unix-ipc-unix-sockets.html">Unix Sockets</a><br /><br /><br />References<br /><a href="http://beej.us/guide/bgipc/">Beej's Guide to Unix IPC</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Didn&#39;t want to loose this bookmark, so thought I&#39;d pop it here for later.</p>
+
+<p>I would expect that you&#39;ll see some posts about this topic shortly.</p>
+
+<p><a href="http://blip.tv/episode/5592905">http://blip.tv/episode/5592905</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/26/creating-a-nes-emulator-in-c-11/">
-        Creating a NES emulator in C++11
+      <a href="/2012/11/20/be-nice-and-die-well/">
+        Be nice and die well
       </a>
     </h1>
 
-    <span class="post-date">26 Nov 2012</span>
+    <span class="post-date">20 Nov 2012</span>
 
-    <h1>Creating a NES emulator in C++11</h1>
-<div class='post'>
-I had to make a reference to these videos. Watching them is so entertaining (for someone like me). This is really how I wish programming would go!<br /><br /><iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="http://www.youtube.com/embed/y71lli8MS8s" width="560"></iframe><br /><br /><br />  <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="http://www.youtube.com/embed/XZWw745wPXY" width="560"></iframe><br /><br />Entertaining!<br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>It&#39;s a morbid title, I agree but it is quite important. Unix daemons really need to listen to the messages (read as: signals) being sent to them and responding correctly. At the very least, if every daemon implemented the following it&#39;d be a breath of fresh air:</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/** Responds to signals of interest */</span>                                                                    
+<span class="kt">void</span> <span class="nf">daemon_signalhandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">sig</span><span class="p">)</span> <span class="p">{</span>                                      
+                                                                            
+   <span class="k">switch</span> <span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="p">{</span>                                                         
+                                                                            
+      <span class="k">case</span> <span class="n">SIGHUP</span>:                                                        
+         <span class="cm">/* this should just refresh configs and restart */</span>                                      
+         <span class="k">break</span><span class="p">;</span>                                                           
+                                                                            
+      <span class="k">case</span> <span class="n">SIGTERM</span>:                                                       
+         <span class="cm">/* mark the server as no longer running */</span>                                               
+         <span class="k">break</span><span class="p">;</span>                                                           
+   <span class="p">}</span>                                                                      
+                                                                            
+<span class="p">}</span></code></pre></div>
+
+<p>This block of code by itself is pretty useless. The other half of the equation is attaching this function to the signals of interest as well as ignoring signals we&#39;re not interested in (or that we&#39;re not interested in those signals turning our daemon to toast).</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/* attach the signal handlers now */</span>                                  
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGTSTP</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGTTOU</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGTTIN</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGHUP</span><span class="p">,</span> <span class="n">daemon_signalhandler</span><span class="p">);</span>                                 
+<span class="n">signal</span><span class="p">(</span><span class="n">SIGTERM</span><span class="p">,</span> <span class="n">daemon_signalhandler</span><span class="p">);</span></code></pre></div>
+
+<p>Well, that&#39;s it really and remember - die well.</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/using-the-gnu-debugger/">
-        Using the GNU Debugger
+      <a href="/2012/11/19/movie-time-unix/">
+        Movie Time Unix
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">19 Nov 2012</span>
 
-    <h1>Using the GNU Debugger</h1>
-<div class='post'>
-Bundled with the GNU toolset is a full featured debugger in GDB. This blog post aims to be a cheatsheet to get yourself around this tool quickly.<br /><br /><h3>The example program</h3><div><br /><pre class="brush:c;">int main(int argc, char *argv[]) {<br />  /* some local variables */<br />  int x = 1, y = 2, z = 0;<br />  <br />  /* something that will go bad */<br />  int ans = x / z;<br /><br />  return 0;<br />}<br /></pre></div><h3>Compile your code with debug info</h3><div>You need to use the "-g" switch with GCC in order to compile debug symbols. This helps the feedback that GDB will give you a great deal.</div><div><br /><pre class="brush:shell;">gcc -g test.c -o test<br /></pre><h3>Loading your program into the debugger</h3></div><div>So, in our example above the name of our executable would be "test". So, we just tell gdb to load test by passing it in.</div><div><br /><pre class="brush:shell;">gdb test<br /></pre><br />You can even start gdb with a text user interface, so I've just discovered.<br /><br /><pre class="brush:shell;" style="margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">gdb test -tui</pre><br />It looks like this - not bad, eh?<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-6Zx3N1_lUdg/ULHS7XhkRaI/AAAAAAAAAhg/oS9iA9-Jl1c/s1600/Screenshot+-+251112+-+18:11:48.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="276" src="http://2.bp.blogspot.com/-6Zx3N1_lUdg/ULHS7XhkRaI/AAAAAAAAAhg/oS9iA9-Jl1c/s400/Screenshot+-+251112+-+18:11:48.png" width="400" /></a></div><br /><br /></div>Now we instruct gdb that we'd like to run the application<br /><br /><pre class="brush:plain;">(gdb) run<br />Starting program: /home/michael/Development/gdb-tute/test <br /><br />Program received signal SIGFPE, Arithmetic exception.<br />0x00000000004004c3 in main (argc=1, argv=0x7fffffffe4d8) at test.c:9<br />9    ans = x / z;<br /></pre><br />So you can see here that dividing by zero wasn't the best career move for this program. But It nicely let us know that there was an arithmetic exception on line 9!<br /><br /><h3>Examining data</h3>To get just the call stack information, we issue the "backtrace" instruction<br /><br /><pre class="brush:plain;">(gdb) backtrace<br />#0  0x00000000004004c3 in main (argc=1, argv=0x7fffffffe4d8) at test.c:9<br /></pre><br />Examining data with print. We can view the value of variables by passing them to the print statement.<br /><br /><pre class="brush:plain;">(gdb) print x<br />$1 = 1<br />(gdb) print y<br />$2 = 2<br />(gdb) print z<br />$3 = 0<br /></pre><br />Print also supports printf style specifiers. Examining data at an address. We can view the value of data at a memory location by using the "x" command.<br /><br /><pre class="brush:plain;">(gdb) print &amp;z<br />$4 = (int *) 0x7fffffffe3e8<br />(gdb) x 0x7fffffffe3e8<br />0x7fffffffe3e8: 0x00000000</pre><pre class="brush:plain;"></pre><br />Setting variables while attached is done with "set". We can stop the error in the program at runtime using this mixed with a breakpoint.<br /><br /><pre class="brush:plain;">Breakpoint 1, main (argc=1, argv=0x7fffffffe4d8) at test.c:6<br />6    int x = 1, y = 2, z = 0;<br />(gdb) next<br />7    int ans = 0;<br />(gdb) set (z = 5)<br />(gdb) print z<br />$1 = 5</pre><h3>Working with breakpoints</h3>To set a breakpoint in gdb, just pass the name of what you'd like to break on to the "break" command.<br /><br /><pre class="brush:plain;">(gdb) break main<br />Breakpoint 1 at 0x40049f: file test.c, line 6.<br />(gdb) run<br />Starting program: /home/michael/Development/gdb-tute/test <br /><br />Breakpoint 1, main (argc=1, argv=0x7fffffffe4d8) at test.c:6<br />6    int x = 1, y = 2, z = 0;<br /></pre><br />You can set a breakpoint at a specific source code line number:<br /><br /><pre class="brush:plain;">(gdb) break 7<br />Breakpoint 1 at 0x4004b4: file test.c, line 7.<br /></pre><br />Finally, you can make a breakpoint using a combination of source code file name and line location:<br /><br /><pre class="brush:plain;">(gdb) break test.c:7<br />Breakpoint 3 at 0x4004b4: file test.c, line 7.<br /></pre><br />View your existing breakpoints with "info breakpoints"<br /><br /><pre class="brush:plain;">(gdb) info breakpoints<br />Num     Type           Disp Enb Address            What<br />3       breakpoint     keep y   0x00000000004004b4 in main at test.c:7<br /></pre><br />You can clear any set breakpoint with "clear".<br /><br /><pre class="brush:plain;">(gdb) clear main<br />Deleted breakpoint 1<br /></pre><br />You can step into code by issuing the step command  <br /><pre class="brush:shell;">(gdb) step<br />7    int ans = 0;<br />(gdb) <br />9    ans = x / z;<br />(gdb) <br /></pre><pre class="brush:shell;">Program received signal SIGFPE, Arithmetic exception.<br />0x00000000004004c3 in main (argc=1, argv=0x7fffffffe4d8) at test.c:9<br />9    ans = x / z;<br /></pre><br />You step over code by issuing "next". Its usage is the same as "step".<br /><br />That's all for now. As I come across other useful bits from GDB, I'll certainly post them here. The items above have been lifesavers for me from time to time<br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Breakout the pop-corn, it&#39;s movie time.</p>
+
+<p><a href="http://techchannel.att.com/play-video.cfm/2012/2/22/AT&amp;amp;T-Archives-The-UNIX-System">http://techchannel.att.com/play-video.cfm/2012/2/22/AT&amp;T-Archives-The-UNIX-System</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-working-with-signals/">
-        Unix Ipc Working With Signals
+      <a href="/2012/11/19/haskell-cards/">
+        Haskell Cards
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">19 Nov 2012</span>
 
-    <h1>Unix Ipc Working With Signals</h1>
-<div class='post'>
-Incoming messages to your process can come in the form of a signal. Signals are standard message packets that the operating system will use to tell your process something about the environment.<br /><br />This snippet will show you show to setup a signal handler in your program.<br /><br /><pre class="brush:c;">/** The signal handler */<br />void sigint_handler(int sig) {<br />	/* do something interesting with the sigint here */<br />}<br /><br />int main(void) {<br /><br />	struct sigaction sa;<br /><br />	/* fill out the signal structure */<br />	sa.sa_handler = sigint_handler;<br />	sa.sa_flags   = 0;<br />	sigemptyset(&amp;sa.sa_mask);<br /><br />	/* assign it to the appropriate signal */<br />	sigaction(SIGINT, &amp;sa, NULL);<br /><br />	/* do other stuff here, sigint will be handled */<br />	<br />}<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?sigaction+2">The sigaction system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?signal+2">The signal system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?raise">The raise system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?kill+2">The kill system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>I need to crawl before I can walk, so a lot of &quot;toy code&quot; is being written using Haskell. It&#39;s taken me a while to get to this point, but I now have cards being shuffled to players:</p>
+
+<div class="highlight"><pre><code class="haskell"><span class="kr">module</span> <span class="nn">Cards</span> <span class="kr">where</span>
+ 
+<span class="kr">import</span> <span class="nn">System.Random</span>
+<span class="kr">import</span> <span class="nn">Data.Maybe</span>
+<span class="kr">import</span> <span class="nn">Data.List</span>
+<span class="kr">import</span> <span class="nn">Data.Function</span>
+ 
+<span class="kr">import</span> <span class="nn">Test.HUnit</span>
+<span class="kr">import</span> <span class="nn">Test.QuickCheck</span>
+ 
+<span class="c1">-- | Card values for uno cards</span>
+<span class="kr">data</span> <span class="kt">CardValue</span> <span class="ow">=</span> <span class="kt">Naught</span> <span class="o">|</span> <span class="kt">One</span> <span class="o">|</span> <span class="kt">Two</span> <span class="o">|</span> <span class="kt">Three</span>
+    <span class="o">|</span> <span class="kt">Four</span> <span class="o">|</span> <span class="kt">Five</span> <span class="o">|</span> <span class="kt">Six</span> <span class="o">|</span> <span class="kt">Seven</span> <span class="o">|</span> <span class="kt">Eight</span> <span class="o">|</span> <span class="kt">Nine</span>
+    <span class="o">|</span> <span class="kt">Skip</span> <span class="o">|</span> <span class="kt">Reverse</span> <span class="o">|</span> <span class="kt">DrawTwo</span> <span class="o">|</span> <span class="kt">Wild</span> <span class="o">|</span> <span class="kt">WildDrawFour</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">,</span> <span class="kt">Eq</span><span class="p">,</span> <span class="kt">Enum</span><span class="p">)</span>
+ 
+<span class="c1">-- | Possible card colours</span>
+<span class="kr">data</span> <span class="kt">CardColour</span> <span class="ow">=</span> <span class="kt">Red</span> <span class="o">|</span> <span class="kt">Blue</span> <span class="o">|</span> <span class="kt">Green</span> <span class="o">|</span> <span class="kt">Yellow</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">,</span> <span class="kt">Eq</span><span class="p">,</span> <span class="kt">Enum</span><span class="p">)</span>
+ 
+<span class="c1">-- | Defines the attributes of a card</span>
+<span class="kr">data</span> <span class="kt">Card</span> <span class="ow">=</span> <span class="kt">Card</span> <span class="kt">CardValue</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">CardColour</span><span class="p">)</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
+ 
+<span class="c1">-- | Seeds a list of cards with a random value</span>
+<span class="nf">seedCards</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[(</span><span class="kt">Card</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span>
+<span class="nf">seedCards</span> <span class="n">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+<span class="nf">seedCards</span> <span class="n">g</span> <span class="p">(</span><span class="n">c</span><span class="kt">:</span><span class="n">cs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span><span class="kt">:</span><span class="n">seedCards</span> <span class="n">ng</span> <span class="n">cs</span>
+    <span class="kr">where</span> <span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span> <span class="ow">=</span> <span class="n">randomR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="n">g</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">StdGen</span><span class="p">)</span>
+                   <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+ 
+<span class="c1">-- | Makes a randomly shuffled deck of cards</span>
+<span class="nf">makeShuffledDeck</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]</span>
+<span class="nf">makeShuffledDeck</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">|</span> <span class="n">c</span> <span class="ow">&lt;-</span> <span class="n">sorted</span><span class="p">,</span> <span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">fst</span> <span class="n">c</span><span class="p">]</span>
+    <span class="kr">where</span> <span class="n">cards</span> <span class="ow">=</span> <span class="n">seedCards</span> <span class="n">g</span> <span class="n">deck</span>
+         <span class="n">sorted</span> <span class="ow">=</span> <span class="n">sortBy</span> <span class="p">(</span><span class="n">compare</span> <span class="p">`</span><span class="n">on</span><span class="p">`</span> <span class="n">snd</span><span class="p">)</span> <span class="n">cards</span>
+           <span class="n">deck</span> <span class="ow">=</span> <span class="n">val</span> <span class="o">++</span> <span class="n">take</span> <span class="mi">10</span> <span class="p">(</span><span class="n">cycle</span> <span class="n">spec</span><span class="p">)</span>
+            <span class="n">val</span> <span class="ow">=</span> <span class="p">[</span><span class="kt">Card</span> <span class="n">v</span> <span class="p">(</span><span class="kt">Just</span> <span class="n">c</span><span class="p">)</span> <span class="o">|</span> <span class="n">v</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Naught</span> <span class="o">..</span> <span class="kt">DrawTwo</span><span class="p">],</span> <span class="n">c</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Red</span> <span class="o">..</span> <span class="kt">Yellow</span><span class="p">]]</span>
+           <span class="n">spec</span> <span class="ow">=</span> <span class="p">[</span><span class="kt">Card</span> <span class="n">v</span> <span class="kt">Nothing</span> <span class="o">|</span> <span class="n">v</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Wild</span> <span class="o">..</span> <span class="kt">WildDrawFour</span><span class="p">]]</span>
+ 
+<span class="nf">tests</span> <span class="ow">=</span> <span class="kt">TestList</span> <span class="o">$</span> <span class="n">map</span> <span class="kt">TestCase</span>
+    <span class="p">[</span><span class="n">assertEqual</span> <span class="s">&quot;add tests here&quot;</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ 
+<span class="nf">prop_empty</span> <span class="n">c1</span> <span class="ow">=</span> <span class="p">(</span><span class="n">c1</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">==</span> <span class="n">c1</span>
+ 
+<span class="nf">runTests</span> <span class="ow">=</span> <span class="kr">do</span>
+    <span class="n">runTestTT</span> <span class="n">tests</span>
+    <span class="n">quickCheck</span> <span class="n">prop_empty</span>
+ 
+<span class="c1">-- | Main entry point</span>
+<span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="nf">main</span> <span class="ow">=</span> <span class="n">runTests</span></code></pre></div>
+
+<p>There is a lot more to do before this becomes of use. The real think work being conducted here is really between seedCards and makeShuffledDeck. These two functions alone provide randomization to the ordered deck so it can be shuffled.</p>
+
+<p>I hope to post some more on this topic, but I&#39;d like to have a fully functional (or close to) application before I do so.</p>
 
   </div>
   

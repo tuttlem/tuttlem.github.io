@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,16 +171,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/30/plan-9/">
-        Plan 9
+      <a href="/2012/11/25/unix-ipc-pipes-and-fifos/">
+        Unix Ipc Pipes And Fifos
       </a>
     </h1>
 
-    <span class="post-date">30 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Plan 9</h1>
+    <h1>Unix Ipc Pipes And Fifos</h1>
 <div class='post'>
-Bell Labs look like they've just opened up a little more of their source-code in the shape of some system commands.<br /><span style="font-family: inherit;"><br /><a href="http://plan9.bell-labs.com/sources/plan9/sys/src/">http://plan9.bell-labs.com/sources/plan9/sys/src/</a></span><br /><span style="font-family: inherit;"><a href="http://plan9.bell-labs.com/sources/plan9/sys/src/cmd/">http://plan9.bell-labs.com/sources/plan9/sys/src/cmd/</a></span><br /><br />It's worth a browse just to have a look at how some of these things were implemented.<br /><br />A quick update, seems that someone has Plan9 running on a raspberry PI.<br /><br /><span style="background-color: white; color: #1155cc; font-family: inherit;"><a href="http://bendyworks.com/geekville/lab_projects/2012/11/getting-plan-9-running-on-the-raspberry-pi" style="background-color: white; color: #1155cc;" target="_blank">http://bendyworks.com/<wbr></wbr>geekville/lab_projects/2012/<wbr></wbr>11/getting-plan-9-running-on-<wbr></wbr>the-raspberry-pi</a></span><br /><br /></div>
+This snippet will show you two processes communicating between each other using a pipe.<br /><br /><pre class="brush:c;">int pfds[2];<br />char buf[30];<br /><br />/* open the pipe */<br />pipe(pfds);<br /><br />if (!fork()) {<br />	/* the child will write to the pipe */<br />    write(pfds[1], "test", 5);<br />    exit(0);<br />} else {<br />	/* the parent will read from the pipe */<br />    read(pfds[0], buf, 5);<br />    wait(NULL);<br />}<br /></pre><br />FIFOs are just pipes that have a specific name. In this snippet the name is a constant defined elsewhere called FIFO_NAME.<br /><br /><pre class="brush:c;">/* first program writes to the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for writing */<br />fd = open(FIFO_NAME, O_WRONLY);<br />/* write to the pipe */<br />write(fd, buffer, strlen(buffer));<br /><br /><br />/* second program reads from the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for reading */<br />fd = open(FIFO_NAME, O_RDONLY);<br />/* read from the pipe */<br />read(fd, s, 20);<br /></pre><br />Further reading:<br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?mknod">The mknod system call</a></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -197,73 +189,161 @@ Bell Labs look like they've just opened up a little more of their source-code in
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/29/simple-random-number-generation-with-masm32/">
-        Simple random number generation with MASM32
+      <a href="/2012/11/25/unix-ipc-message-queues/">
+        Unix Ipc Message Queues
       </a>
     </h1>
 
-    <span class="post-date">29 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Simple random number generation with MASM32</h1>
-<div class='post'>
-Here's a little tid-bit that I'd like to make note of. In a previous MASM32 windows development tutorial, I needed a random number generator and was able to dig this one up from the archivies.<br /><div><br /></div><div>First of all, you need to make sure we're using the 586 instruction set - at least!</div><div><br /><script src="https://gist.github.com/4164886.js?file=gistfile1.asm"></script></div><div><br /></div><div>Shortly, it will become clear why we need the 586 instruction set.<br /><br />To support the random number generator, we need a bit of state in the shape of two double-words.<br /><br /><script src="https://gist.github.com/4164897.js?file=gistfile1.asm"></script> <br /><br /></div><div>These two variables allow the random number generator to know where it's up to for the next iteration. Changing the initial seed of course will change the sequence of random values that are produced by this routine.<br /><br />The actual function that produces the random number look like this:<br /><br /><script src="https://gist.github.com/4164970.js?file=gistfile1.asm"></script> <br />There it is. That first instruction <a href="http://ref.x86asm.net/coder32-abc.html#R">RDTSC</a>&nbsp;is what we need to turn the 586 instruction set on for. This&nbsp;mnemonic stands for&nbsp;&nbsp;Read Time-Stamp Counter. It will take the number of cycles since the machine has been reset and put this count into the EDX:EAX pair (as the time stamp counter is a 64bit value).<br /><br />From there some calculations are performed to ensure the consistency of state between random value retrieves and also capping to the requested range.<br /><br />Simple and it works too!</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Message queues are pretty common structures for inter-process communication. A common queue is created by one of the processes, from there it can be connected to by any other process and have messages submitted to it.</p>
+
+<p>This snippet shows the creation of a queue and sending a message. Another block below this will show receiving a message from the queue.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">msqid</span><span class="p">;</span>
+<span class="kt">key_t</span> <span class="n">key</span><span class="p">;</span>
+ 
+<span class="cm">/* --- message sender --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* create the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span> <span class="o">|</span> <span class="n">IPC_CREAT</span><span class="p">));</span>
+ 
+<span class="cm">/* put a message onto the queue */</span>
+<span class="n">msgsnd</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+ 
+<span class="cm">/* destroy (remove) the message queue */</span>
+<span class="n">msgctl</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="n">IPC_RMID</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+ 
+ 
+<span class="cm">/* --- message receiver --- */</span>
+ 
+<span class="cm">/* make a key */</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
+<span class="cm">/* connect to the message queue */</span>
+<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span><span class="p">);</span>
+<span class="cm">/* receive the message off the queue */</span>
+<span class="n">msgrcv</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok">The ftok system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget">The msgget system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd">The msgsnd system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl">The msgctl system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv">The msgrcv system call</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/29/mode-x-plus-some/">
-        Mode X.. plus some!
+      <a href="/2012/11/25/unix-ipc-memory-mapped-files/">
+        Unix Ipc Memory Mapped Files
       </a>
     </h1>
 
-    <span class="post-date">29 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Mode X.. plus some!</h1>
-<div class='post'>
-So, not much of tutorial here - just a neat layout of setup code for a few mode X modes I've come across now and then.<br /><br />First of all, just some formalities. Setting Mode X tweaks to the VGA is a massive port-out exercise. Creating the following macro cut down on my code heaps.<br /><br /><script src="https://gist.github.com/4168905.js?file=gistfile1.asm"></script> <br />So you can see, &nbsp;it just gives sending a byte out to a port a bit of syntactical sugar in assembly language. Easy.<br /><br />The only other piece of formality is, you must have set the video display into MCGA (mode 13) first:<br /><br /><script src="https://gist.github.com/4168969.js?file=gistfile1.asm"></script> <br />On to the modes.<br /><br /><script src="https://gist.github.com/4168909.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168920.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168932.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168936.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168939.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168949.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168963.js?file=gistfile1.asm"></script> <br /><br />I will have an update to this post. There are some nuances that I'd much prefer explain to you with a couple of nice code blocks rather than how I'm just going to throw it into the page.<br /><br />These chunks will be helpful in page selection and optimizing page draws to multiple pages at once.<br /><br /><br /><pre class="brush:plain;"> ; setting a page<br /> ; activeOffset = vgapage + (page * pageSize / 4);<br /> <br /> ; enable all planes<br /> ; outp 03c4h, 02h<br /> ; outp 03c5h, 0fh<br /></pre><br />Some really good references on this topic are<br /><br />Mode X on Wikipedia<br /><a href="http://en.wikipedia.org/wiki/Mode_X">http://en.wikipedia.org/wiki/Mode_X</a><br /><br />Bob Pendleton's Mode X Tutorial<br /><a href="http://www.gameprogrammer.com/3-tweak.html">http://www.gameprogrammer.com/3-tweak.html</a> <br /><br />Well, that's it for now.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>This snippet will show you how to open a file and map it into memory.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+ 
+<span class="cm">/* open the file */</span>
+<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;somefile&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
+ 
+<span class="cm">/* get the current page size */</span>
+<span class="n">pagesize</span> <span class="o">=</span> <span class="n">getpagesize</span><span class="p">();</span>
+ 
+<span class="cm">/* map the 2nd page into memory */</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">mmap</span><span class="p">((</span><span class="kt">caddr_t</span><span class="p">)</span><span class="mi">0</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">,</span> <span class="n">MAP_SHARED</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">);</span>
+                                                        
+<span class="cm">/* start using the data pointer */</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?mmap">The mmap system call</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/28/windows-development-with-masm32-part-4/">
-        Windows Development with MASM32 (part 4)
+      <a href="/2012/11/25/unix-ipc-locking-files/">
+        Unix Ipc Locking Files
       </a>
     </h1>
 
-    <span class="post-date">28 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Windows Development with MASM32 (part 4)</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Welcome to the fourth instalment in this windows development series. Just to re-cap the story so far, we've:</div><div><ul><li><a href="http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-1.html">Displayed a message box to the screen</a> in part 1</li><li><a href="http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-2.html">Setup a message pump</a> in part 2</li><li><a href="http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-3.html">Created a basic window</a> in part 3</li></ul><div>It's time to try something a little fun and little out of the tutorial mould that you'd be expecting at part 4. Today, lets create a window and setup a double buffer to provide flicker-free animation into our windows applications.</div></div><div><br /></div><div>This is going to be of great use if we want to do our own custom drawing without employing DirectX or OpenGL. Most of all, it'll be a laugh getting there.</div><h3>Double buffer theory, GDI style</h3><div>In a generic sense, we manage a block of memory (away from the visible video memory) that has the same characteristics (width, height and depth) as the screen we're presenting. We perform all of our drawing within this off-screen memory buffer and then "flip" it over onto the presenting video memory when we're ready to show it.</div><div><br /></div><div>In GDI land, this procedure is split between a <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HDC</a>&nbsp;and a <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HBITMAP</a>. A&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HDC</a>&nbsp;is obtained so that we have an access context into allocated memory. This is also what we'll use when we go to draw something. Where it's stored is in the bitmap.&nbsp;A&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HBITMAP</a>&nbsp;is obtained so that we can match what is being presented to the user in video memory. Windows does a good job of copying these characteristics when we call <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183488(v=vs.85).aspx">CreateCompatibleBitmap</a>.</div><h3>Supporting the back-buffer</h3><div>So, we need a couple of functions in order to keep the backbuffer happy when the window changes. We need to react when Windows tells us something about the window. In this scenario, we're going to be very interested in the resize message (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632646(v=vs.85).aspx">WM_SIZE</a>). We need to teardown any already setup back buffer, create a new one of adequate size and continue on.</div><div><br /></div><div>Let's take a look at the code that's will create and re-create our back-buffer when requested.</div><div><br /><script src="https://gist.github.com/4161317.js?file=gistfile1.asm"></script></div><div><br /></div><div><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633503(v=vs.85).aspx">GetClientRect</a> fills out a <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">RECT</a> structure for us with the client dimensions of the window. This is perfect to give us the dimensions for the back buffer. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd144871(v=vs.85).aspx">GetDC</a> obtains a device context directly on the window for us and we use this&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HDC</a>&nbsp;in order to create an in-memory representation using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183489(v=vs.85).aspx">CreateCompatibleDC</a>. Now that we know what we'll end up drawing to, we just need a buffer off-screen that will hold our intermediate frame. We do this by using&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183488(v=vs.85).aspx">CreateCompatibleBitmap</a>.<br /><br />You'll see a reference to the teardown for the backbuffer in the creation procedure. It's all about safety making sure we're un allocated before trying again. Here's that teardown.<br /><br /><script src="https://gist.github.com/4161329.js?file=gistfile1.asm"></script> <br /><br /></div><div>Tearing down is really just use of <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183539(v=vs.85).aspx">DeleteObject</a> and <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd162920(v=vs.85).aspx">ReleaseDC</a> calls. This is fairly straight forward.<br /><br />Finally, we need to be able to send the back buffer to the front (visible) buffer. This flip method using GDI calls is how we accomplish that.<br /><br /><script src="https://gist.github.com/4161348.js?file=gistfile1.asm"></script> <br />A point to note here is the use of <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183370(v=vs.85).aspx">BitBlt</a>. We need a way to quickly copy everything on the back buffer to everything on the front buffer. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd183370(v=vs.85).aspx">BitBlt</a> is purpose built to work on copying bitmaps between&nbsp;<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx">HDC</a>'s so this is the natural choice.<br /><h3>Not a normal message pump</h3></div><div>The type of application has changed. We're now targeting an animating, constantly re-drawn application that needs a new style of message pump. The last type of message pump was very passive, only doing something when required. This new one is very active - peeking the message stack using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx">PeekMessage</a>&nbsp;to determine if messages need to be processed, otherwise re-drawing the application.</div><div><br /></div><div>Here's the message pump for the application.</div><div><br /><script src="https://gist.github.com/4161383.js?file=gistfile1.asm"></script></div><div><br /></div><div><br /></div><div>Finally, we have the window procedure. This is what will co-ordinate the destruction and re-creation of the back buffer when catastrophic changes occur to the visual appearance of the application.<br /><br /><script src="https://gist.github.com/4161428.js?file=gistfile1.asm"></script> <br />That's about it for the double-buffer side of things. The rest of the application itself does have some trickery behind drawing random shapes, but I'll leave the random number generator for a later post.<br /><br />Get double buffering!</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Locking a file helps assure your program that no other processes can tamper with it or a region of it.</p>
+
+<p>This snippet will show you how to lock and unlock a file.struct flock fl;
+int fd;</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/* fill out the lock structure */</span>   
+<span class="n">fl</span><span class="p">.</span><span class="n">l_type</span>   <span class="o">=</span> <span class="n">F_WRLCK</span><span class="p">;</span> 
+<span class="n">fl</span><span class="p">.</span><span class="n">l_whence</span> <span class="o">=</span> <span class="n">SEEK_SET</span><span class="p">;</span>
+<span class="n">fl</span><span class="p">.</span><span class="n">l_start</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>       
+<span class="n">fl</span><span class="p">.</span><span class="n">l_len</span>    <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>       
+<span class="n">fl</span><span class="p">.</span><span class="n">l_pid</span>    <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>
+ 
+<span class="cm">/* open the file */</span>
+<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">,</span> <span class="n">O_WRONLY</span><span class="p">);</span>
+ 
+<span class="cm">/* lock the file */</span>
+<span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_SETLKW</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fl</span><span class="p">);</span>
+ 
+<span class="cm">/* --- complete any work here with the file locked --- */</span>
+ 
+<span class="cm">/* unlock the file now */</span>
+<span class="n">fl</span><span class="p">.</span><span class="n">l_type</span>   <span class="o">=</span> <span class="n">F_UNLCK</span><span class="p">;</span> 
+<span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_SETLK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fl</span><span class="p">);</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?fcntl">The fcntl system call</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/27/offscreen-mesa3d/">
-        Offscreen Mesa3D
+      <a href="/2012/11/25/unix-ipc-forking-and-waiting/">
+        Unix Ipc Forking And Waiting
       </a>
     </h1>
 
-    <span class="post-date">27 Nov 2012</span>
+    <span class="post-date">25 Nov 2012</span>
 
-    <h1>Offscreen Mesa3D</h1>
-<div class='post'>
-As a quick bookmark, this part of the Mesa3D project: <a href="http://www.mesa3d.org/osmesa.html">Off-screen Rendering</a>&nbsp;looks like it might be a viable option for some of the lower-end hardware I've come across lately.<br /><br />Bisqwit seems to have made pretty decent use of it in one of his videos here<br /><br /><br /><iframe width="420" height="315" src="http://www.youtube.com/embed/vkUwT9U1GzA" frameborder="0" allowfullscreen></iframe><br />Interesting.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>In order to create processes within the Unix environment, you must fork. Forking a process establishes the parent / child relationship which is where the waiting comes into it. All good parents wait for their children to die before terminating.</p>
+
+<p>It&#39;s just good manners, you know?</p>
+
+<p>So, the snippet for this will be a fork and wait set:</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/* fork execution here */</span>
+<span class="kt">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+ 
+<span class="kt">int</span> <span class="n">child_exit_code</span><span class="p">;</span>
+ 
+<span class="k">if</span> <span class="p">(</span><span class="n">pid</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+ <span class="cm">/* -1 indicates that fork failed */</span>
+ <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+ <span class="cm">/* 0 indicates that this is the child process */</span>
+ <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+ <span class="cm">/* the pid being returned indicates it&#39;s the parent */</span>
+ <span class="cm">/* wait for the child to finish and</span>
+<span class="cm">    capture its exit code */</span>
+ <span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child_exit_code</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<h3 id="further-reading">Further reading</h3>
+
+<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?fork+2">The fork system call</a>
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?wait+2">The wait system call</a></p>
 
   </div>
   

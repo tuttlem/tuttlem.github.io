@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,78 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/17/uniform-initialization-with-c-11/">
-        Uniform Initialization with C++11
-      </a>
-    </h1>
-
-    <span class="post-date">17 Jan 2013</span>
-
-    <h1>Uniform Initialization with C++11</h1>
-<div class='post'>
-Initialization of variables types has received a face lift with the new version of the C++ standard. Previously trying to initialize a populated list was impossible and you were left writing helper functions to transform array values into other container types, or worse you'd end up with code that looked like this.<br /><br /><script src="https://gist.github.com/4551170.js"></script> C++11 includes a feature called "Uniform Initialization" which aims to solve this problem. The above code now turns into this.<br /><br /><script src="https://gist.github.com/4551177.js"></script> Much better. This isn't where the&nbsp;convenience&nbsp;ends though. Take the following example. Because the "person" class defines a constructor taking in first_name, last_name and age we are able to use uniform initialization to setup these variables.<br /><script src="https://gist.github.com/4551245.js"></script> <br /><br />The same syntax works with any of the enumerated containers. Using the person class from above, we can make a map of employee records by doing the following.<br /><br /><script src="https://gist.github.com/4551296.js"></script> <br />You can see how this syntax makes the initialization process a much more pleasant experience in C++ now. That's all for this one.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/17/rvalue-references-in-c-11/">
-        Rvalue references in C++11
-      </a>
-    </h1>
-
-    <span class="post-date">17 Jan 2013</span>
-
-    <h1>Rvalue references in C++11</h1>
-<div class='post'>
-This is the biggest change (shift anyway) in C++'s thinking with the new standard. This preview of Rvalue references probably isn't pitched at the novice and a bit of prior knowledge is assumed. You'll want to know the differences between an <a href="http://publib.boulder.ibm.com/infocenter/comphelp/v7v91/index.jsp?topic=%2Fcom.ibm.vacpp7a.doc%2Flanguage%2Fref%2Fclrc05lvalue.htm">Lvalue and an Rvalue</a>, you'll also want to understand how <a href="http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Fcplr382.htm">temporary objects work</a>&nbsp;but most importantly why they're evil in some scenarios.<br /><br />With all of that information under our belt, I can see that the Rvalue reference came to fruition to resolve the copy problem. Returning a temporary object from a function that you'd use in your program would cause an expensive copy operation, now this is is resolved with move semantics.<br /><br />Rather than that expensive copy operation, the value that's returned is pilfered to the calling code and the temporary object is left empty, ergo a move occurs.<br /><br />An Rvalue reference is defined in code like so.<br /><br /><script src="https://gist.github.com/4555645.js"></script> The double ampersand (&amp;&amp;) tells us that it's an Rvalue reference. We can give our own classes the ability to "move" a value by introducing a move constructor and operator like so.<br /><script src="https://gist.github.com/4555709.js"></script> <br />The STL containers have all been optimised to use move syntax, so you'll pick up this copy-free functionality on the way.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/17/nullptr-in-c-11/">
-        nullptr in C++11
-      </a>
-    </h1>
-
-    <span class="post-date">17 Jan 2013</span>
-
-    <h1>nullptr in C++11</h1>
-<div class='post'>
-It happened! It finally happened! "NULL" has a real identity within the language. Forever I'd used the notion of NULL in my C &amp; C++ to really mean "0" (zero) under the covers.<br /><br /><script src="https://gist.github.com/4552930.js"></script> <br />Of course, I'd never defined it myself. It was always done for me in one of the many include files drawn into my program. One of the problems with this particular define is for overloaded methods. If you were to pass "NULL" in its defined state above, you'd be guessing as to which overload is called.<br /><br /><br /><script src="https://gist.github.com/4552962.js"></script> <br />Well, now we have "nullptr" in C++11. "nullptr" is castable to any pointer type.<br /><br /><script src="https://gist.github.com/4552990.js"></script> The castability also covers off on boolean expressions, so the following if-trees will still work.<br /><br /><script src="https://gist.github.com/4552999.js"></script> <br />Finally, "nullptr" is of type "nullptr_t". If you're going to find it of use to you to guarantee that a null pointer is going to be passed into a method, you could type your method using the type "nullptr_t".<br /><br />Null now has a home.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/17/initial-investigations-of-c-11/">
-        Initial investigations of C++11
-      </a>
-    </h1>
-
-    <span class="post-date">17 Jan 2013</span>
-
-    <h1>Initial investigations of C++11</h1>
-<div class='post'>
-I've written a lot of C and C++ code in my time but I have slipped as of late on keeping up with the published standards. Trying to remain abreast of too many things at once confuses me!<br /><div><br /></div><div>So, today's post I'll just be linking to all of the features that I've blogged about so far with C++11 that I hope should also give you a sniff to what's inside.</div><div><br /></div><div><ul><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/lambda-expressions-with-c11.html">Lambda Expressions in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/auto-and-decltype-in-c11.html">auto and decltype in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/defaulted-and-deleted-functions-in-c11.html">Defaulted and Deleted functions in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/uniform-initialization-with-c11.html">Uniform Initialization in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/enum-classes-in-c11.html">Enum Classes in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/nullptr-in-c11.html">nullptr in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/delegating-constructors-in-c11.html">Delegating Constructors in C++11</a></li><li><a href="http://cogsandlevers.blogspot.com.au/2013/01/rvalue-references-in-c11.html">Rvalue references in C++11</a></li></ul></div><div><br /></div><div><br /></div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/01/17/enum-classes-in-c-11/">
         Enum Classes in C++11
       </a>
@@ -261,6 +181,78 @@ I've written a lot of C and C++ code in my time but I have slipped as of late on
     <h1>Enum Classes in C++11</h1>
 <div class='post'>
 Enums in C/C++ have traditionally just been a pretty face for an integer value. That hasn't changed so much, but a new breed of enumeration has been added with C++11: enter the enum class.<br /><br />Enum classes have been introduced as a "strongly typed" enum. This gives you type safety in your enums so that you don't perform comparisons between enum types and if you do you'll need to explicitly define how the two should be compared.<br /><br />The other major benefit is improved scoping. Enum class values must always mention the enumeration that they belong to in order to be used.<br /><br />Here's an example of an enum class.<br /><br /><script src="https://gist.github.com/4551444.js"></script> Immediately the only difference that you'll see here is the addition of the word "class". You can still&nbsp;explicitly&nbsp;type and value your enumerations. Here's the same example above only written more verbosely.<br /><br /><script src="https://gist.github.com/4551454.js"></script> <br /><br />An example usage of these enum classes goes as follows.<br /><br /><script src="https://gist.github.com/4551472.js"></script> Well, there you have it. A brief tour of enum classes in C++11.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/17/delegating-constructors-in-c-11/">
+        Delegating Constructors in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">17 Jan 2013</span>
+
+    <h1>Delegating Constructors in C++11</h1>
+<div class='post'>
+One of the annoyances I've always had with C++ was its lack of elegant handling of constructors. You'd always be forced to swallow the bitter pill of an initializer function that each of your constructors would call.<br /><br />It always felt clunky to me. With C++11 introducing Delegating Constructors, this has all gone now.<br /><br />Take this simple person class, for example. No magic going on here, just a straight forward class and is how we'd implement multiple constructors without the use of an initialiser.<br /><br /><script src="https://gist.github.com/4555283.js"></script> Here we have a "person" class with three constructors all providing their own implementation of how a person object should initialized. This just isn't nice for a couple of reasons. The first is violation of the <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>&nbsp;principle, we're repeating ourselves the whole time which goes hand in hand with the second - each constructor initializes the object in its own way.<br /><br />So, the previous answer to this problem was to implement an initializer function which did this work for us.<br /><br /><script src="https://gist.github.com/4555304.js"></script> This is better. We've got one way to initialize our class, we're not repeating ourselves. Life is good.<br /><br />But now (in C++11), there's a better way. Here I'll show you how to re-implement this class using delegating constructors for the most elegant of solutions.<br /><br /><script src="https://gist.github.com/4555333.js"></script> <br />We've got our most general case constructor (in this case the construct taking in all three names) actually doing the work. The remaining two constructors then just leverage off the functionality defined in the general case. No re-implementation, no initialization function needed.<br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/getting-c-11-support-in-debian/">
+        Getting C++11 support in Debian
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>Getting C++11 support in Debian</h1>
+<div class='post'>
+<h3>Introduction</h3>The repository for the current stable version of Debian (squeeze) doesn't include a compiler with C++11 support. Today's post will take you through adding a testing repository so that you can get a compiler with this support in it.<br /><br />We needed to do <a href="http://cogsandlevers.blogspot.com.au/2012/12/installing-haskell-platform-on-debian.html">something similar</a>&nbsp;in a previous post when we were upgrading haskell platform for Debian. This won't stray to far from that.<br /><br /><h3>The Steps</h3><div>First up, we need to enable the testing repository. Adding the following lines to /etc/apt/sources.list will do this for us.</div><div><br /><pre>deb http://mirror.to.debian.repo/debian/ wheezy main    <br />deb-src http://mirror.to.debian.repo/debian/ wheezy main</pre></div><div><br />Next, we'll add an entry into the /etc/apt/preferences file to give preference to the "squeeze" (stable) repository over "wheezy" (testing) by adding these lines.<br /><br /><pre>Package: *            <br />Pin: release n=squeeze<br />Pin-Priority: 900     <br />                      <br />Package: *            <br />Pin: release n=wheezy <br />Pin-Priority: 200</pre><br />Finally, you'll be able to install clang with the following command. Take note that we're giving the install command the switches "--target-release testing", which tells aptitude to install this unit of software and its dependencies from the testing repository.<br /><br /><pre>$ sudo aptitude update &amp;&amp; sudo aptitude upgrade<br />$ sudo aptitude --target-release testing install clang</pre><br />You're done. C++11 support on your Debian box.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/defaulted-and-deleted-functions-in-c-11/">
+        Defaulted and Deleted Functions in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>Defaulted and Deleted Functions in C++11</h1>
+<div class='post'>
+A default (and more efficient) implementation can be given to your functions using the "default" keyword. This is the usage of a defaulted function in C++11.&nbsp;In this example, my "person" class has no written implementation for its constructor or destructor.<br /><br /><script src="https://gist.github.com/4543939.js"></script> The opposite to a defaulted function is a deleted function. The deleted function allows you to remove the implementation of a function by specifying the "delete" keyword. In C++ this is useful to us if we want to remove the copy constructor from classes that C++ so nicely provides for us. In this example, you can see that we've shut down the copy constructor as well as the assignment operator so that copying will no longer be supported.<br /><br /><script src="https://gist.github.com/4543965.js"></script> <br />That's it for these two features. Simple, but effective.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/16/auto-and-decltype-in-c-11/">
+        auto and decltype in C++11
+      </a>
+    </h1>
+
+    <span class="post-date">16 Jan 2013</span>
+
+    <h1>auto and decltype in C++11</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Type brevity has never been C++'s strong suit, especially when you start dealing with template classes. It's just a mess! One of the nifty features that comes along with the C++11 standard is the ability to not need to specify the type. This leaves it as the job for the compiler to complete.</div><div><br /></div><div>This will only be a short post on auto and decltype's usage.</div><div><br /></div><h3>Usage</h3><div>To use the "auto" keyword, just declare your variables as "auto". Here are some variables for some simple data types/</div><div><br /><script src="https://gist.github.com/4542642.js"></script></div><div>One of the problems I've always had, iterating over STL containers is how verbose the type becomes when you declare your iterator. You can use the "auto" keyword here to simplify this greatly now.<br /><br /><script src="https://gist.github.com/4542661.js"></script></div><div>That is an improvement out of sight!<br /><br />decltype operates along the same paradigm but instead of operating on a variable's type, it will take the type of an expression's result and allow you to bind a name to it.<br /><br /><script src="https://gist.github.com/4542697.js"></script></div><div><br /></div><div>Using "auto" throughout your code guarantees you that there won't be any conversions going on to that variable. This in itself is a few layers of performance sapping translation gone! Just the cleanliness of the code is worth its weight in gold!</div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

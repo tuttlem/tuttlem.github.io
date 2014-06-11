@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,78 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/06/sending-email-with-gmail-and-ruby/">
-        Sending email with GMail and Ruby
-      </a>
-    </h1>
-
-    <span class="post-date">06 Jan 2013</span>
-
-    <h1>Sending email with GMail and Ruby</h1>
-<div class='post'>
-Here's a quick little ruby snippet to get you sending email through your gmail account. I had to implement this recently, so I thought I'd make note of it here.<br /><br />You will need the <a href="http://rubygems.org/gems/tlsmail">tlsmail</a> gem install to make this happen.<br /><br />Here's the code.<br /><br /><script src="https://gist.github.com/4466102.js"></script> <br />That is what it's all about!</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/06/node-js-screencasts/">
-        node.js Screencasts
-      </a>
-    </h1>
-
-    <span class="post-date">06 Jan 2013</span>
-
-    <h1>node.js Screencasts</h1>
-<div class='post'>
-I think that if I was to dip my toes any further into the pool that is node.js, I'll be hitting up this set of free screencasts.<br /><br /><a href="https://learni.st/users/tilley.brandon/boards/3254-nodecasts-node-js-screencasts">https://learni.st/users/tilley.brandon/boards/3254-nodecasts-node-js-screencasts</a><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/06/impure-worlds-side-effects-and-io/">
-        Impure worlds, side effects and IO
-      </a>
-    </h1>
-
-    <span class="post-date">06 Jan 2013</span>
-
-    <h1>Impure worlds, side effects and IO</h1>
-<div class='post'>
-<h3>Introduction</h3><div>I've only just made it to chapter 8 in the book <a href="http://learnyouahaskell.com/">Learn You a Haskell for Great Good!</a>&nbsp;as as I've been going through it, most of it has been assumed knowledge without a lot of the understanding. I never needed to understand Haskell's separation of pure functional from impure code in order to print "Hello World" to the screen.</div><div><br /></div><div>After reading Chapter 8, I'm convinced that I should have known. I'm glad I do now.</div><div><br /></div><h3>Impure worlds</h3><div>Haskell goes to great lengths to ensure the code that you're writing is purely functional. That is, no state, no side-effects, function guarantees on outputs for given inputs. Fantastic. Great. But how do you make Haskell do something interesting then?</div><div><br /></div><div>In order to introduce the outside world into our pure environment we use "IO actions". The are actions that can (but don't have to) emit a result that will be of interest to our program. These actions are said to have side effects.<br /><br />I could continue on here but I wouldn't do the topic the justice it deserves, so do yourself a favour and read up on it.<br /><br />From here, I'll just present the code-level concepts that I want to make note of.<br /><br /><h3>Oganised Randomness</h3></div><div>One topic that's interesting came to me when I was unit testing a card shuffling solution. In order to implement shuffling, I needed to call on <a href="http://hackage.haskell.org/packages/archive/random/1.0.0.3/doc/html/System-Random.html">System.Random</a>. To get a generator, you can use <a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;which takes in an integer to produce a random number generator. A more unpredictable approach is&nbsp;&nbsp;to get this integer from some form of entropic pool outside by proxy of <a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:getStdGen">getStdGen</a>.&nbsp;</div><div><br /></div><div>We can predictably re-create the same random number generator by supplying&nbsp;<a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;with the same number. This is good for our unit tests as we can structure our tests according to these psuedo-random results. Of course, the number that's passed to&nbsp;<a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;I had setup as a lambda parameter so that <a href="http://hackage.haskell.org/package/QuickCheck">QuickCheck</a> would produce 100 different scenarios to test out.</div><div><br /></div><div>Anyway, on to some topics.</div><div><br /></div><h3>"Do" syntax</h3><div>"Do" syntax allows us to concatenate many IO actions together without making our code look like soup.</div><div><br /><script src="https://gist.github.com/4461704.js"></script></div><div><br />This is equivalent to this. <br /><script src="https://gist.github.com/4461713.js"></script> <br /><br />While we're inside the scope of "Do" syntax, we use the "&lt;-" construct to remove the IO off a result that comes from the outside world. Once we've done this, we can start using that value in our pure world!<br /><br />The inverse of the "&lt;-" is a "return" statement. A "return" will take a pure value and turn it into an IO action.<br /><br /><h3>when</h3></div><div>"when" is a function from Control.Monad and is used in conjunction with IO actions. "when" is used much like an "if" construct in other languages only when the condition is True, it'll return the supplied IO action otherwise it'll send out an empty IO action or IO (). Here's an example of its use.</div><div><br /><script src="https://gist.github.com/4461741.js"></script></div><div>When running, if this program receives "John" for the input, then John will get a message back. Anyone else, and they'll get nothing.<br /><br /><h3>sequence</h3></div><div>"sequence" will execute a batch (or a List) of IO actions. Here is an example where the program will ask for three strings (so there's a List of actions there) and then after that it'll use sequence and map to print those colours back to the user.</div><div><br /><script src="https://gist.github.com/4461784.js"></script></div><div><br /><h3>mapM and mapM_</h3></div><div>In the previous example, the usage of sequence in conjunction with map earned its own shortcut with mapM. Re-writing the last statement in the previous example with mapM.</div><div><br /><script src="https://gist.github.com/4461801.js"></script></div><div><br />It would have been more appropriate for me to use mapM_ as the difference is that it drops the result.<br /><br /><h3>forever</h3></div><div>As the name suggests, "forever" will execute an IO action forever.</div><div><br /><script src="https://gist.github.com/4461820.js"></script></div><div><br /><h3>forM</h3></div><div>"forM" is pretty much "mapM" only with the parameters shuffled around. It's a little more conducive to passing lambda expressions into it for a very neat and tidy feel.</div><div><br /><script src="https://gist.github.com/4461858.js"></script></div><div><br /></div><div><br /></div><div>That's pretty handy being able to "return" your value from the lambda body back into the assignment.<br /><br /><h3>Getting input from outside</h3><div>Being able to process the STDIN stream is a basic building block for a lot of programs in general. This text processing "duty" is made very simple in Haskell through the use of <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:getContents">getContents</a> and even easier through <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>.</div><div><br /></div><div>The example program that I've got here uses <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Data-Bits.html#v:xor">`xor`</a>&nbsp;to scramble how a string looks visually. By applying the same function over the scrambled string, we're returned to the original string.</div><div><br /></div><div>Heres the code.</div><div><br /><script src="https://gist.github.com/4466869.js"></script></div><div><br /></div><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:getContents">getContents</a>&nbsp;works like any other STDIN reader where we might use redirection at the shell to send a text file to it or we might just be entering strings at the console like so.<br /><br /><pre>$ runhaskell scramble.hs <br />Hello<br />M`iij<br />Yes sir-ee bob!<br />\`v%vlw(``%gjg$<br /></pre><br />Not quite "encryption" is it, but it'll do to demonstrate with. Using&nbsp;<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>&nbsp;just cleans up the main function so that it will look like this.<br /><br /><script src="https://gist.github.com/4466880.js"></script> <br /><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>&nbsp;is purpose built for this scenario as this is quite a common task.<br /><br /><h3>Command line parameters</h3><div>The other major source of external interaction to programs is through the command line, passing parameters in. Both <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-Environment.html#v:getProgName">getProgName</a> and <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-Environment.html#v:getArgs">getArgs</a> will put you on par with any other environment looking like this.</div><div><br /><script src="https://gist.github.com/4467008.js"></script></div><div><br /></div><br />That's it for IO. I'm going to try and apply this knowledge into some of my projects.</div><div><br /></div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/06/exception-handling-with-bracket/">
-        Exception handling with bracket
-      </a>
-    </h1>
-
-    <span class="post-date">06 Jan 2013</span>
-
-    <h1>Exception handling with bracket</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Performing IO in our pure environments can be dangerous. Who knows what people put in files that our programs are expected to read? There are tools that can help assure ourselves that we'll at least clean up if an explosion occurs.</div><div><br /></div><div>In this post, I'll talk about exception handling with IO actions using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#v:bracket">bracket</a>.</div><div><br /></div><h3>What is it?</h3><div><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#v:bracket">bracket</a>&nbsp;is a function defined in Control.Exception and is defined as follows.</div><div><br /><script src="https://gist.github.com/4467064.js"></script></div><div><br />Its first parameter is a function that acquires a resource (or handle). Its second parameter is a function that releases the resource acquired in the first. The last parameter is another function that uses the acquired handle to get a result.<br /><br />The error handling comes in because the 2nd parameter, the function that releases the acquired resource is called even if an exception occurs during the execution of the last parameter.<br /><br />That's nifty. An example use of bracket looks as follows.<br /><br /><script src="https://gist.github.com/4467094.js"></script> So, there's another safety mat for when you venture into the impure world.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/01/06/bundler-for-ruby/">
         Bundler for Ruby
       </a>
@@ -261,6 +181,78 @@ I think that if I was to dip my toes any further into the pool that is node.js, 
     <h1>Bundler for Ruby</h1>
 <div class='post'>
 <h3>Introduction</h3><div>A really easy way to take the headache out of keeping your gems at the right version (especially when source controlling your projects) is to use a package manager. Today's post is about <a href="http://gembundler.com/">Bundler</a>&nbsp;which helps maintain your environment for Ruby development.</div><div><br /><h3>Let's go!</h3></div><div>Install bundler.</div><div><br /><pre class="brush:shell">$ gem install bundler</pre></div><div><br /></div><div>You're now installed and ready to start bundling. The first job that you need to do is to write a metafile containing all of the gems that your application requires and where bundler should fetch those gems from. This metafile is called your "Gemfile".<br /><br />A Gemfile will take the following format.<br /><br /><pre class="brush:ruby">source "http://rubygems.org"<br />gem "nokogiri"              <br />gem "premailer"             <br />gem "tlsmail"</pre><br />The "source" tells bundler what site to download the gems from. The most common ones that I've seen are as follows. <br /><br /><pre class="brush:ruby">source :rubygems<br />source "http://rubygems.org"<br /><br />source :rubyforge<br />source "http://gems.rubyforge.org"<br /><br />source :gemcutter<br />source "http://gemcutter.org"</pre><br />You can see each of the sources here with a symbolic shortcut that you can use also.<br /><br />The "gem" tells bundler that you have a dependency. You can also constrain the version of your dependencies on these lines by using version information after the gem.<br /><br />Now that you've created your Gemfile, you can install all of the gems and their dependencies simple by changing directories to where your Gemfile resides and typing the following at the prompt.<br /><br /><pre class="brush:shell">$ bundle install</pre><br />Now you have all of your dependencies installed for your application. Doing this will generate a Gemfile.lock file in your directory also. Make sure that you source control both your Gemfile and Gemfile.lock.<br /><br />That's it.<br /><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/05/loading-an-image-with-sdl-image-for-opengl/">
+        Loading an image with SDL_Image for OpenGL
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2013</span>
+
+    <h1>Loading an image with SDL_Image for OpenGL</h1>
+<div class='post'>
+<h3>Introduction</h3><div>One of those "routine tasks" that comes up each time I go to write a game in C/C++ is loading an image using SDL and getting it in context of OpenGL. Today I'll post the code that I use to get the job done. It's pretty common code and straight forward so it won't need much explanation.</div><div><br /></div><h3>The Code</h3><div>First up, we have some variables that I like to hang on to. Your choice weather you hold onto the the format and number of colours, but you'll certainly want to keep track of the texture variable.</div><div><br /><script src="https://gist.github.com/4460207.js"></script></div><div><br />Next up is the crux of the work. The file/IO and transformation is really done by the <a href="http://www.libsdl.org/projects/SDL_image/">SDL_Image</a> library. So helpful, so easy! Keep in mind that you'll need to link against it at compile time (-lSDL_Image).<br /><br /><script src="https://gist.github.com/4460230.js"></script> The code does assume that you're giving this program a texture with dimensions on the power-of-2 as OpenGL expects. If you don't - it's at your own peril. Like I said, there's nothing really out of the ordinary here. Load the file, find out some format parameters, build the OpenGL texture.<br /><br />At this point we have a texture that we can call <a href="http://www.khronos.org/opengles/sdk/docs/man/xhtml/glBindTexture.xml">glBindTexture</a> on, ready to go. You will want to make sure that TEXTURE_2D is enabled of course during your program's initialisation.<br /><br />Tearing down is really quite simple (and naturally OpenGL) also.<br /><br /><script src="https://gist.github.com/4460259.js"></script> Job's done!<br /><br />If you are interested, I've encapsulated a fair bit of this in an SDL helper library that I'm building at the moment called sdlper. You can grab it from my GitHub repository <a href="https://github.com/tuttlem/libsdlper/">here</a>.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/05/either-type-in-haskell/">
+        Either type in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">05 Jan 2013</span>
+
+    <h1>Either type in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Doing some further work in the world of Haskell and have come across the <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a> type from the base library on a few occasions. Today I'll post about how to work with this type as you'll come across it a bit and it is quite handy.</div><div><br /></div><h3>Background</h3><div>Just as its english counterpart describes,&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;can represent one value or another. Scenarios where this might be the return value from a function where you may get the successful result value or you might get an error value.</div><div><br /></div><div>The&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;data type is defined as follows.</div><div><br /><script src="https://gist.github.com/4459889.js"></script></div><div><br />You construct an&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;by calling either the Left or Right constructor.&nbsp;So,&nbsp;<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Either.html">Either</a>&nbsp;is just a wrapper around a value that can be either one or the other.<br /><br /><h3>Working with it</h3></div><div>In GHCI I have created two instances of Either. "lefty" is constructed using Left, "righty" with Right.</div><div><br /><pre>&gt; let lefty = Left 10<br />&gt; let righty = Right "John"<br /></pre><pre>&gt; :t lefty<br />lefty :: Either Integer b<br /></pre><pre>&gt; :t righty<br />righty :: Either a [Char]<br /></pre></div><div><br />That all seems pretty straight forward. Calling Left or Right gives us back a value of an incomplete type. Haskell only really knows how to fill the types out that we've actually used.<br /><br />Having a look at the values that we've created, we're reminded that they are either Left or Right values as such.<br /><br /><pre>&gt; lefty<br />Left 10<br /></pre><pre>&gt; righty<br />Right "John"<br /></pre><br />Convenient, but if we're going to have a chance of using these values for anything real, we'll need to extract or unbox the value from the Either construct. The Either type has two functions which will take the boxed values into array called "lefts" and "rights". This makes sense. Take a look at how these functions interact with lefty and righty.<br /><br /><pre>&gt; lefts [lefty]<br />[10]<br />&gt; rights [lefty]<br />[]<br /></pre><pre>&gt; lefts [righty]<br />[]<br />&gt; rights [righty]<br />["John"]<br /></pre><br />They've now been taken out of the Either construct and are values ready to be processed sitting in a list.<br /><br />In the next example, we use pattern matching to detect if we're trying to divide by zero. Even though my preference is to always say that it's infinity, computers just like to complain about it.<br /><br /><script src="https://gist.github.com/4459950.js"></script> <br />The type that's used here "Either String Float" says that we're either going to receive a String or a Float in this value. You can see the case for zero division offering a String on the Left, otherwise we supply the quotient on the Right.<br /><br />There ya have it!</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/04/write-an-llvm-backend-tutorial-for-cpu0/">
+        Write an LLVM Backend Tutorial for Cpu0
+      </a>
+    </h1>
+
+    <span class="post-date">04 Jan 2013</span>
+
+    <h1>Write an LLVM Backend Tutorial for Cpu0</h1>
+<div class='post'>
+One day, when I get a chance I will get through this entire article and actually give it a crack, but, until they invent the 48 hour day I'm stuck with just making a bookmark post.<br /><br />I've scratched the surface of this article and it's comprehensive. Really very interesting if it's your sort of thing.<br /><br /><a href="http://jonathan2251.github.com/lbd/index.html">http://jonathan2251.github.com/lbd/index.html</a></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/04/recursive-data-structures-in-haskell/">
+        Recursive Data Structures in Haskell
+      </a>
+    </h1>
+
+    <span class="post-date">04 Jan 2013</span>
+
+    <h1>Recursive Data Structures in Haskell</h1>
+<div class='post'>
+<h3>Introduction</h3><div>As I've been following along in <a href="http://learnyouahaskell.com/">Learn You a Haskell for Great Good</a>, I've been coming across some really interesting material around the type system. In today's post, I want to walk through the Tree data type that they define in this book for the section on recursive data structures.</div><div><br /></div><h3>What it is?</h3><div>A recursive data structure is a type that has itself as a type amongst its fields. Pretty wild idea, but really useful for situations of Child-&gt;Parent, Tree-&gt;Leaf, etc. In today's example we're going to be using the Tree structure which looks like this.</div><div><br /><script src="https://gist.github.com/4447497.js"></script></div><div><br /></div><div><br /></div><div>This data type reads as, a "Tree" can either be an EmptyTree or it can have two nodes (that are also trees). You can start to see that this would be a best-fit as a binary search tree. Using an instance of Functor, we can give the the Tree data type&nbsp;recursively&nbsp;iterative&nbsp;properties through fmap.<br /><br /><script src="https://gist.github.com/4447642.js"></script> <br /><h3>Using the type</h3></div><div>Getting data into the tree is done cleverly (or so I think) with some basic pattern matching. I think it's done cleverly because it reads so well/humanly (perhaps I'm easily pleased).<br /><br /><script src="https://gist.github.com/4447669.js"></script> <br />Inserting an EmptyTree node will result in a node with an EmptyTree either side.&nbsp;Inserting data for key that exists will overwrite the existing data. Inserting a lesser key (lesser according to Ord) will put the node on the left, greater onto the right.<br /><br />Actually building a tree can be as simple as the following.<br /><br /><script src="https://gist.github.com/4447713.js"></script> <br />This results in a tree that looks like this.<br /><br /><pre>*Main&gt; fmap (*1) (foldr treeInsert EmptyTree [5,7,3])<br />Node 3 EmptyTree (Node 7 (Node 5 EmptyTree EmptyTree) EmptyTree)</pre><br />3 is at the trunk with no left-hand-side. 3's right hand side has a 7 with 5 for its left hand side and no right hand sides (for 5 or 7). Reading the dump out from ghci is going to be better for your understanding than trying to read my English describing the tree's structure.<br /><br />The important part that I wanted to illustrate really was the use of fmap here. We map the function (*1) so that none of the values in our source array change. We apply "treeInsert" in a fold-right starting with EmptyTree across the source array [5,7,3].<br /><br />If you ask me, that's pretty cool.<br /><br /></div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

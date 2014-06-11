@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,123 +171,193 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-unix-sockets/">
-        Unix Ipc Unix Sockets
+      <a href="/2012/11/19/book-on-algorithms/">
+        Book on Algorithms
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">19 Nov 2012</span>
 
-    <h1>Unix Ipc Unix Sockets</h1>
-<div class='post'>
-Unix sockets talk locally on the machine. Their operation is very similar to standard socket operations (as they are the same in every way). This snippet will show you a server and client.<br /><br /><pre class="brush:c;">int s, s2, t, len;<br />struct sockaddr_un local, remote;<br />char str[100];<br /><br />/* --- as a server --- */<br /><br />/* create the socket to serve on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to listen on */<br />local.sun_family = AF_UNIX;<br />strcpy(local.sun_path, SOCK_PATH);<br />unlink(local.sun_path);<br />len = strlen(local.sun_path) + sizeof(local.sun_family);<br /><br />/* bind the socket to this name */<br />bind(s, (struct sockaddr *)&amp;local, len);<br />/* listen on this socket */<br />listen(s, 5);<br />/* accept any incoming connection */<br />s2 = accept(s, (struct sockaddr *)&amp;remote, &amp;t));<br />/* receive some data */<br />n = recv(s2, str, 100, 0);<br />/* close the client */<br />close(s2);<br /><br /><br />/* --- as a client --- */<br /><br />/* create a socket to connect on */<br />s = socket(AF_UNIX, SOCK_STREAM, 0);<br /><br />/* fill out the address struct to connect to */<br />remote.sun_family = AF_UNIX;<br />strcpy(remote.sun_path, SOCK_PATH);<br />len = strlen(remote.sun_path) + sizeof(remote.sun_family);<br /><br />/* connect on this socket */<br />connect(s, (struct sockaddr *)&amp;remote, len);<br /><br />/* send some data */<br />send(s, str, strlen(str), 0);<br />/* close the socket */<br />close(s);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?socket">The socket system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?bind+2">The bind system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?listen+2">The listen system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?accept+2">The accept system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?connect+2">The connect system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?send+2">The send system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?recv+2">The recv system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Just so I don&#39;t lose track of it, <a href="http://www.cs.berkeley.edu/%7Evazirani/algorithms.html">here&#39;s</a> a really good looking book on Algorithms.</p>
+
+<p>Will be worth some study and the centre of a few more blog posts to come!</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-shared-memory/">
-        Unix Ipc Shared Memory
+      <a href="/2012/11/18/os-development-links/">
+        OS Development Links
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">18 Nov 2012</span>
 
-    <h1>Unix Ipc Shared Memory</h1>
-<div class='post'>
-Shared memory allows multiple processes to view, modify and control shared segments of memory. This snippet will show you how to obtain a pointer to some shared memory and then release the pointer.<br /><br /><pre class="brush:c;">key_t key;<br />int shmid;<br /><br />/* get an ipc key */<br />key = ftok("filename", 'R');<br /><br />/* connect to the segment */<br />shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT);<br /><br />/* attach to the segment */<br />data = shmat(shmid, (void *)0, 0);<br /><br />/* perform writes and reads on the "data" pointer */<br /><br />/* detach from the segment */<br />shmdt(data);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmget">The shmget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmat">The shmat system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmdt">The shmdt system call</a><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>Over the past couple of months, I&#39;ve compiled and refined a list of links that have been of assistance though my OS development journey.</p>
+
+<ul>
+<li><a href="http://www.osdever.net/bkerndev/index.php">Bona Fide OS Development</a></li>
+<li><a href="http://www.jamesmolloy.co.uk/tutorial_html/index.html">Roll your own toy UNIX-clone OS</a></li>
+<li><a href="http://wiki.osdev.org/Tutorials">OSDev Tutorials</a></li>
+<li><a href="http://forum.osdev.org/">OSDev Forums</a></li>
+</ul>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-semaphores/">
-        Unix Ipc Semaphores
+      <a href="/2012/11/18/lisp-experiments/">
+        LISP Experiments
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">18 Nov 2012</span>
 
-    <h1>Unix Ipc Semaphores</h1>
-<div class='post'>
-Semaphores can simplify access to shared resources. The following snippet will show you how to create a semaphore set and destroy it.<br /><br /><pre class="brush:c;">key_t key;<br />int semid;<br /><br />/* get an IPC key */<br />key = ftok("filename", 'E');<br />/* create the new semaphore set */<br />semid = semget(key, 10, 0666 | IPC_CREAT);<br /><br /><br />/* destroy the semaphore */<br />semctl(semid, 0, IPC_RMID);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semget">The semget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?semctl">The semctl system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>I&#39;ve always been interested in the mesmerising effect of browsing LISP style code. I wanted to make a blog post just to remember to take a look at it from time to time.</p>
+
+<p>Installation in a debian-based world is as simple as</p>
+
+<div class="highlight"><pre><code class="bash">sudo apt-get install clisp</code></pre></div>
+
+<p>You&#39;ll also be able to dress your code up inside of vim with <a href="https://github.com/kien/rainbow_parentheses.vim">Rainbow Parentheses</a></p>
+
+<p>Just remember to take a look!</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-pipes-and-fifos/">
-        Unix Ipc Pipes And Fifos
+      <a href="/2012/11/18/c-styles/">
+        C Styles
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">18 Nov 2012</span>
 
-    <h1>Unix Ipc Pipes And Fifos</h1>
-<div class='post'>
-This snippet will show you two processes communicating between each other using a pipe.<br /><br /><pre class="brush:c;">int pfds[2];<br />char buf[30];<br /><br />/* open the pipe */<br />pipe(pfds);<br /><br />if (!fork()) {<br />	/* the child will write to the pipe */<br />    write(pfds[1], "test", 5);<br />    exit(0);<br />} else {<br />	/* the parent will read from the pipe */<br />    read(pfds[0], buf, 5);<br />    wait(NULL);<br />}<br /></pre><br />FIFOs are just pipes that have a specific name. In this snippet the name is a constant defined elsewhere called FIFO_NAME.<br /><br /><pre class="brush:c;">/* first program writes to the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for writing */<br />fd = open(FIFO_NAME, O_WRONLY);<br />/* write to the pipe */<br />write(fd, buffer, strlen(buffer));<br /><br /><br />/* second program reads from the named pipe */<br />char buffer[20];<br />int num, fd;<br /><br />/* create the named pipe */<br />mknod(FIFO_NAME, S_IFIFO | 0666, 0);<br />/* open for reading */<br />fd = open(FIFO_NAME, O_RDONLY);<br />/* read from the pipe */<br />read(fd, s, 20);<br /></pre><br />Further reading:<br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?mknod">The mknod system call</a></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <p>A post about &quot;Mustache templates&quot; in C that I have <a href="http://tia.mat.br/posts/mustache_templates_in_c/">come across</a> has linked me through to two rather interesting articles about C programming styles.</p>
+
+<p><a href="http://gcc.gnu.org/onlinedocs/gcc-3.3.1/gcc/Compound-Literals.html">Compound Literals</a></p>
+
+<p><a href="http://www.run.montefiore.ulg.ac.be/%7Emartin/resources/kung-f00.html">Anonymous Arrays</a></p>
+
+<p>I&#39;d previously been doing things very long-hand up until now.</p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/25/unix-ipc-message-queues/">
-        Unix Ipc Message Queues
+      <a href="/2012/11/17/state-management-in-games/">
+        State Management in Games
       </a>
     </h1>
 
-    <span class="post-date">25 Nov 2012</span>
+    <span class="post-date">17 Nov 2012</span>
 
-    <p>Message queues are pretty common structures for inter-process communication. A common queue is created by one of the processes, from there it can be connected to by any other process and have messages submitted to it.</p>
+    <p>The title of this post does mention &quot;Games&quot;. In all honesty, with very minor modification you could change this implementation to suit any state requisition situation.</p>
 
-<p>This snippet shows the creation of a queue and sending a message. Another block below this will show receiving a message from the queue.</p>
+<p>It&#39;s the boring stuff that stops me half-way through developing a computer game. Building a menu, a title screen, a high-score chart.. you know, the stuff that takes you away from that big eye-candy feature that&#39;s in the game.</p>
 
-<div class="highlight"><pre><code class="c"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">msqid</span><span class="p">;</span>
-<span class="kt">key_t</span> <span class="n">key</span><span class="p">;</span>
- 
-<span class="cm">/* --- message sender --- */</span>
- 
-<span class="cm">/* make a key */</span>
-<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
-<span class="cm">/* create the message queue */</span>
-<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span> <span class="o">|</span> <span class="n">IPC_CREAT</span><span class="p">));</span>
- 
-<span class="cm">/* put a message onto the queue */</span>
-<span class="n">msgsnd</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
- 
-<span class="cm">/* destroy (remove) the message queue */</span>
-<span class="n">msgctl</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="n">IPC_RMID</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
- 
- 
-<span class="cm">/* --- message receiver --- */</span>
- 
-<span class="cm">/* make a key */</span>
-<span class="n">key</span> <span class="o">=</span> <span class="n">ftok</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">);</span>
-<span class="cm">/* connect to the message queue */</span>
-<span class="n">msqid</span> <span class="o">=</span> <span class="n">msgget</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mo">0644</span><span class="p">);</span>
-<span class="cm">/* receive the message off the queue */</span>
-<span class="n">msgrcv</span><span class="p">(</span><span class="n">msqid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+<p>Anyway, the implementation starts with a base class that manages some state. It&#39;s a class that has provision to allow any derivatives of it to provide reaction code. The state manager will actually cause these &quot;reactions&quot; to occur. You&#39;ll see this one shortly.</p>
 
-<h3 id="further-reading">Further reading</h3>
+<p>Here&#39;s the class itself:</p>
 
-<p><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok">The ftok system call</a>
-<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget">The msgget system call</a>
-<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd">The msgsnd system call</a>
-<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl">The msgctl system call</a>
-<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv">The msgrcv system call</a></p>
+<div class="highlight"><pre><code class="cpp"><span class="k">class</span> <span class="nc">state</span> <span class="p">{</span>
+  <span class="nl">public:</span>
+     <span class="n">state</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="o">:</span> <span class="n">_finished</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;constructed&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="o">~</span><span class="n">state</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;destructed&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;initializing&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">teardown</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;tearing down&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">progress</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+ 
+     <span class="k">const</span> <span class="kt">bool</span> <span class="n">finished</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_finished</span><span class="p">;</span> <span class="p">}</span>
+     <span class="n">state</span><span class="o">*</span> <span class="n">next</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_next</span><span class="p">.</span><span class="n">get</span><span class="p">();</span> <span class="p">}</span>
+     <span class="n">state</span><span class="o">&amp;</span> <span class="n">next_state</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="n">_next</span><span class="p">.</span><span class="n">get</span><span class="p">();</span> <span class="p">}</span>
+  <span class="nl">protected:</span>
+     <span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">state</span><span class="o">&gt;</span> <span class="n">_next</span><span class="p">;</span>
+     <span class="kt">bool</span>  <span class="n">_finished</span><span class="p">;</span>
+<span class="p">};</span></code></pre></div>
+
+<p>Of course, this is all nice and abstract. It doesn&#39;t really do anything. Here&#39;s a simple derivative. Don&#39;t expect too much, it really doesn&#39;t do that much at all:</p>
+
+<div class="highlight"><pre><code class="c--"><span class="k">class</span> <span class="nc">first_state</span> <span class="o">:</span> <span class="k">public</span> <span class="n">state</span> <span class="p">{</span>
+  <span class="nl">public:</span>
+     <span class="n">first_state</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="o">:</span> <span class="n">state</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">::</span><span class="n">init</span><span class="p">();</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">teardown</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">::</span><span class="n">teardown</span><span class="p">();</span>
+     <span class="p">}</span>
+ 
+     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">progress</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;progressing ...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">_next</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
+        <span class="n">_finished</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+     <span class="p">}</span>
+<span class="p">};</span></code></pre></div>
+
+<p>Finally, we have the state machine. It is the kernel, the guy &quot;in charge&quot;. This will progress execution through the chain of states to ensure the story-board is presented to the user in such a way that they have a nice feeling of continuity throughout the game:</p>
+
+<div class="highlight"><pre><code class="c--"><span class="k">class</span> <span class="nc">state_machine</span> <span class="p">{</span>
+  <span class="nl">public:</span>
+     <span class="n">state_machine</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+     <span class="n">state_machine</span><span class="p">(</span><span class="n">state</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span> <span class="o">:</span> <span class="n">_current</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+     <span class="o">~</span><span class="n">state_machine</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+ 
+     <span class="kt">void</span> <span class="n">run</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+ 
+        <span class="k">if</span> <span class="p">(</span><span class="n">_current</span><span class="p">)</span>
+           <span class="n">_current</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">();</span>
+ 
+        <span class="k">while</span> <span class="p">(</span><span class="n">_current</span><span class="p">)</span> <span class="p">{</span>
+ 
+           <span class="n">_current</span><span class="o">-&gt;</span><span class="n">progress</span><span class="p">();</span>
+ 
+           <span class="k">if</span> <span class="p">(</span><span class="n">_current</span><span class="o">-&gt;</span><span class="n">finished</span><span class="p">())</span> <span class="p">{</span>
+              <span class="n">_current</span><span class="o">-&gt;</span><span class="n">teardown</span><span class="p">();</span>
+              <span class="n">_current</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="n">_current</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">());</span>
+ 
+              <span class="k">if</span> <span class="p">(</span><span class="n">_current</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="n">_current</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">();</span>
+              <span class="p">}</span>
+           <span class="p">}</span>
+ 
+        <span class="p">}</span>
+ 
+     <span class="p">}</span>
+ 
+  <span class="nl">private:</span>
+     <span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">state</span><span class="o">&gt;</span> <span class="n">_current</span><span class="p">;</span>
+ 
+<span class="p">};</span></code></pre></div>
+
+<p>To really make this of immediate use to a games programmer, I suggest the reader takes this code as an example and implements the following necessities:</p>
+
+<h3 id="time-management">Time management</h3>
+
+<p>Giving the programmer the ability to tell how long it was between frame renders or even being able to control the number of frames processed per second is a requirement. This is the heartbeat/lifeblood to giving your program the ability to exist in a human (or non-human) consistent time scale.</p>
+
+<h3 id="eventing">Eventing</h3>
+
+<p>Most media libraries define some sort of eventing to allow the library to interact with the hosting operating system. These interrupts or notion of &quot;important incoming information&quot; needs to be embraced into the state framework as one of the most important side-effects can come from external interation (keyboards, mouse, etc).</p>
+
+<p>Enjoy.</p>
 
   </div>
   

@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,321 +171,1056 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/24/holy-smoke/">
-        Holy smoke!
+      <a href="/2012/11/17/art-for-programmers/">
+        Art for Programmers
       </a>
     </h1>
 
-    <span class="post-date">24 Nov 2012</span>
+    <span class="post-date">17 Nov 2012</span>
 
-    <p>Well, not really.</p>
+    <p>Yet another productivity killer for any non-creative programmer trying to make a game is art.</p>
 
-<p>Nostalgia got the better of me today in the form of some good old mode 13 demo code. All the hours I&#39;d blown previously developing little tid-bit apps like this and I never saved off any of my code. Thankfully, I have a good memory and whilst my assembly skills aren&#39;t &quot;top shelf&quot;, they&#39;re certainly up to the task of re-creating this sort of effect.</p>
+<p>So, the next time this is a problem - I&#39;ll be going here: <a href="http://letsmakegames.org/resources/art-assets-for-game-developers/"><a href="http://letsmakegames.org/resources/art-assets-for-game-developers/">http://letsmakegames.org/resources/art-assets-for-game-developers/</a></a></p>
 
-<h3 id="smoke,-fire,-flame?">Smoke, Fire, Flame?</h3>
-
-<p>They&#39;re all the same. They work of the same principal. </p>
-
-<ul>
-<li>Set a palette that suits your effect (yellows, reds, orange for fire), (black to white for smoke)</li>
-<li>Create some noise as far south as you can on the video buffer</li>
-<li>Blur the pixels out on the screen making your resulting pixels ascend and decay</li>
-</ul>
-
-<p>Easy!</p>
-
-<h3 id="on-to-the-code-...">On to the code ...</h3>
-
-<p>So, I&#39;ll present this little demo in a couple of chunks and explain them as I show them. The code is pretty well documented anyway so that reading it line for line should be very self-explanitory.</p>
-
-<div class="highlight"><pre><code class="nasm"><span class="nf">.model</span> <span class="nv">small</span>
-<span class="nf">.stack</span> <span class="mh">100h</span>
-
-<span class="nf">.code</span>
-<span class="nl">start:</span>
-
-    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0013h</span>    <span class="c1">; set 320x200x256 mode</span>
-    <span class="nf">int</span> <span class="mh">10h</span>
-    
-    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0a000h</span>   <span class="c1">; we can&#39;t directly address ES so </span>
-    <span class="nf">mov</span> <span class="nb">es</span><span class="p">,</span> <span class="nb">ax</span>          <span class="c1">; we do so through AX. ES = A000</span>
-    
-    <span class="nf">call</span>    <span class="nv">setup_palette</span>   <span class="c1">; setup a palette with greyscale </span>
-                <span class="c1">; to support the smoke effect</span>
-
-<span class="nl">no_kbhit:</span>
-
-    <span class="nf">call</span>    <span class="nv">randomize_lines</span> <span class="c1">; draw some random pixels </span>
-    <span class="nf">call</span>    <span class="nb">bl</span><span class="nv">oom</span>       <span class="c1">; average out the video buffer</span>
-    
-    <span class="nf">mov</span> <span class="nb">ah</span><span class="p">,</span> <span class="mh">01h</span>      <span class="c1">; test for a key press</span>
-    <span class="nf">int</span> <span class="mh">16h</span>
-    <span class="nf">jz</span>  <span class="nv">no_kbhit</span>    <span class="c1">; continue running if no key was hit</span>
-    
-    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">0003h</span>    <span class="c1">; set text mode</span>
-    <span class="nf">int</span> <span class="mh">10h</span>
-    
-    <span class="nf">mov</span> <span class="nb">ax</span><span class="p">,</span> <span class="mh">4c00h</span>    <span class="c1">; return control back to dos</span>
-    <span class="nf">int</span> <span class="mh">21h</span>
-
-<span class="c1">; -- subroutines removed for brevity</span>
-
-<span class="nf">end</span> <span class="nv">start</span>
-
-<span class="nf">end</span></code></pre></div>
-
-<p>This is the main program. It needs to drop us into the required video mode, make sure we don&#39;t want to quit (i.e. was there a key hit?), actually perform the effect (the loop of random/average) and then clean up (send us back to text mode, return control to dos).</p>
-
-<h3 id="giving-the-effect-some-colour">Giving the effect some colour</h3>
-
-<p>Setting up the palette in this type of routine really does determine the &quot;type&quot; of routine that it is. As I&#39;d said above:</p>
-
-<ul>
-<li>Purely greyscale will give you a smokey effect on screen</li>
-<li>Gradients running through black, red, orange, yellow, white will give you fire/flame</li>
-<li>Black, blue up to purple will give you a cool alcohol type fire</li>
-<li>Greens will give you something alien</li>
-</ul>
-
-<p>The idea is to experiment with palette creation to see what comes out best for you. Here&#39;s how I setup a greyscale palette.</p>
-
-<div class="highlight"><pre><code class="nasm"><span class="nl">setup_palette:</span>
-
-    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; 256 colour indicies to set</span>
-    
-<span class="nl">next_colour_idx:</span>
-    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">255</span>          <span class="c1">; setup al so that we&#39;re setting</span>
-    <span class="nf">sub</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">cl</span>           <span class="c1">; colour indicies from low to high</span>
-    
-    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c7h</span>     <span class="c1">; this port selects the colour index</span>
-                    <span class="c1">; that we&#39;ll set r,g,b for</span>
-    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>
-    
-    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">3c9h</span>     <span class="c1">; this port sets the r,g,b components</span>
-                        <span class="c1">; for the selected index</span>
-                            
-    <span class="nf">shr</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; rgb intensities are in range of 0..63</span>
-                    <span class="c1">; so, divide by 4 to adjust</span>
-                            
-    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the red</span>
-    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the green</span>
-    <span class="nf">out</span> <span class="nb">dx</span><span class="p">,</span> <span class="nb">al</span>           <span class="c1">; set the blue</span>
-
-    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next colour</span>
-    <span class="nf">jnz</span> <span class="nv">next_colour_idx</span>
-    
-    <span class="nf">ret</span></code></pre></div>
-
-<p>So, just a touch of VGA theory here. Unlike today&#39;s video modes, the 256 colour VGA supported 256 indices that each had an RGB intensity set ranging (0..63) each. Sometime, I don&#39;t know how we ever used this video mode, but we got by -- and made some damn cool stuff using it. So, software port <code>3c7</code> takes a colour index. 3c8 can be used to read the colour intensities (not used in this program). <code>3c9</code> is the port we use to write (r,g,b) intensities. Dividing by 4 allows me to interpolate 0..255 against 0..63 so that 0 is the colour with least intensity up to 255 which has the greatest.</p>
-
-<h3 id="(not-so)-random">(not so) Random</h3>
-
-<p>Getting psuedo random numbers with nothing in the toolbox is difficult. The method that I&#39;ve used here is to constantly read from <a href="http://www.inversereality.org/tutorials/interrupt%20programming/timerinterrupt.html">software port 40h</a> which is tightly coupled with the timer interrupt but it keeps a fairly steady count. The uniformity of these numbers actually provides a very tame smoke effect, you&#39;re not going to see much chaos.</p>
-
-<div class="highlight"><pre><code class="nasm"><span class="nl">randomize_lines:</span>
-    
-    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">640</span>          <span class="c1">; we&#39;re going to set two rows of pixels</span>
-                    <span class="c1">; at the bottom of the screen to be </span>
-                    <span class="c1">; random colours, so that&#39;s 640 pixels</span>
-                            
-    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">63360</span>        <span class="c1">; we&#39;re going to start writing these </span>
-                    <span class="c1">; pixels on the last two lines so that&#39;s</span>
-                    <span class="c1">; 64000 - 640</span>
-                            
-<span class="nl">next_rand_pixel:</span>
-
-    <span class="nf">mov</span> <span class="nb">dx</span><span class="p">,</span> <span class="mh">40h</span>          <span class="c1">; we get quasi-random values from port 40h</span>
-    <span class="nf">in</span>  <span class="nb">al</span><span class="p">,</span> <span class="nb">dx</span>
-    
-    <span class="nf">stosb</span>               <span class="c1">; store the pixel on screen</span>
-    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; move onto the next pixel</span>
-    <span class="nf">jnz</span> <span class="nv">next_rand_pixel</span>
-    
-    <span class="nf">ret</span></code></pre></div>
-
-<p>So, following along with the effect we only randomize the last two rows of the video array. Simple.</p>
-
-<h3 id="airbrush,-airbrush!!">Airbrush, Airbrush!!</h3>
-
-<p>It&#39;s just an averaging effect. We take the average of the current pixel, left, right and top most. We then re-set the pixel back into video memory 1 pixel above our current location. Therefore, we have no interest in trying to process the top-most row of video memory.</p>
-
-<p>The only other part that is a little awkward to look at in this code block will be the <code>ADC</code> instructions. We&#39;re dealing with bytes (values of 0..255). We&#39;re adding 4 of these together so we&#39;re going to quickly overflow a byte sized register. <code>ADC</code> (or add with carry adjustment) allows us to overflow this information into <code>AX</code>&#39;s higher-order byte (<code>AH</code>). When it comes time to divide (or take the arithmetic average) of this pixel&#39;s intensity, we&#39;ll be able to perform this operation on the word sized <code>AX</code> register. Neat. Check it out:</p>
-
-<div class="highlight"><pre><code class="nasm"><span class="nl">bloom:</span>
-
-    <span class="nf">mov</span> <span class="nb">cx</span><span class="p">,</span> <span class="mi">63680</span>        <span class="c1">; we average every pixel except the top row</span>
-    <span class="nf">mov</span> <span class="nb">di</span><span class="p">,</span> <span class="mi">320</span>          <span class="c1">; we start at the 2nd row</span>
-    
-<span class="nl">next_avg:</span>
-    <span class="nf">xor</span> <span class="nb">ax</span><span class="p">,</span> <span class="nb">ax</span>           <span class="c1">; clear out our accumulator</span>
-    
-    <span class="nf">mov</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="p">]</span>        <span class="c1">; get the current pixel</span>
-    
-    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the left</span>
-    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
-    
-    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">; add the pixel to the right</span>
-    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
-    
-    <span class="nf">add</span> <span class="nb">al</span><span class="p">,</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">]</span> <span class="c1">; add the pixel above</span>
-    <span class="nf">adc</span> <span class="nb">ah</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; adjust for overflow</span>
-    
-    <span class="nf">shr</span> <span class="nb">ax</span><span class="p">,</span> <span class="mi">2</span>            <span class="c1">; divide by 4 to get the average</span>
-    
-    <span class="nf">cmp</span> <span class="nb">al</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1">; can we dampen?</span>
-    <span class="nf">jz</span>  <span class="nv">no_damp</span>         <span class="c1">; jump over if we can&#39;t</span>
-    
-    <span class="nf">dec</span> <span class="nb">al</span>          <span class="c1">; dampen the colour by 1</span>
-    
-<span class="nl">no_damp:</span>
-    <span class="nf">mov</span> <span class="nb">es</span><span class="p">:[</span><span class="nb">di</span><span class="o">-</span><span class="mi">320</span><span class="p">],</span> <span class="nb">al</span>    <span class="c1">; put the averaged pixel 1 pixel above</span>
-    
-    <span class="nf">inc</span> <span class="nb">di</span>          <span class="c1">; next pixel</span>
-    <span class="nf">dec</span> <span class="nb">cx</span>          <span class="c1">; keep count of how many we&#39;ve got left</span>
-    <span class="nf">jnz</span> <span class="nv">next_avg</span>
-    
-    <span class="nf">ret</span></code></pre></div>
-
-<p>So, when you put it all together (and run it in DosBox) you&#39;ll get something that looks like this:</p>
-
-<p><img src="http://2.bp.blogspot.com/-0SUcxXs8a_k/ULCQvxj-8qI/AAAAAAAAAhQ/hlD_2uNejwE/s400/Screen+Shot+2012-11-24+at+7.16.37+PM.png" alt="Smoke application running"></p>
-
-<p>Well.. I&#39;m feeling all nostalgic now. Might go and fire up DosBox and play a couple of games of Double Dragon.</p>
+<p>Just came across this icon set as well: <a href="http://adamwhitcroft.com/batch/"><a href="http://adamwhitcroft.com/batch/">http://adamwhitcroft.com/batch/</a></a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/24/beej-s-tutorials/">
-        Beej's Tutorials
+      <a href="/2012/11/16/universe-development-cheatsheet/">
+        UniVerse development cheatsheet
       </a>
     </h1>
 
-    <span class="post-date">24 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>For such a long time I have read over these tutorials. They have been a great source of information in doing things the &quot;unix way&quot;.</p>
+    <p>A cheatsheet of UniVerse commands</p>
 
-<p>Beej&#39;s site
-<a href="http://beej.us">http://beej.us</a></p>
+<h3 id="command-prompt">Command Prompt</h3>
 
-<p>Beej&#39;s Guide to Network Programming
-<a href="http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html">http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html</a></p>
+<table><thead>
+<tr>
+<th>Action</th>
+<th style="text-align: right">Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Quitting the session</td>
+<td style="text-align: right"><code>QUIT</code></td>
+</tr>
+<tr>
+<td>Logging off a session</td>
+<td style="text-align: right"><code>LO</code></td>
+</tr>
+<tr>
+<td>Breaking out into a shell</td>
+<td style="text-align: right"><code>SH</code></td>
+</tr>
+<tr>
+<td>Change to a different account</td>
+<td style="text-align: right"><code>LOGTO accountname</code></td>
+</tr>
+<tr>
+<td>Start online help</td>
+<td style="text-align: right"><code>HELP commandname</code></td>
+</tr>
+<tr>
+<td>Execute a UniVerse BASIC command</td>
+<td style="text-align: right"><code>XEQ command</code></td>
+</tr>
+<tr>
+<td>Echo a string out to screen</td>
+<td style="text-align: right"><code>DISPLAY string</code></td>
+</tr>
+</tbody></table>
 
-<p>Beej&#39;s Guide to Unix IPC
-<a href="http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html/">http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html</a></p>
+<h3 id="command-stack">Command Stack</h3>
 
-<p>Beej&#39;s Quick Guide to GDB
-<a href="http://beej.us/guide/bggdb/">http://beej.us/guide/bggdb/</a></p>
+<p>All of the items with an <em>&quot;n&quot;</em> in their execution can either be removed (to operate on the most recent item) or replaced with a number indicating the item in the stack the operation is to effect. </p>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th style="text-align: right">Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Viewing your command history</td>
+<td style="text-align: right"><code>.L</code></td>
+</tr>
+<tr>
+<td>Executing a command from the stack</td>
+<td style="text-align: right"><code>.Xn</code></td>
+</tr>
+<tr>
+<td>Delete an item from the stack</td>
+<td style="text-align: right"><code>.Dn</code></td>
+</tr>
+<tr>
+<td>Recall an older command to the head of the stack</td>
+<td style="text-align: right"><code>.Rn</code></td>
+</tr>
+<tr>
+<td>Change a string in a command on the stack</td>
+<td style="text-align: right"><code>.Cn/oldstring/newstring</code></td>
+</tr>
+<tr>
+<td>Change all occurences of a string in a command on the stack</td>
+<td style="text-align: right"><code>.Cn/oldstring/newstring/G</code></td>
+</tr>
+<tr>
+<td>Appending something to the end of a command on the stack</td>
+<td style="text-align: right"><code>.An extra</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="files">Files</h3>
+
+<p>Creating a new file</p>
+
+<div class="highlight"><pre><code class="text">CREATE.FILE filename filetype other</code></pre></div>
+
+<p>Filenames should be uppercase with words divided by periods (.)</p>
+
+<table><thead>
+<tr>
+<th>File type</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1 &amp; 19</td>
+<td>directory</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>static</td>
+<td>Keys end with numbers.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>static</td>
+<td>Keys end mainly with numbers.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>static</td>
+<td>Keys end with letters.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>static</td>
+<td>Keys end with full range of ASCII characters.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>static</td>
+<td>Keys begin with numbers.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>static</td>
+<td>Keys begin mainly with numbers.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>static</td>
+<td>Keys begin with letters.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>static</td>
+<td>Keys begin with full range of ASCII characters.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>static</td>
+<td>Keys are numbers.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>static</td>
+<td>Keys are mainly numbers.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>static</td>
+<td>Keys are letters.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>static</td>
+<td>Keys are full range of ASCII characters.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>static</td>
+<td>Entire keys are numbers.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>static</td>
+<td>Entire keys are mainly numbers.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>static</td>
+<td>Entire keys are letters.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>static</td>
+<td>Entire keys are full range of ASCII characters.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>static</td>
+<td>Entire keys are of arbitrary form.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>dynamic</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><code>other</code> depends on the filetype being created Creating a new directory file</p>
+
+<div class="highlight"><pre><code class="text">CREATE.FILE filename 1
+CREATE.FILE filename 19</code></pre></div>
+
+<p>Creating a new static file</p>
+
+<div class="highlight"><pre><code class="text">CREATE.FILE filename (2-18) modulo separation</code></pre></div>
+
+<p><code>modulo</code> is the number of groups the file has. 
+<code>separation</code> is the number of 512 bytes disk frames are allocated to each group </p>
+
+<p>Maintaining a file</p>
+
+<div class="highlight"><pre><code class="text">RESIZE filename newtype newmodulo newseparation</code></pre></div>
+
+<p>Creating a dynamic file</p>
+
+<div class="highlight"><pre><code class="text">CREATE.FILE filename 30</code></pre></div>
+
+<p>Copy a file</p>
+
+<div class="highlight"><pre><code class="text">COPY FROM sourcefile TO destfile ALL OVERWRITING</code></pre></div>
+
+<h3 id="editing-records">Editing Records</h3>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th style="text-align: right">Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Invoking the Editor</td>
+<td style="text-align: right"><code>ED filename recordkey</code></td>
+</tr>
+<tr>
+<td>Display a pageful of the record</td>
+<td style="text-align: right"><code>P</code></td>
+</tr>
+<tr>
+<td>Qutting a record</td>
+<td style="text-align: right"><code>Q</code></td>
+</tr>
+<tr>
+<td>Inserting lines</td>
+<td style="text-align: right"><code>I</code></td>
+</tr>
+<tr>
+<td>Moving between lines</td>
+<td style="text-align: right"><code>n</code>    (move to line n)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>+n</code>   (move forward n lines)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>-n</code>   (move backward n lines)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>t</code>    (move to top)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>b</code>    (move to bottom)</td>
+</tr>
+<tr>
+<td>Changing lines (/G for global)</td>
+<td style="text-align: right"><code>C/oldstring/newstring/G</code></td>
+</tr>
+<tr>
+<td>Undo</td>
+<td style="text-align: right"><code>OOPS</code></td>
+</tr>
+<tr>
+<td>Appending to a line</td>
+<td style="text-align: right"><code>A extra-string</code></td>
+</tr>
+<tr>
+<td>Breaking a line</td>
+<td style="text-align: right"><code>B word-to-break-on</code></td>
+</tr>
+<tr>
+<td>Concatenating lines</td>
+<td style="text-align: right"><code>CAT</code></td>
+</tr>
+<tr>
+<td>Deleting lines</td>
+<td style="text-align: right"><code>D</code></td>
+</tr>
+<tr>
+<td>Duplicating lines</td>
+<td style="text-align: right"><code>DUP</code></td>
+</tr>
+<tr>
+<td>Locating and finding</td>
+<td style="text-align: right"><code>L something</code></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>F something</code></td>
+</tr>
+<tr>
+<td>Setting editing blocks</td>
+<td style="text-align: right"><code>&lt;</code>  (sets the starting block)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>&gt;</code>  (sets the ending block)</td>
+</tr>
+<tr>
+<td>Copy, move or drop blocks</td>
+<td style="text-align: right"><code>COPY</code></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>MOVE</code></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right"><code>DROP</code></td>
+</tr>
+<tr>
+<td>Saving your record</td>
+<td style="text-align: right"><code>SAVE</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="editor-macros">Editor Macros</h3>
+
+<p>Creating a new ED macro                                </p>
+
+<p><code>@FILE</code> variable can be used to be the existing file being edited. <code>@ID</code> variable can be used to be the key of the current record being edited. Example usage of <code>@FILE</code> and <code>@ID</code> within a macro</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED &amp;ED&amp; MACRONAME                 
+----: I
+0001= E
+0002= SAVE
+0003= XEQ BASIC @FILE @ID
+0004= XEQ RUN @FILE @ID
+0005=</code></pre></div>
+
+<h3 id="the-voc-file">The VOC File</h3>
+
+<p>Creating a verb (command word)</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC verbname
+----: I
+0001= V
+0002= programname
+0003= type
+0004=</code></pre></div>
+
+<p>All verbs start with a V. The name of the program to execute is specified by the second line. The type of the program is specified on the third line. Possible options are:</p>
+
+<table><thead>
+<tr>
+<th>Letter</th>
+<th>Language</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>B</td>
+<td>UniVerse Basic</td>
+</tr>
+<tr>
+<td>C</td>
+<td>C shell script</td>
+</tr>
+<tr>
+<td>D</td>
+<td>DOS batch file</td>
+</tr>
+<tr>
+<td>E</td>
+<td>External</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Primitive</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>Query command</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Bourne sheel script</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Operating system command</td>
+</tr>
+</tbody></table>
+
+<p>Creating a keyword (parameter or modified applied to verbs)</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC keywordname
+----: I
+0001= K
+0002= value
+0003= verbcommand (optional)</code></pre></div>
+
+<p>Keywords start with a K. Their second parameter is the value that gets substituted for the word. Creating a paragraph (script)</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC paragraphname
+----: I
+0001= PA
+0002= script ....
+0003= script ....</code></pre></div>
+
+<p>Paragraphs start with PA, then continue to define the script itself. For variables that are unknown at runtime the &lt;&lt;...&gt;&gt; syntax can be used to prompt the user inline for the value. Creating a sentence (a one line paragraph)</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC sentencename
+----: I
+0001= PA
+0002= script ....</code></pre></div>
+
+<p>Creating a file pointer</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC filename
+----: I
+0001= F
+0002= directoryname
+0003= filename</code></pre></div>
+
+<p>Creating a qpointer</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC synonymname
+----: I
+0001= Q
+0002= (space)
+0003= filename</code></pre></div>
+
+<p>Creating a remote command</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED VOC remotecommandname
+----: I
+0001= R
+0002= filename that contains the command record
+0003= key of the command record</code></pre></div>
+
+<h3 id="dictionaries">Dictionaries</h3>
+
+<p>A description of common fields for a dictionary record</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Conversion</td>
+<td>Blank unless a conversion is required. e.g. D DMY[2,A3,4] would store 1 for 01 JAN 1968</td>
+</tr>
+<tr>
+<td>Column Header</td>
+<td>Title that appears at the head of the column</td>
+</tr>
+<tr>
+<td>Format</td>
+<td>The number of characters to display and alignment. 10R - 10 characters, right aligned.</td>
+</tr>
+<tr>
+<td></td>
+<td>10T - 10 characters, text aligned. 10L - 10 characters, left aligned.</td>
+</tr>
+<tr>
+<td>Single or Multi</td>
+<td>S for single value, M for multi-value</td>
+</tr>
+</tbody></table>
+
+<p>Creating a data field</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED DICT filename fieldname
+----: I
+0001= D Description of the field
+0002= field number
+0003= conversion
+0004= header
+0005= format
+0006= single or multi</code></pre></div>
+
+<p>Creating an imaginary field</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED DICT filename fieldname
+----: I
+0001= I Description of the field
+0002= formula
+0003= conversion
+0004= header
+0005= format
+0006= single or multi</code></pre></div>
+
+<p>Creating a phrase field</p>
+
+<div class="highlight"><pre><code class="text">&gt; ED DICT filename fieldname
+----: I
+0001= PH Description of the field
+0002= fieldnames</code></pre></div>
+
+<h3 id="indexing-fields">Indexing Fields</h3>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Creating an index</td>
+<td><code>CREATE.INDEX filename fieldname</code></td>
+</tr>
+<tr>
+<td>Bringing an index up to date</td>
+<td><code>BUILD.INDEX filename fieldname</code></td>
+</tr>
+<tr>
+<td>Checking indexes on a file</td>
+<td><code>LIST.INDEX filename fieldname/ALL</code></td>
+</tr>
+<tr>
+<td>Removing an index from a file</td>
+<td><code>DELETE.INDEX filename fieldname</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="retrieve">RetrieVe</h3>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>A basic list</td>
+<td><code>LIST filename</code></td>
+</tr>
+<tr>
+<td>Listing fields</td>
+<td><code>LIST filename field1 field2 field3</code></td>
+</tr>
+<tr>
+<td>Sorting by fields</td>
+<td><code>LIST filename field1 field2 BY field3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 BY field2 BY field3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 field2 BY.DSND field3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SORT filename BY field1</code></td>
+</tr>
+<tr>
+<td>Sampling a list</td>
+<td><code>LIST filename SAMPLE n</code></td>
+</tr>
+<tr>
+<td>Listing with criteria</td>
+<td><code>LIST filename field1 field2 WITH field3 = &#39;data&#39;</code></td>
+</tr>
+<tr>
+<td>Totalling a field</td>
+<td><code>LIST filename field1 field2 TOTAL field3</code></td>
+</tr>
+<tr>
+<td>Setting a breakpoint</td>
+<td><code>LIST filename BREAK.ON field1 field2 field3</code></td>
+</tr>
+<tr>
+<td>Summarising a report</td>
+<td><code>LIST filename BREAK.ON field1 field2 DET.SUP</code></td>
+</tr>
+<tr>
+<td>Providing headers and footers</td>
+<td><code>LIST filename field1 field2 field3 HEADING &quot;report heading&quot; FOOTING &quot;report footing&quot;</code></td>
+</tr>
+<tr>
+<td>Overriding existing dictionary definitions</td>
+<td><code>LIST filename field1 FMT &quot;override format&quot;</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 CONV &quot;new conversion&quot;</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 COL.HDG &quot;new heading&quot;</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 SINGLE.VALUE</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>LIST filename field1 MULTI.VALUE</code></td>
+</tr>
+<tr>
+<td>Columns without dictionary entries</td>
+<td><code>LIST filename EVAL &quot;formula&quot;</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="criteria">Criteria</h3>
+
+<table><thead>
+<tr>
+<th>Symbol</th>
+<th>Synonyms</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>=</code></td>
+<td><code>EQ</code></td>
+<td>Equal to</td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td><code>&lt;&gt;</code>,<code>&gt;;&lt;</code>,<code>NE</code></td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td><code>GT</code>, <code>AFTER</code></td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>LT</code>, <code>BEFORE</code></td>
+<td>Lesser than</td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td><code>=&gt;</code>, <code>GE</code></td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td><code>=&lt;</code>, <code>LE</code></td>
+<td>Lesser than or equal to</td>
+</tr>
+<tr>
+<td><code>LIKE</code></td>
+<td><code>MATCHES</code>, <code>MATCHING</code></td>
+<td>Finds a matching word (... is a wildcard)</td>
+</tr>
+<tr>
+<td><code>UNLIKE</code></td>
+<td><code>NOT.MATCHING</code></td>
+<td>Finds not matching word (... is a wildcard)</td>
+</tr>
+<tr>
+<td><code>SPOKEN</code></td>
+<td><code>SAID</code>, <code>~</code></td>
+<td>Phonetic matching</td>
+</tr>
+</tbody></table>
+
+<p>Criteria can be reversed with NOT and concatenated with AND or OR. </p>
+
+<h3 id="select-lists">Select Lists</h3>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Creating a select list</td>
+<td><code>SELECT filename</code></td>
+</tr>
+<tr>
+<td>Numbered select lists</td>
+<td><code>SELECT filename TO n</code></td>
+</tr>
+<tr>
+<td>Saving a select list</td>
+<td><code>SELECT filename</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SAVE.LIST listname FROM n</code></td>
+</tr>
+<tr>
+<td>Getting a saved list</td>
+<td><code>GET.LIST listname TO n</code></td>
+</tr>
+<tr>
+<td>Clearing a list</td>
+<td><code>CLEARSELECT n</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="tcl-commands">TCL Commands</h3>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Count the records in a file</td>
+<td><code>COUNT filename</code></td>
+</tr>
+<tr>
+<td>Copy a record to the terminal (display a record)</td>
+<td><code>CT filename record</code></td>
+</tr>
+<tr>
+<td>Copy a record to the printer</td>
+<td><code>CP filename record</code></td>
+</tr>
+<tr>
+<td>Copy records to another file</td>
+<td><code>COPY FROM sourcefile TO destfile record1 record2 record3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>COPY FROM sourcefile TO destfile ALL</code></td>
+</tr>
+<tr>
+<td>Change the name of a file</td>
+<td><code>CNAME oldname TO newname</code></td>
+</tr>
+<tr>
+<td>Change the key of a record in a file</td>
+<td><code>CNAME filename oldrecord, newrecord</code></td>
+</tr>
+<tr>
+<td>Swap the contents of two records</td>
+<td><code>EXCHANGE filename record1 record2</code></td>
+</tr>
+<tr>
+<td>Delete records from a file</td>
+<td><code>DELETE filename record1 record2</code></td>
+</tr>
+<tr>
+<td>Remove all records from a file</td>
+<td><code>CLEAR.FILE filename</code></td>
+</tr>
+<tr>
+<td>Clear the terminal</td>
+<td><code>CS</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="references">References</h3>
+
+<p><a href="http://www.mannyneira.com/universe/">life, the universe, and everything</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/21/scissors-paper-rock/">
-        Scissors, Paper, Rock!
+      <a href="/2012/11/16/universe-basic-cheatsheet/">
+        UniVerse BASIC cheatsheet
       </a>
     </h1>
 
-    <span class="post-date">21 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>Haskell is a strange beast at times. I think you can see from the brute-force approach on this implementation of SPR that I was getting clearly frustrated with even some of the simplest of things.</p>
+    <p>A cheatsheet for writing UniVerse BASIC programs</p>
 
-<p>I really could have used &quot;Maybe&quot;
-I really could have used &quot;Read&quot;</p>
+<h3 id="program-management">Program Management</h3>
 
-<p>It&#39;s a learning experience:</p>
+<p>Creating a directory for programs</p>
 
-<div class="highlight"><pre><code class="haskell"><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span>
+<div class="highlight"><pre><code class="text">&gt; CREATE.FILE BP 19</code></pre></div>
 
-   <span class="kr">import</span> <span class="nn">System.IO</span>
-   <span class="kr">import</span> <span class="nn">System.Random</span>
+<p>Creating a file to store a program</p>
 
-   <span class="kr">data</span> <span class="kt">Move</span> <span class="ow">=</span> <span class="kt">Scissors</span> <span class="o">|</span> <span class="kt">Paper</span> <span class="o">|</span> <span class="kt">Rock</span> <span class="o">|</span> <span class="kt">Unknown</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span><span class="kt">Show</span><span class="p">)</span>
-   <span class="kr">data</span> <span class="kt">Outcome</span> <span class="ow">=</span> <span class="kt">Winner</span> <span class="o">|</span> <span class="kt">Draw</span> <span class="o">|</span> <span class="kt">Loser</span> <span class="o">|</span> <span class="kt">ND</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
+<div class="highlight"><pre><code class="text">&gt; ED BP PROGRAM.NAME</code></pre></div>
 
-   <span class="n">str2Move</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
-   <span class="n">str2Move</span> <span class="n">s</span> <span class="ow">=</span> <span class="kr">do</span>
-      <span class="kr">case</span> <span class="n">s</span> <span class="kr">of</span>
-         <span class="s">&quot;s&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
-         <span class="s">&quot;p&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Paper</span>
-         <span class="s">&quot;r&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
-         <span class="kr">_</span>   <span class="ow">-&gt;</span> <span class="kt">Unknown</span>
+<p>Compiling a program</p>
 
-   <span class="n">getWinner</span> <span class="ow">::</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
-   <span class="n">getWinner</span> <span class="n">m</span> <span class="ow">=</span> <span class="kr">do</span>
-      <span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
-         <span class="kt">Scissors</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
-         <span class="kt">Rock</span>     <span class="ow">-&gt;</span> <span class="kt">Paper</span>
-         <span class="kt">Paper</span>    <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
-         <span class="kt">Unknown</span>  <span class="ow">-&gt;</span> <span class="kt">Unknown</span>
+<div class="highlight"><pre><code class="text">&gt; BASIC BP PROGRAM.NAME</code></pre></div>
 
-   <span class="n">getOutcome</span> <span class="ow">::</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Move</span> <span class="ow">-&gt;</span> <span class="kt">Outcome</span>
-   <span class="n">getOutcome</span> <span class="n">player</span> <span class="n">cpu</span>
-      <span class="o">|</span> <span class="n">player</span> <span class="o">==</span> <span class="kt">Unknown</span> <span class="o">||</span> <span class="n">cpu</span> <span class="o">==</span> <span class="kt">Unknown</span> <span class="ow">=</span> <span class="kt">ND</span>
-      <span class="o">|</span> <span class="n">player</span> <span class="o">==</span> <span class="n">cpu</span> <span class="ow">=</span> <span class="kt">Draw</span>
-      <span class="o">|</span> <span class="n">cpu</span> <span class="o">==</span> <span class="n">winner</span> <span class="ow">=</span> <span class="kt">Loser</span>
-      <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="kt">Winner</span>
-      <span class="kr">where</span> <span class="n">winner</span> <span class="ow">=</span> <span class="n">getWinner</span> <span class="n">player</span>
+<p>Running a program</p>
 
-   <span class="n">getCpuMove</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="kt">Move</span>
-   <span class="n">getCpuMove</span> <span class="n">gen</span> <span class="ow">=</span> <span class="kr">do</span>
-      <span class="kr">let</span> <span class="p">(</span><span class="n">randNumber</span><span class="p">,</span> <span class="n">newGen</span><span class="p">)</span> <span class="ow">=</span> <span class="n">randomR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="n">gen</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">StdGen</span><span class="p">)</span>
-      <span class="kr">case</span> <span class="n">randNumber</span> <span class="kr">of</span>
-         <span class="mi">1</span> <span class="ow">-&gt;</span> <span class="kt">Rock</span>
-         <span class="mi">2</span> <span class="ow">-&gt;</span> <span class="kt">Scissors</span>
-         <span class="mi">3</span> <span class="ow">-&gt;</span> <span class="kt">Paper</span>
+<div class="highlight"><pre><code class="text">&gt; RUN BP PROGRAM.NAME</code></pre></div>
 
-   <span class="n">main</span> <span class="ow">=</span> <span class="kr">do</span>
-      <span class="n">gen</span> <span class="ow">&lt;-</span> <span class="n">getStdGen</span>
-      <span class="n">putStr</span> <span class="s">&quot;Enter your choice (s, p or r): &quot;</span>
-      <span class="n">hFlush</span> <span class="n">stdout</span>
-      <span class="n">line</span> <span class="ow">&lt;-</span> <span class="n">getLine</span>
+<h3 id="sourcecode-editing">Sourcecode Editing</h3>
 
-      <span class="kr">let</span> <span class="n">player</span> <span class="ow">=</span> <span class="n">str2Move</span> <span class="n">line</span>
-      <span class="kr">let</span> <span class="n">cpu</span> <span class="ow">=</span> <span class="n">getCpuMove</span> <span class="n">gen</span>
-      <span class="kr">let</span> <span class="n">outcome</span> <span class="ow">=</span> <span class="n">getOutcome</span> <span class="n">player</span> <span class="n">cpu</span>
+<p>Formatting sourcecode</p>
 
-      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Player Chose: &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">player</span><span class="p">)</span>
-      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Cpu Chose   : &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">cpu</span><span class="p">)</span>
-      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Outcome     : &quot;</span> <span class="o">++</span> <span class="p">(</span><span class="n">show</span> <span class="n">outcome</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre><code class="text">----: FORMAT</code></pre></div>
 
-<p>Some who have been nice enough to comment from time to time have suggested that I move forward with this implementation (inclusion of Lizard, Spock).</p>
+<h3 id="file-io">File IO</h3>
 
-<p>Anyway, I&#39;ll keep struggling.</p>
+<p>Opening a file</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;filename&#39; TO FILE.VAR ELSE STOP &quot;Couldn&#39;t open filename&quot;</code></pre></div>
+
+<p>Reading a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READ RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE RECORD.VALUE = &#39;&#39;</code></pre></div>
+
+<p>Writing a record to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a record from a file into an array</p>
+
+<div class="highlight"><pre><code class="text">0001= MATREAD RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; ELSE MAT RECORD.VAR = &#39;&#39;</code></pre></div>
+
+<p>Writing a record from an array into a file</p>
+
+<div class="highlight"><pre><code class="text">0001= MATWRITE RECORD.VAR TO FILE.VAR, &#39;TEST.WRITE&#39;</code></pre></div>
+
+<p>Reading a single field from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= READV TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;, 1 ELSE TYPE.DESC = &#39;&#39;</code></pre></div>
+
+<p>Writing a single field to a file</p>
+
+<div class="highlight"><pre><code class="text">0001= WRITEV TYPE.DESC TO FILE.VAR, &#39;TEST.WRITE&#39;, 1</code></pre></div>
+
+<p>Deleting a record from a file</p>
+
+<div class="highlight"><pre><code class="text">0001= DELETE FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>Locking records for update</p>
+
+<div class="highlight"><pre><code class="text">0000= READU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= MATREADU RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED 
+0000= READVU TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39; LOCKED</code></pre></div>
+
+<p>Locking records from read</p>
+
+<div class="highlight"><pre><code class="text">0000= READL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= MATREADL RECORD.VAR FROM FILE.VAR, &#39;RELLEVEL&#39; 
+0000= READVL TYPE.DESC FROM FILE.VAR, &#39;RELLEVEL&#39;</code></pre></div>
+
+<p>An example record read</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= READ VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE VOC.RECORD = &#39;&#39; 
+0003= PRINT VOC.RECORD</code></pre></div>
+
+<p>An example record read to an array</p>
+
+<div class="highlight"><pre><code class="text">0001= DIM VOC.RECORD(10) 
+0002= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0003= MATREAD VOC.RECORD FROM VOC.FILE, &#39;RELLEVEL&#39; ELSE MAT VOC.RECORD = &#39;&#39; 
+0004= FOR FIELD.NUMBER = 1 TO 10 
+0005= PRINT VOC.RECORD(FIELD.NUMBER) 
+0006= NEXT FIELD.NUMBER</code></pre></div>
+
+<p>An example record read from a select list</p>
+
+<div class="highlight"><pre><code class="text">0001= OPEN &#39;VOC&#39; TO VOC.FILE ELSE STOP &quot;Can&#39;t open VOC&quot; 
+0002= EOF = 0 
+0003= EXECUTE &#39;SELECT VOC WITH TYPE = &quot;M&quot;&#39; 
+0004= LOOP 
+0005= READNEXT VOC.KEY ELSE EOF = 1 
+0006= UNTIL EOF 
+0007= PRINT VOC.KEY 
+0008= REPEAT</code></pre></div>
+
+<p>References</p>
+
+<p><a href="http://www.mannyneira.com/universe/">life, the universe, and everything</a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/20/tools-for-webgeneers/">
-        Tools for Webgeneers
+      <a href="/2012/11/16/ripping-discs-at-the-console/">
+        Ripping Discs at the Console
       </a>
     </h1>
 
-    <span class="post-date">20 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>This one came across the news wire today. I just wanted to make a note of it so that I don&#39;t loose it.</p>
+    <p>A <em>very brief</em> guide to ripping DVD media at the console with <strong>handbrake</strong>.</p>
 
-<p>There&#39;s plenty in here that will allow you to take any site from 0 to hero.</p>
+<div class="highlight"><pre><code class="bash"><span class="c"># Rip a disc with the normal preset</span>
+HandBrakeCLI -i /dev/dvd -o output.mp4 --preset<span class="o">=</span>Normal --main-feature  
 
-<p><a href="http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html">http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html</a></p>
+<span class="c"># Scan a disc for chapter data</span>
+HandBrakeCLI -i /dev/dvd -t &lt;chapter&gt; --scan
+
+<span class="c"># Rip a specific chapter</span>
+HandBrakeCLI -i /dev/dvd -o output.mp4 --preset<span class="o">=</span>Normal -t &lt;chapter&gt;</code></pre></div>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/20/daemons-in-python/">
-        Daemons in Python
+      <a href="/2012/11/16/rails-3-cheatsheet/">
+        Rails 3 Cheatsheet
       </a>
     </h1>
 
-    <span class="post-date">20 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>Didn&#39;t want to loose this bookmark, so thought I&#39;d pop it here for later.</p>
+    <p>A cheatsheet of Rails 3 commands once all of the software infrastructure has been setup and is running.</p>
 
-<p>I would expect that you&#39;ll see some posts about this topic shortly.</p>
+<h3 id="creating-and-destroying-things">Creating and destroying things</h3>
 
-<p><a href="http://blip.tv/episode/5592905">http://blip.tv/episode/5592905</a></p>
+<div class="highlight"><pre><code class="bash"><span class="c"># Create a new application</span>
+rails new ApplicationName
+
+<span class="c"># Create a new model</span>
+rails generate/g model ModelName
+
+<span class="c"># Create a new controller</span>
+rails generate/g controller ControllerName
+
+<span class="c"># Create a new migration</span>
+rails generate/g migration MigrationName
+
+<span class="c"># Create a scaffolded controller, model and view </span>
+rails generate/g scaffold ModelName ControllerName
+
+<span class="c"># Destroy a new model</span>
+rails destroy model ModelName
+
+<span class="c"># Destroy a new controller</span>
+rails destroy controller ControllerName
+
+<span class="c"># Destroy a new migration</span>
+rails destroy migration MigrationName</code></pre></div>
+
+<h3 id="controlling-the-application">Controlling the application</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Start the rails server</span>
+rails server/s
+
+<span class="c"># Install a plugin</span>
+rails plugin install PluginName
+
+<span class="c"># Start the rails console</span>
+rails console/c
+
+<span class="c"># Start the database console</span>
+rails dbconsole/db
+
+<span class="c"># Benchmark/Profile the application</span>
+rails performance</code></pre></div>
+
+<h3 id="manage-the-database">Manage the database</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Create the database</span>
+rake db:create
+
+<span class="c"># Drop the database  </span>
+rake db:drop
+
+<span class="c"># Migrate the database</span>
+rake db:migrate
+
+<span class="c"># Drop and recreate database from schema</span>
+rake db:reset
+
+<span class="c"># Rollback the latest migration</span>
+rake db:rollback
+
+<span class="c"># Create the schema file</span>
+rake db:schema:dump
+
+<span class="c"># Create a sessions migration</span>
+rake db:sessions:create</code></pre></div>
+
+<h3 id="utility-tasks">Utility tasks</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Build the RDOC html files</span>
+rake doc:app
+
+<span class="c"># List all available tasks</span>
+rake –tasks
+
+<span class="c"># Truncate log files</span>
+rake log:clear
+
+<span class="c"># Clear session, cache and socket files</span>
+rake tmp:clear
+
+<span class="c"># Print out all defined application routes</span>
+rake routes</code></pre></div>
+
+<h3 id="testing-your-application">Testing your application</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Run all tests</span>
+rake <span class="nb">test</span>
+
+<span class="c"># Run functional tests</span>
+rake <span class="nb">test</span>:functionals
+
+<span class="c"># Run integration tests</span>
+rake <span class="nb">test</span>:integration
+
+<span class="c"># Run unit tests</span>
+rake <span class="nb">test</span>:units</code></pre></div>
+
+<h3 id="working-with-gems">Working with Gems</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Lock this application&#39;s gem set</span>
+rake rails:freeze:gems
+
+<span class="c"># List dependent gems</span>
+rake gems
+
+<span class="c"># Install all required gems</span>
+rake gems:install
+
+<span class="c"># List all installed gems </span>
+gem list
+
+<span class="c"># Install a gem</span>
+gem install GemName
+
+<span class="c"># Uninstall a gem</span>
+gem uninstall GemName
+
+<span class="c"># Start the gem server</span>
+gem server</code></pre></div>
 
   </div>
   

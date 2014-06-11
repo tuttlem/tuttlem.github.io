@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,16 +171,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/04/picking-your-smart-pointers/">
-        Picking your Smart Pointers
+      <a href="/2012/12/31/scanning-in-haskell/">
+        Scanning in Haskell
       </a>
     </h1>
 
-    <span class="post-date">04 Jan 2013</span>
+    <span class="post-date">31 Dec 2012</span>
 
-    <h1>Picking your Smart Pointers</h1>
+    <h1>Scanning in Haskell</h1>
 <div class='post'>
-<h3>Introduction</h3><div>I wanted to do a quick write up on the <a href="http://www.boost.org/">Boost library's</a>&nbsp;<a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/smart_ptr.htm">Smart Pointers</a>&nbsp;and when they should and shouldn't be used. I'd hope to use this post in future (if the knowledge doesn't stick in my head) as a rough guide when finding the right tool for the job.</div><div><br /></div><div>For the uninitiated, I strongly advise that you go through the <a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/smart_ptr.htm">smart pointer</a>&nbsp;documentation on the Boost website as it's a real eye-opener as to just how hands-off you can now be with dynamic memory allocation in C++ (these days).</div><div><br /></div><h3>Why use Smart Pointers?</h3><div>Smart pointers will help you manage the lifetime of your objects. It will force you to think about the ownership of these pointers and who's currently "in-charge" in some cases. They will allow you to think in terms of observation of objects so that you don't disturb the ownership of a resource and they just generally make your code cleaner, easier to maintain and read.</div><div><br /></div><div><br /></div><h3>How can I start using Smart Pointers?</h3><div><a href="http://www.boost.org/users/download/">Get Boost!</a>&nbsp;That's going to be the best way. Dive right in, take a look at samples, set things up, blow them up - be a scientist about it!</div><div><br /></div><div>Anyway, enough of this! On to the pointers.</div><div><br /></div><h3><a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/scoped_ptr.htm">scoped_ptr</a>&nbsp;&amp; <a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/scoped_array.htm">scoped_array</a></h3><div>scoped_ptr is all about ensuring that the pointer that you're working with is the ultimate owner of the resource that it points to. There's no facility within this pointer type to transfer the ownership of the inner resource elsewhere. With all of this in mind, scoped_ptr ensures that the resource that is under ownership will be destroyed properly once the pointer has dropped out of scope.</div><div><br /></div><div>scoped_ptr is a very lightweight resource. It's by no means going to harm the performance or size of your application.</div><div><br /></div><div>scoped_array will perform the same service as scoped_ptr does, it's just that scoped_array will work on array types (as the name suggests).&nbsp;</div><div><br /></div><h3><a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/shared_ptr.htm">shared_ptr</a> &amp; <a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/shared_array.htm">shared_array</a></h3><div>shared_ptr is all about reference counting. They will internally manage the reference count that they have and govern the managed resource's lifespan based on this. The clear advantage that they have over the scoped_ptr and scoped_array counterparts is their ability to be shared between multiple owner so that those owners can maintain their interest in the object by "hanging around".&nbsp;</div><div><br /></div><div>The true power of this class of pointer is when you don't know when to delete the underlying resource. As long as someone is referencing you, you'll stay alive.</div><div><br /></div><div>shared_array will perform the same service as shared_ptr does, it's just that shared_array will work on array types (deja vu anyone?)</div><div><br /></div><h3><a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/intrusive_ptr.html">intrusive_ptr</a></h3><div>The intrusive_ptr is another reference counting pointer only is allows you to provide your own mechanism for performing the reference counting. This means if you have an existing codebase that does all of this work for you, all you need to do is provide it to an intrusive_ptr. intrusive_ptr also allows for native usage of the "this" keyword.</div><div><br /></div><h3><a href="http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/weak_ptr.htm">weak_ptr</a></h3><div>A weak_ptr just performs observation on a shared_ptr without getting its hands into ownership. It's used purely at an observation capacity.</div><div><br /></div><h3>Conclusion</h3><div>That's it for a brief smart pointer analysis. Hopefully these tid-bits will help you decide which pointer fits your problem best.</div><div><br /></div><div><br /></div></div>
+In a previous post, I had written about <a href="http://cogsandlevers.blogspot.com.au/2012/12/folding-in-haskell.html">Folding in Haskell</a>&nbsp;which in itself is a very powerful tool. We spent a brief moment in that tutorial actually working through a problem and writing the folding process out long hand.<br /><br />Well, scanning (<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:scanl">scanl</a> and <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:scanr">scanr</a>) does this for you! It shows you the reduction steps in the form of an array returned back to you.<br /><br />A quick example:<br /><br /><pre>Prelude&gt; scanl (*) 5 [1,2,3,4]<br />[5,5,10,30,120]<br />Prelude&gt; foldl (*) 5 [1,2,3,4]<br />120<br /></pre><br />Here you can see the fold's process "working-sheet".<br /><br /><pre>5  * 1 = 5<br />5  * 2 = 10<br />10 * 3 = 30<br />30 * 4 = 120<br /></pre><br />120 being the overall answer as demonstrated by the foldl call above.<br /><br />Easy.</div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -197,16 +189,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/04/os-kernel-development-the-bootloader/">
-        Os Kernel Development The Bootloader
+      <a href="/2012/12/31/pygame-virtualenv-pip-homebrew/">
+        Pygame, Virtualenv, PIP & Homebrew
       </a>
     </h1>
 
-    <span class="post-date">04 Jan 2013</span>
+    <span class="post-date">31 Dec 2012</span>
 
-    <h1>Os Kernel Development The Bootloader</h1>
+    <h1>Pygame, Virtualenv, PIP & Homebrew</h1>
 <div class='post'>
-<h3>Introduction</h3><div>The first step in the execution process (once the machine has finished its PowerOnStartTest boot) is the loading and execution of a small program called the bootloader. It's responsible for getting enough logic into the computers memory to get your operating system started.</div><div><br /></div><div>Today's post will focus on this bootloader program and getting you over into C land where you can complete the majority of your operating system.</div><div><br /></div><div>As I'd described in the&nbsp;<a href="http://cogsandlevers.blogspot.com.au/2012/12/os-kernel-development-environment.html">first post</a> of this series, I'll be making some assumptions on the directions of the operating system's tools. Some assumptions that will that has some serious implications in the development of the bootloader are:</div><div><ul><li>Will the bootloader support a multi-boot loader?<br /><i>Yes. We'll be using GRUB.</i></li><li>What platform will we assume that we're on?<br /><i>This is important because the bootloader must be written in the platform's native instruction set to do anything of value. We'll be assuming the intel platform.</i></li></ul></div><div><br /></div><h3>Bootloader execution</h3><div>Shortly after your IBM-PC compatible computer starts, it's starts in real mode. You can find out more information about the booting process from <a href="http://en.wikipedia.org/wiki/Booting#Boot_sequence_of_IBM-PC_compatibles">this article</a>&nbsp;as it will take you through the particulars. We're using GRUB so we're abstracted away from a lot of these details. The floppy disk image will have GRUB configured to run our kernel.</div><div><br /></div><div>First up, we need to make a few items visible to the linker and let our loader know that the main routine is "somewhere else".<br /><br /><script src="https://gist.github.com/4449471.js"></script> <br />"loader" is our bootloader's entry point to start executing, "magic" is a special number that our multi-boot loader will look out for, "mbd" is a pointer to a special structure containing multi-boot information that can give your kernel context of its execution and "kmain" is our external kernel code (that will be implemented in C).<br /><br />Next up, we'll look at the code that's executing.<br /><br /><script src="https://gist.github.com/4449491.js"></script></div><div><br />First job is to setup a stackframe. This is done by pre-allocating some space within this module. All were doing is just pushing "esp" by the location of the pre-allocated stack page with an offset of a pre-determined size.<br /><br />Some assumptions are made when GRUB hands control over to our bootloader. For instance, eax will hold the multi-boot magic number and ebx will hold the multiboot structure. These are saved off into the linker visible locations "magic" and "mbd"&nbsp;respectively. Finally we call "kmain" to get the party started.<br /><br />It's assumed that the kernel will never return, so we put a halt loop at the end of it just to we don't go running off into memory executing every instruction known to mankind.<br /><h3>The birth of the Kernel</h3>The most important part to take note of is that we're now in C land. This is quite a simple routine (for the time being) taking the following form.<br /><br /><script src="https://gist.github.com/4449518.js"></script> <br />Excellent, well, non-functional, but we're here. You can see that we're given access to the "magic" and "mbd" values that we were playing around with in the boot loader. The all important magic number test will determine if we've legitimately come from GRUB.<br /><br /><h3>Linking it all together</h3></div><div>We've got a partially complex job now of making sure the gobs of binary that are produced when building these files are put in place correctly for us to execute.</div><div></div><div><br />We provide gcc during the compilation process with the following flags to make sure the binary produced is as plain-jane as possible.<br /><br /><pre>-Wall          (all warnings)<br />-Wextra        (enable extra warning flags)<br />-nostdlib      (do not use the standard libraries during linking)<br />-nostartfiles<br />-nodefaultlibs<br />-fno-builtin   (turn off builtin prefix functions)<br />-m32           (generate 32bit code)</pre><br />The linker script is all that is left to describe to the preparation process on how to put our kernel together. Here's how it looks.<br /><br /><script src="https://gist.github.com/4449589.js"></script> <br />Reading this from top to bottom you can see that we're defining our entry point as "loader" (you would have seen that in the bootloader assembly above). We're aligning all of our sections (text, rodata and data) on 4096 (0x1000) byte boundaries. We have a base address (where the code will be loaded) of 0x00100000 as well as stack placement. There are great articles all over the web on the topic of linking, my&nbsp;favorite&nbsp;<a href="http://www.lurklurk.org/linkers/linkers.html">here</a>.<br /><br />That's it. This is the bootloader handoff from GRUB in a nutshell (a largish nutshell). Check out <a href="https://github.com/tuttlem/phoenix">Phoenix</a>&nbsp;in my GitHub&nbsp;repository&nbsp;for the full source.<br /><br />For some even more advanced information check out this tutorial on <a href="http://www.jamesmolloy.co.uk/tutorial_html/">Rolling Your Own Unix Clone</a>.<br /><br /></div><div></div></div>
+I finally just got an installation up and running on my MBP for pygame inside of virtualenv. It took a little bit of investigation, but the following should get anyone out of the installation rut (if they're interested in keeping their environments isolated).<br /><br />First, all of your SDL stuff should be installed before going any further. If it's not, it's as easy as this from the command shell.<br /><br /><pre>$ brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi</pre><br />You're almost done. Create your virtual environment and switch into it. Once you've done that, you just need to issue the following and you're done.<br /><br /><pre>$ pip install hg+http://bitbucket.org/pygame/pygame</pre><br />That will grind away and before you know it, you're ready to go.<br /><br />Then it's onto reading <a href="http://thepythongamebook.com/en:pygame:step000">The Python Game Book</a>, <a href="http://www.pygame.org/docs/tut/chimp/ChimpLineByLine.html">The Line-by-Line Chimp Example</a>&nbsp;and any other tutorials you can <a href="http://www.pygame.org/wiki/tutorials">get your hands on</a>.<br /><br /></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -215,16 +207,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/03/a-brief-mapreduce-tutorial-for-mongodb/">
-        A brief MapReduce tutorial for MongoDB
+      <a href="/2012/12/31/hoogle/">
+        Hoogle
       </a>
     </h1>
 
-    <span class="post-date">03 Jan 2013</span>
+    <span class="post-date">31 Dec 2012</span>
 
-    <h1>A brief MapReduce tutorial for MongoDB</h1>
+    <h1>Hoogle</h1>
 <div class='post'>
-<h3>Introduction</h3><div>This is just a short tutorial on using the <a href="http://www.mongodb.org/display/DOCS/MapReduce">MapReduce</a> operation from within the <a href="http://www.mongodb.org/">MongoDB</a> environment.</div><div><br /></div><h3>What is it and how does it work?</h3><div>MapReduce is a database operation. Its intended for performing higher-level (or more complex) aggregation tasks across huge data stores. You supply it with two functions, a map function and a reduce function and it will supply you with the aggregated result.</div><div><br /></div><div>As it's defined from the MongoDB documentation, the operation takes the following form:</div><div><br /><pre class="brush:js">db.collection.mapReduce(<br />                         &lt;mapfunction&gt;,<br />                         &lt;reducefunction&gt;,<br />                         {<br />                           out: &lt;collection&gt;,<br />                           query: &lt;document&gt;,<br />                           sort: &lt;document&gt;,<br />                           limit: &lt;number&gt;,<br />                           finalize: &lt;function&gt;,<br />                           scope: &lt;document&gt;,<br />                           jsMode: &lt;boolean&gt;,<br />                           verbose: &lt;boolean&gt;<br />                         }<br />                       )</pre></div><div><br />You can immediately see the first two parameters to this operation as the map function and the reduce function. The remaining parameter is focused on the delivery of the result back to you.<br /><br /><h3>The Map Function</h3></div><div>The map function is responsible for defining the data that you want to work with. For instance, if you're interested in accumulating the sum of all products sold by their category you will want to return both the amount sold per line item as well as the product's category.</div><div><br /><pre class="brush:js">var mapFunction = function() {<br />    emit(this.category, this.price);<br />};</pre></div><div><br />Note the use of the emit function. Its use tells the MapReduce operation that the key for this process will be "category" and the value will be "price". The value part of the emit function can also take form of a javascript object itself should you need to perform multiple aggregations across the same data set.<br /><br /><pre class="brush:js">var mapFunction = function() {<br />    emit(this.category, { price: this.price, count: 1 });<br />};</pre><br />This particular map function gives us a count of 1 per result that comes out so we would be able to not only sum the price but find out how many items made up the sum as well.<br /><br /><h3>The Reduce Function</h3></div><div>The reduce function is responsible for performing the aggregation on the data emitted by the map function. It is passed the key-values emitted by the map function as parameters to it. Performing the reduce function to get the sum of all prices and the number of items making up the sum total would look like this.</div><div><br /><pre class="brush:js">var reduceFunction = function(key, values) {<br />    outValue = { total: 0, count: 0 };<br />    <br />    // aggregate all of the values for this key<br />    for (var i = 0; i &lt; values.length; i ++) {<br />        outValue.total += values[i].price;<br />        outValue.count += values[i].count; <br />    }<br /><br />    return outValue;<br />};</pre></div><div><br />All of the "magic" happens via-javascript. Pretty easy really.<br /><br /><h3>Getting a result</h3></div><div>Putting your map and reduce function together for the operation ends up looking like this (for a simple scenario).</div><div><br /><pre class="brush:js">var res = db.sales.mapReduce(<br />    mapFunction, <br />    reduceFunction, <br />    { <br />        out: "result" <br />    }<br />);</pre></div><div><br />This will get the process underway against the database. Once it's finished doing the hard-yards, then you can start basing your aggregation reports off of the "res" variable that we built just above by doing the following.<br /><br /><pre class="brush:js">db[res.result].find();</pre><br />This is only a "scratch-the-surface" - "know enough to be dangerous" type write-up. MapReduce is a complex and powerful tool that you should be reading the official documentation about if you want to achieve ninja-like status.<br /><br /><br /></div></div>
+<br />I needed to make a note of this particular link. Hoogle is a search engine for looking up API calls and modules. It's quite a neat search engine.<div><br /></div><div><a href="http://www.haskell.org/hoogle/">http://www.haskell.org/hoogle/</a></div><div><br /></div><div>HackageDB is also a great resource for looking at Haskell packages in cabal format.</div><div><br /></div><div><a href="http://hackage.haskell.org/packages/hackage.html">http://hackage.haskell.org/packages/hackage.html</a></div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -233,16 +225,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/02/opengl-glut-haskell/">
-        OpenGL, GLUT & Haskell
+      <a href="/2012/12/31/haskell-s-function-application-operator/">
+        Haskell's Function Application Operator ($)
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2013</span>
+    <span class="post-date">31 Dec 2012</span>
 
-    <h1>OpenGL, GLUT & Haskell</h1>
+    <h1>Haskell's Function Application Operator ($)</h1>
 <div class='post'>
-<h3>Introduction</h3><div>We're into some of the real good stuff here. One of my favourite topics in computer programming is graphics (2d and 3d). In this post, I get to make a start on some fun stuff and learn some Haskell at the same time.</div><div><br /></div><div>We're going to open an OpenGL window, clear the back buffer out and flip.</div><div><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-P3UGaGgWX0c/UOQmSYep7wI/AAAAAAAAAkQ/Bfl8-egapPc/s1600/Screen+Shot+2013-01-02+at+10.20.45+PM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="400" src="http://1.bp.blogspot.com/-P3UGaGgWX0c/UOQmSYep7wI/AAAAAAAAAkQ/Bfl8-egapPc/s400/Screen+Shot+2013-01-02+at+10.20.45+PM.png" width="378" /></a></div><br /></div><h3>The code</h3><div><br /><script src="https://gist.github.com/4434168.js"></script></div><br />Ok, ok, fair enough - this is almost a direct-rip from the <a href="http://www.haskell.org/haskellwiki/OpenGLTutorial1">Haskell Wiki</a>, I'm not claiming it as my code. It's more of a bookmark as a good foot-hold in the OpenGL-Haskell marriage!<br /><br /><h3>Compilation</h3><div>Getting your application compiled is cake, just make sure you specify GLUT as a package.<br /><br /><pre>$ ghc -package GLUT Ogl.hs -o Ogl</pre></div><br /><br />That's what it's all about!</div>
+<br />Sometimes, Haskell's syntax is so alien to read (to my eyes at least anyway). I've seen wide-spread use of the "$" operator all over lots of people's code and never really had a grasp on what it is/does.<br /><div><br /></div><div>In the end, it's really quite simple.</div><div><br /></div><div>The whitespace character has a very high precedence order, so when you're using spaces the precedence order looks like this.</div><div><br /><pre>f a b c = ((f a) b) c</pre></div><div><br /></div><div>This is classified as being left-associative. In contrast, using the "$" operator allows us to be right-associative. An example.<br /><br /><pre>f $ a $ b $ c = f (a (b c))</pre><br />Looking at this, it's starting to look very much how our programming languages are structured with function calls. We're very right-associative. Because Haskell uses the white space character to denote left-associations, it takes a lot of parenthesis to make a complex state right-associative as you need to change the precedence order by hand.<br /><br />This is the true power of the "$" function. We can use the "$" to free us for parenthesising everything, so that a transformation as below occurs.<br /><br /><pre>putStrLn (show num) <br />putStrLn $ show num</pre><br />This simple scenario doesn't illustrate exactly how much the "$" operator will help us out. Here's another slightly more complex scenario. It becomes clear here that "$" is working to make our code more readable.<br /><br /><pre>sum (take 10 (cycle [1,2,3]))<br />sum $ take 10 $ cycle [1,2,3]</pre><br />In character-space length they're equivalent, but the second version looks less LISP-y. I guess this is what was being aimed at.<br /><br />Anyway, until next time.<br /><br /><br /></div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -251,16 +243,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/02/learn-you-a-haskell-brisbane-study-group/">
-        Learn you a Haskell Brisbane Study Group
+      <a href="/2012/12/31/24-days-of-hackage/">
+        24 days of Hackage
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2013</span>
+    <span class="post-date">31 Dec 2012</span>
 
-    <h1>Learn you a Haskell Brisbane Study Group</h1>
+    <h1>24 days of Hackage</h1>
 <div class='post'>
-As a bit of a bookmark to myself, I wanted to make mention of a study group that an <a href="http://morenews.blogspot.com.au/">old colleague</a>&nbsp;had brought to my attention.<br /><br />The <a href="https://github.com/learnhaskell-brisbane/learn/wiki">wiki</a>&nbsp;that has been put up for this project has been a great source of home-work as I've gone through the book. I haven't yet made it to the end of the book but am working on it. It's been important for me to have some home work to do on this topic as I don't write Haskell professionally. Without something flexing my Haskell muscles, the knowledge tends to go on holiday rather quickly.<br /><br />The <a href="https://github.com/learnhaskell-brisbane/learn">learn repository</a>&nbsp;has all of the source code and documents for the course.<br /><br /><br /></div>
+As I can, I've been following along in the 24 days of Hackage series. I'd see the posts come across my desk from proggit.<br /><br />The articles I have read have been very interesting and I want to go through the rest.<br /><br />Check it out.<br /><br /><a href="http://ocharles.org.uk/blog/">http://ocharles.org.uk/blog/</a></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

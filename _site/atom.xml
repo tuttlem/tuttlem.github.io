@@ -4,7 +4,7 @@
  <title>Cogs and Levers</title>
  <link href="http://tuttlem.github.io/atom.xml" rel="self"/>
  <link href="http://tuttlem.github.io/"/>
- <updated>2014-06-11T22:53:50+10:00</updated>
+ <updated>2014-06-12T00:06:14+10:00</updated>
  <id>http://tuttlem.github.io</id>
  <author>
    <name>Michael Tuttle</name>
@@ -1365,26 +1365,97 @@ Pin-Priority: 600&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
    <link href="http://tuttlem.github.io/2014/01/08/getting-started-with-lua-using-c/"/>
    <updated>2014-01-08T00:00:00+10:00</updated>
    <id>http://tuttlem.github.io/2014/01/08/getting-started-with-lua-using-c</id>
-   <content type="html">&lt;h1&gt;Getting started with Lua using C++&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;a href=&quot;http://www.lua.org/&quot;&gt;Lua&lt;/a&gt; is a programming language that has seen increased popularity from the game development industry. It's put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.&lt;br /&gt;&lt;br /&gt;In today's post, I'll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Library Installation&lt;/h3&gt;Before you get downloading and building this library, you'll just need to ensure that you have a build environment installed and are able to compile. &lt;br /&gt;&lt;br /&gt;At the time of writing this article,&amp;nbsp; the &lt;a href=&quot;http://www.lua.org/&quot;&gt;Lua&lt;/a&gt; website had 5.2.3 as their latest release. From their &lt;a href=&quot;http://www.lua.org/download.html&quot;&gt;downloads&lt;/a&gt; page, grab the latest tar.gz archive and extract it onto your machine.&lt;br /&gt;&lt;br /&gt;Following along with their building instructions, issuing &quot;make linux test&quot; whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the &quot;make local&quot; option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).&lt;br /&gt;&lt;br /&gt;When it comes to downloading the latest versions of libraries, I'll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.&lt;br /&gt;&lt;br /&gt;From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;.&lt;br /&gt;└── lua-5.2.3&lt;br /&gt;    ├── include&lt;br /&gt;    │&amp;nbsp;&amp;nbsp; ├── lauxlib.h&lt;br /&gt;    │&amp;nbsp;&amp;nbsp; ├── luaconf.h&lt;br /&gt;    │&amp;nbsp;&amp;nbsp; ├── lua.h&lt;br /&gt;    │&amp;nbsp;&amp;nbsp; ├── lua.hpp&lt;br /&gt;    │&amp;nbsp;&amp;nbsp; └── lualib.h&lt;br /&gt;    └── lib&lt;br /&gt;        ├── liblua.a&lt;br /&gt;        └── lua&lt;br /&gt;            └── 5.2&lt;br /&gt;&lt;/pre&gt;&lt;br /&gt;I have all of the development headers available (under the &quot;include&quot; folder) and a static version of the Lua library (under lib).&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Building applications&lt;/h3&gt;When building Lua applications, you'll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I'd written, the following command line compiled an application for me without any trouble.&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: shell&quot;&gt;$ g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl&lt;/pre&gt;&lt;br /&gt;You can see at the end there, mention of both the &quot;lua&quot; and &quot;dl&quot; libraries.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Test application&lt;/h3&gt;A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.&lt;br /&gt;&lt;br /&gt;Here's our Lua script:&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8310670.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;Pretty simple. We have one variable &quot;x&quot; set to 10. Now here's the C++ code that we use to read that one variable out and present it to screen.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8310746.js&quot;&gt;&lt;/script&gt; I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;That's it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Windows Development with MASM32 (part 7)</title>
-   <link href="http://tuttlem.github.io/2014/01/06/windows-development-with-masm32-part-7/"/>
-   <updated>2014-01-06T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2014/01/06/windows-development-with-masm32-part-7</id>
-   <content type="html">&lt;h1&gt;Windows Development with MASM32 (part 7)&lt;/h1&gt;
-&lt;div class='post'&gt;
-Windows Resource Compiler&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.lua.org/&quot;&gt;Lua&lt;/a&gt; is a programming language that has seen increased popularity from the game development industry. It&amp;#39;s put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.&lt;/p&gt;
+
+&lt;p&gt;In today&amp;#39;s post, I&amp;#39;ll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.&lt;/p&gt;
+
+&lt;h3 id=&quot;library-installation&quot;&gt;Library Installation&lt;/h3&gt;
+
+&lt;p&gt;Before you get downloading and building this library, you&amp;#39;ll just need to ensure that you have a build environment installed and are able to compile. &lt;/p&gt;
+
+&lt;p&gt;At the time of writing this article, the &lt;a href=&quot;http://www.lua.org/&quot;&gt;Lua&lt;/a&gt; website had 5.2.3 as their latest release. From their &lt;a href=&quot;http://www.lua.org/download.html&quot;&gt;downloads&lt;/a&gt; page, grab the latest tar.gz archive and extract it onto your machine. Following along with their building instructions, issuing &amp;quot;make linux test&amp;quot; whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the &amp;quot;make local&amp;quot; option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).&lt;/p&gt;
+
+&lt;p&gt;When it comes to downloading the latest versions of libraries, I&amp;#39;ll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.&lt;/p&gt;
+
+&lt;p&gt;From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;text&quot;&gt;.
+└── lua-5.2.3
+    ├── include
+    │   ├── lauxlib.h
+    │   ├── luaconf.h
+    │   ├── lua.h
+    │   ├── lua.hpp
+    │ └── lualib.h
+    └── lib
+        ├── liblua.a
+        └── lua
+            └── 5.2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I have all of the development headers available (under the &amp;quot;include&amp;quot; folder) and a static version of the Lua library (under lib).&lt;/p&gt;
+
+&lt;h3 id=&quot;building-applications&quot;&gt;Building applications&lt;/h3&gt;
+
+&lt;p&gt;When building Lua applications, you&amp;#39;ll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I&amp;#39;d written, the following command line compiled an application for me without any trouble.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can see at the end there, mention of both the &amp;quot;lua&amp;quot; and &amp;quot;dl&amp;quot; libraries.&lt;/p&gt;
+
+&lt;h3 id=&quot;test-application&quot;&gt;Test application&lt;/h3&gt;
+
+&lt;p&gt;A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;#39;s our Lua script:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;lua&quot;&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pretty simple. We have one variable &lt;code&gt;x&lt;/code&gt; set to &lt;code&gt;10&lt;/code&gt;. Now here&amp;#39;s the C++ code that we use to read that one variable out and present it to screen.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;lua.hpp&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// create a new lua context to work with&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lua_State&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;luaL_newstate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// open any library we may use&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;luaL_openlibs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// read the Lua script off disk and execute it&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;luaL_dofile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;test.lua&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// handle any errors &lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;unable to load test.lua&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// put the value of X at the top of the stack&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lua_getglobal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  
+  &lt;span class=&quot;c1&quot;&gt;// interpret the value at the top of the stack &lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// as an integer and put it in the variable &amp;quot;val&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lua_tointeger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  
+  &lt;span class=&quot;c1&quot;&gt;// pop the value of X off the stack&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lua_pop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// write the value out&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Value of X: &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// finish up with the Lua context&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lua_close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#39;s it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.&lt;/p&gt;
 </content>
  </entry>
  
@@ -1393,204 +1464,38 @@ Windows Resource Compiler&lt;/div&gt;
    <link href="http://tuttlem.github.io/2014/01/05/installing-sdl2-on-linux/"/>
    <updated>2014-01-05T00:00:00+10:00</updated>
    <id>http://tuttlem.github.io/2014/01/05/installing-sdl2-on-linux</id>
-   <content type="html">&lt;h1&gt;Installing SDL2 on Linux&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;a href=&quot;http://www.libsdl.org/download-2.0.php&quot;&gt;SDL2&lt;/a&gt; was released a little while ago, but still hasn't made it into the stable repositories of some Linux distributions. After doing a big of digging, it's not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums &lt;a href=&quot;http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu&quot;&gt;here&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;In today's post, we'll install SDL2 on a Debian/Ubuntu style distribution from source.&lt;br /&gt;&lt;h3&gt;Dependencies&lt;/h3&gt;First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: shell&quot;&gt;$ sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev&lt;/pre&gt;&lt;br /&gt;Once all of these have installed successfully, you'll need to download a copy of the source. All downloads can be found &lt;a href=&quot;http://www.libsdl.org/download-2.0.php&quot;&gt;here&lt;/a&gt;. This guide will assume that you'll download the .tar.gz source archive.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Compilation and Installation&lt;/h3&gt;Extract the package into a directory under your home directory, somewhere . . .&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: shell&quot;&gt;$ tar -xzf SDL2-*.tar.gz&lt;br /&gt;$ cd SDL2-*&lt;/pre&gt;&lt;br /&gt;Next we'll configure, build and install the libraries.&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: shell&quot;&gt;$ ./configure&lt;br /&gt;$ make&lt;br /&gt;$ sudo make install&lt;/pre&gt;&lt;br /&gt;Once compilation and installation have complete, you'll need to update your library links/cache. Do this with the following command:&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: shell&quot;&gt;$ sudo ldconfig&lt;/pre&gt;&lt;br /&gt;&lt;br /&gt;That's all there is to it.&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Introducing Lanyon</title>
-   <link href="http://tuttlem.github.io/2014/01/02/introducing-lanyon/"/>
-   <updated>2014-01-02T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2014/01/02/introducing-lanyon</id>
-   <content type="html">&lt;p&gt;Lanyon is an unassuming &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme that places content first by tucking away navigation in a hidden drawer. It&amp;#39;s based on &lt;a href=&quot;http://getpoole.com&quot;&gt;Poole&lt;/a&gt;, the Jekyll butler.&lt;/p&gt;
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 
-&lt;h3 id=&quot;built-on-poole&quot;&gt;Built on Poole&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.libsdl.org/download-2.0.php&quot;&gt;SDL2&lt;/a&gt; was released a little while ago, but still hasn&amp;#39;t made it into the stable repositories of some Linux distributions. After doing a big of digging, it&amp;#39;s not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums &lt;a href=&quot;http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by &lt;a href=&quot;https://twitter.com/mdo&quot;&gt;@mdo&lt;/a&gt;. Poole, and every theme built on it (like Lanyon here) includes the following:&lt;/p&gt;
+&lt;p&gt;In today&amp;#39;s post, we&amp;#39;ll install SDL2 on a Debian/Ubuntu style distribution from source.&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Complete Jekyll setup included (layouts, config, &lt;a href=&quot;/404&quot;&gt;404&lt;/a&gt;, &lt;a href=&quot;/atom.xml&quot;&gt;RSS feed&lt;/a&gt;, posts, and &lt;a href=&quot;/about&quot;&gt;example page&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Mobile friendly design and development&lt;/li&gt;
-&lt;li&gt;Easily scalable text and component sizing with &lt;code&gt;rem&lt;/code&gt; units in the CSS&lt;/li&gt;
-&lt;li&gt;Support for a wide gamut of HTML elements&lt;/li&gt;
-&lt;li&gt;Related posts (time-based, because Jekyll) below each post&lt;/li&gt;
-&lt;li&gt;Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h3 id=&quot;dependencies&quot;&gt;Dependencies&lt;/h3&gt;
 
-&lt;h3 id=&quot;lanyon-features&quot;&gt;Lanyon features&lt;/h3&gt;
+&lt;p&gt;First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:&lt;/p&gt;
 
-&lt;p&gt;In addition to the features of Poole, Lanyon adds the following:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Toggleable sliding sidebar (built with only CSS) via &lt;strong&gt;☰&lt;/strong&gt; link in top corner&lt;/li&gt;
-&lt;li&gt;Sidebar includes support for textual modules and a dynamically generated navigation with active link support&lt;/li&gt;
-&lt;li&gt;Two orientations for content and sidebar, default (left sidebar) and &lt;a href=&quot;https://github.com/poole/lanyon#reverse-layout&quot;&gt;reverse&lt;/a&gt; (right sidebar), available via &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/poole/lanyon#themes&quot;&gt;Eight optional color schemes&lt;/a&gt;, available via &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;Once all of these have installed successfully, you&amp;#39;ll need to download a copy of the source. All downloads can be found here. This guide will assume that you&amp;#39;ll download the .tar.gz source archive.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/poole/lanyon#readme&quot;&gt;Head to the readme&lt;/a&gt; to learn more.&lt;/p&gt;
+&lt;h3 id=&quot;compilation-and-installation&quot;&gt;Compilation and Installation&lt;/h3&gt;
 
-&lt;h3 id=&quot;browser-support&quot;&gt;Browser support&lt;/h3&gt;
+&lt;p&gt;Extract the package into a directory under your home directory, somewhere . . .&lt;/p&gt;
 
-&lt;p&gt;Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;tar -xzf SDL2-*.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;SDL2-*&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;download&quot;&gt;Download&lt;/h3&gt;
+&lt;p&gt;Next we&amp;#39;ll configure, build and install the libraries.&lt;/p&gt;
 
-&lt;p&gt;Lanyon is developed on and hosted with GitHub. Head to the &lt;a href=&quot;https://github.com/poole/lanyon&quot;&gt;GitHub repository&lt;/a&gt; for downloads, bug reports, and features requests.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./configure
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;sudo make install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Thanks!&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Example content</title>
-   <link href="http://tuttlem.github.io/2014/01/01/example-content/"/>
-   <updated>2014-01-01T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2014/01/01/example-content</id>
-   <content type="html">&lt;div class=&quot;message&quot;&gt;
-  Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
-&lt;/div&gt;
+&lt;p&gt;Once compilation and installation have complete, you&amp;#39;ll need to update your library links/cache. Do this with the following command:&lt;/p&gt;
 
-&lt;p&gt;Cum sociis natoque penatibus et magnis &lt;a href=&quot;#&quot;&gt;dis parturient montes&lt;/a&gt;, nascetur ridiculus mus. &lt;em&gt;Aenean eu leo quam.&lt;/em&gt; Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;sudo ldconfig&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Etiam porta &lt;strong&gt;sem malesuada magna&lt;/strong&gt; mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.&lt;/p&gt;
-
-&lt;h2 id=&quot;inline-html-elements&quot;&gt;Inline HTML elements&lt;/h2&gt;
-
-&lt;p&gt;HTML defines a long list of available inline tags, a complete list of which can be found on the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element&quot;&gt;Mozilla Developer Network&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;To bold text&lt;/strong&gt;, use &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;To italicize text&lt;/em&gt;, use &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Abbreviations, like &lt;abbr title=&quot;HyperText Markup Langage&quot;&gt;HTML&lt;/abbr&gt; should use &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt;, with an optional &lt;code&gt;title&lt;/code&gt; attribute for the full phrase.&lt;/li&gt;
-&lt;li&gt;Citations, like &lt;cite&gt;&amp;mdash; Mark otto&lt;/cite&gt;, should use &lt;code&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;del&gt;Deleted&lt;/del&gt; text should use &lt;code&gt;&amp;lt;del&amp;gt;&lt;/code&gt; and &lt;ins&gt;inserted&lt;/ins&gt; text should use &lt;code&gt;&amp;lt;ins&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Superscript &lt;sup&gt;text&lt;/sup&gt; uses &lt;code&gt;&amp;lt;sup&amp;gt;&lt;/code&gt; and subscript &lt;sub&gt;text&lt;/sub&gt; uses &lt;code&gt;&amp;lt;sub&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Most of these elements are styled by browsers with few modifications on our part.&lt;/p&gt;
-
-&lt;h2 id=&quot;heading&quot;&gt;Heading&lt;/h2&gt;
-
-&lt;p&gt;Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
-
-&lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
-
-&lt;p&gt;Cum sociis natoque penatibus et magnis dis &lt;code&gt;code element&lt;/code&gt; montes, nascetur ridiculus mus.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Example can be run directly in your JavaScript console&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Create a function that takes two arguments and returns the sum of those arguments&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;adder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;b&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;return a + b&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Call the function&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// &amp;gt; 8&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.&lt;/p&gt;
-
-&lt;h3 id=&quot;lists&quot;&gt;Lists&lt;/h3&gt;
-
-&lt;p&gt;Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et.&lt;/li&gt;
-&lt;li&gt;Donec id elit non mi porta gravida at eget metus.&lt;/li&gt;
-&lt;li&gt;Nulla vitae elit libero, a pharetra augue.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Vestibulum id ligula porta felis euismod semper.&lt;/li&gt;
-&lt;li&gt;Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/li&gt;
-&lt;li&gt;Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.&lt;/p&gt;
-
-&lt;dl&gt;
-  &lt;dt&gt;HyperText Markup Language (HTML)&lt;/dt&gt;
-  &lt;dd&gt;The language used to describe and define the content of a Web page&lt;/dd&gt;
-
-  &lt;dt&gt;Cascading Style Sheets (CSS)&lt;/dt&gt;
-  &lt;dd&gt;Used to describe the appearance of Web content&lt;/dd&gt;
-
-  &lt;dt&gt;JavaScript (JS)&lt;/dt&gt;
-  &lt;dd&gt;The programming language used to build advanced Web sites and applications&lt;/dd&gt;
-&lt;/dl&gt;
-
-&lt;p&gt;Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.&lt;/p&gt;
-
-&lt;h3 id=&quot;tables&quot;&gt;Tables&lt;/h3&gt;
-
-&lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Name&lt;/th&gt;
-      &lt;th&gt;Upvotes&lt;/th&gt;
-      &lt;th&gt;Downvotes&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tfoot&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Totals&lt;/td&gt;
-      &lt;td&gt;21&lt;/td&gt;
-      &lt;td&gt;23&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tfoot&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Alice&lt;/td&gt;
-      &lt;td&gt;10&lt;/td&gt;
-      &lt;td&gt;11&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Bob&lt;/td&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Charlie&lt;/td&gt;
-      &lt;td&gt;7&lt;/td&gt;
-      &lt;td&gt;9&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;Want to see something else added? &lt;a href=&quot;https://github.com/poole/poole/issues/new&quot;&gt;Open an issue.&lt;/a&gt;&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>What's Jekyll?</title>
-   <link href="http://tuttlem.github.io/2013/12/31/whats-jekyll/"/>
-   <updated>2013-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2013/12/31/whats-jekyll</id>
-   <content type="html">&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From &lt;a href=&quot;https://github.com/mojombo/jekyll/blob/master/README.markdown&quot;&gt;the project&amp;#39;s readme&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Jekyll is a simple, blog aware, static site generator. It takes a template directory [...] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;It&amp;#39;s an immensely useful tool and one we encourage you to use here with Hyde.&lt;/p&gt;
-
-&lt;p&gt;Find out more by &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;visiting the project on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;That&amp;#39;s all there is to it. &lt;/p&gt;
 </content>
  </entry>
  
@@ -1599,12 +1504,125 @@ Windows Resource Compiler&lt;/div&gt;
    <link href="http://tuttlem.github.io/2013/12/31/perlin-noise/"/>
    <updated>2013-12-31T00:00:00+10:00</updated>
    <id>http://tuttlem.github.io/2013/12/31/perlin-noise</id>
-   <content type="html">&lt;h1&gt;Perlin Noise&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;Noise functions in computer applications allow programmers to make the machine act a little more naturally. It's the randomness introduced with these algorithms that gives the computer what appears to be &quot;free thought&quot; or unexpected decisions.&lt;br /&gt;&lt;br /&gt;Today, I'll walk through the &lt;a href=&quot;http://en.wikipedia.org/wiki/Perlin_noise&quot;&gt;Perlin Noise&lt;/a&gt; algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.&lt;br /&gt;&lt;br /&gt;Here are some examples of the Perlin Noise function output into two dimensions:&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg&quot; imageanchor=&quot;1&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;200&quot; src=&quot;http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s200/perlin1.jpg&quot; width=&quot;200&quot; /&gt;&lt;/a&gt;&lt;a href=&quot;http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png&quot; imageanchor=&quot;1&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;200&quot; src=&quot;http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s200/perlin2.png&quot; width=&quot;200&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;br /&gt;In today's post, I'll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.&lt;br /&gt;&lt;h3&gt;Understanding Noise&lt;/h3&gt;The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.&lt;br /&gt;&lt;br /&gt;A common noise function for two parameters that I have found used over the web is as follows:&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8192352.js&quot;&gt;&lt;/script&gt; There's a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you'll get repeatable results.&lt;br /&gt;&lt;br /&gt;Next we'll smooth out the noise between two points. We'll do this by sampling the corners, sides and centre of the point we're currently generating for.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8192396.js&quot;&gt;&lt;/script&gt; With the above function, we can now sample a small area for a given point. All based on our random number generator.&lt;br /&gt;&lt;br /&gt;For the fractional parts that occur between solid boundaries, we'll use a specific interpolation method. I've defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8193345.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are &quot;octaves&quot; and &quot;persistence&quot;. &quot;octaves&quot; defines how many iterations that will be performed and &quot;persistence&quot; defines how much of the spectrum we'll utilise. It's highly interactive to the main curve co-effecients: frequency and amplitude.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8193366.js&quot;&gt;&lt;/script&gt; This now provides us with a way to create a map (or 2d array) to produce images much like I'd pasted in above. Here is a typical build loop.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8193381.js&quot;&gt;&lt;/script&gt; That should be enough to get you going.&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+
+&lt;p&gt;Noise functions in computer applications allow programmers to make the machine act a little more naturally. It&amp;#39;s the randomness introduced with these algorithms that gives the computer what appears to be &amp;quot;free thought&amp;quot; or unexpected decisions.&lt;/p&gt;
+
+&lt;p&gt;Today, I&amp;#39;ll walk through the &lt;a href=&quot;http://en.wikipedia.org/wiki/Perlin_noise&quot;&gt;Perlin Noise&lt;/a&gt; algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.&lt;/p&gt;
+
+&lt;p&gt;Here are some examples of the Perlin Noise function output into two dimensions:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg&quot; alt=&quot;Noise 1&quot;&gt;
+&lt;img src=&quot;http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png&quot; alt=&quot;Noise 2&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;In today&amp;#39;s post, I&amp;#39;ll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.&lt;/p&gt;
+
+&lt;h3 id=&quot;understanding-noise&quot;&gt;Understanding Noise&lt;/h3&gt;
+
+&lt;p&gt;The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.&lt;/p&gt;
+
+&lt;p&gt;A common noise function for two parameters that I have found used over the web is as follows:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;57&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15731&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;789221&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1376312589&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7FFFFFFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1073741824.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;There&amp;#39;s a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you&amp;#39;ll get repeatable results.&lt;/p&gt;
+
+&lt;p&gt;Next we&amp;#39;ll smooth out the noise between two points. We&amp;#39;ll do this by sampling the corners, sides and centre of the point we&amp;#39;re currently generating for.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smoothNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// sample the corners&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corners&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                   &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                   &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                   &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// sample the sides&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sides&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                 &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                 &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                 &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// sample the centre&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;centre&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;noise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// send out the accumulated result&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corners&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sides&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;centre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With the above function, we can now sample a small area for a given point. All based on our random number generator.&lt;/p&gt;
+
+&lt;p&gt;For the fractional parts that occur between solid boundaries, we&amp;#39;ll use a specific interpolation method. I&amp;#39;ve defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/* Linear interpolation */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lerp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/* Trigonometric interpolation */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;terp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ft&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.1415927f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cosf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/* Noise interpolation */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;interpolateNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smoothNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smoothNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;v3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smoothNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;v4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smoothNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;terp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;i2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;terp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;terp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are &amp;quot;octaves&amp;quot; and &amp;quot;persistence&amp;quot;. &amp;quot;octaves&amp;quot; defines how many iterations that will be performed and &amp;quot;persistence&amp;quot; defines how much of the spectrum we&amp;#39;ll utilise. It&amp;#39;s highly interactive to the main curve co-effecients: frequency and amplitude.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;perlin2d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+               &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;octaves&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;octaves&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frequency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amplitude&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;persistence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interpolateNoise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amplitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This now provides us with a way to create a map (or 2d array) to produce images much like I&amp;#39;d pasted in above. Here is a typical build loop.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;perlin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;perlin2d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;xx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.02f&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That should be enough to get you going.&lt;/p&gt;
 </content>
  </entry>
  
@@ -1613,12 +1631,50 @@ Windows Resource Compiler&lt;/div&gt;
    <link href="http://tuttlem.github.io/2013/12/30/follow-up-to-a-camera-implementation/"/>
    <updated>2013-12-30T00:00:00+10:00</updated>
    <id>http://tuttlem.github.io/2013/12/30/follow-up-to-a-camera-implementation</id>
-   <content type="html">&lt;h1&gt;Follow up to a Camera Implementation&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction &lt;/h3&gt;In a &lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2013/12/a-camera-implementation-in-c.html&quot;&gt;previous post&lt;/a&gt; I'd written about a simple camera implementation that you can use in projects of your own. This post I'll show how I've implemented this camera with some mouse handling routines to make it feel like you're orienting your head with the mouse.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;The Idea . . .&lt;/h3&gt;We'll capture all of the mouse movements given in an application and see how far the mouse deviates from a given origin point. I think that the most sane origin point to go from is the center of your window.&lt;br /&gt;&lt;br /&gt;For each movement that the mouse makes from the center of the window, we need to:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Determine how much movement occurred on the x axis&lt;/li&gt;&lt;li&gt;Determine how much movement occurred on the y axis&lt;/li&gt;&lt;li&gt;Deaden this movement by a co-efficient to simulate mouse &quot;sensitivity&quot;&lt;/li&gt;&lt;li&gt;Set the yaw and pitch (head up/down, left/right) of the camera&lt;/li&gt;&lt;li&gt;Reset the mouse back to the origin point&lt;/li&gt;&lt;/ul&gt;Here's how I've done it in code:&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8179902.js&quot;&gt;&lt;/script&gt; You can see that I'm using GLUT to do these demos. The only GLUT-specific piece of code here is the warp command which puts the mouse back onto the origin point. You should have an equivalent function to do the same in the framework of your choice.&lt;br /&gt;&lt;br /&gt;Well, there you have it. You can now orient your camera using your mouse.&amp;nbsp; &lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+
+&lt;p&gt;In a &lt;a href=&quot;/2013/12/30/a-camera-implementation-in-c/&quot;&gt;previous post&lt;/a&gt; I&amp;#39;d written about a simple camera implementation that you can use in projects of your own. This post I&amp;#39;ll show how I&amp;#39;ve implemented this camera with some mouse handling routines to make it feel like you&amp;#39;re orienting your head with the mouse.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-idea&quot;&gt;The Idea&lt;/h3&gt;
+
+&lt;p&gt;We&amp;#39;ll capture all of the mouse movements given in an application and see how far the mouse deviates from a given origin point. I think that the most sane origin point to go from is the center of your window. For each movement that the mouse makes from the center of the window, we need to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Determine how much movement occurred on the x axis&lt;/li&gt;
+&lt;li&gt;Determine how much movement occurred on the y axis&lt;/li&gt;
+&lt;li&gt;Deaden this movement by a co-efficient to simulate mouse &amp;quot;sensitivity&amp;quot;&lt;/li&gt;
+&lt;li&gt;Set the yaw and pitch (head up/down, left/right) of the camera&lt;/li&gt;
+&lt;li&gt;Reset the mouse back to the origin point&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here&amp;#39;s how I&amp;#39;ve done it in code:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mouseMotion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// calculate the origin point (shifting right divides by two, remember!)&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;halfWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;windowWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;halfHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;windowHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// calculate how far we deviated from the origin point and deaden this&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// by a factor of 20&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deltaX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;halfWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;20.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deltaY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;halfHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;20.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// don&amp;#39;t do anything if there wasn&amp;#39;t any movement to report&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deltaX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deltaY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// set the camera&amp;#39;s orientation&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;cam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yaw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deltaX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;cam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deltaY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// reset the mouse pointer back to the origin point&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;glutWarpPointer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;halfWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;halfHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can see that I&amp;#39;m using GLUT to do these demos. The only GLUT-specific piece of code here is the warp command which puts the mouse back onto the origin point. You should have an equivalent function to do the same in the framework of your choice.&lt;/p&gt;
+
+&lt;p&gt;Well, there you have it. You can now orient your camera using your mouse.&lt;/p&gt;
 </content>
  </entry>
  
@@ -1627,12 +1683,137 @@ Windows Resource Compiler&lt;/div&gt;
    <link href="http://tuttlem.github.io/2013/12/30/a-camera-implementation-in-c/"/>
    <updated>2013-12-30T00:00:00+10:00</updated>
    <id>http://tuttlem.github.io/2013/12/30/a-camera-implementation-in-c</id>
-   <content type="html">&lt;h1&gt;A Camera Implementation in C++&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;One of the most important elements of any 3D application is its camera. A camera allows you to move around in your world and orient your view. In today's post, I'll put together a code walk through that will take you through a simple camera implementation.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;The Concept&lt;/h3&gt;There are two major components of any camera. They are position and orientation. Position is fairly easy to grasp, it's just where the camera is and is identified using a normal 3-space vector.&lt;br /&gt;&lt;br /&gt;The more difficult of the two concepts is orientation. The best description for this that I've found is on the &lt;a href=&quot;http://en.wikipedia.org/wiki/Flight_dynamics&quot;&gt;Flight Dynamics&lt;/a&gt; page on wikipedia. The following image has been taken from that article and it outlines the plains that orientation can occur. Of course, the image's subject is an aircraft but the same concepts apply to a camera's orientation:&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s1600/Rollpitchyawplain.png&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;209&quot; src=&quot;http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s320/Rollpitchyawplain.png&quot; width=&quot;320&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;The &quot;pitch&quot; describes the orientation around the x-axis, the &quot;yaw&quot; describes the orientation around the y-axis and the &quot;roll&quot; describes the orientation around the z-axis.&lt;br /&gt;&lt;br /&gt;With all of this information on board, the requirements of our camera should become a little clearer. We need to keep track of the following about the camera:&lt;br /&gt;&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Position&lt;/li&gt;&lt;li&gt;Up orientation (yaw axis)&lt;/li&gt;&lt;li&gt;Right direction (pitch axis)&lt;/li&gt;&lt;li&gt;Forward (or view) direction (roll axis)&lt;/li&gt;&lt;/ul&gt;&amp;nbsp;We'll also keep track of how far we've gone around the yaw, pitch and roll axis.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Some Maths (and code)&lt;/h3&gt;There's a handful of really useful equations that are going to help us out here. With all of the information that we'll be managing and how tightly related each axis is considering they're all relating to the same object - you can see how interactive it can be just by modifying one attribute.&lt;br /&gt;&lt;br /&gt;When the &lt;b&gt;pitch&lt;/b&gt; changes:&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;forwardVector = (forwardVector * cos(pitch)) + (upVector * sin(pitch))&lt;br /&gt;upVector = forwardVector x rightVector&lt;/pre&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8178594.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;When the &lt;b&gt;yaw&lt;/b&gt; changes:&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;forwardVector = (forwardVector * cos(yaw)) - (rightVector * sin(yaw))&lt;br /&gt;rightVector = forwardVector x upVector&lt;/pre&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8178620.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;When the &lt;b&gt;roll&lt;/b&gt; changes:&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;rightVector = (rightVector * cos(roll)) + (upVector * sin(roll))&lt;br /&gt;upVector = forwardVector x rightVector&lt;/pre&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8178660.js&quot;&gt;&lt;/script&gt; Ok, so that's it for orientation. Reading through the equations above, you can see that the calculation of the forward vector comes out of some standard rotations. The &quot;x&quot; operator that I've used above denotes vector &lt;b&gt;cross product&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt;Now that we're keeping track of our current viewing direction, up direction and right direction; performing camera movements is really easy.&lt;br /&gt;&lt;br /&gt;I've called these &quot;advance&quot; (move along the forward plane), &quot;ascend&quot; (move along the up plane) and &quot;strafe&quot; (move along the right plane).&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8178706.js&quot;&gt;&lt;/script&gt; All we are doing here is just moving along those planes that have been defined for us via orientation. Movement is simple.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Integrating&lt;/h3&gt;All of this code/math is great up until we need to apply it in our environments. Most of the work that I do centralises around OpenGL, so I've got a very handy utility function (from GLU) that I use called &lt;a href=&quot;http://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml&quot;&gt;gluLookAt&lt;/a&gt;. Plugging these values in is rather simple:&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/tuttlem/8178731.js&quot;&gt;&lt;/script&gt; We calculate our viewpoint as (position - forwardVector) and really just plug the literal values into this function. There is a lot of information on the gluLookAt documentation page that you can use if OpenGL isn't your flavor to simulate what it does.&lt;br /&gt;&lt;br /&gt;That's it for a simple camera! &lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+
+&lt;p&gt;One of the most important elements of any 3D application is its camera. A camera allows you to move around in your world and orient your view. In today&amp;#39;s post, I&amp;#39;ll put together a code walk through that will take you through a simple camera implementation.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-concept&quot;&gt;The Concept&lt;/h3&gt;
+
+&lt;p&gt;There are two major components of any camera. They are position and orientation. Position is fairly easy to grasp, it&amp;#39;s just where the camera is and is identified using a normal 3-space vector.&lt;/p&gt;
+
+&lt;p&gt;The more difficult of the two concepts is orientation. The best description for this that I&amp;#39;ve found is on the &lt;a href=&quot;http://en.wikipedia.org/wiki/Flight_dynamics&quot;&gt;Flight Dynamics&lt;/a&gt; page on wikipedia. The following image has been taken from that article and it outlines the plains that orientation can occur. Of course, the image&amp;#39;s subject is an aircraft but the same concepts apply to a camera&amp;#39;s orientation:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s1600/Rollpitchyawplain.png&quot; alt=&quot;Roll pitch yaw&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;pitch&lt;/em&gt; describes the orientation around the x-axis, the &lt;em&gt;yaw&lt;/em&gt; describes the orientation around the y-axis and the &lt;em&gt;roll&lt;/em&gt; describes the orientation around the z-axis.&lt;/p&gt;
+
+&lt;p&gt;With all of this information on board, the requirements of our camera should become a little clearer. We need to keep track of the following about the camera:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Position&lt;/li&gt;
+&lt;li&gt;Up orientation (yaw axis)&lt;/li&gt;
+&lt;li&gt;Right direction (pitch axis)&lt;/li&gt;
+&lt;li&gt;Forward (or view) direction (roll axis)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We&amp;#39;ll also keep track of how far we&amp;#39;ve gone around the yaw, pitch and roll axis.&lt;/p&gt;
+
+&lt;h3 id=&quot;some-maths-(and-code)&quot;&gt;Some Maths (and code)&lt;/h3&gt;
+
+&lt;p&gt;There&amp;#39;s a handful of really useful equations that are going to help us out here. With all of the information that we&amp;#39;ll be managing and how tightly related each axis is considering they&amp;#39;re all relating to the same object - you can see how interactive it can be just by modifying one attribute.&lt;/p&gt;
+
+&lt;p&gt;When the &lt;strong&gt;pitch&lt;/strong&gt; changes:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;text&quot;&gt;forwardVector = (forwardVector * cos(pitch)) + (upVector * sin(pitch))
+upVector      = forwardVector x rightVector&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// keep track of how far we&amp;#39;ve gone around the axis&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rotatedX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// calculate the new forward vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cosf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sinf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// calculate the new up vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cross&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// invert so that positive goes down&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When the &lt;strong&gt;yaw&lt;/strong&gt; changes:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;text&quot;&gt;forwardVector = (forwardVector * cos(yaw)) - (rightVector * sin(yaw))
+rightVector   = forwardVector x upVector&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yaw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// keep track of how far we&amp;#39;ve gone around this axis&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rotatedY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// re-calculate the new forward vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cosf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sinf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// re-calculate the new right vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cross&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When the &lt;strong&gt;roll&lt;/strong&gt; changes:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;text&quot;&gt;rightVector = (rightVector * cos(roll)) + (upVector * sin(roll))
+upVector    = forwardVector x rightVector&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;roll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// keep track of how far we&amp;#39;ve gone around this axis&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rotatedZ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// re-calculate the forward vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cosf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sinf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;angle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PION180&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// re-calculate the up vector&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cross&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// invert the up vector so positive points down&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ok, so that&amp;#39;s it for orientation. Reading through the equations above, you can see that the calculation of the forward vector comes out of some standard rotations. The &lt;code&gt;x&lt;/code&gt; operator that I&amp;#39;ve used above denotes vector &lt;strong&gt;cross product&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now that we&amp;#39;re keeping track of our current viewing direction, up direction and right direction; performing camera movements is really easy.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve called these &lt;code&gt;advance&lt;/code&gt; (move along the forward plane), &lt;code&gt;ascend&lt;/code&gt; (move along the up plane) and &lt;code&gt;strafe&lt;/code&gt; (move along the right plane).&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// z movement&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;advance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// y movement&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ascend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// x movement&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strafe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightVector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;All we are doing here is just moving along those planes that have been defined for us via orientation. Movement is simple.&lt;/p&gt;
+
+&lt;h3 id=&quot;integrating&quot;&gt;Integrating&lt;/h3&gt;
+
+&lt;p&gt;All of this code/math is great up until we need to apply it in our environments. Most of the work that I do centralises around OpenGL, so I&amp;#39;ve got a very handy utility function (from GLU) that I use called &lt;a href=&quot;http://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml&quot;&gt;gluLookAt&lt;/a&gt;. Plugging these values in is rather simple:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;camera&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;place&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vec3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewPoint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;// setup opengl with gluLookAt&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;gluLookAt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;viewPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;upVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We calculate our viewpoint as (&lt;code&gt;position&lt;/code&gt; - &lt;code&gt;forwardVector&lt;/code&gt;) and really just plug the literal values into this function. There is a lot of information on the gluLookAt documentation page that you can use if OpenGL isn&amp;#39;t your flavor to simulate what it does.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#39;s it for a simple camera! &lt;/p&gt;
 </content>
  </entry>
  
@@ -2857,20 +3038,6 @@ I think that if I was to dip my toes any further into the pool that is node.js, 
  </entry>
  
  <entry>
-   <title>Os Kernel Development Library Routines</title>
-   <link href="http://tuttlem.github.io/2013/01/05/os-kernel-development-library-routines/"/>
-   <updated>2013-01-05T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2013/01/05/os-kernel-development-library-routines</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Library Routines&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;In the &lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2013/01/os-kernel-development-bootloader.html&quot;&gt;previous post&lt;/a&gt; to this series, we implemented a boot loader that would integrate with the multi-boot standard to get your kernel going (in first gear). It's time to change gears and make our life a little easier by implementing some library routines that we'll use a lot of.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;What routines will we need?&lt;/h3&gt;&lt;div&gt;By keeping the scope minimal we won't overwhelm ourselves and just leave this project in a steaming heap in the corner. I think if we can get the following accomplished, we'll be in a really good place to start with.&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Port communication I/O&lt;/li&gt;&lt;li&gt;Basic console handling&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;There's still a mountain of work for us in the library arena. But if we can get these two knocked off, we'll at least be able to get our kernel to say something when it boots up rather than that rather unfriendly blank screen.&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Ports&lt;/h3&gt;&lt;div&gt;We set different pieces of hardware state on our computer by pushing data out to ports. We also find out state information about our computer by drawing data from these ports. In our particular case, we want to know where the cursor is on screen we also want to be able to move the cursor about. These things don't just happen by themselves you know, there is underlying magic with ports to give the console a human feel.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;The following code will allow us to read in a byte (8 bits), read in a short (16 bits) and write a byte to and from the ports.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4461056.js&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;If we wanted to, we could have implemented these directly in an assembly module. These do assume that a particular architecture has been chosen for your kernel, so the portability of this code is minimal.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Console&lt;/h3&gt;&lt;/div&gt;&lt;div&gt;Now that we have a few routines that will allow us to do some port communication, we can put these to work by doing our console simulation.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;The console itself is represented on screen as a cartesian plane but it's certainly not this way in memory. In memory the console is a linear block of memory that has a pair of bytes per cell on the screen. One byte being for the actual character in that cell and the other byte to decorate that cell (background &amp;amp; foreground colours). This memory buffer is located at segment 0xB800 (of course, again, on an intel architecture).&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;The block of most interest when putting a character on screen looks like this.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4461077.js&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;You can see that we're handling cases for backspace, tab, line feed &amp;amp; carriage return and of course any actual character that we want printed. Most of the others are just routine cursor maintenance. The last segment in the if tree, you can see that location is calculated and then the char is spat into the cell.&lt;br /&gt;&lt;br /&gt;Writing a string to the console makes great use of this char writer.&lt;br /&gt;&lt;br /&gt;The full source to these routines can be found in my GitHub repository for Phoenix, &lt;a href=&quot;https://github.com/tuttlem/phoenix/&quot;&gt;here&lt;/a&gt;.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
    <title>Loading an image with SDL_Image for OpenGL</title>
    <link href="http://tuttlem.github.io/2013/01/05/loading-an-image-with-sdl-image-for-opengl/"/>
    <updated>2013-01-05T00:00:00+10:00</updated>
@@ -2934,20 +3101,6 @@ One day, when I get a chance I will get through this entire article and actually
    <content type="html">&lt;h1&gt;Picking your Smart Pointers&lt;/h1&gt;
 &lt;div class='post'&gt;
 &lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;I wanted to do a quick write up on the &lt;a href=&quot;http://www.boost.org/&quot;&gt;Boost library's&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/smart_ptr.htm&quot;&gt;Smart Pointers&lt;/a&gt;&amp;nbsp;and when they should and shouldn't be used. I'd hope to use this post in future (if the knowledge doesn't stick in my head) as a rough guide when finding the right tool for the job.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;For the uninitiated, I strongly advise that you go through the &lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/smart_ptr.htm&quot;&gt;smart pointer&lt;/a&gt;&amp;nbsp;documentation on the Boost website as it's a real eye-opener as to just how hands-off you can now be with dynamic memory allocation in C++ (these days).&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Why use Smart Pointers?&lt;/h3&gt;&lt;div&gt;Smart pointers will help you manage the lifetime of your objects. It will force you to think about the ownership of these pointers and who's currently &quot;in-charge&quot; in some cases. They will allow you to think in terms of observation of objects so that you don't disturb the ownership of a resource and they just generally make your code cleaner, easier to maintain and read.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;How can I start using Smart Pointers?&lt;/h3&gt;&lt;div&gt;&lt;a href=&quot;http://www.boost.org/users/download/&quot;&gt;Get Boost!&lt;/a&gt;&amp;nbsp;That's going to be the best way. Dive right in, take a look at samples, set things up, blow them up - be a scientist about it!&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Anyway, enough of this! On to the pointers.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;&lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/scoped_ptr.htm&quot;&gt;scoped_ptr&lt;/a&gt;&amp;nbsp;&amp;amp; &lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/scoped_array.htm&quot;&gt;scoped_array&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;scoped_ptr is all about ensuring that the pointer that you're working with is the ultimate owner of the resource that it points to. There's no facility within this pointer type to transfer the ownership of the inner resource elsewhere. With all of this in mind, scoped_ptr ensures that the resource that is under ownership will be destroyed properly once the pointer has dropped out of scope.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;scoped_ptr is a very lightweight resource. It's by no means going to harm the performance or size of your application.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;scoped_array will perform the same service as scoped_ptr does, it's just that scoped_array will work on array types (as the name suggests).&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;&lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/shared_ptr.htm&quot;&gt;shared_ptr&lt;/a&gt; &amp;amp; &lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/shared_array.htm&quot;&gt;shared_array&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;shared_ptr is all about reference counting. They will internally manage the reference count that they have and govern the managed resource's lifespan based on this. The clear advantage that they have over the scoped_ptr and scoped_array counterparts is their ability to be shared between multiple owner so that those owners can maintain their interest in the object by &quot;hanging around&quot;.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;The true power of this class of pointer is when you don't know when to delete the underlying resource. As long as someone is referencing you, you'll stay alive.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;shared_array will perform the same service as shared_ptr does, it's just that shared_array will work on array types (deja vu anyone?)&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;&lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/intrusive_ptr.html&quot;&gt;intrusive_ptr&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;The intrusive_ptr is another reference counting pointer only is allows you to provide your own mechanism for performing the reference counting. This means if you have an existing codebase that does all of this work for you, all you need to do is provide it to an intrusive_ptr. intrusive_ptr also allows for native usage of the &quot;this&quot; keyword.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;&lt;a href=&quot;http://www.boost.org/doc/libs/1_52_0/libs/smart_ptr/weak_ptr.htm&quot;&gt;weak_ptr&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;A weak_ptr just performs observation on a shared_ptr without getting its hands into ownership. It's used purely at an observation capacity.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Conclusion&lt;/h3&gt;&lt;div&gt;That's it for a brief smart pointer analysis. Hopefully these tid-bits will help you decide which pointer fits your problem best.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development The Bootloader</title>
-   <link href="http://tuttlem.github.io/2013/01/04/os-kernel-development-the-bootloader/"/>
-   <updated>2013-01-04T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2013/01/04/os-kernel-development-the-bootloader</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development The Bootloader&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;The first step in the execution process (once the machine has finished its PowerOnStartTest boot) is the loading and execution of a small program called the bootloader. It's responsible for getting enough logic into the computers memory to get your operating system started.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Today's post will focus on this bootloader program and getting you over into C land where you can complete the majority of your operating system.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;As I'd described in the&amp;nbsp;&lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/12/os-kernel-development-environment.html&quot;&gt;first post&lt;/a&gt; of this series, I'll be making some assumptions on the directions of the operating system's tools. Some assumptions that will that has some serious implications in the development of the bootloader are:&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Will the bootloader support a multi-boot loader?&lt;br /&gt;&lt;i&gt;Yes. We'll be using GRUB.&lt;/i&gt;&lt;/li&gt;&lt;li&gt;What platform will we assume that we're on?&lt;br /&gt;&lt;i&gt;This is important because the bootloader must be written in the platform's native instruction set to do anything of value. We'll be assuming the intel platform.&lt;/i&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Bootloader execution&lt;/h3&gt;&lt;div&gt;Shortly after your IBM-PC compatible computer starts, it's starts in real mode. You can find out more information about the booting process from &lt;a href=&quot;http://en.wikipedia.org/wiki/Booting#Boot_sequence_of_IBM-PC_compatibles&quot;&gt;this article&lt;/a&gt;&amp;nbsp;as it will take you through the particulars. We're using GRUB so we're abstracted away from a lot of these details. The floppy disk image will have GRUB configured to run our kernel.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;First up, we need to make a few items visible to the linker and let our loader know that the main routine is &quot;somewhere else&quot;.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4449471.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;&quot;loader&quot; is our bootloader's entry point to start executing, &quot;magic&quot; is a special number that our multi-boot loader will look out for, &quot;mbd&quot; is a pointer to a special structure containing multi-boot information that can give your kernel context of its execution and &quot;kmain&quot; is our external kernel code (that will be implemented in C).&lt;br /&gt;&lt;br /&gt;Next up, we'll look at the code that's executing.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4449491.js&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;First job is to setup a stackframe. This is done by pre-allocating some space within this module. All were doing is just pushing &quot;esp&quot; by the location of the pre-allocated stack page with an offset of a pre-determined size.&lt;br /&gt;&lt;br /&gt;Some assumptions are made when GRUB hands control over to our bootloader. For instance, eax will hold the multi-boot magic number and ebx will hold the multiboot structure. These are saved off into the linker visible locations &quot;magic&quot; and &quot;mbd&quot;&amp;nbsp;respectively. Finally we call &quot;kmain&quot; to get the party started.&lt;br /&gt;&lt;br /&gt;It's assumed that the kernel will never return, so we put a halt loop at the end of it just to we don't go running off into memory executing every instruction known to mankind.&lt;br /&gt;&lt;h3&gt;The birth of the Kernel&lt;/h3&gt;The most important part to take note of is that we're now in C land. This is quite a simple routine (for the time being) taking the following form.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4449518.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;Excellent, well, non-functional, but we're here. You can see that we're given access to the &quot;magic&quot; and &quot;mbd&quot; values that we were playing around with in the boot loader. The all important magic number test will determine if we've legitimately come from GRUB.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Linking it all together&lt;/h3&gt;&lt;/div&gt;&lt;div&gt;We've got a partially complex job now of making sure the gobs of binary that are produced when building these files are put in place correctly for us to execute.&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;We provide gcc during the compilation process with the following flags to make sure the binary produced is as plain-jane as possible.&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;-Wall          (all warnings)&lt;br /&gt;-Wextra        (enable extra warning flags)&lt;br /&gt;-nostdlib      (do not use the standard libraries during linking)&lt;br /&gt;-nostartfiles&lt;br /&gt;-nodefaultlibs&lt;br /&gt;-fno-builtin   (turn off builtin prefix functions)&lt;br /&gt;-m32           (generate 32bit code)&lt;/pre&gt;&lt;br /&gt;The linker script is all that is left to describe to the preparation process on how to put our kernel together. Here's how it looks.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4449589.js&quot;&gt;&lt;/script&gt; &lt;br /&gt;Reading this from top to bottom you can see that we're defining our entry point as &quot;loader&quot; (you would have seen that in the bootloader assembly above). We're aligning all of our sections (text, rodata and data) on 4096 (0x1000) byte boundaries. We have a base address (where the code will be loaded) of 0x00100000 as well as stack placement. There are great articles all over the web on the topic of linking, my&amp;nbsp;favorite&amp;nbsp;&lt;a href=&quot;http://www.lurklurk.org/linkers/linkers.html&quot;&gt;here&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;That's it. This is the bootloader handoff from GRUB in a nutshell (a largish nutshell). Check out &lt;a href=&quot;https://github.com/tuttlem/phoenix&quot;&gt;Phoenix&lt;/a&gt;&amp;nbsp;in my GitHub&amp;nbsp;repository&amp;nbsp;for the full source.&lt;br /&gt;&lt;br /&gt;For some even more advanced information check out this tutorial on &lt;a href=&quot;http://www.jamesmolloy.co.uk/tutorial_html/&quot;&gt;Rolling Your Own Unix Clone&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2&gt;Comments&lt;/h2&gt;
 &lt;div class='comments'&gt;
 &lt;/div&gt;
@@ -3032,132 +3185,6 @@ In a previous post, I had written about &lt;a href=&quot;http://cogsandlevers.bl
    <content type="html">&lt;h1&gt;Pygame, Virtualenv, PIP &amp; Homebrew&lt;/h1&gt;
 &lt;div class='post'&gt;
 I finally just got an installation up and running on my MBP for pygame inside of virtualenv. It took a little bit of investigation, but the following should get anyone out of the installation rut (if they're interested in keeping their environments isolated).&lt;br /&gt;&lt;br /&gt;First, all of your SDL stuff should be installed before going any further. If it's not, it's as easy as this from the command shell.&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;$ brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi&lt;/pre&gt;&lt;br /&gt;You're almost done. Create your virtual environment and switch into it. Once you've done that, you just need to issue the following and you're done.&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;$ pip install hg+http://bitbucket.org/pygame/pygame&lt;/pre&gt;&lt;br /&gt;That will grind away and before you know it, you're ready to go.&lt;br /&gt;&lt;br /&gt;Then it's onto reading &lt;a href=&quot;http://thepythongamebook.com/en:pygame:step000&quot;&gt;The Python Game Book&lt;/a&gt;, &lt;a href=&quot;http://www.pygame.org/docs/tut/chimp/ChimpLineByLine.html&quot;&gt;The Line-by-Line Chimp Example&lt;/a&gt;&amp;nbsp;and any other tutorials you can &lt;a href=&quot;http://www.pygame.org/wiki/tutorials&quot;&gt;get your hands on&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development User Mode</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-user-mode/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-user-mode</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development User Mode&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/10.-User%20Mode.html&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Pit</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-pit/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-pit</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Pit&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/5.-IRQs%20and%20the%20PIT.html&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Multitasking</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-multitasking/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-multitasking</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Multitasking&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/9.-Multitasking.html&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Memory And Paging</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-memory-and-paging/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-memory-and-paging</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Memory And Paging&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/6.-Paging.html&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Irqs</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-irqs/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-irqs</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Irqs&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/5.-IRQs%20and%20the%20PIT.html&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Heap Memory</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-heap-memory/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-heap-memory</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Heap Memory&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/7.-The%20Heap.html&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Gdt And Idt</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-gdt-and-idt/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-gdt-and-idt</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Gdt And Idt&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Filesystems</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-filesystems/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-filesystems</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Filesystems&lt;/h1&gt;
-&lt;div class='post'&gt;
-http://www.jamesmolloy.co.uk/tutorial_html/8.-The%20VFS%20and%20the%20initrd.html&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Os Kernel Development Environment</title>
-   <link href="http://tuttlem.github.io/2012/12/31/os-kernel-development-environment/"/>
-   <updated>2012-12-31T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/31/os-kernel-development-environment</id>
-   <content type="html">&lt;h1&gt;Os Kernel Development Environment&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;I'm working on an operating system at the moment just for a bit of fun to fill in some of the gaps when I find them. It's in no way a competitor to the &lt;a href=&quot;http://kernel.org/&quot;&gt;big&lt;/a&gt; &lt;a href=&quot;https://lists.apple.com/mailman/listinfo/darwin-kernel&quot;&gt;boys&lt;/a&gt; &lt;a href=&quot;http://en.wikipedia.org/wiki/Windows_kernel&quot;&gt;in&lt;/a&gt; &lt;a href=&quot;http://www.freebsd.org/cgi/cvsweb.cgi/&quot;&gt;the&lt;/a&gt; &lt;a href=&quot;http://en.wikipedia.org/wiki/IBM_AIX&quot;&gt;market&lt;/a&gt;, it's just a sandbox that I can try stuff out in, blow stuff up, you get the picture.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;So, I thought I might post of my journey through the OS kernel development rabbit-hole and see where it takes us. The first post, I'd like to talk about setting up a development environment that makes it a piece of cake to make changes to your source and test your changes rapidly.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;At any time, you can pull down the code for the progress that I've made so far in my github repository &lt;a href=&quot;https://github.com/tuttlem/phoenix&quot;&gt;here&lt;/a&gt;.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Assumptions&lt;/h3&gt;&lt;div&gt;Unless you're interested in getting nowhere fast - some assumptions have to be made. This is a very complex development and testing process so in the interest of maintaining the hair on your head you have to pick some technologies.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;Development of this operating system is done on any POSIX style OS.&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Rather than writing a bootloader of my own, I've made this project follow the multi-boot standard and it'll boot through grub.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;With this said, to begin with you'll need to prepare yourself a floppy disk image with grub installed. There are &lt;a href=&quot;https://help.ubuntu.com/community/GrubHowto/BootFloppy&quot;&gt;plenty&lt;/a&gt;&amp;nbsp;of &lt;a href=&quot;http://wiki.osdev.org/Disk_Images&quot;&gt;resources&lt;/a&gt; &lt;a href=&quot;http://cstein.kings.cam.ac.uk/~chris/bootgrub.html&quot;&gt;around&lt;/a&gt; the &lt;a href=&quot;http://orgs.man.ac.uk/documentation/grub/grub_3.html&quot;&gt;web&lt;/a&gt; that you can follow to get this accomplished. If you are really struggling though, I have a floppy.img file sitting in the bin folder of phoenix&amp;nbsp;&lt;a href=&quot;https://github.com/tuttlem/phoenix&quot;&gt;here&lt;/a&gt;.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;h3&gt;Virtualise!&lt;/h3&gt;&lt;div&gt;I don't have spare computer around to test my OS on every time.. well, that's actually a big-fat-lie. I've got heaps of computers around here that I could test my code on, but I just couldn't be bothered. I'm much prefer to manage the process virtually using the free virtual machine manager &lt;a href=&quot;http://bochs.sourceforge.net/&quot;&gt;Bochs&lt;/a&gt;.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;If you setup your build script right, you'll be able to compile your kernel and add it to the boot floppy ready for grub to execute. All you really need to do is run Bochs to check out the results.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;You can use the following to add a kernel image to the grub floppy.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;pre class=&quot;brush:shell&quot;&gt;#!/bin/bash&lt;br /&gt;&lt;br /&gt;sudo losetup /dev/loop0 floppy.img&lt;br /&gt;sudo mount /dev/loop0 /mnt&lt;br /&gt;sudo cp kernel /mnt/kernel&lt;br /&gt;sudo umount /dev/loop0&lt;br /&gt;sudo losetup -d /dev/loop0&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;Actually getting the image in there is quite easy. You'll also need a bochs configuration file to look like this as follows.&lt;br /&gt;&lt;br /&gt;&lt;pre&gt;boot: floppy&lt;br /&gt;floppya: 1_44=&quot;bin/floppy.img&quot;, status=inserted&lt;br /&gt;&lt;/pre&gt;&lt;br /&gt;Alright, I've left you here in a pretty inconsistent state. You've got the environment, but nothing to do in it just yet. In my next tutorial, I'll walk you though the boot code and making it over into C land!&lt;br /&gt;&lt;br /&gt;Stay tuned.&lt;/div&gt;&lt;/div&gt;
 &lt;h2&gt;Comments&lt;/h2&gt;
 &lt;div class='comments'&gt;
 &lt;/div&gt;
@@ -3599,20 +3626,6 @@ See, people care(ed like years ago, dude)!&lt;br /&gt;&lt;br /&gt;Here's some in
  </entry>
  
  <entry>
-   <title>Windows Development with MASM32 (part 6)</title>
-   <link href="http://tuttlem.github.io/2012/12/03/windows-development-with-masm32-part-6/"/>
-   <updated>2012-12-03T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/12/03/windows-development-with-masm32-part-6</id>
-   <content type="html">&lt;h1&gt;Windows Development with MASM32 (part 6)&lt;/h1&gt;
-&lt;div class='post'&gt;
-Multiple document interface&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
    <title>SDL you can use (part 5)</title>
    <link href="http://tuttlem.github.io/2012/12/03/sdl-you-can-use-part-5/"/>
    <updated>2012-12-03T00:00:00+10:00</updated>
@@ -3809,20 +3822,6 @@ So, not much of tutorial here - just a neat layout of setup code for a few mode 
  </entry>
  
  <entry>
-   <title>Windows Development with MASM32 (part 4)</title>
-   <link href="http://tuttlem.github.io/2012/11/28/windows-development-with-masm32-part-4/"/>
-   <updated>2012-11-28T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/11/28/windows-development-with-masm32-part-4</id>
-   <content type="html">&lt;h1&gt;Windows Development with MASM32 (part 4)&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;Welcome to the fourth instalment in this windows development series. Just to re-cap the story so far, we've:&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-1.html&quot;&gt;Displayed a message box to the screen&lt;/a&gt; in part 1&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-2.html&quot;&gt;Setup a message pump&lt;/a&gt; in part 2&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-3.html&quot;&gt;Created a basic window&lt;/a&gt; in part 3&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;It's time to try something a little fun and little out of the tutorial mould that you'd be expecting at part 4. Today, lets create a window and setup a double buffer to provide flicker-free animation into our windows applications.&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;This is going to be of great use if we want to do our own custom drawing without employing DirectX or OpenGL. Most of all, it'll be a laugh getting there.&lt;/div&gt;&lt;h3&gt;Double buffer theory, GDI style&lt;/h3&gt;&lt;div&gt;In a generic sense, we manage a block of memory (away from the visible video memory) that has the same characteristics (width, height and depth) as the screen we're presenting. We perform all of our drawing within this off-screen memory buffer and then &quot;flip&quot; it over onto the presenting video memory when we're ready to show it.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;In GDI land, this procedure is split between a &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HDC&lt;/a&gt;&amp;nbsp;and a &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HBITMAP&lt;/a&gt;. A&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HDC&lt;/a&gt;&amp;nbsp;is obtained so that we have an access context into allocated memory. This is also what we'll use when we go to draw something. Where it's stored is in the bitmap.&amp;nbsp;A&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HBITMAP&lt;/a&gt;&amp;nbsp;is obtained so that we can match what is being presented to the user in video memory. Windows does a good job of copying these characteristics when we call &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183488(v=vs.85).aspx&quot;&gt;CreateCompatibleBitmap&lt;/a&gt;.&lt;/div&gt;&lt;h3&gt;Supporting the back-buffer&lt;/h3&gt;&lt;div&gt;So, we need a couple of functions in order to keep the backbuffer happy when the window changes. We need to react when Windows tells us something about the window. In this scenario, we're going to be very interested in the resize message (&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms632646(v=vs.85).aspx&quot;&gt;WM_SIZE&lt;/a&gt;). We need to teardown any already setup back buffer, create a new one of adequate size and continue on.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Let's take a look at the code that's will create and re-create our back-buffer when requested.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4161317.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633503(v=vs.85).aspx&quot;&gt;GetClientRect&lt;/a&gt; fills out a &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;RECT&lt;/a&gt; structure for us with the client dimensions of the window. This is perfect to give us the dimensions for the back buffer. &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd144871(v=vs.85).aspx&quot;&gt;GetDC&lt;/a&gt; obtains a device context directly on the window for us and we use this&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HDC&lt;/a&gt;&amp;nbsp;in order to create an in-memory representation using &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183489(v=vs.85).aspx&quot;&gt;CreateCompatibleDC&lt;/a&gt;. Now that we know what we'll end up drawing to, we just need a buffer off-screen that will hold our intermediate frame. We do this by using&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183488(v=vs.85).aspx&quot;&gt;CreateCompatibleBitmap&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;You'll see a reference to the teardown for the backbuffer in the creation procedure. It's all about safety making sure we're un allocated before trying again. Here's that teardown.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4161329.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt; &lt;br /&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Tearing down is really just use of &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183539(v=vs.85).aspx&quot;&gt;DeleteObject&lt;/a&gt; and &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd162920(v=vs.85).aspx&quot;&gt;ReleaseDC&lt;/a&gt; calls. This is fairly straight forward.&lt;br /&gt;&lt;br /&gt;Finally, we need to be able to send the back buffer to the front (visible) buffer. This flip method using GDI calls is how we accomplish that.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4161348.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt; &lt;br /&gt;A point to note here is the use of &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183370(v=vs.85).aspx&quot;&gt;BitBlt&lt;/a&gt;. We need a way to quickly copy everything on the back buffer to everything on the front buffer. &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd183370(v=vs.85).aspx&quot;&gt;BitBlt&lt;/a&gt; is purpose built to work on copying bitmaps between&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HDC&lt;/a&gt;'s so this is the natural choice.&lt;br /&gt;&lt;h3&gt;Not a normal message pump&lt;/h3&gt;&lt;/div&gt;&lt;div&gt;The type of application has changed. We're now targeting an animating, constantly re-drawn application that needs a new style of message pump. The last type of message pump was very passive, only doing something when required. This new one is very active - peeking the message stack using &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx&quot;&gt;PeekMessage&lt;/a&gt;&amp;nbsp;to determine if messages need to be processed, otherwise re-drawing the application.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Here's the message pump for the application.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4161383.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Finally, we have the window procedure. This is what will co-ordinate the destruction and re-creation of the back buffer when catastrophic changes occur to the visual appearance of the application.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4161428.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt; &lt;br /&gt;That's about it for the double-buffer side of things. The rest of the application itself does have some trickery behind drawing random shapes, but I'll leave the random number generator for a later post.&lt;br /&gt;&lt;br /&gt;Get double buffering!&lt;/div&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
    <title>Offscreen Mesa3D</title>
    <link href="http://tuttlem.github.io/2012/11/27/offscreen-mesa3d/"/>
    <updated>2012-11-27T00:00:00+10:00</updated>
@@ -3858,20 +3857,6 @@ As a quick bookmark, this part of the Mesa3D project: &lt;a href=&quot;http://ww
    <content type="html">&lt;h1&gt;Calling Assembly from C (64 bit)&lt;/h1&gt;
 &lt;div class='post'&gt;
 In a &lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html&quot;&gt;previous blog post&lt;/a&gt;, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.&lt;br /&gt;&lt;br /&gt;I'll be using the same technology stack as last time with &lt;a href=&quot;http://www.nasm.us/&quot;&gt;NASM &lt;/a&gt;as my assembler and &lt;a href=&quot;http://gcc.gnu.org/&quot;&gt;GCC&lt;/a&gt; as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.&lt;br /&gt;&lt;br /&gt;Alright then. On with the code!&lt;br /&gt;&lt;br /&gt;The C-code is not different from the 32-bit version as mentioned in my previous post. Now &lt;b&gt;that's&lt;/b&gt;&amp;nbsp;portability for you!&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4142080.js?file=gistfile1.c&quot;&gt;&lt;/script&gt; The assembly language module has changed somewhat though.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4151995.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt; &lt;br /&gt;Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.&lt;br /&gt;&lt;br /&gt;The change in calling convention can be studied in further detail &lt;a href=&quot;http://www.x86-64.org/documentation/abi.pdf&quot;&gt;here&lt;/a&gt;, however it's just important to mention this:&lt;br /&gt;&lt;blockquote class=&quot;tr_bq&quot;&gt;&lt;blockquote class=&quot;tr_bq&quot;&gt;Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:&lt;/blockquote&gt;&lt;blockquote class=&quot;tr_bq&quot;&gt;If the class is MEMORY, pass the argument on the stack.&lt;/blockquote&gt;&lt;blockquote class=&quot;tr_bq&quot;&gt;If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used&lt;/blockquote&gt;&lt;/blockquote&gt;So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; &lt;a href=&quot;http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html&quot;&gt;Intel&lt;/a&gt;&amp;nbsp;and &lt;a href=&quot;http://en.wikipedia.org/wiki/X86-64&quot;&gt;Wikipedia&lt;/a&gt;&amp;nbsp;are both excellent resources.&lt;br /&gt;&lt;br /&gt;Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.&lt;br /&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4152023.js?file=gistfile1.sh&quot;&gt;&lt;/script&gt; We're done!&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;h2&gt;Comments&lt;/h2&gt;
-&lt;div class='comments'&gt;
-&lt;/div&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Windows Development with MASM32 (part 3)</title>
-   <link href="http://tuttlem.github.io/2012/11/26/windows-development-with-masm32-part-3/"/>
-   <updated>2012-11-26T00:00:00+10:00</updated>
-   <id>http://tuttlem.github.io/2012/11/26/windows-development-with-masm32-part-3</id>
-   <content type="html">&lt;h1&gt;Windows Development with MASM32 (part 3)&lt;/h1&gt;
-&lt;div class='post'&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;&lt;div&gt;In the &lt;a href=&quot;http://cogsandlevers.blogspot.com.au/2012/11/windows-development-with-masm32-part-2.html&quot;&gt;last part&lt;/a&gt;&amp;nbsp;of this series, we finished off creating a message pump. The application did nothing (seemingly) on the surface, but underneath it set the platform for message processing which is so important in the windows environment.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;In this article we're going to create a simple window that will sit on this message pump architecture and be a first class citizen on our windows desktop.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;A little extra help (in the form of macros) has been employed in this example.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4147906.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;m2m is a neat little helper that wraps up that annoying memory location loading indirection problem that would normally see a little bit of stack gymnastics, and remember I'd previously said that all return values need to be in eax? Well, check out the macro &quot;return&quot;. It's pretty self explanatory.&lt;br /&gt;&lt;h3&gt;Window Classes&lt;/h3&gt;&lt;div&gt;Window classes are at the base of all windows that are created in windows. You fill out a structure (&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633576(v=vs.85).aspx&quot;&gt;WNDCLASS&lt;/a&gt; or &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633577(v=vs.85).aspx&quot;&gt;WNDCLASSEX&lt;/a&gt;) and from there you can create windows using this window class as a template.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Here we'll define the window class for the application.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4147911.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt; &lt;br /&gt;Some things of interest in this example is assigning the &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx&quot;&gt;window procedure&lt;/a&gt;, giving the class a name (as we'll use it later) and finally the registration of the class using &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633587(v=vs.85).aspx&quot;&gt;RegisterClassEx&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Putting something on screen&lt;/h3&gt;&lt;/div&gt;&lt;div&gt;Finally, we'll put something on screen. So, the following snippet will create the window (using the class we registered above as the template) and give us back the handle (or &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx&quot;&gt;HWND&lt;/a&gt;) to the window.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4147919.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;You can lookup &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms632680(v=vs.85).aspx&quot;&gt;CreateWindowEx&lt;/a&gt; yourself to understand the parameters. &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633548(v=vs.85).aspx&quot;&gt;ShowWindow&lt;/a&gt; and &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/dd145167(v=vs.85).aspx&quot;&gt;UpdateWindow&lt;/a&gt; are supplemental to the creation process to completeness.&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Responding when it counts&lt;/h3&gt;&lt;/div&gt;&lt;div&gt;Finally, we need to respond when the window does (or wants to do) something interesting. Remember, it's only a simple application so the&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633573(v=vs.85).aspx&quot;&gt;window procedure&lt;/a&gt;&amp;nbsp;is not going to be a work of art. Really, it just lets everything go through to the default window procedure &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572(v=vs.85).aspx&quot;&gt;DefWindowProc&lt;/a&gt;. &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx&quot;&gt;WM_DESTROY&lt;/a&gt;&amp;nbsp;will post a quit message using &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx&quot;&gt;PostQuitMessage&lt;/a&gt; which is really game over.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;script src=&quot;https://gist.github.com/4147927.js?file=gistfile1.asm&quot;&gt;&lt;/script&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;This last code block also introduces some high-level if-then-else syntax provided by MASM. You could accomplish the same thing writing your cmp's and jmp's by hand. These &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/f4x287ff(v=vs.80).aspx&quot;&gt;.IF&lt;/a&gt;&amp;nbsp;and &lt;a href=&quot;http://msdn.microsoft.com/en-US/library/6f0ft3f1(v=vs.80).aspx&quot;&gt;.ELSE&lt;/a&gt;&amp;nbsp;constructs provide a little syntactic sugar to make your assembly block read a little more in a structured fashion.&lt;br /&gt;&lt;br /&gt;Well, that wraps up part 3. You'll have a window glaring you in the face once you're up and running. Hitting the close button on the window will post a WM_CLOSE message which ultimately results in a&amp;nbsp;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms632620(v=vs.85).aspx&quot;&gt;WM_DESTROY&lt;/a&gt;&amp;nbsp;which your application will respond to by &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx&quot;&gt;posting a quit message&lt;/a&gt;&amp;nbsp;and you're done.&lt;/div&gt;&lt;/div&gt;
 &lt;h2&gt;Comments&lt;/h2&gt;
 &lt;div class='comments'&gt;
 &lt;/div&gt;

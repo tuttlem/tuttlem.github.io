@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,78 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/09/making-cleaner-nasm-code-with-macros/">
-        Making Cleaner NASM Code with Macros
-      </a>
-    </h1>
-
-    <span class="post-date">09 Jan 2013</span>
-
-    <h1>Making Cleaner NASM Code with Macros</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Cleaner, clearer code is better. It's easier to debug, it's easier to read, it's just plain - better. Assembly code isn't known for its ability to allow the developer to make their intentions clear in its source code, but we can get closer with some carefully craft macros.</div><div><br /></div><div>Macros are symbols that you can use in your code to represent a block of code. Macros are allowed to take parameters which makes them an extremely flexible and valuable tool in your arsenal. These symbols that you use in your code are swapped out by nasm at the time of assembly for the blocks of code that they represent.</div><div><br /></div><div>If you want to go further in depth to the nasm pre-processor and macros, check it out in the manual <a href="http://www.nasm.us/doc/nasmdoc4.html">here</a>.</div><div><br /></div><div>Today's post will be focused on cleaning up the code that we'd written in <a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">this</a> previous article to look a little more human.</div><div><br /></div><h3>Revisiting write and strlen</h3><div>In the previous article "<a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">strlen() implementation in NASM</a>", we'd put together a couple of ways to take the length of a string. This article will assume that we're already using this code. With this in mind, we can put together a general purpose print function that will display a zero terminated string with the following.</div><div><br /><script src="https://gist.github.com/4492430.js"></script></div><div><br /></div><div><br /></div><div>Ok, that's a nice and neat little bundle. Now, everytime that we want to call this function, we need to write code that looks like the following.<br /><br /><script src="https://gist.github.com/4492450.js"></script></div><div><br />Which, isn't too bad I guess. We can make it look better though. Consider the following code that wraps this code into a macro.<br /><br /><script src="https://gist.github.com/4492469.js"></script> <br />The syntax here may look a little alien to begin with, but it'll all make sense in a minute. So, we start the macro block off with a "%macro" directive. What follows is the name of the macro, in this case "print" and after that is the number of parameters that this macro will expect (we want one parameter, being the string to print). We have the print code between the directives. You'll see that rdi gets loaded with "%1" which just means "replace %1 with the first thing passed to this macro". To finish up your macro, you have "%endmacro".<br /><br />With that macro defined, you can now print a message to screen by doing this.<br /><br /><script src="https://gist.github.com/4492503.js"></script> <br />This is starting to look a little higher-level now. A bit more "human" on the eyes.<br /><br />Another nifty trick that I'd picked up a while ago was a macro for defining strings. In all of the examples we've seen so far, you'd declare strings in the data segment with the following syntax.<br /><br /><script src="https://gist.github.com/4492529.js"></script> <br />This is perfectly fine, however we can wrap this string declaration up into a macro of its own as well allowing us to define strings where ever we are. We need to be careful though. Defining a string in the code segment without the appropriate jumps is dangerous as we run the risk of executing the string data. The following macro does this safely.<br /><br /><script src="https://gist.github.com/4492549.js"></script> You can see that we've declared a macro that expects two parameters. The first parameter is the name of the variable that we declare. This name is also used to formulate the labels that we jump to so that they are unique between string definitions. The second parameter is the actual string data itself.<br /><br />Now that we have both of these macros defined, the following code is perfectly legal and works a treat.<br /><br /><script src="https://gist.github.com/4492568.js"></script> <br />Well, this is only the start of what you can accomplish with macros. An exercise to the reader would be to implement your own version of "print" that prints a new line after it prints the string - you never know, you might even want to call it "println"!<br /><br />Enjoy.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/09/a-light-cron-tutorial/">
-        A Light cron Tutorial
-      </a>
-    </h1>
-
-    <span class="post-date">09 Jan 2013</span>
-
-    <h1>A Light cron Tutorial</h1>
-<div class='post'>
-<h3>Introduction</h3><div><a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;is the time-based task scheduler for Unix. I think the wikipedia article sums up its description best, so I won't try and reproduce it:</div><blockquote class="tr_bq">Cron is the time-based job scheduler in Unix-like computer operating systems. Cron enables users to schedule jobs (commands or shell scripts) to run periodically at certain times or dates.</blockquote>Today's post will be a light tutorial in setting up jobs using&nbsp;<a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;.<br /><br /><h3>&nbsp;Job types</h3><div>Within the&nbsp;<a href="http://en.wikipedia.org/wiki/Cron">cron</a>&nbsp;system there are two flavors of tasks. The first is at the system level the other is at the user level. The main difference being, the system level tasks (controlled by administrators) are able to run as any particular user. User jobs are setup by the user and installed for the user.</div><div><br /></div><h3>Job installation and modification</h3><div>Start an editing session of the cron table (<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html">crontab</a>) by issuing the following command.</div><div><br /><pre class="brush:shell;">$ crontab -e</pre></div><div><br />You'll now be looking at the job definitions that are setup.<br /><br />To add a job to the list, you need to add it in the following format.<br /><br /><pre class="brush:plain">Minute Hours Day Month DayOfWeek Command [args]</pre><br /><ul><li>"Minute" is specified as (0 - 59)</li><li>"Hours" is specified as (0 - 23)</li><li>"Day" is specified as (0 - 31)</li><li>"Month" is specified as (0 - 12 where 12 is December)</li><li>"DayOfWeek" is specified as (0 - 7 where 7 or 0 are Sunday)</li><li>"Command" is the shell command you want to execute</li></ul><div>For a system level task, a new field to specify the username is added into this format.</div><div><br /></div><div><pre class="brush:plain">Minute Hours Day Month DayOfWeek Username Command [args]</pre><br /><ul></ul></div><div>This will only apply to system level tasks that are added. Operators can be used in conjunction with literal values to short-cut some of the more common tasks.<br /><br /><ul><li>Use an asterisk (*) to define all values for a field</li><li>Use a comma (,) to separate multiple values for a field</li><li>Use a dash (-) to define a range</li></ul></div><div>To make some more sense out of the time fields, here are a few examples and when they'd execute.</div><div><br /></div><div><table><tbody><tr><td><b>crontab entry</b></td><td><b>interval</b></td></tr><tr><td>0 1 * * * script.sh</td><td>Run at 1 in the morning everyday</td></tr><tr><td>0 6 1 * * script.sh</td><td>Run at 6am on the first of every month</td></tr><tr><td>0 11 * * 1-5 script.sh</td><td>Run at 11am every weekday</td></tr><tr><td>0 17 5 5 *</td><td>Run at 5 in the afternoon on the 5th of May</td></tr><tr><td>0 7-19/2 * * *</td><td>Run every 2 hours from 7 in the morning until 7 at night</td></tr></tbody></table><br />Out of the box, a cron job will email your local unix account with the results of the job run. If you don't want to receive this email just pipe the output of your cron command to null, like so.<br /><br /><pre class="brush:plain">0 7 * * * test.sh &gt;/dev/null 2&gt;&amp;1</pre><br />Some short-cut "special variables" that you can use in conjunction with the times that these jobs run look like this (these really clean up the way a crontab reads).<br /><br /><table><tbody><tr><td><b>variable</b></td><td><b>meaning</b></td><td><b>cron equiv.</b></td></tr><tr><td>@reboot</td><td>Run once, at startup</td><td><br /></td></tr><tr><td>@yearly /&nbsp;@annually</td><td>Run once per year&nbsp;</td><td>0 0 1 1 *</td></tr><tr><td>@monthly</td><td>Run once per month</td><td>0 0 1 * *</td></tr><tr><td>@weekly</td><td>Run once per week</td><td>0 0 * * 0</td></tr><tr><td>@daily /&nbsp;@midnight</td><td>Run once per day</td><td>0 0 * * *</td></tr><tr><td>@hourly</td><td>Run once per hour</td><td>0 * * * *</td></tr></tbody></table><br /><h3>Other maintenance</h3><div>You can list the cron table with the following command.</div><div><br /><pre class="brush:shell;"># crontab -l<br /># crontab -u user -l</pre></div><br />You can remove all entries out of the cron table with the following command.<br /><br /><pre class="brush:shell;"># crontab -r<br /># crontab -u user -r</pre><br /><br /><br />That's it! A nice light tutorial.</div></div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/08/strlen-implementation-in-nasm/">
-        strlen() implementation in NASM
-      </a>
-    </h1>
-
-    <span class="post-date">08 Jan 2013</span>
-
-    <h1>strlen() implementation in NASM</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Seeing so many "Hello, world" concepts for getting up an running in Assembly has annoyed me a little bit. I see people using the "$ - msg" macro to calculate the length of their string at assemble time.</div><div><br /></div><div>In today's post, I'll show you how to measure the length of your string at runtime so you'll be able to provide the <a href="http://en.wikipedia.org/wiki/Write_(system_call)">write</a>&nbsp;syscall's third parameter a little more flexibly.&nbsp;</div><div><br /></div><h3>The logic</h3><div>The logic behind this procedure is dead-simple. Test the current byte for being null, if it is get out now if its not keep counting! Here's how the code looks.</div><div><br /><script src="https://gist.github.com/4478792.js"></script></div><div>This is just straight-forward memory testing, no great advancements in computer science here! The function expects that the string that requires testing will be in the rdi register.<br /><br />To actually use this function in your application though, you'll need to transport the result (which sits in rax by the time the function has completed execution) into the register that write expects its length parameter. On a debian linux system, the length is expected in rdx which there is an example of <a href="http://cogsandlevers.blogspot.com.au/2012/11/hello-64bit-assembly.html">here</a>. OSX's ABI is slightly different but confusingly expects the length in the same register. You can read up on that <a href="http://cogsandlevers.blogspot.com.au/2013/01/assembly-on-osx.html">here</a>.<br /><br />Here's how you use your new strlen function (in the Debian scenario).<br /><br /><script src="https://gist.github.com/4478850.js"></script> So you can see that this is quite straight forward. We setup rdx before we setup the rest of the registers. We could have done this the other way around - to be on the safe side, I've done it this way as you never know what registers get mowed over in people's functions.<br /><br />I tried to help this also in the _strlen implementation by saving the only work register that I use (rcx).<br /><br />Anyway, that's how you measure your string.<br /><br /><h3>A more optimal way?</h3></div><div>After completing this article, I'd thought about the "brute-forcish" way that I'd crunched out the numbers to derive a string's length and thought to myself, what if I could just scan the string of bytes - find the null character and subtract this found index from the original starting point. Mathematically I would have calculated the distance in bytes between the start of the string and the NULL character, ergo the string length.</div><div><br /></div><div>So, I've written a new string length implementation that does just this and here it is.</div><div><br /><script src="https://gist.github.com/4480719.js"></script></div><div><br />It may look longer than the first implementation however this second implementation uses <a href="http://courses.engr.illinois.edu/ece390/archive/spr2002/books/labmanual/inst-ref-scasb.html">SCASB</a>&nbsp;which will be heaps more optimal than my hand-rolled loop.<br /><br />Enjoy.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/08/printing-a-register-s-value-in-hex/">
-        Printing a Register's Value in Hex
-      </a>
-    </h1>
-
-    <span class="post-date">08 Jan 2013</span>
-
-    <h1>Printing a Register's Value in Hex</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Putting some of the knowledge we've picked up in <a href="http://cogsandlevers.blogspot.com.au/2013/01/assembly-on-osx.html">previous</a> <a href="http://cogsandlevers.blogspot.com.au/2013/01/strlen-implementation-in-nasm.html">posts</a>, todays post is going to be about getting the value that sits in a register out on screen. This post will assume that we're not going to lean on a call like printf, we're going to do it by hand.</div><div><br /></div><h3>How to attack the problem?</h3><div>The solution that I present may immediately strike your eye as verbose &amp; long-winded and this is on purpose. We're going to build something that works to begin with then we can do an analysis of what we've written and optimise it later.</div><div><br /></div><div>I've split the larger problem of printing a register's value (in this case we're printing RAX) into a few smaller problems so as we knock off each problem, we get closer to an overall result. The sub-problems that I have cut this into are:</div><div><ul><li>Printing a nibble (half a byte or 4bit value)</li><li>Printing a byte</li><li>Printing the register value</li></ul><div>So you can see that we're going to implement a solution by solving these smaller issues top to bottom. Let's take a look at some code.</div></div><div><br /></div><h3>Characters and Nibbles</h3><div>We're going to print a nibble. A nibble is 4 bits of data spanning values from 0 up to F hexadecimal or 0 up to 15 in decimal. The plan of attack is to isolate this 4 bits in such a way that we can use it as an offset into a string of characters organised from 0 up to F.&nbsp;</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4483534.js"></script></div><div><br /></div><div><br /></div><div>The code is documented pretty well, and you can see that the crux of the work is just offsetting the base address of the string by the nibble that we want to print. Nifty. Keep in mind that the registers used here are assuming that you're compiling for OSX. If you are compiling for another type of unix make sure that the parameters are being passed through the correct registers, otherwise you'll be segfaulting all the way to the pub!<br /><br /><h3>Stepping up to a byte</h3></div><div>Now we want to chain two "_print_nibble" calls together so that we can print an entire byte out on the screen (0 up to FF). We've already got a procedure that prints the lower 4 bits of al out to the screen, all we really need to do is be creative with al so we can print the higher 4 bits first then the lower 4 bits so that the number comes out to the console in the right order!</div><div><br /></div><div>Here's the code.</div><div><br /><script src="https://gist.github.com/4483628.js"></script></div><div><br /></div><div><br /></div><div>This function holds the same assumption as printing a nibble. There can't be any junk in the higher bits (from al) of rax otherwise this solution will turn to mud.<br /><br /><h3>Going the whole hog!</h3></div><div>We're now able to print any byte we would like, so lets string 8 bytes together to make a 64bit integer that we can print. Again, it's all about shuffling the value that we want to print around correctly so that the number is written to the console in the correct order. It might be confusing to see pushes and pops inside of the loop that I'll present, but I re-use these registers to calculate things on the fly.</div><div><br /></div><div>Again, I've commented this code pretty verbosely so it should read like a bedtime story. Here's the code.</div><div><br /><script src="https://gist.github.com/4483840.js"></script></div><div><br /></div><div><br /></div><div>The key is byte isolation. Using rcx we can count from the top byte down to the bottom with creative shifting.<br /><br />Now that we've implemented all of this code, we can print some boobies to the screen. This is the moment you've been waiting for.<br /><br /><script src="https://gist.github.com/4483880.js"></script> <br />The output of which should just print "B000B135B000B135" to the console. Yes, there's boobies in the article, see!<br /><br />Whilst this may not appear to be the most useful function right now, it'll serve as a very useful debugging tool for us in the future.<br /><br /><br /></div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/01/07/assembly-on-osx/">
         Assembly on OSX
       </a>
@@ -261,6 +181,78 @@
     <h1>Assembly on OSX</h1>
 <div class='post'>
 <h3>Introduction</h3><div>I've <a href="http://cogsandlevers.blogspot.com.au/2012/11/hello-64bit-assembly.html">previously written</a> about writing "Hello World" applications in assembly for 64bit architectures in a Unix environment, however I haven't written about the nuances of doing this in OSX.</div><div><br /></div><div>My primary environment that I work in at home is OSX, so I wanted to get this post out of the way anyway so that I've got assembly &amp; linking instructions written down. To follow along, you'll want to install <a href="http://www.nasm.us/">NASM</a>.</div><div><br /></div><h3>The Code</h3><div><br /><script src="https://gist.github.com/4474479.js"></script></div><br />I've tried to comment the code above as best I can. It's pretty clear to see that we're calling the <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?write+2">write</a> and <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?exit+2">exit</a> syscalls. The only line that stands out is having to adjust esp after our write syscall. Regardless, this is what OSX expects!<br /><br />Building this application into something runnable for mach is pretty simple. You assemble the file into an object file like so.<br /><br /><pre class="brush:shell">$ nasm -f macho hello.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello hello.o</pre><br />Pretty simple. You're now ready to attack OSX with your assembler!<br /><br /><h3>In 64bits please!</h3><div>Continuing the discussion a bit further, we can bring our program into today by upgrading NASM to a version that supports the macho64 format. The source to our program changes a bit, especially the way that we pass parameters into our syscalls now. The <a href="http://en.wikipedia.org/wiki/Application_binary_interface">ABI</a> had changed dramatically favouring separate registers to pass values as opposed to using the stack.<br /><br />Here's the 64bit source.</div><div><br /></div><div><br /><script src="https://gist.github.com/4474618.js"></script></div><div><br /></div><div><br /></div>It still does look a lot like its 32bit counterpart. Notice how we're not magically adjusting esp by hand now? Those parameters being passed as registers has helped!<br /><br />Assembling your 64bit assembly code now looks like this.<br /><br /><pre class="brush:shell">$ nasm -f macho64 hello64.asm</pre><br />And link it as an executable like so.<br /><br /><pre class="brush:shell">$ ld -e _start -o hello64 hello64.o</pre><br />This is a good place to be. Now you've got choice!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/06/sending-email-with-gmail-and-ruby/">
+        Sending email with GMail and Ruby
+      </a>
+    </h1>
+
+    <span class="post-date">06 Jan 2013</span>
+
+    <h1>Sending email with GMail and Ruby</h1>
+<div class='post'>
+Here's a quick little ruby snippet to get you sending email through your gmail account. I had to implement this recently, so I thought I'd make note of it here.<br /><br />You will need the <a href="http://rubygems.org/gems/tlsmail">tlsmail</a> gem install to make this happen.<br /><br />Here's the code.<br /><br /><script src="https://gist.github.com/4466102.js"></script> <br />That is what it's all about!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/06/node-js-screencasts/">
+        node.js Screencasts
+      </a>
+    </h1>
+
+    <span class="post-date">06 Jan 2013</span>
+
+    <h1>node.js Screencasts</h1>
+<div class='post'>
+I think that if I was to dip my toes any further into the pool that is node.js, I'll be hitting up this set of free screencasts.<br /><br /><a href="https://learni.st/users/tilley.brandon/boards/3254-nodecasts-node-js-screencasts">https://learni.st/users/tilley.brandon/boards/3254-nodecasts-node-js-screencasts</a><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/06/impure-worlds-side-effects-and-io/">
+        Impure worlds, side effects and IO
+      </a>
+    </h1>
+
+    <span class="post-date">06 Jan 2013</span>
+
+    <h1>Impure worlds, side effects and IO</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've only just made it to chapter 8 in the book <a href="http://learnyouahaskell.com/">Learn You a Haskell for Great Good!</a>&nbsp;as as I've been going through it, most of it has been assumed knowledge without a lot of the understanding. I never needed to understand Haskell's separation of pure functional from impure code in order to print "Hello World" to the screen.</div><div><br /></div><div>After reading Chapter 8, I'm convinced that I should have known. I'm glad I do now.</div><div><br /></div><h3>Impure worlds</h3><div>Haskell goes to great lengths to ensure the code that you're writing is purely functional. That is, no state, no side-effects, function guarantees on outputs for given inputs. Fantastic. Great. But how do you make Haskell do something interesting then?</div><div><br /></div><div>In order to introduce the outside world into our pure environment we use "IO actions". The are actions that can (but don't have to) emit a result that will be of interest to our program. These actions are said to have side effects.<br /><br />I could continue on here but I wouldn't do the topic the justice it deserves, so do yourself a favour and read up on it.<br /><br />From here, I'll just present the code-level concepts that I want to make note of.<br /><br /><h3>Oganised Randomness</h3></div><div>One topic that's interesting came to me when I was unit testing a card shuffling solution. In order to implement shuffling, I needed to call on <a href="http://hackage.haskell.org/packages/archive/random/1.0.0.3/doc/html/System-Random.html">System.Random</a>. To get a generator, you can use <a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;which takes in an integer to produce a random number generator. A more unpredictable approach is&nbsp;&nbsp;to get this integer from some form of entropic pool outside by proxy of <a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:getStdGen">getStdGen</a>.&nbsp;</div><div><br /></div><div>We can predictably re-create the same random number generator by supplying&nbsp;<a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;with the same number. This is good for our unit tests as we can structure our tests according to these psuedo-random results. Of course, the number that's passed to&nbsp;<a href="http://hackage.haskell.org/packages/archive/random/latest/doc/html/System-Random.html#v:mkStdGen">mkStdGen</a>&nbsp;I had setup as a lambda parameter so that <a href="http://hackage.haskell.org/package/QuickCheck">QuickCheck</a> would produce 100 different scenarios to test out.</div><div><br /></div><div>Anyway, on to some topics.</div><div><br /></div><h3>"Do" syntax</h3><div>"Do" syntax allows us to concatenate many IO actions together without making our code look like soup.</div><div><br /><script src="https://gist.github.com/4461704.js"></script></div><div><br />This is equivalent to this. <br /><script src="https://gist.github.com/4461713.js"></script> <br /><br />While we're inside the scope of "Do" syntax, we use the "&lt;-" construct to remove the IO off a result that comes from the outside world. Once we've done this, we can start using that value in our pure world!<br /><br />The inverse of the "&lt;-" is a "return" statement. A "return" will take a pure value and turn it into an IO action.<br /><br /><h3>when</h3></div><div>"when" is a function from Control.Monad and is used in conjunction with IO actions. "when" is used much like an "if" construct in other languages only when the condition is True, it'll return the supplied IO action otherwise it'll send out an empty IO action or IO (). Here's an example of its use.</div><div><br /><script src="https://gist.github.com/4461741.js"></script></div><div>When running, if this program receives "John" for the input, then John will get a message back. Anyone else, and they'll get nothing.<br /><br /><h3>sequence</h3></div><div>"sequence" will execute a batch (or a List) of IO actions. Here is an example where the program will ask for three strings (so there's a List of actions there) and then after that it'll use sequence and map to print those colours back to the user.</div><div><br /><script src="https://gist.github.com/4461784.js"></script></div><div><br /><h3>mapM and mapM_</h3></div><div>In the previous example, the usage of sequence in conjunction with map earned its own shortcut with mapM. Re-writing the last statement in the previous example with mapM.</div><div><br /><script src="https://gist.github.com/4461801.js"></script></div><div><br />It would have been more appropriate for me to use mapM_ as the difference is that it drops the result.<br /><br /><h3>forever</h3></div><div>As the name suggests, "forever" will execute an IO action forever.</div><div><br /><script src="https://gist.github.com/4461820.js"></script></div><div><br /><h3>forM</h3></div><div>"forM" is pretty much "mapM" only with the parameters shuffled around. It's a little more conducive to passing lambda expressions into it for a very neat and tidy feel.</div><div><br /><script src="https://gist.github.com/4461858.js"></script></div><div><br /></div><div><br /></div><div>That's pretty handy being able to "return" your value from the lambda body back into the assignment.<br /><br /><h3>Getting input from outside</h3><div>Being able to process the STDIN stream is a basic building block for a lot of programs in general. This text processing "duty" is made very simple in Haskell through the use of <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:getContents">getContents</a> and even easier through <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>.</div><div><br /></div><div>The example program that I've got here uses <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Data-Bits.html#v:xor">`xor`</a>&nbsp;to scramble how a string looks visually. By applying the same function over the scrambled string, we're returned to the original string.</div><div><br /></div><div>Heres the code.</div><div><br /><script src="https://gist.github.com/4466869.js"></script></div><div><br /></div><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:getContents">getContents</a>&nbsp;works like any other STDIN reader where we might use redirection at the shell to send a text file to it or we might just be entering strings at the console like so.<br /><br /><pre>$ runhaskell scramble.hs <br />Hello<br />M`iij<br />Yes sir-ee bob!<br />\`v%vlw(``%gjg$<br /></pre><br />Not quite "encryption" is it, but it'll do to demonstrate with. Using&nbsp;<a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>&nbsp;just cleans up the main function so that it will look like this.<br /><br /><script src="https://gist.github.com/4466880.js"></script> <br /><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Prelude.html#v:interact">interact</a>&nbsp;is purpose built for this scenario as this is quite a common task.<br /><br /><h3>Command line parameters</h3><div>The other major source of external interaction to programs is through the command line, passing parameters in. Both <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-Environment.html#v:getProgName">getProgName</a> and <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/System-Environment.html#v:getArgs">getArgs</a> will put you on par with any other environment looking like this.</div><div><br /><script src="https://gist.github.com/4467008.js"></script></div><div><br /></div><br />That's it for IO. I'm going to try and apply this knowledge into some of my projects.</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/06/exception-handling-with-bracket/">
+        Exception handling with bracket
+      </a>
+    </h1>
+
+    <span class="post-date">06 Jan 2013</span>
+
+    <h1>Exception handling with bracket</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Performing IO in our pure environments can be dangerous. Who knows what people put in files that our programs are expected to read? There are tools that can help assure ourselves that we'll at least clean up if an explosion occurs.</div><div><br /></div><div>In this post, I'll talk about exception handling with IO actions using <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#v:bracket">bracket</a>.</div><div><br /></div><h3>What is it?</h3><div><a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#v:bracket">bracket</a>&nbsp;is a function defined in Control.Exception and is defined as follows.</div><div><br /><script src="https://gist.github.com/4467064.js"></script></div><div><br />Its first parameter is a function that acquires a resource (or handle). Its second parameter is a function that releases the resource acquired in the first. The last parameter is another function that uses the acquired handle to get a result.<br /><br />The error handling comes in because the 2nd parameter, the function that releases the acquired resource is called even if an exception occurs during the execution of the last parameter.<br /><br />That's nifty. An example use of bracket looks as follows.<br /><br /><script src="https://gist.github.com/4467094.js"></script> So, there's another safety mat for when you venture into the impure world.</div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

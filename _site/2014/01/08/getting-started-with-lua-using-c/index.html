@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -178,12 +170,97 @@
         <div class="post">
   <h1 class="post-title">Getting started with Lua using C++</h1>
   <span class="post-date">08 Jan 2014</span>
-  <h1>Getting started with Lua using C++</h1>
-<div class='post'>
-<h3>Introduction</h3><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It's put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.<br /><br />In today's post, I'll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.<br /><br /><h3>Library Installation</h3>Before you get downloading and building this library, you'll just need to ensure that you have a build environment installed and are able to compile. <br /><br />At the time of writing this article,&nbsp; the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine.<br /><br />Following along with their building instructions, issuing "make linux test" whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the "make local" option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).<br /><br />When it comes to downloading the latest versions of libraries, I'll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.<br /><br />From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:<br /><br /><pre>.<br />└── lua-5.2.3<br />    ├── include<br />    │&nbsp;&nbsp; ├── lauxlib.h<br />    │&nbsp;&nbsp; ├── luaconf.h<br />    │&nbsp;&nbsp; ├── lua.h<br />    │&nbsp;&nbsp; ├── lua.hpp<br />    │&nbsp;&nbsp; └── lualib.h<br />    └── lib<br />        ├── liblua.a<br />        └── lua<br />            └── 5.2<br /></pre><br />I have all of the development headers available (under the "include" folder) and a static version of the Lua library (under lib).<br /><br /><h3>Building applications</h3>When building Lua applications, you'll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I'd written, the following command line compiled an application for me without any trouble.<br /><br /><pre class="brush: shell">$ g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</pre><br />You can see at the end there, mention of both the "lua" and "dl" libraries.<br /><br /><h3>Test application</h3>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.<br /><br />Here's our Lua script:<br /><br /><script src="https://gist.github.com/tuttlem/8310670.js"></script> <br />Pretty simple. We have one variable "x" set to 10. Now here's the C++ code that we use to read that one variable out and present it to screen.<br /><br /><script src="https://gist.github.com/tuttlem/8310746.js"></script> I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.<br /><br /><br />That's it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.<br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <h3 id="introduction">Introduction</h3>
+
+<p><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It&#39;s put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.</p>
+
+<p>In today&#39;s post, I&#39;ll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.</p>
+
+<h3 id="library-installation">Library Installation</h3>
+
+<p>Before you get downloading and building this library, you&#39;ll just need to ensure that you have a build environment installed and are able to compile. </p>
+
+<p>At the time of writing this article, the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine. Following along with their building instructions, issuing &quot;make linux test&quot; whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the &quot;make local&quot; option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).</p>
+
+<p>When it comes to downloading the latest versions of libraries, I&#39;ll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.</p>
+
+<p>From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:</p>
+
+<div class="highlight"><pre><code class="text">.
+└── lua-5.2.3
+    ├── include
+    │   ├── lauxlib.h
+    │   ├── luaconf.h
+    │   ├── lua.h
+    │   ├── lua.hpp
+    │ └── lualib.h
+    └── lib
+        ├── liblua.a
+        └── lua
+            └── 5.2</code></pre></div>
+
+<p>I have all of the development headers available (under the &quot;include&quot; folder) and a static version of the Lua library (under lib).</p>
+
+<h3 id="building-applications">Building applications</h3>
+
+<p>When building Lua applications, you&#39;ll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I&#39;d written, the following command line compiled an application for me without any trouble.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</code></pre></div>
+
+<p>You can see at the end there, mention of both the &quot;lua&quot; and &quot;dl&quot; libraries.</p>
+
+<h3 id="test-application">Test application</h3>
+
+<p>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.</p>
+
+<p>Here&#39;s our Lua script:</p>
+
+<div class="highlight"><pre><code class="lua"><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span></code></pre></div>
+
+<p>Pretty simple. We have one variable <code>x</code> set to <code>10</code>. Now here&#39;s the C++ code that we use to read that one variable out and present it to screen.</p>
+
+<div class="highlight"><pre><code class="cpp"><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;lua.hpp&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="c1">// create a new lua context to work with</span>
+  <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">luaL_newstate</span><span class="p">();</span>
+
+  <span class="c1">// open any library we may use</span>
+  <span class="n">luaL_openlibs</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+
+  <span class="c1">// read the Lua script off disk and execute it</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">luaL_dofile</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;test.lua&quot;</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="c1">// handle any errors </span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;unable to load test.lua&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    
+  <span class="p">}</span>
+
+  <span class="c1">// put the value of X at the top of the stack</span>
+  <span class="n">lua_getglobal</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">);</span>
+  
+  <span class="c1">// interpret the value at the top of the stack </span>
+  <span class="c1">// as an integer and put it in the variable &quot;val&quot;</span>
+  <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">lua_tointeger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  
+  <span class="c1">// pop the value of X off the stack</span>
+  <span class="n">lua_pop</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="c1">// write the value out</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Value of X: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">val</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="c1">// finish up with the Lua context</span>
+  <span class="n">lua_close</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></div>
+
+<p>I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.</p>
+
+<p>That&#39;s it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.</p>
 
 </div>
 

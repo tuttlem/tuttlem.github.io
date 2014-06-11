@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,162 +171,288 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/20/be-nice-and-die-well/">
-        Be nice and die well
+      <a href="/2012/11/16/installing-universe-10-3-personal-edition-on-centos-6-3-amd64/">
+        Installing UniVerse 10.3 (Personal Edition) on CentOS 6.3 amd64
       </a>
     </h1>
 
-    <span class="post-date">20 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>It&#39;s a morbid title, I agree but it is quite important. Unix daemons really need to listen to the messages (read as: signals) being sent to them and responding correctly. At the very least, if every daemon implemented the following it&#39;d be a breath of fresh air:</p>
+    <p>A guide for installing the <strong>UniVerse</strong> database system on a <strong>RedHat</strong> flavored distribution.</p>
 
-<div class="highlight"><pre><code class="c"><span class="cm">/** Responds to signals of interest */</span>                                                                    
-<span class="kt">void</span> <span class="nf">daemon_signalhandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">sig</span><span class="p">)</span> <span class="p">{</span>                                      
-                                                                            
-   <span class="k">switch</span> <span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="p">{</span>                                                         
-                                                                            
-      <span class="k">case</span> <span class="n">SIGHUP</span>:                                                        
-         <span class="cm">/* this should just refresh configs and restart */</span>                                      
-         <span class="k">break</span><span class="p">;</span>                                                           
-                                                                            
-      <span class="k">case</span> <span class="n">SIGTERM</span>:                                                       
-         <span class="cm">/* mark the server as no longer running */</span>                                               
-         <span class="k">break</span><span class="p">;</span>                                                           
-   <span class="p">}</span>                                                                      
-                                                                            
-<span class="p">}</span></code></pre></div>
+<h3 id="installation-pre-requisites">Installation Pre-requisites</h3>
 
-<p>This block of code by itself is pretty useless. The other half of the equation is attaching this function to the signals of interest as well as ignoring signals we&#39;re not interested in (or that we&#39;re not interested in those signals turning our daemon to toast).</p>
+<p>As the database server is being installed to a 64bit system, some 32bit libraries are required for the installation to succeed.</p>
 
-<div class="highlight"><pre><code class="c"><span class="cm">/* attach the signal handlers now */</span>                                  
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGTSTP</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGTTOU</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGTTIN</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>                                             
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGHUP</span><span class="p">,</span> <span class="n">daemon_signalhandler</span><span class="p">);</span>                                 
-<span class="n">signal</span><span class="p">(</span><span class="n">SIGTERM</span><span class="p">,</span> <span class="n">daemon_signalhandler</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre><code class="bash">yum install glibc.i686 libstdc++.so.6 pam.i686</code></pre></div>
 
-<p>Well, that&#39;s it really and remember - die well.</p>
+<h3 id="running-the-installer">Running the installer</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Unpack the database installation into a temporary location.</span>
+unzip uvpe_rhlinux_10.3.3.zip
+
+<span class="c"># Extract the uv.load script out of the archive</span>
+cpio -ivcBdum uv.load &lt; ./STARTUP
+
+<span class="c"># Set the date on the system to satisfy licensing requirements</span>
+date -s 1/1/2009
+
+<span class="c"># Run the uv.load script</span>
+./uv.load</code></pre></div>
+  
+
+<h3 id="completing-the-installation">Completing the installation</h3>
+
+<p>Select the first option from the first menu:  </p>
+
+<div class="highlight"><pre><code class="text">1) Make &#39;root&#39; the default owner and administrator of uniVerse.  
+The current installation continues uninterrupted.</code></pre></div>
+ 
+
+<p>On the second menu, change the rewind and no-rewind tape names to the location of the installation files.  </p>
+
+<div class="highlight"><pre><code class="text">4) Rewind tape name          /tmp/uvpe  
+5) No-rewind tape name        /tmp/uvpe</code></pre></div>
+ 
+
+<h3 id="starting-the-rpc-daemon">Starting the RPC daemon</h3>
+
+<p>Before attempting to start the RPC daemon from within the uv environment, an entry for the service itself needs to be added to the <em>/etc/services</em> file   </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">echo</span> <span class="s2">&quot;uvrpc 31438/tcp # uvNet rpc port&quot;</span> &gt;&gt; /etc/services</code></pre></div>
+ 
+
+<h3 id="references">References</h3>
+
+<p>Installing UniVerse on CentOS 6.2<br /><a href="http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/"><a href="http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/">http://u2tech.wordpress.com/2012/07/08/installing-universe-centos-6-2/</a></a></p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/19/movie-time-unix/">
-        Movie Time Unix
+      <a href="/2012/11/16/burning-discs-at-the-console/">
+        Burning Discs at the Console
       </a>
     </h1>
 
-    <span class="post-date">19 Nov 2012</span>
+    <span class="post-date">16 Nov 2012</span>
 
-    <p>Breakout the pop-corn, it&#39;s movie time.</p>
+    <p>A <em>very short </em>guide to burning CD and DVD media at the console with <strong>growisofs</strong>.</p>
 
-<p><a href="http://techchannel.att.com/play-video.cfm/2012/2/22/AT&amp;amp;T-Archives-The-UNIX-System">http://techchannel.att.com/play-video.cfm/2012/2/22/AT&amp;T-Archives-The-UNIX-System</a></p>
+<h3 id="control">Control</h3>
+
+<p>Ejecting the drive</p>
+
+<div class="highlight"><pre><code class="bash">eject</code></pre></div>
+  
+
+<p>Retracting the drive </p>
+
+<div class="highlight"><pre><code class="bash">eject -T</code></pre></div>
+
+<h3 id="burning">Burning</h3>
+
+<p>Burn the contents of a directory  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd -R -J -pad <span class="s2">&quot;/path/to/data&quot;</span></code></pre></div>
+
+<p>Burn the contents of multiple directories  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd -R -J -pad -graft-points <span class="s2">&quot;/foo=/path/to/foo&quot;</span> <span class="s2">&quot;/chu=/path/to/chu&quot;</span></code></pre></div>
+
+<p>Burn an ISO to a disc</p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -Z /dev/dvd<span class="o">=</span>/path/to/image.iso</code></pre></div>
+
+<h3 id="rw-burning">RW Burning</h3>
+
+<p>Formatting a RW disc for burning  </p>
+
+<div class="highlight"><pre><code class="bash">dvd+rw-format -force /dev/dvd</code></pre></div>
+
+<p>Appending data to a RW disc  </p>
+
+<div class="highlight"><pre><code class="bash">growisofs -dvd-compat -M /dev/dvd -R -J -pad -graft-points <span class="s2">&quot;/foo=/path/to/additional/data&quot;</span></code></pre></div>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/11/19/haskell-cards/">
-        Haskell Cards
+      <a href="/2012/11/15/web-application-development-with-flask/">
+        Web Application Development with Flask
       </a>
     </h1>
 
-    <span class="post-date">19 Nov 2012</span>
+    <span class="post-date">15 Nov 2012</span>
 
-    <p>I need to crawl before I can walk, so a lot of &quot;toy code&quot; is being written using Haskell. It&#39;s taken me a while to get to this point, but I now have cards being shuffled to players:</p>
+    <p>A brief guide to developing web applications with the python micro-framework, <strong>Flask</strong>.</p>
 
-<div class="highlight"><pre><code class="haskell"><span class="kr">module</span> <span class="nn">Cards</span> <span class="kr">where</span>
- 
-<span class="kr">import</span> <span class="nn">System.Random</span>
-<span class="kr">import</span> <span class="nn">Data.Maybe</span>
-<span class="kr">import</span> <span class="nn">Data.List</span>
-<span class="kr">import</span> <span class="nn">Data.Function</span>
- 
-<span class="kr">import</span> <span class="nn">Test.HUnit</span>
-<span class="kr">import</span> <span class="nn">Test.QuickCheck</span>
- 
-<span class="c1">-- | Card values for uno cards</span>
-<span class="kr">data</span> <span class="kt">CardValue</span> <span class="ow">=</span> <span class="kt">Naught</span> <span class="o">|</span> <span class="kt">One</span> <span class="o">|</span> <span class="kt">Two</span> <span class="o">|</span> <span class="kt">Three</span>
-    <span class="o">|</span> <span class="kt">Four</span> <span class="o">|</span> <span class="kt">Five</span> <span class="o">|</span> <span class="kt">Six</span> <span class="o">|</span> <span class="kt">Seven</span> <span class="o">|</span> <span class="kt">Eight</span> <span class="o">|</span> <span class="kt">Nine</span>
-    <span class="o">|</span> <span class="kt">Skip</span> <span class="o">|</span> <span class="kt">Reverse</span> <span class="o">|</span> <span class="kt">DrawTwo</span> <span class="o">|</span> <span class="kt">Wild</span> <span class="o">|</span> <span class="kt">WildDrawFour</span>
-    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">,</span> <span class="kt">Eq</span><span class="p">,</span> <span class="kt">Enum</span><span class="p">)</span>
- 
-<span class="c1">-- | Possible card colours</span>
-<span class="kr">data</span> <span class="kt">CardColour</span> <span class="ow">=</span> <span class="kt">Red</span> <span class="o">|</span> <span class="kt">Blue</span> <span class="o">|</span> <span class="kt">Green</span> <span class="o">|</span> <span class="kt">Yellow</span>
-    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">,</span> <span class="kt">Eq</span><span class="p">,</span> <span class="kt">Enum</span><span class="p">)</span>
- 
-<span class="c1">-- | Defines the attributes of a card</span>
-<span class="kr">data</span> <span class="kt">Card</span> <span class="ow">=</span> <span class="kt">Card</span> <span class="kt">CardValue</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">CardColour</span><span class="p">)</span>
-    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
- 
-<span class="c1">-- | Seeds a list of cards with a random value</span>
-<span class="nf">seedCards</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[(</span><span class="kt">Card</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span>
-<span class="nf">seedCards</span> <span class="n">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
-<span class="nf">seedCards</span> <span class="n">g</span> <span class="p">(</span><span class="n">c</span><span class="kt">:</span><span class="n">cs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span><span class="kt">:</span><span class="n">seedCards</span> <span class="n">ng</span> <span class="n">cs</span>
-    <span class="kr">where</span> <span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span> <span class="ow">=</span> <span class="n">randomR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="n">g</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">StdGen</span><span class="p">)</span>
-                   <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
- 
-<span class="c1">-- | Makes a randomly shuffled deck of cards</span>
-<span class="nf">makeShuffledDeck</span> <span class="ow">::</span> <span class="kt">StdGen</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]</span>
-<span class="nf">makeShuffledDeck</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">|</span> <span class="n">c</span> <span class="ow">&lt;-</span> <span class="n">sorted</span><span class="p">,</span> <span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">fst</span> <span class="n">c</span><span class="p">]</span>
-    <span class="kr">where</span> <span class="n">cards</span> <span class="ow">=</span> <span class="n">seedCards</span> <span class="n">g</span> <span class="n">deck</span>
-         <span class="n">sorted</span> <span class="ow">=</span> <span class="n">sortBy</span> <span class="p">(</span><span class="n">compare</span> <span class="p">`</span><span class="n">on</span><span class="p">`</span> <span class="n">snd</span><span class="p">)</span> <span class="n">cards</span>
-           <span class="n">deck</span> <span class="ow">=</span> <span class="n">val</span> <span class="o">++</span> <span class="n">take</span> <span class="mi">10</span> <span class="p">(</span><span class="n">cycle</span> <span class="n">spec</span><span class="p">)</span>
-            <span class="n">val</span> <span class="ow">=</span> <span class="p">[</span><span class="kt">Card</span> <span class="n">v</span> <span class="p">(</span><span class="kt">Just</span> <span class="n">c</span><span class="p">)</span> <span class="o">|</span> <span class="n">v</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Naught</span> <span class="o">..</span> <span class="kt">DrawTwo</span><span class="p">],</span> <span class="n">c</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Red</span> <span class="o">..</span> <span class="kt">Yellow</span><span class="p">]]</span>
-           <span class="n">spec</span> <span class="ow">=</span> <span class="p">[</span><span class="kt">Card</span> <span class="n">v</span> <span class="kt">Nothing</span> <span class="o">|</span> <span class="n">v</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="kt">Wild</span> <span class="o">..</span> <span class="kt">WildDrawFour</span><span class="p">]]</span>
- 
-<span class="nf">tests</span> <span class="ow">=</span> <span class="kt">TestList</span> <span class="o">$</span> <span class="n">map</span> <span class="kt">TestCase</span>
-    <span class="p">[</span><span class="n">assertEqual</span> <span class="s">&quot;add tests here&quot;</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
- 
-<span class="nf">prop_empty</span> <span class="n">c1</span> <span class="ow">=</span> <span class="p">(</span><span class="n">c1</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">==</span> <span class="n">c1</span>
- 
-<span class="nf">runTests</span> <span class="ow">=</span> <span class="kr">do</span>
-    <span class="n">runTestTT</span> <span class="n">tests</span>
-    <span class="n">quickCheck</span> <span class="n">prop_empty</span>
- 
-<span class="c1">-- | Main entry point</span>
-<span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
-<span class="nf">main</span> <span class="ow">=</span> <span class="n">runTests</span></code></pre></div>
+<h3 id="pre-requisites">Pre-requisites</h3>
 
-<p>There is a lot more to do before this becomes of use. The real think work being conducted here is really between seedCards and makeShuffledDeck. These two functions alone provide randomization to the ordered deck so it can be shuffled.</p>
-
-<p>I hope to post some more on this topic, but I&#39;d like to have a fully functional (or close to) application before I do so.</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2012/11/19/book-on-algorithms/">
-        Book on Algorithms
-      </a>
-    </h1>
-
-    <span class="post-date">19 Nov 2012</span>
-
-    <p>Just so I don&#39;t lose track of it, <a href="http://www.cs.berkeley.edu/%7Evazirani/algorithms.html">here&#39;s</a> a really good looking book on Algorithms.</p>
-
-<p>Will be worth some study and the centre of a few more blog posts to come!</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2012/11/18/os-development-links/">
-        OS Development Links
-      </a>
-    </h1>
-
-    <span class="post-date">18 Nov 2012</span>
-
-    <p>Over the past couple of months, I&#39;ve compiled and refined a list of links that have been of assistance though my OS development journey.</p>
+<p>The following units need to be installed prior to using this framework:</p>
 
 <ul>
-<li><a href="http://www.osdever.net/bkerndev/index.php">Bona Fide OS Development</a></li>
-<li><a href="http://www.jamesmolloy.co.uk/tutorial_html/index.html">Roll your own toy UNIX-clone OS</a></li>
-<li><a href="http://wiki.osdev.org/Tutorials">OSDev Tutorials</a></li>
-<li><a href="http://forum.osdev.org/">OSDev Forums</a></li>
+<li>  python</li>
+<li>  pip</li>
+<li>  virtualenv</li>
 </ul>
+
+<h3 id="using-flask">Using Flask</h3>
+
+<p>Create the project folder, setup python environment</p>
+
+<div class="highlight"><pre><code class="bash">mkdir projname  
+<span class="nb">cd </span>projname 
+virtualenv env</code></pre></div>
+
+<p>From now on, activate the environment from within the project folder with this command:  </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>. env/bin/activate</code></pre></div>
+
+<h3 id="install-flask">Install Flask</h3>
+
+<div class="highlight"><pre><code class="bash">pip install Flask</code></pre></div>
+
+<h3 id="references">References</h3>
+
+<p><em>Flask website</em><a href="http://flask.pocoo.org/"><a href="http://flask.pocoo.org/">http://flask.pocoo.org/</a></a></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2012/11/15/freebsd-9-0-installation-on-a-t400/">
+        FreeBSD 9.0 installation on a T400
+      </a>
+    </h1>
+
+    <span class="post-date">15 Nov 2012</span>
+
+    <p>From time to time, FreeBSD has made its way onto my T400. Each time I do it, I never jot down what I did to get it to &quot;work&quot;. Here&#39;s just a few thoughts and basic guide for installing FreeBSD RELEASE-9.0 on a Lenovo ThinkPad T400.</p>
+
+<h3 id="bios">BIOS</h3>
+
+<p>The T400&#39;s graphics mode needs to be switched from &quot;Discreet&quot; back to &quot;Integrated&quot;, otherwise the BSD installation process just continually reboots. The laptop will now allow a standard installation to be performed.</p>
+
+<h3 id="post-installation">Post Installation</h3>
+
+<p>First things first. Stop the PC Speaker barking at you when you do something questionable (disable by adding this to <em>/etc/sysctl.conf</em>)</p>
+
+<div class="highlight"><pre><code class="text">hw.syscons.bell=0</code></pre></div>
+
+<p>Some switches required for connection resilience need to be applied to the WiFi configuration (fix by commenting these lines from <em>/etc/wpa_supplicant.conf</em>)  </p>
+
+<div class="highlight"><pre><code class="text"># eapol_version=2  
+# ap_scan=1  
+# fast_reauth=1</code></pre></div>
+
+<p>WiFi network entry should look as follows  </p>
+
+<div class="highlight"><pre><code class="text">network={  
+    ssid=&quot;tuttle&quot;  
+    key_mgmt=WPA-PSK  
+    psk=&quot;secret-in-here&quot;
+}</code></pre></div>
+
+<p>Add the full hostname to <em>/etc/rc.conf</em>  </p>
+
+<div class="highlight"><pre><code class="text">hostname=&quot;thor.local&quot;</code></pre></div>
+
+<p>Get the proc filesystem mounted at boot by adding the following line to <em>/etc/fstab</em>  </p>
+
+<div class="highlight"><pre><code class="text">proc   /proc  procfs  rw  0   0</code></pre></div>
+
+<h3 id="organising-the-ports-collection">Organising the ports collection</h3>
+
+<p>In the interest of making the ports collection as &quot;fresh&quot; as possible, it&#39;s best to remove the installed version and pull down the latest version over the web.</p>
+
+<p>Remove the existing ports collection</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">cd</span> /usr/ports
+rm -Rf *</code></pre></div>
+
+<p>Refresh the ports collection from an australian mirror. You can find full instructions <a href="http://www.freebsd.org/doc/handbook/ports-using.html">here</a> on this.   <strong>Fetch</strong> the collection into /var/db/portsnap <strong>Extract</strong> the collection into /usr/ports    </p>
+
+<div class="highlight"><pre><code class="bash">portsnap fetch
+portsnap extract</code></pre></div>
+
+<p>From now on, to refresh ports just use the following command </p>
+
+<div class="highlight"><pre><code class="bash">portsnap update</code></pre></div>
+
+<h3 id="installation">Installation</h3>
+
+<p>Any port needed for installation is done with the following commands  </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">cd</span> /usr/ports/path/to/port  
+make install clean</code></pre></div>
+
+<p><strong>bash</strong> (<em>/usr/ports/shells/bash</em>)  </p>
+
+<p>Set bash as the default shell for users by running the following  </p>
+
+<div class="highlight"><pre><code class="bash">pw usermod user_name -s /path/to/bash</code></pre></div>
+
+<p><strong>sudo</strong> (<em>/usr/ports/security/sudo</em>)  </p>
+
+<p>Setup user groups who can sudo by editing the config  </p>
+
+<div class="highlight"><pre><code class="bash">visudo -f /usr/local/etc/sudoers</code></pre></div>
+
+<p>Uncomment the line allowing the wheel group  </p>
+
+<div class="highlight"><pre><code class="text">%wheel ALL=(ALL) ALL</code></pre></div>
+
+<p>Add users who want to sudo to the wheel group  </p>
+
+<div class="highlight"><pre><code class="bash">pw usermod user_name -G wheel</code></pre></div>
+
+<p>Other pieces of software to make your environment feel more like home</p>
+
+<p><strong>vim</strong> (<em>/usr/ports/editors/vim-lite</em>) <br />
+<strong>git</strong> (<em>/usr/ports/devel/git</em>)  <br />
+<strong>xorg</strong> (<em>/usr/ports/x11/xorg</em>)  <br />
+<strong>xfce</strong> (<em>/usr/ports/wm/xfce4</em>)  <br />
+<strong>gnome-keyring</strong> (<em>/usr/ports/security/gnome-keyring</em>)  <br />
+<strong>gnome-power-manager</strong> (<em>/usr/ports/sysutils/gnome-power-manager</em>)  <br />
+<strong>chrome</strong> (<em>/usr/ports/www/chromium</em>)  <br />
+<strong>pidgin</strong> (<em>/usr/ports/net-im/pidgin</em>)  <br />
+<strong>irssi</strong> (<em>/usr/ports/irc/irssi</em>)  <br />
+<strong>evince</strong> (<em>/usr/ports/graphics/evince</em>) <br /></p>
+
+<h3 id="preferences">Preferences</h3>
+
+<p>Set colourised output on ls by adding the following line to <em>~/.bash_profile</em> </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">alias </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;ls -G&#39;</span></code></pre></div>
+
+<p>Get bash_profile to execute bashrc if it exists by adding the following line towards the top to <em>bash_profile</em> </p>
+
+<div class="highlight"><pre><code class="bash"><span class="nb">test</span> -f ~/.bashrc <span class="o">&amp;&amp;</span> . ~/.bashrc</code></pre></div>
+
+<p><strong>dbus</strong> and <strong>hald</strong> need to be started at boot time if a mouse/keyboard is going to be used within X. To get these to start, add the following lines to the /etc/rc.conf file  </p>
+
+<div class="highlight"><pre><code class="text">dbus_enable=&quot;YES&quot;
+hald_enable=&quot;YES&quot;</code></pre></div>
+
+<p>Both of the above config lines can be removed if using a login manager (like <strong>gdm</strong>). All the needs to be added in this scenario is  </p>
+
+<div class="highlight"><pre><code class="text">gnome_enable=&quot;YES&quot;</code></pre></div>
+
+<p>Automatically mount any samba shares at boot by adding lines like the following to <em>/etc/fstab</em> </span></p>
+
+<div class="highlight"><pre><code class="text">&gt;&gt; //user@server/share  /mountpoint  smbfs  rw,-N,-Iserver  0  0</code></pre></div>
+
+<p>With -N specified in the above fstab entry, any secrets needed to connect to the share need to be put into the <em>~/.nsmbrc</em> file and should look as follows  </p>
+
+<div class="highlight"><pre><code class="text">[SERVER:USER]  
+password=secret</code></pre></div>
+
+<p><strong>Tread with caution here:</strong> I&#39;ve just rolled back authentication for the samba shares as FreeBSD&#39;s mount_smbfs doesn&#39;t contain a _netdev option which will delay mounting the remote share until the network is available. Not being able to do this makes the BSD boot fail with authentication errors.  </p>
+
+<h3 id="shutdown">Shutdown</h3>
+
+<div class="highlight"><pre><code class="bash">sudo shutdown -h now</code></pre></div>
 
   </div>
   
@@ -342,7 +460,7 @@
 
 <div class="pagination">
   
-    <a class="pagination-item older" href="/page44">Older</a>
+    <span class="pagination-item older">Older</span>
   
   
     

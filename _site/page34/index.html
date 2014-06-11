@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,16 +171,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/12/08/function-pointers-the-macgyver-of-c/">
-        Function Pointers, the MacGyver of C
+      <a href="/2012/11/29/simple-random-number-generation-with-masm32/">
+        Simple random number generation with MASM32
       </a>
     </h1>
 
-    <span class="post-date">08 Dec 2012</span>
+    <span class="post-date">29 Nov 2012</span>
 
-    <h1>Function Pointers, the MacGyver of C</h1>
+    <h1>Simple random number generation with MASM32</h1>
 <div class='post'>
-<h3>Introduction</h3><div>It's a very well studied topic in the C field. Many people have written tutorials on how to use function pointers and what they are. <a href="http://www.newty.de/fpt/fpt.html">The function pointer tutorial</a> is always a good read for the uninitiated or seasoned professional who's function pointer theory is a little rusty.</div><div><br /></div><div>This write up isn't going to try and fill the shoes of the basic-square-1-hello-world style tutorial. I just wanted to talk about how I've used them to better a piece of code and make a system a bit more extensible overall.</div><div><br /></div><h3>What are they?</h3><div>Like any data pointer a function pointer is an address. It's an address that will point to the entry-point of some code. It's that simple. The complexity comes into the argument when you start to add C syntax. C likes to be very descriptive with the data that you're feeding functions and function parameters are no exception.</div><div><br /><script src="https://gist.github.com/4238320.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div>Ok, simple example time over. It's onto what this article is really about.<br /><br /><h3>Problem description</h3></div><div>I have a game that has a few game states. They look like this:</div><div><ul><li>Introduction credits</li><li>Game title</li><li>Menu</li><li>Game play</li><li>Game over</li><li>High score board</li></ul><div>Each of these states all have functionality that they need to accomplish. The basic specification for a game state goes as follows:</div></div><div><ul><li>Needs to be able to be initialized</li><li>Needs to be able to have its resources freed (tear down)</li><li>Needs to be able to update its internal logic</li><li>Needs to be able to render its internal state&nbsp;</li><li>Needs to be able to respond to events (keyboard, etc)</li></ul><div>Good. We've established that we have a set of game states and they all attract a set of actions that we'd like them to perform.</div></div><div><br /><h3>Getting down to it</h3><br /></div><div>So, let's define the actions first (as function pointers) and we can then fill in the implementation later:</div><div><br /><script src="https://gist.github.com/4238398.js?file=gistfile1.c"></script></div><div><br /></div><div><br /></div><div>Slightly different from above is the use of the "typedef" keyword. This allows us to define these function pointers as types so that we can treat them just as we do any other type. These types that we've defined are the outline to what we need. We still have the colour in, but we've got a framework ready to go.<br /><br />Lets define our function pointer variables using the types we defined above.<br /><br /><script src="https://gist.github.com/4238417.js?file=gistfile1.c"></script> <br />Simple enough. Now that we have these variables define (close-by to our game loop), we can write a game loop that will look a little something like this:<br /><br /><script src="https://gist.github.com/4238422.js?file=gistfile1.c"></script> <br /><br />This is psuedo code really. There's a whole heap of infrastructure that you'll need in order to make this work.<br /><br />You can see that only 3 of the functions we require are being are being used at the moment. We still need to get the init and teardown involved. The game module also needs a way to shift between game states.<br /><br />Thankfully, both of these functions come together in the one function:<br /><br /><script src="https://gist.github.com/4238435.js?file=gistfile1.c"></script> <br />So, this function tearsdown the existing game state (if we have a state), and initializes if we initialize to a valid state. Easy!!<br /><br />Well, this has been just one possible use for function pointers. You can do so much, much more with them, but I thought I'd share my use of them here!<br /><br /></div></div>
+Here's a little tid-bit that I'd like to make note of. In a previous MASM32 windows development tutorial, I needed a random number generator and was able to dig this one up from the archivies.<br /><div><br /></div><div>First of all, you need to make sure we're using the 586 instruction set - at least!</div><div><br /><script src="https://gist.github.com/4164886.js?file=gistfile1.asm"></script></div><div><br /></div><div>Shortly, it will become clear why we need the 586 instruction set.<br /><br />To support the random number generator, we need a bit of state in the shape of two double-words.<br /><br /><script src="https://gist.github.com/4164897.js?file=gistfile1.asm"></script> <br /><br /></div><div>These two variables allow the random number generator to know where it's up to for the next iteration. Changing the initial seed of course will change the sequence of random values that are produced by this routine.<br /><br />The actual function that produces the random number look like this:<br /><br /><script src="https://gist.github.com/4164970.js?file=gistfile1.asm"></script> <br />There it is. That first instruction <a href="http://ref.x86asm.net/coder32-abc.html#R">RDTSC</a>&nbsp;is what we need to turn the 586 instruction set on for. This&nbsp;mnemonic stands for&nbsp;&nbsp;Read Time-Stamp Counter. It will take the number of cycles since the machine has been reset and put this count into the EDX:EAX pair (as the time stamp counter is a 64bit value).<br /><br />From there some calculations are performed to ensure the consistency of state between random value retrieves and also capping to the requested range.<br /><br />Simple and it works too!</div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -197,16 +189,16 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/12/07/macro-ing-yourself-out-of-the-boilerplate/">
-        Macro-ing yourself out of the boilerplate
+      <a href="/2012/11/29/mode-x-plus-some/">
+        Mode X.. plus some!
       </a>
     </h1>
 
-    <span class="post-date">07 Dec 2012</span>
+    <span class="post-date">29 Nov 2012</span>
 
-    <h1>Macro-ing yourself out of the boilerplate</h1>
+    <h1>Mode X.. plus some!</h1>
 <div class='post'>
-Just working on a "build your own clone" style tutorial and going over some older code here, I thought it'd be interesting to note some funky work I'd done with macros.&nbsp;When you're working with 2-d array style states you get very good a writing for-loops over and over and over and ...<br /><br />So, thinking about this in a very generic sense - take a look at this macro<br /><br /><script src="https://gist.github.com/4230103.js?file=gistfile1.c"></script> <br />Working your way through the "enum_field_blocks" macro here, the parameters are:<br /><br /><ul><li>A horizontal axis iterator "x"</li><li>A vertical axis iterator "y"</li><li>A memory location (array index) iterator "o"</li><li>and "fn"</li></ul><div>So, what's "fn"? "fn" here allows the developer to specify what they want to execute inside the nested for loops:</div><div><br /><script src="https://gist.github.com/4230130.js?file=gistfile1.c"></script> <br /></div><div>If you're thinking "why didn't he just use <a href="http://www.kernel.org/doc/man-pages/online/pages/man3/memset.3.html">memset</a>&nbsp;to set all of the items in this array to NULL" - you've missed the point. The example is quite a bad one, I agree, but it does demonstrate that you can write any code that you'd like and have it execute for every item in the specific array cutting down on boilerplate that you have to write (just get the C pre-processor to do it for you).<br /><br />Super.</div></div>
+So, not much of tutorial here - just a neat layout of setup code for a few mode X modes I've come across now and then.<br /><br />First of all, just some formalities. Setting Mode X tweaks to the VGA is a massive port-out exercise. Creating the following macro cut down on my code heaps.<br /><br /><script src="https://gist.github.com/4168905.js?file=gistfile1.asm"></script> <br />So you can see, &nbsp;it just gives sending a byte out to a port a bit of syntactical sugar in assembly language. Easy.<br /><br />The only other piece of formality is, you must have set the video display into MCGA (mode 13) first:<br /><br /><script src="https://gist.github.com/4168969.js?file=gistfile1.asm"></script> <br />On to the modes.<br /><br /><script src="https://gist.github.com/4168909.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168920.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168932.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168936.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168939.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168949.js?file=gistfile1.asm"></script> <script src="https://gist.github.com/4168963.js?file=gistfile1.asm"></script> <br /><br />I will have an update to this post. There are some nuances that I'd much prefer explain to you with a couple of nice code blocks rather than how I'm just going to throw it into the page.<br /><br />These chunks will be helpful in page selection and optimizing page draws to multiple pages at once.<br /><br /><br /><pre class="brush:plain;"> ; setting a page<br /> ; activeOffset = vgapage + (page * pageSize / 4);<br /> <br /> ; enable all planes<br /> ; outp 03c4h, 02h<br /> ; outp 03c5h, 0fh<br /></pre><br />Some really good references on this topic are<br /><br />Mode X on Wikipedia<br /><a href="http://en.wikipedia.org/wiki/Mode_X">http://en.wikipedia.org/wiki/Mode_X</a><br /><br />Bob Pendleton's Mode X Tutorial<br /><a href="http://www.gameprogrammer.com/3-tweak.html">http://www.gameprogrammer.com/3-tweak.html</a> <br /><br />Well, that's it for now.</div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -215,16 +207,16 @@ Just working on a "build your own clone" style tutorial and going over some olde
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/12/04/assembly-language-links/">
-        Assembly language links
+      <a href="/2012/11/27/offscreen-mesa3d/">
+        Offscreen Mesa3D
       </a>
     </h1>
 
-    <span class="post-date">04 Dec 2012</span>
+    <span class="post-date">27 Nov 2012</span>
 
-    <h1>Assembly language links</h1>
+    <h1>Offscreen Mesa3D</h1>
 <div class='post'>
-See, people care(ed like years ago, dude)!<br /><br />Here's some interesting links for the world of assembly language:<br /><br /><a href="http://www.microsoft.com/msj/0298/hood0298.aspx">MSJ - Under the Hood (February 1998)</a><br /><br /><a href="http://www.microsoft.com/msj/0698/hood0698.aspx">MSJ - Under the Hood (June 1998)</a><br /><br /><a href="http://www.agner.org/optimize/">Software Optimisation Resources</a><br /><br /><br /></div>
+As a quick bookmark, this part of the Mesa3D project: <a href="http://www.mesa3d.org/osmesa.html">Off-screen Rendering</a>&nbsp;looks like it might be a viable option for some of the lower-end hardware I've come across lately.<br /><br />Bisqwit seems to have made pretty decent use of it in one of his videos here<br /><br /><br /><iframe width="420" height="315" src="http://www.youtube.com/embed/vkUwT9U1GzA" frameborder="0" allowfullscreen></iframe><br />Interesting.</div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -233,16 +225,16 @@ See, people care(ed like years ago, dude)!<br /><br />Here's some interesting li
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/12/03/windows-development-with-masm32-part-6/">
-        Windows Development with MASM32 (part 6)
+      <a href="/2012/11/27/music-calculators-big-snakes/">
+        Music, Calculators & Big Snakes
       </a>
     </h1>
 
-    <span class="post-date">03 Dec 2012</span>
+    <span class="post-date">27 Nov 2012</span>
 
-    <h1>Windows Development with MASM32 (part 6)</h1>
+    <h1>Music, Calculators & Big Snakes</h1>
 <div class='post'>
-Multiple document interface</div>
+<h3>Introduction</h3><div>I play a lot of music. I mean <u style="font-weight: bold;">a lot</u>&nbsp;of music. Guitar, Bass, Piano, Drums, Harp -- what ever I can get my hands on, I'll give it a go. So, the neurons in charge of keeping my technical side in check may have made their way into the creative side of my brain.</div><div><br /></div><div>The net result was me creating a project that mashes mathematics, data analysis and music theory into a few classed called <a href="https://github.com/tuttlem/musica">musica</a>.</div><div><br /></div><h3>So what?</h3><div>Yeah, basically.. But, I am who I am - so it' more of a matter of "why not?".</div><div><br /></div><div>I'd previously tried building a Ruby on Rails application to give me graphical representations of musically related elements on screen. A scale is a pattern of intervals realised once a root note is put in place. This scale can then be harmonised at every step of the scale by employing every second note from the specific step. How complex these harmonised chords are will depend on how many steps you include in the chords that you build.</div><div><br /></div><div>The most interesting part of this library, I think, is its distinct lack of database. It has made the code quite verbose in parts but I intend to fix this, even if it does mean employing an intermediary database at a later stage.<br /><br /><h3>What can it do?</h3></div><div>The major, harmonic &amp; melodic minor scales (and all of their modes) are statically provisioned. You can use these in code to perform operations like voicing a scale when used in conjunction with a Note object.</div><div><br /></div><div>Immediately, we can get information about notes:<br /><br /><script src="https://gist.github.com/4153854.js?file=gistfile1.py"></script> Information about scales:<br /><script src="https://gist.github.com/4153859.js?file=gistfile1.py"></script> Voicing a scale (in this instance voicing Ionian (major) over C) <br /><script src="https://gist.github.com/4153871.js?file=gistfile1.py"></script></div><div><br /></div><div><h3>Still so much to do ...</h3></div><div>Still, we need to get chords harmonising from these voiced scales. These are just patterns after all. An intelligent chord builder would also be of value I think. Something where we don't have to explicitly map out chord names to interval sets statically. Just knowing that a root, major third and perfect fifth are a major chord.</div><div><br /></div><div>That'd be a cool calculator, I think.</div><div><br /></div><div>If your interested, the git repo for this library is <a href="https://github.com/tuttlem/musica">here</a>.</div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>
@@ -251,16 +243,16 @@ Multiple document interface</div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2012/12/03/sdl-you-can-use-part-5/">
-        SDL you can use (part 5)
+      <a href="/2012/11/27/calling-assembly-from-c-64-bit/">
+        Calling Assembly from C (64 bit)
       </a>
     </h1>
 
-    <span class="post-date">03 Dec 2012</span>
+    <span class="post-date">27 Nov 2012</span>
 
-    <h1>SDL you can use (part 5)</h1>
+    <h1>Calling Assembly from C (64 bit)</h1>
 <div class='post'>
-<h3>Introduction</h3><div>What good is a game if you can't influence any of the objects? I mean, people go into battle these days armed with a keyboard, mouse and/or joystick to engage in wars never before seen.</div><div><br /></div><div>In this tutorial, I'll show you how to enable your users with such weapons of mass control (see what I did there?) ... <i>lame</i></div><div><i><br /></i></div><h3>Interesting events</h3><div>It's all in the event loop. When the application receives input from a device, it'll let you know through the evening system.</div><div><br /></div><div>Here's some code - not much in the way of explanations. It's a pretty simple construct.</div><div><br /><script src="https://gist.github.com/4194490.js?file=gistfile1.c"></script></div><div><br /><br /><br />So, it's all pretty simple to respond to events. Mouse, Keyboard and Joystick motion all make up parts of the eventing system. Check out <a href="http://www.libsdl.org/docs/html/sdlevent.html">SDL_Event</a>&nbsp;for further information. It includes everything you need.<br /><br />Only a quick one!</div></div>
+In a <a href="http://cogsandlevers.blogspot.com.au/2012/11/calling-assembly-from-c-32-bit.html">previous blog post</a>, I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.<br /><br />I'll be using the same technology stack as last time with <a href="http://www.nasm.us/">NASM </a>as my assembler and <a href="http://gcc.gnu.org/">GCC</a> as my C compiler. The code snippets that you'll see in this post have been compiled and linked together on the linux platform.<br /><br />Alright then. On with the code!<br /><br />The C-code is not different from the 32-bit version as mentioned in my previous post. Now <b>that's</b>&nbsp;portability for you!<br /><br /><script src="https://gist.github.com/4142080.js?file=gistfile1.c"></script> The assembly language module has changed somewhat though.<br /><br /><script src="https://gist.github.com/4151995.js?file=gistfile1.asm"></script> <br />Immediately you can see that a new set of registers are being used and the stack is no longer being used to take parameters in from external calls.<br /><br />The change in calling convention can be studied in further detail <a href="http://www.x86-64.org/documentation/abi.pdf">here</a>, however it's just important to mention this:<br /><blockquote class="tr_bq"><blockquote class="tr_bq">Once arguments are classified, the registers get assigned (in left-to-right order) for passing as follows:</blockquote><blockquote class="tr_bq">If the class is MEMORY, pass the argument on the stack.</blockquote><blockquote class="tr_bq">If the class is INTEGER, the next available register of the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9 is used</blockquote></blockquote>So, the first argument is passed in RDI and the second in RSI. The return value remains the same being passed back to the caller using the accumulator register (RAX in 64-bit land). There are many resources to read up on when it comes to the 64 bit architecture; <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/microarchitecture/intel-64-architecture-general.html">Intel</a>&nbsp;and <a href="http://en.wikipedia.org/wiki/X86-64">Wikipedia</a>&nbsp;are both excellent resources.<br /><br />Finally, when it comes to building these files together, it's (again) very similar to its 32bit counterpart.<br /><br /><script src="https://gist.github.com/4152023.js?file=gistfile1.sh"></script> We're done!<br /><br /><br /></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

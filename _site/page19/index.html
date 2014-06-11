@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,78 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/01/17/delegating-constructors-in-c-11/">
-        Delegating Constructors in C++11
-      </a>
-    </h1>
-
-    <span class="post-date">17 Jan 2013</span>
-
-    <h1>Delegating Constructors in C++11</h1>
-<div class='post'>
-One of the annoyances I've always had with C++ was its lack of elegant handling of constructors. You'd always be forced to swallow the bitter pill of an initializer function that each of your constructors would call.<br /><br />It always felt clunky to me. With C++11 introducing Delegating Constructors, this has all gone now.<br /><br />Take this simple person class, for example. No magic going on here, just a straight forward class and is how we'd implement multiple constructors without the use of an initialiser.<br /><br /><script src="https://gist.github.com/4555283.js"></script> Here we have a "person" class with three constructors all providing their own implementation of how a person object should initialized. This just isn't nice for a couple of reasons. The first is violation of the <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>&nbsp;principle, we're repeating ourselves the whole time which goes hand in hand with the second - each constructor initializes the object in its own way.<br /><br />So, the previous answer to this problem was to implement an initializer function which did this work for us.<br /><br /><script src="https://gist.github.com/4555304.js"></script> This is better. We've got one way to initialize our class, we're not repeating ourselves. Life is good.<br /><br />But now (in C++11), there's a better way. Here I'll show you how to re-implement this class using delegating constructors for the most elegant of solutions.<br /><br /><script src="https://gist.github.com/4555333.js"></script> <br />We've got our most general case constructor (in this case the construct taking in all three names) actually doing the work. The remaining two constructors then just leverage off the functionality defined in the general case. No re-implementation, no initialization function needed.<br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/16/getting-c-11-support-in-debian/">
-        Getting C++11 support in Debian
-      </a>
-    </h1>
-
-    <span class="post-date">16 Jan 2013</span>
-
-    <h1>Getting C++11 support in Debian</h1>
-<div class='post'>
-<h3>Introduction</h3>The repository for the current stable version of Debian (squeeze) doesn't include a compiler with C++11 support. Today's post will take you through adding a testing repository so that you can get a compiler with this support in it.<br /><br />We needed to do <a href="http://cogsandlevers.blogspot.com.au/2012/12/installing-haskell-platform-on-debian.html">something similar</a>&nbsp;in a previous post when we were upgrading haskell platform for Debian. This won't stray to far from that.<br /><br /><h3>The Steps</h3><div>First up, we need to enable the testing repository. Adding the following lines to /etc/apt/sources.list will do this for us.</div><div><br /><pre>deb http://mirror.to.debian.repo/debian/ wheezy main    <br />deb-src http://mirror.to.debian.repo/debian/ wheezy main</pre></div><div><br />Next, we'll add an entry into the /etc/apt/preferences file to give preference to the "squeeze" (stable) repository over "wheezy" (testing) by adding these lines.<br /><br /><pre>Package: *            <br />Pin: release n=squeeze<br />Pin-Priority: 900     <br />                      <br />Package: *            <br />Pin: release n=wheezy <br />Pin-Priority: 200</pre><br />Finally, you'll be able to install clang with the following command. Take note that we're giving the install command the switches "--target-release testing", which tells aptitude to install this unit of software and its dependencies from the testing repository.<br /><br /><pre>$ sudo aptitude update &amp;&amp; sudo aptitude upgrade<br />$ sudo aptitude --target-release testing install clang</pre><br />You're done. C++11 support on your Debian box.</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/16/defaulted-and-deleted-functions-in-c-11/">
-        Defaulted and Deleted Functions in C++11
-      </a>
-    </h1>
-
-    <span class="post-date">16 Jan 2013</span>
-
-    <h1>Defaulted and Deleted Functions in C++11</h1>
-<div class='post'>
-A default (and more efficient) implementation can be given to your functions using the "default" keyword. This is the usage of a defaulted function in C++11.&nbsp;In this example, my "person" class has no written implementation for its constructor or destructor.<br /><br /><script src="https://gist.github.com/4543939.js"></script> The opposite to a defaulted function is a deleted function. The deleted function allows you to remove the implementation of a function by specifying the "delete" keyword. In C++ this is useful to us if we want to remove the copy constructor from classes that C++ so nicely provides for us. In this example, you can see that we've shut down the copy constructor as well as the assignment operator so that copying will no longer be supported.<br /><br /><script src="https://gist.github.com/4543965.js"></script> <br />That's it for these two features. Simple, but effective.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/01/16/auto-and-decltype-in-c-11/">
-        auto and decltype in C++11
-      </a>
-    </h1>
-
-    <span class="post-date">16 Jan 2013</span>
-
-    <h1>auto and decltype in C++11</h1>
-<div class='post'>
-<h3>Introduction</h3><div>Type brevity has never been C++'s strong suit, especially when you start dealing with template classes. It's just a mess! One of the nifty features that comes along with the C++11 standard is the ability to not need to specify the type. This leaves it as the job for the compiler to complete.</div><div><br /></div><div>This will only be a short post on auto and decltype's usage.</div><div><br /></div><h3>Usage</h3><div>To use the "auto" keyword, just declare your variables as "auto". Here are some variables for some simple data types/</div><div><br /><script src="https://gist.github.com/4542642.js"></script></div><div>One of the problems I've always had, iterating over STL containers is how verbose the type becomes when you declare your iterator. You can use the "auto" keyword here to simplify this greatly now.<br /><br /><script src="https://gist.github.com/4542661.js"></script></div><div>That is an improvement out of sight!<br /><br />decltype operates along the same paradigm but instead of operating on a variable's type, it will take the type of an expression's result and allow you to bind a name to it.<br /><br /><script src="https://gist.github.com/4542697.js"></script></div><div><br /></div><div>Using "auto" throughout your code guarantees you that there won't be any conversions going on to that variable. This in itself is a few layers of performance sapping translation gone! Just the cleanliness of the code is worth its weight in gold!</div></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/01/15/viewing-rdoc-sets/">
         Viewing RDoc Sets
       </a>
@@ -261,6 +181,83 @@ A default (and more efficient) implementation can be given to your functions usi
     <h1>Viewing RDoc Sets</h1>
 <div class='post'>
 You can start an internal web server that will serve all of your installed gemsets' documentation simply by issuing the following command at the console.<br /><br /><pre class="brush:shell">$ gem server<br />Server started at http://0.0.0.0:8808</pre><br />Point your web browers to the machine on port 8808 and you're away!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/using-cabal-dev-to-keep-a-tidy-house/">
+        Using cabal-dev to keep a tidy house
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Using cabal-dev to keep a tidy house</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've fallen into the trap (not just with Haskell) on many occasions. You install that one library dependency that ends up mowing over every other working application's dependencies and then BOOM... you've just lost most of your hair.</div><div><br /></div><div><a href="http://hackage.haskell.org/package/cabal-dev">cabal-dev</a>&nbsp;gives Haskell developers the luxury of sandboxed development allowing them isolation between library versions installed.</div><div><br /></div><div>I don't know why I haven't written about this sooner, but here's a short guide to using cabal-dev.</div><div><br /></div><h3>Quick usage</h3><div>Starting a new application with cabal</div><div><br /><pre class="brush:shell">$ mkdir myapp<br />$ cd myapp<br />$ touch LICENSE<br />$ cabal init  <br /></pre></div><div><br />Compiling and installing your application<br /><br /><pre class="brush:shell">$ cabal-dev install</pre><br />Installing libraries<br /><br /><pre class="brush:shell">$ cabal-dev install package-name</pre><div><br /></div></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/lambda-expressions-with-c-11/">
+        Lambda Expressions with C++11
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Lambda Expressions with C++11</h1>
+<div class='post'>
+<h3>Introduction</h3><div>A whole raft of goodness has been delivered with the most recent C++ standard, <a href="http://en.wikipedia.org/wiki/C%2B%2B11">C++11</a>. One of these features is the inclusion of lambda expressions. Today's post will take you through the basic syntax for lambdas in C++.</div><div><br /></div><h3>Basic Assignment</h3><div>You can assign a lambda to a variable quite simply with the following syntax.</div><div><br /><script src="https://gist.github.com/4538150.js"></script></div><div><br />I agree that this is a pretty ass-about-face way of printing "Hello, World" to the screen - but it's done through C++11's lambda syntax.<br /><br />Passing variables into a lambda expression and getting return values is quite trivial also.<br /><br /><script src="https://gist.github.com/4538172.js"></script> <br />You can nest lambdas pretty easily also. Heres is a multiply-then-divide example where the division operation is the nested operation. Multiplication occurs at the top-level lambda.<br /><br /><script src="https://gist.github.com/4538211.js"></script> <br />This syntax also allows you to define higher-order functions, so that you can return function object back to the caller for later use. Here, I've made a multiplier factory. You give it one side of the multiplication and it'll hand you back a function that will multiply by that number.<br /><br /><script src="https://gist.github.com/4538232.js"></script> <br />We've done something a little bit different here. You can see that we've used a term inside the square brackets for the returned function. C++ having a major focus on performance gives the developer as much flexibility as possible when handling values. The information specified within the square braces tells the lambda closure how to handle variables referenced within.<br /><br /><h3>Handling outside state within a lambda</h3></div><div>The developer describes to the lambda how she wants variables captured by making specifications within the square brackets. Some examples of what you might see look like this.</div><div><br /><table><tbody><tr><td><b>Specification</b></td><td><b>Meaning</b></td></tr><tr><td>[]</td><td>Don't capture anything</td></tr><tr><td>[&amp;]</td><td>Capture any variable by reference</td></tr><tr><td>[=]</td><td>Capture any variable used making a copy of it</td></tr><tr><td>[=, &amp;x]</td><td>Capture any variable used making a copy of it except for x. Capture x by reference.</td></tr><tr><td>[y]</td><td>Capture y by making a copy but nothing else.</td></tr><tr><td>[this]</td><td>Capture the enclosing class' pointer</td></tr></tbody></table></div><div><br /></div><div>So, we can be quite specific in telling the compiler how we want referenced variables handled within our lambda closure.<br /><br />Finally, I want to present some code on using lambdas with existing constructs. In this example, I'll reduce a list of integers by accumulating them into a variable referenced outside of a closure.<br /><br /><script src="https://gist.github.com/4538430.js"></script> <br />You can see that is is quite a fluent style for writing lambdas.<br /><br />This post only scratches the surface. Applying these in a real project is going to be key to discovering the depths of lambdas, but they're alive and well in C++(11) land, that's for sure.</div><div><br /></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>nick black</div>
+<div class='content'>
+Great post, thanks! I think there might have been more difference between C++11 and C++03 than there was C++03 and C99.</div>
+</div>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/haskell-setup-on-osx/">
+        Haskell Setup on OSX
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>Haskell Setup on OSX</h1>
+<div class='post'>
+<h3>Introduction</h3><div>Just a quick post to note down the steps that I follow to setup my Haskell development environment. A lot of this has been lifted from this article <a href="http://bob.ippoli.to/archives/2013/01/11/getting-started-with-haskell/">here</a>, which is a great "getting started" style article - certainly worth the read.</div><div><br /></div><div>This setup is for OSX. Homebrew is used to perform software installations.</div><div><br /></div><h3>Guide</h3><div>Step 1. Install haskell-platform with brew</div><div><br /><pre class="brush:shell">$ brew install haskell-platform</pre></div><div><br />Step 2. Ensure that ~/.cabal/bin takes priority in your PATH variable by adding the following into your ~/.bashrc file.<br /><br /><pre class="brush:shell">export PATH=/home/user/.cabal/bin:$PATH</pre><br />Step 3. Update cabal<br /><br /><pre class="brush:shell">$ cabal update</pre><br />Step 4. Turn on library profiling using the following command<br /><br /><pre class="brush:shell">$ for f in ~/.cabal/config; do \<br />    cp $f $f.old &amp;&amp; \<br />    sed -E 's/(-- )?(library-profiling: )False/\2True/' &lt; $f.old &gt; $f; \<br />done</pre><br />Step 5. Install cabal-install<br /><br /><pre class="brush:shell">$ cabal install cabal-install</pre><br />Step 6. Install cabal-dev (from source)<br /><br /><pre class="brush:shell">$ git clone https://github.com/creswick/cabal-dev.git /tmp/cabal-dev-src &amp;&amp; \<br />    (cd /tmp/cabal-dev-src; cabal install) &amp;&amp; \<br />    rm -rf /tmp/cabal-dev-src</pre><br />Step 7. Setup GHCi so it has a sane prompt<br /><br /><pre class="brush:shell">$ echo ':set prompt "λ&gt; "' &gt;&gt; ~/.ghci</pre><br /><br />That's it. Development environment is ready to go.</div></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/01/15/c-references/">
+        C++ References
+      </a>
+    </h1>
+
+    <span class="post-date">15 Jan 2013</span>
+
+    <h1>C++ References</h1>
+<div class='post'>
+<h3>Introduction</h3><div>I've always thought of a reference as the half-way house between pointers and statically allocated objects. References are in-fact addresses but they are used within our code just like objects as opposed to requiring pointer syntax.</div><div><br /></div><h3>Some facts ..</h3><div><b>How reference are defined</b></div><div><b><br /></b></div><div>You declare a reference variable using the ampersand (&amp;) to modify the type declaration.</div><blockquote class="tr_bq"><span style="font-family: Courier New, Courier, monospace;">type&amp; var;&nbsp;</span></blockquote><div><b>A reference must be&nbsp;initialised</b></div><div><br /></div><div>This is pretty basic, it just means that when you declare your reference it must start out with a place to reference.</div><div><br /><script src="https://gist.github.com/4537852.js"></script><br /></div><div></div><div><b>A reference cannot be changed</b></div><div><b><br /></b></div><div>When we initialise a reference to point to a variable, that's it. We can't change what the reference points to. This caught be out to begin with, but it's pretty easy stuff.</div><div><br /><script src="https://gist.github.com/4537892.js"></script></div><div><br /></div><div>Makes sense. Gives references a sense of stubbornness (and sanity).<br /><br /><b>Pointer&nbsp;compatibility&nbsp;through dereferencing</b><br /><b><br /></b>I see a fair bit of banter on "how to convert pointer to reference", etc. It's really quite simple and it's also &nbsp;subject to the same assignment laws as above.<br /><br /><script src="https://gist.github.com/4537933.js"></script> <br />These concepts really come into their own (I think) once you start using them within your own class structures. It's a much more natural feel to deal with references rather than pointers and a bit easier to read as well.<br /><br /></div></div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

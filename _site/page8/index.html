@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -179,83 +171,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/11/19/scanline-based-filled-polygons/">
-        Scanline based filled Polygons
-      </a>
-    </h1>
-
-    <span class="post-date">19 Nov 2013</span>
-
-    <h1>Scanline based filled Polygons</h1>
-<div class='post'>
-<h3>Introduction</h3>In a <a href="http://cogsandlevers.blogspot.com.au/2013/11/pixel-access-to-canvas-with-javascript.html">previous post</a> I laid down some foundation code to get access to the pixel buffer when in context of a HTML canvas. Good for those who have experience writing graphics code directly against the video buffer - it almost feels like you're writing to 0xA000 :-)<br /><br />Today's post will focus on drawing polygons to the screen using scan lines.<br /><br /><h3>Scan lines</h3>The whole idea here is that a polygon can be represented on screen as a series of horizontal lines. Take the following picture for example. You can see the red and blue horizontal lines making up the filling of the polygon.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-7VZcWuk1AkQ/UotS_qdPXrI/AAAAAAAAAwM/DlKjKBnH2lA/s1600/y.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="200" src="http://1.bp.blogspot.com/-7VZcWuk1AkQ/UotS_qdPXrI/AAAAAAAAAwM/DlKjKBnH2lA/s200/y.png" width="200" /></a></div><br />So, to define this all we do is take note of the minimum and maximum x values for every y-axis instance that there is a line on. We run through the array of values drawing horizontal lines at each instance, and then we have a polygon on screen - pretty easy.<br /><br /><h3>Code</h3>First of all, we'll define our drawing primitive for a horizontal line.<br /><br /><br /><script src="https://gist.github.com/tuttlem/7544385.js"></script> <br />We pass in the two x values for the line to go between, the y value for the line to sit on. To help with the offset calculation we also pass in the width "w" to correctly calculate the pitch. Finally the colour components and buffer to draw to are passed in. Setting this code up in a run loop, you end up with something like this:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-QMhBzwZnDUI/UotUjD3Cj4I/AAAAAAAAAwY/JxoFPAPDovE/s1600/Screen+Shot+2013-11-19+at+10.06.53+pm.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="222" src="http://2.bp.blogspot.com/-QMhBzwZnDUI/UotUjD3Cj4I/AAAAAAAAAwY/JxoFPAPDovE/s320/Screen+Shot+2013-11-19+at+10.06.53+pm.png" width="320" /></a></div>Yep, there's lots of horizontal lines.<br /><br />Referring to our horizontal line diagram above, we still need a way to walk the edges of the polygon so that we can get the minimum and maximum x values to start drawing. Because our basic unit is the pixel (considering we're rasterising to a pixelated display), we can easily calculate the gradient of the line that we need by:<br /><br /><pre>(change in x) / (change in y)<br /><br />For a line given by (x1, y1) - (x2, y2), this translates into:<br /><br />(x2 - x1) / (y2 - y1)<br /></pre><br />Taken out of context of maths, this just says to us: we want to walk from x1 to x2 using (y2 - y1) steps.<br /><br /><br /><script src="https://gist.github.com/tuttlem/7544449.js"></script> <br />From the code above, we treat x1, y1 as the starting point and x2, y2 as the ending point. Our for-loop is biased in the positive direction, so it's important for us to flip the values if they come in inverted.<br /><br />The edges array that's passed in is prepared by the caller of this function. It's initialized with very unreasonable minimum and maximum values. We than run over all 4 polygon edges<br /><br /><pre>(x1, y1) -&gt; (x2, y2)<br /><br />(x2, y2) -&gt; (x3, y3)<br /><br />(x3, y3) -&gt; (x4, y4)<br /><br />(x4, y4) -&gt; (x1, y1)<br /><br /></pre><br />At the end of this process, "edges" is full of minimum/maximum values ready for drawing. Here's the code for the polygon.<br /><br /><br /><script src="https://gist.github.com/tuttlem/7544554.js"></script> <br />This really is just putting all the pieces together. The building of the edges array is important - as is using the y co-ordinate (adjusted back to zero by proxy of the minimum y value) as an array index.<br /><br />Once you've got this setup in a random position &amp; colour loop, you'll end up with something like this:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-D2yDU9iTdc0/UotZcoZ2jtI/AAAAAAAAAwo/QCW0Qi8rhSQ/s1600/Screen+Shot+2013-11-19+at+10.27.57+pm.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="200" src="http://3.bp.blogspot.com/-D2yDU9iTdc0/UotZcoZ2jtI/AAAAAAAAAwo/QCW0Qi8rhSQ/s320/Screen+Shot+2013-11-19+at+10.27.57+pm.png" width="320" /></a></div><br />mmmm... Tasty.<br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/11/19/purging-all-of-the-data-within-solr/">
-        Purging all of the data within Solr
-      </a>
-    </h1>
-
-    <span class="post-date">19 Nov 2013</span>
-
-    <h1>Purging all of the data within Solr</h1>
-<div class='post'>
-During the test phases of getting your software setup, you'll find it useful to completely toast what ever data you've already indexed to start fresh.<br /><br />This is as simple as issuing a delete query with open criteria (*.*). The full query should translate to &lt;delete&gt;&lt;query&gt;*.*&lt;/query&gt;&lt;/delete&gt;.<br /><br />As a URL it'll look like this:<br /><br /><pre class="brush: plain">http://[your solr server]:8080/solr/update?<br />stream.body=%3Cdelete%3E%3Cquery%3E*:*%3C/query%3E%3C/delete%3E&amp;commit=true</pre><br />Note that there is a commit at the end of this URL which will perform the delete and commit the result all in the one invocation.<br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/11/18/pixel-access-to-the-canvas-with-javascript/">
-        Pixel Access to the Canvas with Javascript
-      </a>
-    </h1>
-
-    <span class="post-date">18 Nov 2013</span>
-
-    <h1>Pixel Access to the Canvas with Javascript</h1>
-<div class='post'>
-<h3>Introduction</h3>Gaining pixel-level access using the HTML canvas opens up some possibilities for some frame-buffer style rasterisation. Today's post will focus on the code required to get you access to this array.<br /><br />Here's the code on how to get started:<br /><br /><script src="https://gist.github.com/tuttlem/7526425.js"></script> <br /><br />First of all, we programmatically create our canvas object using <a href="http://www.w3schools.com/jsref/met_document_createelement.asp">document.createElement</a>. Using the inner dimensions of the window, we can then set the canvas' size. Of course this can be custom set to the dimensions you require - I just like to take over the whole window!<br /><br />Using the <a href="http://www.w3schools.com/tags/ref_canvas.asp">canvas object</a>, we then pull out the drawing context with getContext. The next part, using <a href="http://www.w3schools.com/tags/canvas_createimagedata.asp">createImageData</a> we then get a reference to the frame-buffer to draw to. This gives us read/write access to the canvas through an array.<br /><br />Finally, we'll take note of the width and height (this will come in handy later) and then pop the canvas onto the page.<br /><br /><h3>Frame-buffer structure</h3>So, I say "frame-buffer" - but it's just an array. It's quite nicely laid out such that pixels start at every 4 elements within the array. The first element being the red component, second is green, third is blue and the fourth is the alpha.<br /><br />Calculating an offset into the array is a piece of cake. For example, take the following piece of code which will allow you to set a single pixel on the frame-buffer.<br /><br /><script src="https://gist.github.com/tuttlem/7526558.js"></script> <br /><br />The main part to focus on here is the calculation of the offset. Above, I said it was important to take note of the dimensions - we're only using the width here. This is pretty straight forward calculation of an offset within a linear data segment with Cartesian co-ordinates.<br /><br /><h3>Flip out!</h3>Now that we've drawn all of the data to the image buffer (frame-buffer), we need a way to get it back onto our canvas. This is simply done using <a href="http://www.w3schools.com/tags/canvas_putimagedata.asp">putImageData</a>.<br /><br /><script src="https://gist.github.com/tuttlem/7526631.js"></script> <br /><br />That's it for now. </div>
-<h2>Comments</h2>
-<div class='comments'>
-<div class='comment'>
-<div class='author'>SEO Dewintec</div>
-<div class='content'>
-This comment has been removed by a blog administrator.</div>
-</div>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/11/18/mpt-statusd-detected-non-optimal-raid-status/">
-        Mpt Statusd Detected Non Optimal Raid Status
-      </a>
-    </h1>
-
-    <span class="post-date">18 Nov 2013</span>
-
-    <h1>Mpt Statusd Detected Non Optimal Raid Status</h1>
-<div class='post'>
-After installing Debian within a few VMWare virtual machines, I keep getting a rather annoying and persistent "mpt-statusd: detected non-optimal RAID status" spamming out my unix mail box as well as /var/log/messages.<br /><br />Simplest solution that I've come across is to just . . .<br /><br /><br /><pre class="brush: shell">$ sudo apt-get remove mpt-status</pre><br /><br />Yup! That's it.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2013/11/18/complementing-mongodb-with-full-text-search-from-solr/">
         Complementing MongoDB with Full Text Search from Solr
       </a>
@@ -266,6 +181,78 @@ After installing Debian within a few VMWare virtual machines, I keep getting a r
     <h1>Complementing MongoDB with Full Text Search from Solr</h1>
 <div class='post'>
 <h3>Introduction</h3>MongoDB is a great database, but one area that I've noticed it's been deficient in is full text search. Thankfully, there are some great tools around that we can employ to compliment Mongo and give it this functionality.<br /><br />Today's post will be a walk through to getting Solr &amp; mongo-connector installed and configured on Debian Wheezy.<br /><br /><h3>Get the software</h3>First up, install Solr on tomcat with the tomcat administration tools<br /><br /><pre class="brush: shell">$ sudo apt-get install solr-tomcat tomcat6-admin</pre><br />Straight after this has installed, you'll need to configure a user to access these applications. Use your favorite text editor and open /etc/tomcat6/tomcat-users.xml. This file (like all of the configuration files) is really well commented. The steps I took here were:<br /><ul><li>Added a "role" node for "manager-gui"</li><li>Added "manager-gui" as a role to the "tomcat" user</li></ul>In the end, you should have something sort-of like this:<br /><br /><pre class="brush: plain">&lt;role rolename="tomcat"/&gt;<br />&lt;role rolename="manager-gui"/&gt;<br />&lt;user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/&gt; <br /></pre><br />Now that you've finished configuring all of the user access, restart tomcat.<br /><br /><pre class="brush: shell">$ sudo service tomcat restart</pre><br />You can now check that tomcat is up and running by pointing your web browser at <a href="http://localhost:8080/">http://localhost:8080/</a>. When you click on the manager-app link, you'll be prompted for a username and password. As defined by the user configuration above, the username is "tomcat" and the password is "tomcat". Have a click around, you should also see Solr installed in there also. <br /><br /><h3>Solr Schema</h3>Now it's time we tell Solr exactly what we want to index. Remember, it's going to be a client to our mongo database - so any interesting fields that you want indexed will need to be mentioned here.<br /><br />Solr's schema file is found at /etc/solr/conf/schema.xml. Everyone's requirements are way to broad for me to go into depth here on what to do, but it would be a good time to look up the documentation and learn about how you want your data attributed: <a href="http://wiki.apache.org/solr/SchemaXml">http://wiki.apache.org/solr/SchemaXml</a>.<br /><br /><h3>Connecting to Mongo</h3>Next, we're going to connect Solr to mongo using <a href="http://blog.mongodb.org/post/29127828146/introducing-mongo-connector">mongo-connect</a>. There's some more software that's needed to be installed here. mongo-connect is a python package that listens to mongo's oplog for "interesting" things, and then stores them away into Solr for fast searching later.<br /><br />We will need pip.<br /><br /><pre class="brush: shell">$ sudo apt-get install python-dev python-pip</pre><br />We're also going to need some xml dependencies that mongo-connect relies on.<br /><br /><pre class="brush: shell">$ sudo apt-get install libxml2 libxml2-dev libxslt-dev</pre><br />Install the lxml &amp; cssselect python packages<br /><br /><pre class="brush: shell">$ sudo pip install lxml cssselect</pre><br />Finally, we install the mongo-connector <br /><br /><pre class="brush: shell">$ sudo pip install mongo-connector</pre><br /><h3>Running the connector</h3>Now that you're all installed, it's time to start indexing some data. Again, everyone's requirements are going to be quite different - so it's a good time to go out and take a look at the <a href="https://github.com/10gen-labs/mongo-connector">mongo-connector github page</a> to understand the full usage of the command.<br /><br />A typical execution of the command would look like this:<br /><br /><pre class="brush: shell">$ mongo-connector -m localhost:27217 -t http://localhost:8080/solr -o oplog_progress.txt -n alpha.foo,test.test -u _id -k auth.txt -a admin -d ./doc_managers/solr_doc_manager.py</pre><br />From here, mongo-connector listens to changes and stores them away in Solr so that your full text search facility has them available.<br /><br />That's it for Solr &amp; MongoDB.</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/11/17/developer-documentation-on-linux/">
+        Developer Documentation on Linux
+      </a>
+    </h1>
+
+    <span class="post-date">17 Nov 2013</span>
+
+    <h1>Developer Documentation on Linux</h1>
+<div class='post'>
+Here's a quick shortcut to getting all of the developer documentation you'll need installed on a Linux (debian) machine.<br /><div><br /></div> <pre class="brush: shell">$ sudo apt-get install manpages manpages-dev manpages-posix manpages-posix-dev gcc-doc</pre></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/11/11/installing-node-js-on-wheezy/">
+        Installing node.js on Wheezy
+      </a>
+    </h1>
+
+    <span class="post-date">11 Nov 2013</span>
+
+    <h1>Installing node.js on Wheezy</h1>
+<div class='post'>
+Here's a quick guide to getting <a href="http://nodejs.org/">node.js</a> up and running on Debian Wheezy.<br /><br />First of all, you'll need all of the development tools required to build node.js on your machine.<br /><br /><pre class="brush: shell">$ sudo apt-get install python g++ make checkinstall<br /></pre><br />Next, grab the latest <a href="http://nodejs.org/">node.js</a> source from their website and extract it into a local folder<br /><br /><pre class="brush: shell">$ wget -N http://nodejs.org/dist/node-latest.tar.gz<br />$ tar -zxvf node-latest.tar.gz<br /></pre><br />After you've got the source, change into the extracted folder and build <a href="http://nodejs.org/">node.js</a> (the version I got was 0.10.21)<br /><br /><pre class="brush: shell">$ cd node-v0.10.21<br />$ ./configure<br />$ sudo checkinstall<br /></pre><br />A package should have now been created for you to install with <a href="https://wiki.debian.org/dpkg">dpkg</a>. You can install it with the following command:<br /><br /><pre class="brush: shell">$ sudo dpkg -i node_*<br /></pre><br />Done!</div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/11/07/java-6-on-wheezy/">
+        Java 6 on Wheezy
+      </a>
+    </h1>
+
+    <span class="post-date">07 Nov 2013</span>
+
+    <h1>Java 6 on Wheezy</h1>
+<div class='post'>
+Due to Java being removed from the main repositories for Debian, getting Java installed on your Wheezy machine takes a couple of extra steps.<br /><br />The following is how to get Java 6 installed when using Debian Wheezy.<br /><br /><ol><li>Change your /etc/apt/sources.list to include squeeze repositories <br /><br /><pre class="brush: shell">deb http://mirror.aarnet.edu.au/debian/ squeeze non-free</pre><br /></li><li>Update!<br /><br /><pre class="brush: shell">$ sudo apt-get update</pre><br /></li><li>Install what you need<br /><br /><pre class="brush: shell">$ apt-cache search sun-java                                         <br />ia32-sun-java6-bin - Sun Java(TM) Runtime Environment (JRE) 6 (32-bit)<br />sun-java6-bin - Sun Java(TM) Runtime Environment (JRE) 6 (architecture dependent files)<br />sun-java6-demo - Sun Java(TM) Development Kit (JDK) 6 demos and examples<br />sun-java6-fonts - Lucida TrueType fonts (from the Sun JRE)<br />sun-java6-javadb - Java(TM) DB, Sun Microsystems' distribution of Apache Derby<br />sun-java6-jdk - Sun Java(TM) Development Kit (JDK) 6<br />sun-java6-jre - Sun Java(TM) Runtime Environment (JRE) 6 (architecture independent files)<br />sun-java6-plugin - The Java(TM) Plug-in, Java SE 6<br />sun-java6-source - Sun Java(TM) Development Kit (JDK) 6 source files<br /><br /></pre></li><li>After installation, tell the OS which java to use<br /><br /><pre class="brush: shell">$ sudo update-java-alternatives -s java-6-sun</pre></li></ol>That's it.<br /><br /><br /><br /></div>
+<h2>Comments</h2>
+<div class='comments'>
+</div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/07/11/performance-monitoring-a-linux-environment/">
+        Performance Monitoring a Linux Environment
+      </a>
+    </h1>
+
+    <span class="post-date">11 Jul 2013</span>
+
+    <h1>Performance Monitoring a Linux Environment</h1>
+<div class='post'>
+This post is just a list of links I've collected for looking at a Linux system's performance.<br /><br /><b><br /></b><b>10 Useful Sar (Sysstat) Examples for UNIX / Linux Performance Monitoring </b><br /><a href="http://www.thegeekstuff.com/2011/03/sar-examples/">http://www.thegeekstuff.com/2011/03/sar-examples/</a><br /><br /><b>Isolating Linux High System Load </b><br /><a href="http://www.tummy.com/articles/isolating-heavy-load/">http://www.tummy.com/articles/isolating-heavy-load/</a> </div>
 <h2>Comments</h2>
 <div class='comments'>
 </div>

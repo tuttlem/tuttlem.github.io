@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -178,12 +170,125 @@
         <div class="post">
   <h1 class="post-title">Perlin Noise</h1>
   <span class="post-date">31 Dec 2013</span>
-  <h1>Perlin Noise</h1>
-<div class='post'>
-<h3>Introduction</h3>Noise functions in computer applications allow programmers to make the machine act a little more naturally. It's the randomness introduced with these algorithms that gives the computer what appears to be "free thought" or unexpected decisions.<br /><br />Today, I'll walk through the <a href="http://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise</a> algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.<br /><br />Here are some examples of the Perlin Noise function output into two dimensions:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg" imageanchor="1"><img border="0" height="200" src="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s200/perlin1.jpg" width="200" /></a><a href="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png" imageanchor="1"><img border="0" height="200" src="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s200/perlin2.png" width="200" /></a></div><br />In today's post, I'll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.<br /><h3>Understanding Noise</h3>The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.<br /><br />A common noise function for two parameters that I have found used over the web is as follows:<br /><br /><script src="https://gist.github.com/tuttlem/8192352.js"></script> There's a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you'll get repeatable results.<br /><br />Next we'll smooth out the noise between two points. We'll do this by sampling the corners, sides and centre of the point we're currently generating for.<br /><br /><script src="https://gist.github.com/tuttlem/8192396.js"></script> With the above function, we can now sample a small area for a given point. All based on our random number generator.<br /><br />For the fractional parts that occur between solid boundaries, we'll use a specific interpolation method. I've defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.<br /><br /><script src="https://gist.github.com/tuttlem/8193345.js"></script> <br />Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are "octaves" and "persistence". "octaves" defines how many iterations that will be performed and "persistence" defines how much of the spectrum we'll utilise. It's highly interactive to the main curve co-effecients: frequency and amplitude.<br /><br /><script src="https://gist.github.com/tuttlem/8193366.js"></script> This now provides us with a way to create a map (or 2d array) to produce images much like I'd pasted in above. Here is a typical build loop.<br /><br /><script src="https://gist.github.com/tuttlem/8193381.js"></script> That should be enough to get you going.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <h3 id="introduction">Introduction</h3>
+
+<p>Noise functions in computer applications allow programmers to make the machine act a little more naturally. It&#39;s the randomness introduced with these algorithms that gives the computer what appears to be &quot;free thought&quot; or unexpected decisions.</p>
+
+<p>Today, I&#39;ll walk through the <a href="http://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise</a> algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.</p>
+
+<p>Here are some examples of the Perlin Noise function output into two dimensions:</p>
+
+<p><img src="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg" alt="Noise 1">
+<img src="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png" alt="Noise 2"></p>
+
+<p>In today&#39;s post, I&#39;ll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.</p>
+
+<h3 id="understanding-noise">Understanding Noise</h3>
+
+<p>The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.</p>
+
+<p>A common noise function for two parameters that I have found used over the web is as follows:</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">noise</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">57</span><span class="p">;</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span><span class="p">)</span> <span class="o">^</span> <span class="n">n</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="p">(</span> <span class="p">(</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">15731</span> <span class="o">+</span> <span class="mi">789221</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1376312589</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7FFFFFFF</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1073741824.0f</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>There&#39;s a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you&#39;ll get repeatable results.</p>
+
+<p>Next we&#39;ll smooth out the noise between two points. We&#39;ll do this by sampling the corners, sides and centre of the point we&#39;re currently generating for.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">smoothNoise</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">ix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">y</span><span class="p">;</span>
+
+  <span class="c1">// sample the corners</span>
+  <span class="kt">float</span> <span class="n">corners</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">16</span><span class="p">;</span>
+
+  <span class="c1">// sample the sides</span>
+  <span class="kt">float</span> <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">8</span><span class="p">;</span>
+
+  <span class="c1">// sample the centre</span>
+  <span class="kt">float</span> <span class="n">centre</span> <span class="o">=</span> <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">);</span>
+
+  <span class="c1">// send out the accumulated result</span>
+  <span class="k">return</span> <span class="n">corners</span> <span class="o">+</span> <span class="n">sides</span> <span class="o">+</span> <span class="n">centre</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>With the above function, we can now sample a small area for a given point. All based on our random number generator.</p>
+
+<p>For the fractional parts that occur between solid boundaries, we&#39;ll use a specific interpolation method. I&#39;ve defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/* Linear interpolation */</span>
+<span class="kt">float</span> <span class="nf">lerp</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Trigonometric interpolation */</span>
+<span class="kt">float</span> <span class="nf">terp</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">ft</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">3.1415927f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cosf</span><span class="p">(</span><span class="n">ft</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5f</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Noise interpolation */</span>
+<span class="kt">float</span> <span class="nf">interpolateNoise</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span>   <span class="n">ix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">ix</span><span class="p">;</span>
+
+  <span class="kt">int</span>   <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">fy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">iy</span><span class="p">;</span>
+
+  <span class="kt">float</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">),</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">),</span>
+        <span class="n">v3</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">v4</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kt">float</span> <span class="n">i1</span> <span class="o">=</span> <span class="n">terp</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">fx</span><span class="p">),</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="n">terp</span><span class="p">(</span><span class="n">v3</span><span class="p">,</span> <span class="n">v4</span><span class="p">,</span> <span class="n">fx</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">terp</span><span class="p">(</span><span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">fy</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are &quot;octaves&quot; and &quot;persistence&quot;. &quot;octaves&quot; defines how many iterations that will be performed and &quot;persistence&quot; defines how much of the spectrum we&#39;ll utilise. It&#39;s highly interactive to the main curve co-effecients: frequency and amplitude.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">perlin2d</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">,</span>
+               <span class="k">const</span> <span class="kt">int</span> <span class="n">octaves</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">persistence</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">octaves</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">frequency</span> <span class="o">=</span> <span class="n">powf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="n">powf</span><span class="p">(</span><span class="n">persistence</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">interpolateNoise</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">)</span> <span class="o">*</span> <span class="n">amplitude</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">total</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>This now provides us with a way to create a map (or 2d array) to produce images much like I&#39;d pasted in above. Here is a typical build loop.</p>
+
+<div class="highlight"><pre><code class="c"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">;</span> <span class="n">x</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">;</span> <span class="n">y</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">xx</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">yy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">y</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+
+    <span class="n">map</span><span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="n">perlin</span><span class="o">::</span><span class="n">perlin2d</span><span class="p">(</span>
+      <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span>
+      <span class="mi">6</span><span class="p">,</span> <span class="mf">1.02f</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>That should be enough to get you going.</p>
 
 </div>
 

@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -343,30 +335,97 @@
 
     <span class="post-date">08 Jan 2014</span>
 
-    <h1>Getting started with Lua using C++</h1>
-<div class='post'>
-<h3>Introduction</h3><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It's put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.<br /><br />In today's post, I'll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.<br /><br /><h3>Library Installation</h3>Before you get downloading and building this library, you'll just need to ensure that you have a build environment installed and are able to compile. <br /><br />At the time of writing this article,&nbsp; the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine.<br /><br />Following along with their building instructions, issuing "make linux test" whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the "make local" option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).<br /><br />When it comes to downloading the latest versions of libraries, I'll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.<br /><br />From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:<br /><br /><pre>.<br />└── lua-5.2.3<br />    ├── include<br />    │&nbsp;&nbsp; ├── lauxlib.h<br />    │&nbsp;&nbsp; ├── luaconf.h<br />    │&nbsp;&nbsp; ├── lua.h<br />    │&nbsp;&nbsp; ├── lua.hpp<br />    │&nbsp;&nbsp; └── lualib.h<br />    └── lib<br />        ├── liblua.a<br />        └── lua<br />            └── 5.2<br /></pre><br />I have all of the development headers available (under the "include" folder) and a static version of the Lua library (under lib).<br /><br /><h3>Building applications</h3>When building Lua applications, you'll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I'd written, the following command line compiled an application for me without any trouble.<br /><br /><pre class="brush: shell">$ g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</pre><br />You can see at the end there, mention of both the "lua" and "dl" libraries.<br /><br /><h3>Test application</h3>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.<br /><br />Here's our Lua script:<br /><br /><script src="https://gist.github.com/tuttlem/8310670.js"></script> <br />Pretty simple. We have one variable "x" set to 10. Now here's the C++ code that we use to read that one variable out and present it to screen.<br /><br /><script src="https://gist.github.com/tuttlem/8310746.js"></script> I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.<br /><br /><br />That's it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.<br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <h3 id="introduction">Introduction</h3>
 
-  </div>
+<p><a href="http://www.lua.org/">Lua</a> is a programming language that has seen increased popularity from the game development industry. It&#39;s put to use in the disciplines of providing configuration data all the way through to scripting automated character actions.</p>
+
+<p>In today&#39;s post, I&#39;ll walk you through the setup process of the libraries up to writing your first testing application within a Linux environment.</p>
+
+<h3 id="library-installation">Library Installation</h3>
+
+<p>Before you get downloading and building this library, you&#39;ll just need to ensure that you have a build environment installed and are able to compile. </p>
+
+<p>At the time of writing this article, the <a href="http://www.lua.org/">Lua</a> website had 5.2.3 as their latest release. From their <a href="http://www.lua.org/download.html">downloads</a> page, grab the latest tar.gz archive and extract it onto your machine. Following along with their building instructions, issuing &quot;make linux test&quot; whilst in the extracted folder did the trick. It built Lua ready for me to use. A nice convenience of the make file was the &quot;make local&quot; option. Upon issuing this request, the make system will prepare an installation folder that is suitable for you to use locally (i.e. not installed to the system).</p>
+
+<p>When it comes to downloading the latest versions of libraries, I&#39;ll rarely install these to my system. Rather, I drag them around for each project that needs them so that the project determines its dependencies as opposed to my system.</p>
+
+<p>From here, I prepare a distributable directory of development files that I know that each of my project needs. In the case of Lua, I create the following structure:</p>
+
+<div class="highlight"><pre><code class="text">.
+└── lua-5.2.3
+    ├── include
+    │   ├── lauxlib.h
+    │   ├── luaconf.h
+    │   ├── lua.h
+    │   ├── lua.hpp
+    │ └── lualib.h
+    └── lib
+        ├── liblua.a
+        └── lua
+            └── 5.2</code></pre></div>
+
+<p>I have all of the development headers available (under the &quot;include&quot; folder) and a static version of the Lua library (under lib).</p>
+
+<h3 id="building-applications">Building applications</h3>
+
+<p>When building Lua applications, you&#39;ll need to specify the libraries and include folders to your compiler so it knows where to find them. For a test application that I&#39;d written, the following command line compiled an application for me without any trouble.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>g++ -Ilib/lua-5.2.3/include -Llib/lua-5.2.3/lib/ -llua -ldl</code></pre></div>
+
+<p>You can see at the end there, mention of both the &quot;lua&quot; and &quot;dl&quot; libraries.</p>
+
+<h3 id="test-application">Test application</h3>
+
+<p>A very simple test to start will be creating a program that will execute a Lua script, pull out on of its global variables and display it to screen.</p>
+
+<p>Here&#39;s our Lua script:</p>
+
+<div class="highlight"><pre><code class="lua"><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span></code></pre></div>
+
+<p>Pretty simple. We have one variable <code>x</code> set to <code>10</code>. Now here&#39;s the C++ code that we use to read that one variable out and present it to screen.</p>
+
+<div class="highlight"><pre><code class="cpp"><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;lua.hpp&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="c1">// create a new lua context to work with</span>
+  <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">luaL_newstate</span><span class="p">();</span>
+
+  <span class="c1">// open any library we may use</span>
+  <span class="n">luaL_openlibs</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+
+  <span class="c1">// read the Lua script off disk and execute it</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">luaL_dofile</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;test.lua&quot;</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="c1">// handle any errors </span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;unable to load test.lua&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    
+  <span class="p">}</span>
+
+  <span class="c1">// put the value of X at the top of the stack</span>
+  <span class="n">lua_getglobal</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">);</span>
   
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2014/01/06/windows-development-with-masm32-part-7/">
-        Windows Development with MASM32 (part 7)
-      </a>
-    </h1>
+  <span class="c1">// interpret the value at the top of the stack </span>
+  <span class="c1">// as an integer and put it in the variable &quot;val&quot;</span>
+  <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">lua_tointeger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  
+  <span class="c1">// pop the value of X off the stack</span>
+  <span class="n">lua_pop</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 
-    <span class="post-date">06 Jan 2014</span>
+  <span class="c1">// write the value out</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Value of X: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">val</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 
-    <h1>Windows Development with MASM32 (part 7)</h1>
-<div class='post'>
-Windows Resource Compiler</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <span class="c1">// finish up with the Lua context</span>
+  <span class="n">lua_close</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></div>
+
+<p>I think that the source code above (paired with the documentation on the Lua website) should make things pretty straight forward.</p>
+
+<p>That&#39;s it for today. This is only scratching the surface on what Lua can do. For my purposes right now, I just need to feed configuration values into programs, this fits the purpose really well.</p>
 
   </div>
   
@@ -379,61 +438,225 @@ Windows Resource Compiler</div>
 
     <span class="post-date">05 Jan 2014</span>
 
-    <h1>Installing SDL2 on Linux</h1>
-<div class='post'>
-<h3>Introduction</h3><a href="http://www.libsdl.org/download-2.0.php">SDL2</a> was released a little while ago, but still hasn't made it into the stable repositories of some Linux distributions. After doing a big of digging, it's not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums <a href="http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu">here</a>.<br /><br />In today's post, we'll install SDL2 on a Debian/Ubuntu style distribution from source.<br /><h3>Dependencies</h3>First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:<br /><br /><pre class="brush: shell">$ sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev</pre><br />Once all of these have installed successfully, you'll need to download a copy of the source. All downloads can be found <a href="http://www.libsdl.org/download-2.0.php">here</a>. This guide will assume that you'll download the .tar.gz source archive.<br /><br /><h3>Compilation and Installation</h3>Extract the package into a directory under your home directory, somewhere . . .<br /><br /><pre class="brush: shell">$ tar -xzf SDL2-*.tar.gz<br />$ cd SDL2-*</pre><br />Next we'll configure, build and install the libraries.<br /><br /><pre class="brush: shell">$ ./configure<br />$ make<br />$ sudo make install</pre><br />Once compilation and installation have complete, you'll need to update your library links/cache. Do this with the following command:<br /><br /><pre class="brush: shell">$ sudo ldconfig</pre><br /><br />That's all there is to it.</div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+    <h3 id="introduction">Introduction</h3>
+
+<p><a href="http://www.libsdl.org/download-2.0.php">SDL2</a> was released a little while ago, but still hasn&#39;t made it into the stable repositories of some Linux distributions. After doing a big of digging, it&#39;s not too hard to get this installed yourself - most of the advice offered in this post comes from an answer on the Ubuntu forums <a href="http://askubuntu.com/questions/344512/what-is-the-general-procedure-to-install-development-libraries-in-ubuntu">here</a>.</p>
+
+<p>In today&#39;s post, we&#39;ll install SDL2 on a Debian/Ubuntu style distribution from source.</p>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>First thing before we download and compile the SDL2 source is to get some of the dependencies installed on your system. The following install line will put all of the libraries that SDL2 requires:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev</code></pre></div>
+
+<p>Once all of these have installed successfully, you&#39;ll need to download a copy of the source. All downloads can be found here. This guide will assume that you&#39;ll download the .tar.gz source archive.</p>
+
+<h3 id="compilation-and-installation">Compilation and Installation</h3>
+
+<p>Extract the package into a directory under your home directory, somewhere . . .</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>tar -xzf SDL2-*.tar.gz
+<span class="nv">$ </span><span class="nb">cd </span>SDL2-*</code></pre></div>
+
+<p>Next we&#39;ll configure, build and install the libraries.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+<span class="nv">$ </span>sudo make install</code></pre></div>
+
+<p>Once compilation and installation have complete, you&#39;ll need to update your library links/cache. Do this with the following command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo ldconfig</code></pre></div>
+
+<p>That&#39;s all there is to it. </p>
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/02/introducing-lanyon/">
-        Introducing Lanyon
+      <a href="/2013/12/31/perlin-noise/">
+        Perlin Noise
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2014</span>
+    <span class="post-date">31 Dec 2013</span>
 
-    <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It&#39;s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
+    <h3 id="introduction">Introduction</h3>
 
-<h3 id="built-on-poole">Built on Poole</h3>
+<p>Noise functions in computer applications allow programmers to make the machine act a little more naturally. It&#39;s the randomness introduced with these algorithms that gives the computer what appears to be &quot;free thought&quot; or unexpected decisions.</p>
 
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
+<p>Today, I&#39;ll walk through the <a href="http://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise</a> algorithm which has applications in computer science ranging from player movement, landscape generation, clouds, etc.</p>
+
+<p>Here are some examples of the Perlin Noise function output into two dimensions:</p>
+
+<p><img src="http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg" alt="Noise 1">
+<img src="http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png" alt="Noise 2"></p>
+
+<p>In today&#39;s post, I&#39;ll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.</p>
+
+<h3 id="understanding-noise">Understanding Noise</h3>
+
+<p>The Perlin Noise algorithm can be broken down into a few smaller pieces to make it easier to understand. At its heart, the algorithm needs pseudo-random numbers. These random numbers should be repeatable so that you can re-generate the same noise pattern at will.</p>
+
+<p>A common noise function for two parameters that I have found used over the web is as follows:</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">noise</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">57</span><span class="p">;</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span><span class="p">)</span> <span class="o">^</span> <span class="n">n</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="p">(</span> <span class="p">(</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">15731</span> <span class="o">+</span> <span class="mi">789221</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1376312589</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7FFFFFFF</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1073741824.0f</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>There&#39;s a lot of math transformation in this previous function. You can use any function at all to produce your random numbers, just make sure that you can generate them against two parameters (in the case of 2d) and that you&#39;ll get repeatable results.</p>
+
+<p>Next we&#39;ll smooth out the noise between two points. We&#39;ll do this by sampling the corners, sides and centre of the point we&#39;re currently generating for.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">smoothNoise</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">ix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">y</span><span class="p">;</span>
+
+  <span class="c1">// sample the corners</span>
+  <span class="kt">float</span> <span class="n">corners</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">16</span><span class="p">;</span>
+
+  <span class="c1">// sample the sides</span>
+  <span class="kt">float</span> <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">8</span><span class="p">;</span>
+
+  <span class="c1">// sample the centre</span>
+  <span class="kt">float</span> <span class="n">centre</span> <span class="o">=</span> <span class="n">noise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">);</span>
+
+  <span class="c1">// send out the accumulated result</span>
+  <span class="k">return</span> <span class="n">corners</span> <span class="o">+</span> <span class="n">sides</span> <span class="o">+</span> <span class="n">centre</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>With the above function, we can now sample a small area for a given point. All based on our random number generator.</p>
+
+<p>For the fractional parts that occur between solid boundaries, we&#39;ll use a specific interpolation method. I&#39;ve defined two below. One that will do linear interpolation and one that will use cosine for a smoother transition between points.</p>
+
+<div class="highlight"><pre><code class="c"><span class="cm">/* Linear interpolation */</span>
+<span class="kt">float</span> <span class="nf">lerp</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Trigonometric interpolation */</span>
+<span class="kt">float</span> <span class="nf">terp</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">ft</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">3.1415927f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cosf</span><span class="p">(</span><span class="n">ft</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5f</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Noise interpolation */</span>
+<span class="kt">float</span> <span class="nf">interpolateNoise</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span>   <span class="n">ix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">ix</span><span class="p">;</span>
+
+  <span class="kt">int</span>   <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">fy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">iy</span><span class="p">;</span>
+
+  <span class="kt">float</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">),</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="p">),</span>
+        <span class="n">v3</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">v4</span> <span class="o">=</span> <span class="n">smoothNoise</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kt">float</span> <span class="n">i1</span> <span class="o">=</span> <span class="n">terp</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">fx</span><span class="p">),</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="n">terp</span><span class="p">(</span><span class="n">v3</span><span class="p">,</span> <span class="n">v4</span><span class="p">,</span> <span class="n">fx</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">terp</span><span class="p">(</span><span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">fy</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Finally we use this smooth interpolation to perform the perlin noise function. A couple of interesting co-effecients that are provided to the algorithm are &quot;octaves&quot; and &quot;persistence&quot;. &quot;octaves&quot; defines how many iterations that will be performed and &quot;persistence&quot; defines how much of the spectrum we&#39;ll utilise. It&#39;s highly interactive to the main curve co-effecients: frequency and amplitude.</p>
+
+<div class="highlight"><pre><code class="c"><span class="kt">float</span> <span class="nf">perlin2d</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">y</span><span class="p">,</span>
+               <span class="k">const</span> <span class="kt">int</span> <span class="n">octaves</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">persistence</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">octaves</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">frequency</span> <span class="o">=</span> <span class="n">powf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="n">powf</span><span class="p">(</span><span class="n">persistence</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">interpolateNoise</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">)</span> <span class="o">*</span> <span class="n">amplitude</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">total</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>This now provides us with a way to create a map (or 2d array) to produce images much like I&#39;d pasted in above. Here is a typical build loop.</p>
+
+<div class="highlight"><pre><code class="c"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">;</span> <span class="n">x</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">;</span> <span class="n">y</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">xx</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">yy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">y</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+
+    <span class="n">map</span><span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="n">perlin</span><span class="o">::</span><span class="n">perlin2d</span><span class="p">(</span>
+      <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span>
+      <span class="mi">6</span><span class="p">,</span> <span class="mf">1.02f</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>That should be enough to get you going.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2013/12/30/follow-up-to-a-camera-implementation/">
+        Follow up to a Camera Implementation
+      </a>
+    </h1>
+
+    <span class="post-date">30 Dec 2013</span>
+
+    <h3 id="introduction">Introduction</h3>
+
+<p>In a <a href="/2013/12/30/a-camera-implementation-in-c/">previous post</a> I&#39;d written about a simple camera implementation that you can use in projects of your own. This post I&#39;ll show how I&#39;ve implemented this camera with some mouse handling routines to make it feel like you&#39;re orienting your head with the mouse.</p>
+
+<h3 id="the-idea">The Idea</h3>
+
+<p>We&#39;ll capture all of the mouse movements given in an application and see how far the mouse deviates from a given origin point. I think that the most sane origin point to go from is the center of your window. For each movement that the mouse makes from the center of the window, we need to:</p>
 
 <ul>
-<li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-<li>Mobile friendly design and development</li>
-<li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
-<li>Support for a wide gamut of HTML elements</li>
-<li>Related posts (time-based, because Jekyll) below each post</li>
-<li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
+<li>Determine how much movement occurred on the x axis</li>
+<li>Determine how much movement occurred on the y axis</li>
+<li>Deaden this movement by a co-efficient to simulate mouse &quot;sensitivity&quot;</li>
+<li>Set the yaw and pitch (head up/down, left/right) of the camera</li>
+<li>Reset the mouse back to the origin point</li>
 </ul>
 
-<h3 id="lanyon-features">Lanyon features</h3>
+<p>Here&#39;s how I&#39;ve done it in code:</p>
 
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
+<div class="highlight"><pre><code class="c"><span class="kt">void</span> <span class="nf">mouseMotion</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// calculate the origin point (shifting right divides by two, remember!)</span>
+  <span class="kt">int</span> <span class="n">halfWidth</span> <span class="o">=</span> <span class="n">windowWidth</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">halfHeight</span> <span class="o">=</span> <span class="n">windowHeight</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
 
-<ul>
-<li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
-<li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-<li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code>&lt;body&gt;</code> classes</li>
-<li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code>&lt;body&gt;</code> classes</li>
-</ul>
+  <span class="c1">// calculate how far we deviated from the origin point and deaden this</span>
+  <span class="c1">// by a factor of 20</span>
+  <span class="kt">float</span> <span class="n">deltaX</span> <span class="o">=</span> <span class="p">(</span><span class="n">halfWidth</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">deltaY</span> <span class="o">=</span> <span class="p">(</span><span class="n">halfHeight</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>
 
-<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
+  <span class="c1">// don&#39;t do anything if there wasn&#39;t any movement to report</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">deltaX</span> <span class="o">==</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">deltaY</span> <span class="o">==</span> <span class="mf">0.0f</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">;</span>
+  <span class="p">}</span>
 
-<h3 id="browser-support">Browser support</h3>
+  <span class="c1">// set the camera&#39;s orientation</span>
+  <span class="n">cam</span><span class="p">.</span><span class="n">yaw</span><span class="p">(</span><span class="n">deltaX</span><span class="p">);</span>
+  <span class="n">cam</span><span class="p">.</span><span class="n">pitch</span><span class="p">(</span><span class="n">deltaY</span><span class="p">);</span>
 
-<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
+  <span class="c1">// reset the mouse pointer back to the origin point</span>
+  <span class="n">glutWarpPointer</span><span class="p">(</span><span class="n">halfWidth</span><span class="p">,</span> <span class="n">halfHeight</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
 
-<h3 id="download">Download</h3>
+<p>You can see that I&#39;m using GLUT to do these demos. The only GLUT-specific piece of code here is the warp command which puts the mouse back onto the origin point. You should have an equivalent function to do the same in the framework of your choice.</p>
 
-<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
-
-<p>Thanks!</p>
+<p>Well, there you have it. You can now orient your camera using your mouse.</p>
 
   </div>
   

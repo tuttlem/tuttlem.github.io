@@ -140,14 +140,6 @@
     
       
     
-      
-    
-      
-    
-      
-    
-      
-    
 
     <a class="sidebar-nav-item" href="https://github.com/tuttlem/tuttlem.github.io">GitHub</a>
   </nav>
@@ -178,12 +170,137 @@
         <div class="post">
   <h1 class="post-title">A Camera Implementation in C++</h1>
   <span class="post-date">30 Dec 2013</span>
-  <h1>A Camera Implementation in C++</h1>
-<div class='post'>
-<h3>Introduction</h3>One of the most important elements of any 3D application is its camera. A camera allows you to move around in your world and orient your view. In today's post, I'll put together a code walk through that will take you through a simple camera implementation.<br /><br /><h3>The Concept</h3>There are two major components of any camera. They are position and orientation. Position is fairly easy to grasp, it's just where the camera is and is identified using a normal 3-space vector.<br /><br />The more difficult of the two concepts is orientation. The best description for this that I've found is on the <a href="http://en.wikipedia.org/wiki/Flight_dynamics">Flight Dynamics</a> page on wikipedia. The following image has been taken from that article and it outlines the plains that orientation can occur. Of course, the image's subject is an aircraft but the same concepts apply to a camera's orientation:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s1600/Rollpitchyawplain.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="209" src="http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s320/Rollpitchyawplain.png" width="320" /></a></div><br /><br /><br /><br />The "pitch" describes the orientation around the x-axis, the "yaw" describes the orientation around the y-axis and the "roll" describes the orientation around the z-axis.<br /><br />With all of this information on board, the requirements of our camera should become a little clearer. We need to keep track of the following about the camera:<br /><br /><ul><li>Position</li><li>Up orientation (yaw axis)</li><li>Right direction (pitch axis)</li><li>Forward (or view) direction (roll axis)</li></ul>&nbsp;We'll also keep track of how far we've gone around the yaw, pitch and roll axis.<br /><br /><h3>Some Maths (and code)</h3>There's a handful of really useful equations that are going to help us out here. With all of the information that we'll be managing and how tightly related each axis is considering they're all relating to the same object - you can see how interactive it can be just by modifying one attribute.<br /><br />When the <b>pitch</b> changes:<br /><br /><pre>forwardVector = (forwardVector * cos(pitch)) + (upVector * sin(pitch))<br />upVector = forwardVector x rightVector</pre><br /><script src="https://gist.github.com/tuttlem/8178594.js"></script> <br />When the <b>yaw</b> changes:<br /><br /><pre>forwardVector = (forwardVector * cos(yaw)) - (rightVector * sin(yaw))<br />rightVector = forwardVector x upVector</pre><br /><script src="https://gist.github.com/tuttlem/8178620.js"></script> <br />When the <b>roll</b> changes:<br /><br /><pre>rightVector = (rightVector * cos(roll)) + (upVector * sin(roll))<br />upVector = forwardVector x rightVector</pre><br /><script src="https://gist.github.com/tuttlem/8178660.js"></script> Ok, so that's it for orientation. Reading through the equations above, you can see that the calculation of the forward vector comes out of some standard rotations. The "x" operator that I've used above denotes vector <b>cross product</b>.<br /><br />Now that we're keeping track of our current viewing direction, up direction and right direction; performing camera movements is really easy.<br /><br />I've called these "advance" (move along the forward plane), "ascend" (move along the up plane) and "strafe" (move along the right plane).<br /><br /><script src="https://gist.github.com/tuttlem/8178706.js"></script> All we are doing here is just moving along those planes that have been defined for us via orientation. Movement is simple.<br /><br /><h3>Integrating</h3>All of this code/math is great up until we need to apply it in our environments. Most of the work that I do centralises around OpenGL, so I've got a very handy utility function (from GLU) that I use called <a href="http://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml">gluLookAt</a>. Plugging these values in is rather simple:<br /><br /><script src="https://gist.github.com/tuttlem/8178731.js"></script> We calculate our viewpoint as (position - forwardVector) and really just plug the literal values into this function. There is a lot of information on the gluLookAt documentation page that you can use if OpenGL isn't your flavor to simulate what it does.<br /><br />That's it for a simple camera! <br /><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
+  <h3 id="introduction">Introduction</h3>
+
+<p>One of the most important elements of any 3D application is its camera. A camera allows you to move around in your world and orient your view. In today&#39;s post, I&#39;ll put together a code walk through that will take you through a simple camera implementation.</p>
+
+<h3 id="the-concept">The Concept</h3>
+
+<p>There are two major components of any camera. They are position and orientation. Position is fairly easy to grasp, it&#39;s just where the camera is and is identified using a normal 3-space vector.</p>
+
+<p>The more difficult of the two concepts is orientation. The best description for this that I&#39;ve found is on the <a href="http://en.wikipedia.org/wiki/Flight_dynamics">Flight Dynamics</a> page on wikipedia. The following image has been taken from that article and it outlines the plains that orientation can occur. Of course, the image&#39;s subject is an aircraft but the same concepts apply to a camera&#39;s orientation:</p>
+
+<p><img src="http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s1600/Rollpitchyawplain.png" alt="Roll pitch yaw"></p>
+
+<p>The <em>pitch</em> describes the orientation around the x-axis, the <em>yaw</em> describes the orientation around the y-axis and the <em>roll</em> describes the orientation around the z-axis.</p>
+
+<p>With all of this information on board, the requirements of our camera should become a little clearer. We need to keep track of the following about the camera:</p>
+
+<ul>
+<li>Position</li>
+<li>Up orientation (yaw axis)</li>
+<li>Right direction (pitch axis)</li>
+<li>Forward (or view) direction (roll axis)</li>
+</ul>
+
+<p>We&#39;ll also keep track of how far we&#39;ve gone around the yaw, pitch and roll axis.</p>
+
+<h3 id="some-maths-(and-code)">Some Maths (and code)</h3>
+
+<p>There&#39;s a handful of really useful equations that are going to help us out here. With all of the information that we&#39;ll be managing and how tightly related each axis is considering they&#39;re all relating to the same object - you can see how interactive it can be just by modifying one attribute.</p>
+
+<p>When the <strong>pitch</strong> changes:</p>
+
+<div class="highlight"><pre><code class="text">forwardVector = (forwardVector * cos(pitch)) + (upVector * sin(pitch))
+upVector      = forwardVector x rightVector</code></pre></div>
+
+<div class="highlight"><pre><code class="cpp"><span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">pitch</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">angle</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// keep track of how far we&#39;ve gone around the axis</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">rotatedX</span> <span class="o">+=</span> <span class="n">angle</span><span class="p">;</span>
+
+  <span class="c1">// calculate the new forward vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span> <span class="o">*</span> <span class="n">cosf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span> <span class="o">+</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span> <span class="o">*</span> <span class="n">sinf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span>
+  <span class="p">);</span>
+
+  <span class="c1">// calculate the new up vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span>  <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span><span class="p">);</span>
+  <span class="c1">// invert so that positive goes down</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>When the <strong>yaw</strong> changes:</p>
+
+<div class="highlight"><pre><code class="text">forwardVector = (forwardVector * cos(yaw)) - (rightVector * sin(yaw))
+rightVector   = forwardVector x upVector</code></pre></div>
+
+<div class="highlight"><pre><code class="cpp"><span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">yaw</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">angle</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// keep track of how far we&#39;ve gone around this axis</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">rotatedY</span> <span class="o">+=</span> <span class="n">angle</span><span class="p">;</span>
+
+  <span class="c1">// re-calculate the new forward vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span> <span class="o">*</span> <span class="n">cosf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span> <span class="o">-</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span> <span class="o">*</span> <span class="n">sinf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span>
+  <span class="p">);</span>
+
+  <span class="c1">// re-calculate the new right vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>When the <strong>roll</strong> changes:</p>
+
+<div class="highlight"><pre><code class="text">rightVector = (rightVector * cos(roll)) + (upVector * sin(roll))
+upVector    = forwardVector x rightVector</code></pre></div>
+
+<div class="highlight"><pre><code class="cpp"><span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">roll</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">angle</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// keep track of how far we&#39;ve gone around this axis</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">rotatedZ</span> <span class="o">+=</span> <span class="n">angle</span><span class="p">;</span>
+
+  <span class="c1">// re-calculate the forward vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span> <span class="o">*</span> <span class="n">cosf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span> <span class="o">+</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span> <span class="o">*</span> <span class="n">sinf</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PION180</span><span class="p">)</span>
+  <span class="p">);</span>
+
+  <span class="c1">// re-calculate the up vector</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span>  <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span><span class="p">);</span>
+  <span class="c1">// invert the up vector so positive points down</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Ok, so that&#39;s it for orientation. Reading through the equations above, you can see that the calculation of the forward vector comes out of some standard rotations. The <code>x</code> operator that I&#39;ve used above denotes vector <strong>cross product</strong>.</p>
+
+<p>Now that we&#39;re keeping track of our current viewing direction, up direction and right direction; performing camera movements is really easy.</p>
+
+<p>I&#39;ve called these <code>advance</code> (move along the forward plane), <code>ascend</code> (move along the up plane) and <code>strafe</code> (move along the right plane).</p>
+
+<div class="highlight"><pre><code class="cpp"><span class="c1">// z movement</span>
+<span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">advance</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">position</span> <span class="o">+=</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span> <span class="o">*</span> <span class="o">-</span><span class="n">distance</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// y movement</span>
+<span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">ascend</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">position</span> <span class="o">+=</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">upVector</span> <span class="o">*</span> <span class="n">distance</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// x movement</span>
+<span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">strafe</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">position</span> <span class="o">+=</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">rightVector</span> <span class="o">*</span> <span class="n">distance</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>All we are doing here is just moving along those planes that have been defined for us via orientation. Movement is simple.</p>
+
+<h3 id="integrating">Integrating</h3>
+
+<p>All of this code/math is great up until we need to apply it in our environments. Most of the work that I do centralises around OpenGL, so I&#39;ve got a very handy utility function (from GLU) that I use called <a href="http://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml">gluLookAt</a>. Plugging these values in is rather simple:</p>
+
+<div class="highlight"><pre><code class="cpp"><span class="kt">void</span> <span class="n">camera</span><span class="o">::</span><span class="n">place</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span> <span class="n">viewPoint</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">position</span> <span class="o">+</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">viewDir</span><span class="p">;</span>
+
+   <span class="c1">// setup opengl with gluLookAt</span>
+  <span class="n">gluLookAt</span><span class="p">(</span>
+    <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">viewPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">viewPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">viewPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">upVector</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">upVector</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">upVector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+  <span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>We calculate our viewpoint as (<code>position</code> - <code>forwardVector</code>) and really just plug the literal values into this function. There is a lot of information on the gluLookAt documentation page that you can use if OpenGL isn&#39;t your flavor to simulate what it does.</p>
+
+<p>That&#39;s it for a simple camera! </p>
 
 </div>
 
