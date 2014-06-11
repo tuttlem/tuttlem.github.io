@@ -32,5 +32,5 @@ if (pid < 0) {
 {% endhighlight %}
 
 ### Further reading
-[The fork system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?fork+2)
-[The wait system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?wait+2)
+* [The fork system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?fork+2)
+* [The wait system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?wait+2)

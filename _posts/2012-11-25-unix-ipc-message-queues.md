@@ -39,8 +39,8 @@ msgrcv(msqid, &buf, 20, 0, 0);
 {% endhighlight %}
 
 ### Further reading
-[The ftok system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok)
-[The msgget system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget)
-[The msgsnd system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd)
-[The msgctl system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl)
-[The msgrcv system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv)
+* [The ftok system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?ftok)
+* [The msgget system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgget)
+* [The msgsnd system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgsnd)
+* [The msgctl system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgctl)
+* [The msgrcv system call](http://unixhelp.ed.ac.uk/CGI/man-cgi?msgrcv)
