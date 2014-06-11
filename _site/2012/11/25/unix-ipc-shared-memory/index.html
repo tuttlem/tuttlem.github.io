@@ -1,6 +1,0 @@
-<h1>Unix Ipc Shared Memory</h1>
-<div class='post'>
-Shared memory allows multiple processes to view, modify and control shared segments of memory. This snippet will show you how to obtain a pointer to some shared memory and then release the pointer.<br /><br /><pre class="brush:c;">key_t key;<br />int shmid;<br /><br />/* get an ipc key */<br />key = ftok("filename", 'R');<br /><br />/* connect to the segment */<br />shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT);<br /><br />/* attach to the segment */<br />data = shmat(shmid, (void *)0, 0);<br /><br />/* perform writes and reads on the "data" pointer */<br /><br />/* detach from the segment */<br />shmdt(data);<br /></pre><br />Further reading<br /><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmget">The shmget system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmat">The shmat system call</a><br /><a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?shmdt">The shmdt system call</a><br /><br /></div>
-<h2>Comments</h2>
-<div class='comments'>
-</div>
