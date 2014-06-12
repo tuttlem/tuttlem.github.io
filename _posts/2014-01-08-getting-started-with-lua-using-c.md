@@ -29,7 +29,7 @@ From here, I prepare a distributable directory of development files that I know 
     │   ├── luaconf.h
     │   ├── lua.h
     │   ├── lua.hpp
-    │	└── lualib.h
+    │	  └── lualib.h
     └── lib
     	├── liblua.a
     	└── lua
