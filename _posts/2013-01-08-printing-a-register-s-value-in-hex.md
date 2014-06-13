@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-Putting some of the knowledge we've picked up in this [previous post]({ post_url 2013-01-08-strlen-implementation-in-nasm }), today'ss post is going to be about getting the value that sits in a register out on screen. This post will assume that we're not going to lean on a call like `printf`, we're going to do it by hand.
+Putting some of the knowledge we've picked up in this [previous post]({% post_url 2013-01-08-strlen-implementation-in-nasm %}), today'ss post is going to be about getting the value that sits in a register out on screen. This post will assume that we're not going to lean on a call like `printf`, we're going to do it by hand.
 
 ### How to attack the problem?
 

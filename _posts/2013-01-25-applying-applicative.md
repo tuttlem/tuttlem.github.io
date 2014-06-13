@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-In a [previous post]({ post_url 2013-01-22-applicative-functors-in-haskell }), I had pretty much got the textbook definition down for an Applicative Functor and shown some of its pre-existing uses. Today's post, I want to walk through some code that I've written that implements `Applicative`.
+In a [previous post]({% post_url 2013-01-22-applicative-functors-in-haskell %}), I had pretty much got the textbook definition down for an Applicative Functor and shown some of its pre-existing uses. Today's post, I want to walk through some code that I've written that implements `Applicative`.
 
 ### Put it in context!
 

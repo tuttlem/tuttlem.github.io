@@ -9,11 +9,11 @@ comments: false
 
 Cleaner, clearer code is better. It's easier to debug, it's easier to read, it's just plain - better. Assembly code isn't known for its ability to allow the developer to make their intentions clear in its source code, but we can get closer with some carefully craft macros. Macros are symbols that you can use in your code to represent a block of code. Macros are allowed to take parameters which makes them an extremely flexible and valuable tool in your arsenal. These symbols that you use in your code are swapped out by nasm at the time of assembly for the blocks of code that they represent. If you want to go further in depth to the nasm pre-processor and macros, check it out in the manual [here](http://www.nasm.us/doc/nasmdoc4.html).
 
-Today's post will be focused on cleaning up the code that we'd written in [this]({ post_url 2013-01-09-strlen-implementation-in-nasm }) previous article to look a little more human.
+Today's post will be focused on cleaning up the code that we'd written in [this]({% post_url 2013-01-08-strlen-implementation-in-nasm %}) previous article to look a little more human.
 
 ### Revisiting write and strlen
 
-In the previous article "[strlen() implementation in NASM]({ post_url 2013-01-09-strlen-implementation-in-nasm })", we'd put together a couple of ways to take the length of a string. This article will assume that we're already using this code. With this in mind, we can put together a general purpose print function that will display a zero terminated string with the following.
+In the previous article "[strlen() implementation in NASM]({% post_url 2013-01-08-strlen-implementation-in-nasm %})", we'd put together a couple of ways to take the length of a string. This article will assume that we're already using this code. With this in mind, we can put together a general purpose print function that will display a zero terminated string with the following.
 
 {% highlight nasm %}
 ; _print

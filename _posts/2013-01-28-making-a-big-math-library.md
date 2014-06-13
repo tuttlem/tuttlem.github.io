@@ -55,7 +55,7 @@ _bignum_zero:
   ret                                        
 {% endhighlight %}
 
-Excellent. We can initialize our big number now to zero so that we have a starting point. Next, we'll want to be able to debug any problems that we may have while building this library, so its going to be of great benefit to be able to see what the value is of our number. The following code leans on some assembly I had written in a [previous artivle]({ post_url 2013-01-08-printing-a-register-s-value-in-hex }) which displays the value in `RAX`. Here's how we'll print our big number to screen.
+Excellent. We can initialize our big number now to zero so that we have a starting point. Next, we'll want to be able to debug any problems that we may have while building this library, so its going to be of great benefit to be able to see what the value is of our number. The following code leans on some assembly I had written in a [previous article]({% post_url 2013-01-08-printing-a-register-s-value-in-hex %}) which displays the value in `RAX`. Here's how we'll print our big number to screen.
 
 {% highlight nasm %}
 ; --------------------------------------------

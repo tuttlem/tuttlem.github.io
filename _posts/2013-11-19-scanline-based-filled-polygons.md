@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction<
 
-In a [previous post]({ post_url 2013-11-18-pixel-access-to-canvas-with-javascript }) I laid down some foundation code to get access to the pixel buffer when in context of a HTML canvas. Good for those who have experience writing graphics code directly against the video buffer - it almost feels like you're writing to 0xA000 :-)<
+In a [previous post]({% post_url 2013-11-18-pixel-access-to-the-canvas-with-javascript %}) I laid down some foundation code to get access to the pixel buffer when in context of a HTML canvas. Good for those who have experience writing graphics code directly against the video buffer - it almost feels like you're writing to 0xA000 :-)<
 
 Today's post will focus on drawing polygons to the screen using scan lines.
 

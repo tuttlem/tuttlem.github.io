@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-In a [previous article]({ post_url 2013-11-25-setup-debian-for-opencl-development }) I'd put together a walk through on how to get your development environment ready to write some [OpenCL](http://www.khronos.org/opencl/) code. This article by itself isn't of much use unless you can write some code already. Today's post will be a walk through on writing your first OpenCL program. This example, much like a lot of the other entry-level OpenCL development tutorials will focus on performing addition between two lists of floating point numbers.
+In a [previous article]({% post_url 2013-11-25-setup-debian-for-opencl-development %}) I'd put together a walk through on how to get your development environment ready to write some [OpenCL](http://www.khronos.org/opencl/) code. This article by itself isn't of much use unless you can write some code already. Today's post will be a walk through on writing your first OpenCL program. This example, much like a lot of the other entry-level OpenCL development tutorials will focus on performing addition between two lists of floating point numbers.
 
 ### Lots to learn
 

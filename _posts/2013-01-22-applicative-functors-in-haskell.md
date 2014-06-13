@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-As a follow up to my [previous post]({ post_url 2013-01-18-functors-in-haskell }) on Functors, it's a natural progression for me to do a post on the more advanced version, the Applicative Functor. In a normal functor, you'll map a function over a functor and applicative functor is a reverse view of this where it'll allow you to map many functor values over a single function.
+As a follow up to my [previous post]({% post_url 2013-01-18-functors-in-haskell %}) on Functors, it's a natural progression for me to do a post on the more advanced version, the Applicative Functor. In a normal functor, you'll map a function over a functor and applicative functor is a reverse view of this where it'll allow you to map many functor values over a single function.
 
 ### What is an Applicative Functor?
 

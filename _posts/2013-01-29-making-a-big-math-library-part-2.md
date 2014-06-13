@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-In the [previous post]({ post_url 2013-01-28-making-big-math-library }), we had setup a basic array data type to act as a very big number. We implemented an initialise, increment and decrement function. Today we'll extend on this library by adding some zero testing. It is of interest to us when our numbers are zero and when they aren't.
+In the [previous post]({% post_url 2013-01-28-making-a-big-math-library %}), we had setup a basic array data type to act as a very big number. We implemented an initialise, increment and decrement function. Today we'll extend on this library by adding some zero testing. It is of interest to us when our numbers are zero and when they aren't.
 
 ### Scanning our number
 

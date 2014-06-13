@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-In my [previous post]({ post_url 2013-11-20-scanline-based-filled-polygons }), we went through the basics of rasterising polygons on screen by use of horizontal lines. To sum up, we interpolated values along each edge of the polygon, collecting minimum and maximums for each y-axis instance.
+In my [previous post]({% post_url 2013-11-19-scanline-based-filled-polygons %}), we went through the basics of rasterising polygons on screen by use of horizontal lines. To sum up, we interpolated values along each edge of the polygon, collecting minimum and maximums for each y-axis instance.
 
 Today, we're going to define a colour value for each point on the polygon and interpolate the colours along each edge. This is the technique employed to draw polygons that are [Gouraud shaded](http://en.wikipedia.org/wiki/Gouraud_shading).
 

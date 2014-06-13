@@ -7,7 +7,7 @@ comments: false
 
 ### Introduction
 
-[In a previous post]({ post_url 2013-01-02-derived-instances-for-types-in-haskell }), I had lightly grazed the surface of the topic of Functors in Haskell and I thought it was time to come back and be a little more comprehensive about it. Without further ado, let's talk about Functors.
+[In a previous post]({% post_url 2013-01-02-derived-instances-for-types-in-haskell %}), I had lightly grazed the surface of the topic of Functors in Haskell and I thought it was time to come back and be a little more comprehensive about it. Without further ado, let's talk about Functors.
 
 ### What is a Functor?
 
