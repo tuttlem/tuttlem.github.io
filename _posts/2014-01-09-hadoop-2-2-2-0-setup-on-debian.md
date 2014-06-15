@@ -3,6 +3,7 @@ layout: post
 title: Hadoop 2 (2.2.0) setup on Debian
 date: 2014-01-09
 comments: false
+categories: [ "Hadoop", "setup", "debian", "linux", "map reduce" ]
 ---
 
 Today's post will just be a walk through of the steps required to install Hadoop 2 on Debian Linux. Please note that this is for a single node installation only. This guide is heavily based on the Ubuntu instructions found [here](http://codesfusion.blogspot.com.au/2013/10/setup-hadoop-2x-220-on-ubuntu.html).

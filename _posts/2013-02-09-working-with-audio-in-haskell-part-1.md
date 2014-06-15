@@ -3,6 +3,7 @@ layout: post
 title: Working with Audio in Haskell (Part 1)
 date: 2013-02-09
 comments: false
+categories: [ "Haskell", "Audio", "WAVE" ]
 ---
 
 ### Introduction

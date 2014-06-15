@@ -3,6 +3,7 @@ layout: post
 title: UniVerse development cheatsheet
 date: 2012-11-16
 comments: false
+categories: [ "UniVerse", "Development", "Cheatsheet", "Database" ]
 ---
 
 A cheatsheet of UniVerse commands

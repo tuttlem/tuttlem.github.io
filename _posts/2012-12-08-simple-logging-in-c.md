@@ -3,6 +3,7 @@ layout: post
 title: Simple logging in C
 date: 2012-12-08
 comments: false
+categories: [ "C", "Programming", "Logging" ]
 ---
 
 Logging is probably one of the most important services you can offer your application. Your programs have information that needs to be expressed to the user, in fact in parts it's important for your program to be almost paranoid that it hasn't said anything.

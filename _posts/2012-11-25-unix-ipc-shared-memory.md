@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Shared Memory
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "shared memory" ]
 ---
 
 Shared memory allows multiple processes to view, modify and control shared segments of memory. This snippet will show you how to obtain a pointer to some shared memory and then release the pointer.

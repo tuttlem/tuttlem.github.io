@@ -3,6 +3,7 @@ layout: post
 title: Setup Debian for OpenCL Development
 date: 2013-11-25
 comments: false
+categories: [ "C", "installation", "open cl", "Development" ]
 ---
 
 ### Introduction

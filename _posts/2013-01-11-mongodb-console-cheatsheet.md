@@ -3,6 +3,7 @@ layout: post
 title: MongoDB console cheatsheet
 date: 2013-01-11
 comments: false
+categories: [ "MongoDB", "cheatsheet" ]
 ---
 
 ### Basic retrieves

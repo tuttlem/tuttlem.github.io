@@ -3,6 +3,7 @@ layout: post
 title: Mutable State with IORef
 date: 2013-02-01
 comments: false
+categories: [ "Haskell", "IORef", "Mutable" ]
 ---
 
 ### Introduction

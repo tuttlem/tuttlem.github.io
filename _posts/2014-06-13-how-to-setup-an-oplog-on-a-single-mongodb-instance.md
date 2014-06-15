@@ -3,6 +3,7 @@ layout: post
 title: How to setup an oplog on a single MongoDB instance
 date: 2014-06-13
 comments: false
+categories: [ "MongoDB", "standalone", "oplog" ]
 ---
 
 The MongoDB oplog allows you to keep track of changes that have happened on your database in real-time. This is a very useful tool that isn't offered out of the box with a single server instance. You can follow these steps to enable to oplog on a standalone MongoDB instance.

@@ -9,6 +9,8 @@ permalink:        pretty
 title:            Cogs and Levers
 tagline:          'A blog full of technical stuff'
 description:      'A place for thoughts, ideas, tutorials and bookmarks. My brain can only hold so much, you know.'
+keywords:		  [ "Programming", "Technical", "Tutorials", "Learning", "Articles", "HOWTO" ]
+
 url:              http://tuttlem.github.io
 
 author:

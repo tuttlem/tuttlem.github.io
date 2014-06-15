@@ -3,6 +3,7 @@ layout: post
 title: Testing REST APIs with cURL
 date: 2013-05-16
 comments: false
+categories: [ "REST", "curl", "testing" ]
 ---
 
 ### Introduction

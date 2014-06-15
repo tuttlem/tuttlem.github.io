@@ -3,6 +3,7 @@ layout: post
 title: Hello, Haskell (from the web)!
 date: 2012-12-25
 comments: false
+categories: [ "Hello world", "Haskell", "Web" ]
 ---
 
 ### Introduction

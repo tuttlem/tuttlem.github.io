@@ -3,6 +3,7 @@ layout: post
 title: Project setup with Maven at the Command Line
 date: 2014-01-30
 comments: false
+categories: [ "Maven", "Java", "Programming" ]
 ---
 
 ### Introduction

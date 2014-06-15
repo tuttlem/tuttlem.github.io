@@ -3,6 +3,7 @@ layout: post
 title: Core *nix Cheatsheets
 date: 2012-11-17
 comments: false
+categories: [ "Bookmark", "Unix", "Linux", "Cheatsheets" ]
 ---
 
 Here's a bookmark set (3 links) that have all got me out of trouble from time to time. If times and spaces were a little different around home here, I'd probably have these printed out and pinned to the wall.

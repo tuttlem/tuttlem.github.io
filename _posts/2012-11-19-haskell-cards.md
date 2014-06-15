@@ -3,6 +3,7 @@ layout: post
 title: Haskell Cards
 date: 2012-11-19
 comments: false
+categories: [ "Haskell", "Cards", "Development", "Toys" ]
 ---
 
 I need to crawl before I can walk, so a lot of "toy code" is being written using Haskell. It's taken me a while to get to this point, but I now have cards being shuffled to players:

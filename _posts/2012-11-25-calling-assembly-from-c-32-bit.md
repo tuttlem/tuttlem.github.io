@@ -3,6 +3,7 @@ layout: post
 title: Calling Assembly from C (32 bit)
 date: 2012-11-25
 comments: false
+categories: [ "Assembly", "C", "32 bit", "Programming" ]
 ---
 
 One of the biggest advantages of being able to write assembly code is to optimise any bits of your application that you want. That way you can maintain your code base in a half-sane language (like C) and roll your sleeves up to speed up the smaller parts that you want.

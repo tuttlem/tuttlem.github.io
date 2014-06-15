@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Working with Signals
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "signals" ]
 ---
 
 Incoming messages to your process can come in the form of a signal. Signals are standard message packets that the operating system will use to tell your process something about the environment.

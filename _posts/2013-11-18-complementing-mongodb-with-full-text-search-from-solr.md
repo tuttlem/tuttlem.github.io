@@ -3,6 +3,7 @@ layout: post
 title: Complementing MongoDB with Full Text Search from Solr
 date: 2013-11-18
 comments: false
+categories: [ "MongoDB", "Solr", "mongo-connector" ]
 ---
 
 ### Introduction

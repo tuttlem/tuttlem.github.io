@@ -3,6 +3,7 @@ layout: post
 title: Either type in Haskell
 date: 2013-01-05
 comments: false
+categories: [ "Haskell", "Programming", "Either" ]
 ---
 
 ### Introduction

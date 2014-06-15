@@ -3,6 +3,7 @@ layout: post
 title: FreeBSD 9.0 installation on a T400
 date: 2012-11-15
 comments: false
+categories: ["Installation", "FreeBSD", "T400", "Lenovo", "Guide"]
 ---
 
 From time to time, FreeBSD has made its way onto my T400. Each time I do it, I never jot down what I did to get it to "work". Here's just a few thoughts and basic guide for installing FreeBSD RELEASE-9.0 on a Lenovo ThinkPad T400.

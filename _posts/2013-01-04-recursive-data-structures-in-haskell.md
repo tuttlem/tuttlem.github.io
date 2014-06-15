@@ -3,6 +3,7 @@ layout: post
 title: Recursive Data Structures in Haskell
 date: 2013-01-04
 comments: false
+categories: [ "Haskell", "data structure", "recursive", "tree" ]
 ---
 
 ### Introduction

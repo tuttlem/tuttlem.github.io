@@ -3,6 +3,7 @@ layout: post
 title: Setting up Bochs
 date: 2014-02-03
 comments: false
+categories: [ "Bochs", "Setup" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Diving into OpenCL
 date: 2013-11-27
 comments: false
+categories: [ "C", "programming", "opencl", "open cl" ]
 ---
 
 ### Introduction

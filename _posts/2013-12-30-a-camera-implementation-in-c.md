@@ -3,6 +3,7 @@ layout: post
 title: A Camera Implementation in C++
 date: 2013-12-30
 comments: false
+categories: [ "C++", "programming", "camera", "opengl" ]
 ---
 
 ### Introduction

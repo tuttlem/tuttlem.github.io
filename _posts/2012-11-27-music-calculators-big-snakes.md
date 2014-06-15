@@ -3,6 +3,7 @@ layout: post
 title: Music, Calculators & Big Snakes
 date: 2012-11-27
 comments: false
+categories: [ "Music", "Python" ]
 ---
 
 ### Introduction

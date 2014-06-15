@@ -3,6 +3,7 @@ layout: post
 title: Unit Testing with QuickCheck
 date: 2012-12-30
 comments: false
+categories: [ "Unit testing", "QuickCheck", "Haskell" ]
 ---
 
 ### Introduction

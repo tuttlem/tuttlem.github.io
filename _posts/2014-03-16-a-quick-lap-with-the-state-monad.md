@@ -3,6 +3,7 @@ layout: post
 title: A Quick Lap with the State Monad
 date: 2014-03-16
 comments: false
+categories: [ "Haskell", "State", "Monad" ]
 ---
 
 ### Introduction

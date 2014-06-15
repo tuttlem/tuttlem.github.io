@@ -3,6 +3,7 @@ layout: post
 title: bash_profile vs bashrc
 date: 2012-12-20
 comments: false
+categories: [ "bashrc", "bash_profile", "linux" ]
 ---
 
 ### Introduction

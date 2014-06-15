@@ -3,6 +3,7 @@ layout: post
 title: UniVerse BASIC cheatsheet
 date: 2012-11-16
 comments: false
+categories: [ "UniVerse", "Database", "BASIC", "Cheatsheet", "Development" ]
 ---
 
 A cheatsheet for writing UniVerse BASIC programs

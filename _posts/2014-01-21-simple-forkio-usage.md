@@ -3,6 +3,7 @@ layout: post
 title: Simple forkIO Usage
 date: 2014-01-21
 comments: false
+categories: [ "Haskell", "Programming", "forkIO" ]
 ---
 
 Creating new threads in Haskell is quite easy (once you know how). Here's a simple snippet for using [forkIO](http://hackage.haskell.org/package/base-4.6.0.1/docs/Control-Concurrent.html#v:forkIO) and [myThreadId](http://hackage.haskell.org/package/base-4.6.0.1/docs/Control-Concurrent.html#v:myThreadId) to get you started.

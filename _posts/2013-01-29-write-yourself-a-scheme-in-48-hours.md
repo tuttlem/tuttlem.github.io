@@ -3,6 +3,7 @@ layout: post
 title: Write yourself a Scheme in 48 Hours
 date: 2013-01-29
 comments: false
+categories: [ "Haskell", "Bookmark" ]
 ---
 
 A small bookmark to myself, wikibooks has an import of Johnathan Tang's [Write Yourself a Scheme in 48 Hours](http://jonathan.tang.name/files/scheme_in_48/tutorial/overview.html) that I've come across.

@@ -3,6 +3,7 @@ layout: post
 title: Virtualenv & pip cheat-sheet
 date: 2012-12-15
 comments: false
+categories: [ "virtualenv", "pip", "python", "cheatsheet" ]
 ---
 
 Here are a couple of the common commands I need day-to-day in order to navigate around [virtualenv](http://www.virtualenv.org/en/latest/).

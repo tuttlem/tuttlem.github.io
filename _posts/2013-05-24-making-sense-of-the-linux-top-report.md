@@ -3,6 +3,7 @@ layout: post
 title: Making Sense of the Linux "top" Report
 date: 2013-05-24
 comments: false
+categories: [ "Linux", "sysadmin", "top" ]
 ---
 
 ### Introduction

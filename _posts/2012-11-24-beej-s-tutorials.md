@@ -3,6 +3,7 @@ layout: post
 title: Beej's Tutorials
 date: 2012-11-24
 comments: false
+categories: [ "Beej", "POSIX", "Programming", "Bookmark" ]
 ---
 
 For such a long time I have read over these tutorials. They have been a great source of information in doing things the "unix way".

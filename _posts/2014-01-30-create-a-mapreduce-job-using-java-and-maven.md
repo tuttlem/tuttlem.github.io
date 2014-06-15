@@ -3,6 +3,7 @@ layout: post
 title: Create a MapReduce Job using Java and Maven
 date: 2014-01-30
 comments: false
+categories: [ "Hadoop", "Java", "Maven", "MapReduce" ]
 ---
 
 ### Introduction

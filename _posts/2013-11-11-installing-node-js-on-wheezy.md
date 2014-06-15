@@ -3,6 +3,7 @@ layout: post
 title: Installing node.js on Wheezy
 date: 2013-11-11
 comments: false
+categories: [ "node.js", "installation", "debian" ]
 ---
 
 Here's a quick guide to getting [node.js](http://nodejs.org/) up and running on Debian Wheezy. First of all, you'll need all of the development tools required to build node.js on your machine.

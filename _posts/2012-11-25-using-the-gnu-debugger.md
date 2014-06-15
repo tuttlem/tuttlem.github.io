@@ -3,6 +3,7 @@ layout: post
 title: Using the GNU Debugger
 date: 2012-11-25
 comments: false
+categories: [ "Linux", "gdb", "Tutorial" ]
 ---
 
 Bundled with the GNU toolset is a full featured debugger in GDB. This blog post aims to be a cheatsheet to get yourself around this tool quickly.

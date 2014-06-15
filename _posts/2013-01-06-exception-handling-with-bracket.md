@@ -3,6 +3,7 @@ layout: post
 title: Exception handling with bracket
 date: 2013-01-06
 comments: false
+categories: [ "Haskell", "Programming", "Exceptions", "Exception Handling", "Bracket" ]
 ---
 
 ### Introduction

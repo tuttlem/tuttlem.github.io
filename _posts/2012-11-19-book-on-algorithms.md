@@ -3,6 +3,7 @@ layout: post
 title: Book on Algorithms
 date: 2012-11-19
 comments: false
+categories: [ "Bookmark", "Algorithms", "Computer Science" ]
 ---
 
 Just so I don't lose track of it, [here's](http://www.cs.berkeley.edu/~vazirani/algorithms.html) a really good looking book on Algorithms.

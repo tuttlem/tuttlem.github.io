@@ -3,6 +3,7 @@ layout: post
 title: Bundler for Ruby
 date: 2013-01-06
 comments: false
+categories: [ "Ruby", "bundler", "installation", "tutorial" ]
 ---
 
 ### Introduction

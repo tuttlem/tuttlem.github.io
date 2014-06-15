@@ -3,6 +3,7 @@ layout: post
 title: Bridging Science and Art with Ruby
 date: 2012-12-29
 comments: false
+categories: [ "Music", "ruby" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Simple FPU Operations
 date: 2012-12-02
 comments: false
+categories: [ "Assembly", "Programming", "FPU" ]
 ---
 
 The CPU itself is an impressive piece of kit just by itself however it does struggle to do complex floating point mathematics. Chip designers noticed this deficiency pretty quickly and bolted on a floating-point arithmetic unit. It should be noted at this point that many, many other tutorial/article writers have gone into great depth explaining how to program FPU's and they have been great references to me in previous times:

@@ -3,6 +3,7 @@ layout: post
 title: Offscreen Mesa3D
 date: 2012-11-27
 comments: false
+categories: [ "Mesa3D", "offscreen", "Bookmark" ]
 ---
 
 As a quick bookmark, this part of the Mesa3D project: [Off-screen Rendering](http://www.mesa3d.org/osmesa.html). 

@@ -3,6 +3,7 @@ layout: post
 title: Making Sys-V Init Scripts for Debian
 date: 2014-02-06
 comments: false
+categories: [ "Admin", "Debian", "Linux", "SysV", "service" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Getting started with Lua using C++
 date: 2014-01-08
 comments: false
+categories: [ "C++", "Programming", "Lua" ]
 ---
 
 ### Introduction

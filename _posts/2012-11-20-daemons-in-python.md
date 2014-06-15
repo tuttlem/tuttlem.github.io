@@ -3,6 +3,7 @@ layout: post
 title: Daemons in Python
 date: 2012-11-20
 comments: false
+categories: [ "Programming", "python", "daemon" ]
 ---
 
 Didn't want to loose this bookmark, so thought I'd pop it here for later.

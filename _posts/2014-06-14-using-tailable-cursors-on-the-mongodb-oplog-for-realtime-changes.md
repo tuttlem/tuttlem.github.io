@@ -3,6 +3,7 @@ layout: post
 title: Using tailable cursors on the MongoDB oplog for realtime changes
 date: 2014-06-14
 comments: false
+categories: [ "MongoDB", "tailable", "await", "data", "realtime", "cursor", "oplog" ]
 ---
 
 [MongoDB](http://www.mongodb.org/) provides the ability to invoke to retrieve cursors of data that are tailable. 

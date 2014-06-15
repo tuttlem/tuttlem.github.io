@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Pipes and FIFOs
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "pipes", "FIFO" ]
 ---
 
 This snippet will show you two processes communicating between each other using a pipe.

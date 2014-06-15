@@ -3,6 +3,7 @@ layout: post
 title: Generic value interpolation
 date: 2012-12-12
 comments: false
+categories: [ "C++", "Programming", "Interpolation" ]
 ---
 
 ### Introduction

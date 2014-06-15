@@ -3,6 +3,7 @@ layout: post
 title: Applying Applicative
 date: 2013-01-25
 comments: false
+categories: [ "Haskell", "Applicative" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Pixel Access to the Canvas with Javascript
 date: 2013-11-18
 comments: false
+categories: [ "javascript", "programming", "pixel", "drawing" ]
 ---
 
 ### Introduction

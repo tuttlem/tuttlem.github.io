@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Message Queues
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "message queue" ]
 ---
 
 Message queues are pretty common structures for inter-process communication. A common queue is created by one of the processes, from there it can be connected to by any other process and have messages submitted to it.

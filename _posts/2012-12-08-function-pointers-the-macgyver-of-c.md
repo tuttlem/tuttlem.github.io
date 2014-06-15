@@ -3,6 +3,7 @@ layout: post
 title: Function Pointers, the MacGyver of C
 date: 2012-12-08
 comments: false
+categories: [ "C", "Programming", "Function Pointers" ]
 ---
 
 ### Introduction<

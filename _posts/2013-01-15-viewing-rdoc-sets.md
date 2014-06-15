@@ -3,6 +3,7 @@ layout: post
 title: Viewing RDoc Sets
 date: 2013-01-15
 comments: false
+categories: [ "Ruby", "RDoc" ]
 ---
 
 You can start an internal web server that will serve all of your installed gemsets' documentation simply by issuing the following command at the console.

@@ -3,6 +3,7 @@ layout: post
 title: Web Application Development with Flask
 date: 2012-11-15
 comments: false
+categories: [ "Flask", "Python", "Web Applications", "Development", "virtualenv", "pip" ]
 ---
 
 A brief guide to developing web applications with the python micro-framework, <strong>Flask</strong>.

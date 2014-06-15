@@ -3,6 +3,7 @@ layout: post
 title: Shebang, Ruby and RVM
 date: 2013-01-09
 comments: false
+categories: [ "Ruby", "rvm", "shebang" ]
 ---
 
 I needed to distribute one of my ruby programs to be setup as a job, so I needed to add a [shebang](http://en.wikipedia.org/wiki/Shebang_(Unix)) to the top of the file. I run my development environment using RVM so I had no idea how to address ruby in the shebang. Then it hit me ..

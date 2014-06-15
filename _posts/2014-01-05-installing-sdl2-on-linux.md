@@ -3,6 +3,7 @@ layout: post
 title: Installing SDL2 on Linux
 date: 2014-01-05
 comments: false
+categories: [ "Linux", "SDL2", "Installation" ]
 ---
 
 ### Introduction

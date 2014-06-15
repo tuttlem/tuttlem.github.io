@@ -3,6 +3,7 @@ layout: post
 title: Performance Monitoring a Linux Environment
 date: 2013-07-11
 comments: false
+categories: [ "Performance", "Monitoring", "Linux", "sysadmin", "Bookmark" ]
 ---
 
 This post is just a list of links I've collected for looking at a Linux system's performance.

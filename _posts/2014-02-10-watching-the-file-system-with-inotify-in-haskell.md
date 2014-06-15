@@ -3,6 +3,7 @@ layout: post
 title: Watching the File System with INotify in Haskell
 date: 2014-02-10
 comments: false
+categories: [ "Haskell", "Programming", "INotify", "file system" ]
 ---
 
 ### Introduction

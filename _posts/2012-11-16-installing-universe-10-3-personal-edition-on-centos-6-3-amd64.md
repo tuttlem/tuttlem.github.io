@@ -3,6 +3,7 @@ layout: post
 title: Installing UniVerse 10.3 (Personal Edition) on CentOS 6.3 amd64
 date: 2012-11-16
 comments: false
+categories: [ "Installation", "UniVerse", "CentOS", "Database" ]
 ---
 
 A guide for installing the <strong>UniVerse</strong> database system on a <strong>RedHat</strong> flavored distribution.

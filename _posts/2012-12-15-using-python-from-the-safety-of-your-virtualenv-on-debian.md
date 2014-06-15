@@ -3,6 +3,7 @@ layout: post
 title: Using python from the safety of your virtualenv on Debian
 date: 2012-12-15
 comments: false
+categories: [ "python", "virtualenv", "sandbox" ]
 ---
 
 I like having my specific development environments setup, tailored for the particular project that I'm working on. When I'm working on a python project, [virtualenv](http://www.virtualenv.org/en/latest/) is my go to tool for the job. It's great.

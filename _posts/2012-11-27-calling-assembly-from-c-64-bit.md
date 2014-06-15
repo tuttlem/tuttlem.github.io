@@ -3,6 +3,7 @@ layout: post
 title: Calling Assembly from C (64 bit)
 date: 2012-11-27
 comments: false
+categories: [ "Assembly", "C", "Programming" ]
 ---
 
 In a [previous post]({% post_url 2012-11-25-calling-assembly-from-c-32-bit %}), I spoke about calling assembly language routines from C in 32-bit land. In this post, I aim to show you the same technique only this time using a 64 bit architecture.

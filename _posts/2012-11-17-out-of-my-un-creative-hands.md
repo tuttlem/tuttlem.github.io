@@ -3,6 +3,7 @@ layout: post
 title: Out of my (un-creative) hands.
 date: 2012-11-17
 comments: false
+categories: [ "Web Development", "Bootstrap", "Bookmark" ]
 ---
 
 It's no secret. I suck at style.

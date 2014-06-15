@@ -3,6 +3,7 @@ layout: post
 title: Blurring the lines between Haskell and C
 date: 2012-12-30
 comments: false
+categories: [ "Haskell", "C", "Programming" ]
 ---
 
 ### Introduction

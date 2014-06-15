@@ -3,6 +3,7 @@ layout: post
 title: OpenGL, GLUT & Haskell
 date: 2013-01-02
 comments: false
+categories: [ "Haskell", "Programming", "OpenGL", "GLUT" ]
 ---
 
 ### Introduction

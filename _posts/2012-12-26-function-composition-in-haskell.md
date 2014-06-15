@@ -3,6 +3,7 @@ layout: post
 title: Function composition in Haskell
 date: 2012-12-26
 comments: false
+categories: [ "function composition", "Haskell", "Programming" ]
 ---
 
 [Function composition](http://en.wikipedia.org/wiki/Function_composition) is a no-brainer concept [for Haskell](http://www.haskell.org/haskellwiki/Function_composition) that makes a lot of sense. It's truly aligned with its mathematical equivelant where you have two given functions:

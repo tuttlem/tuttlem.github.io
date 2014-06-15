@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Unix Sockets
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "sockets" ]
 ---
 
 Unix sockets talk locally on the machine. Their operation is very similar to standard socket operations (as they are the same in every way). This snippet will show you a server and client.

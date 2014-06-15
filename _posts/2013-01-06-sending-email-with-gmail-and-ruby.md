@@ -3,6 +3,7 @@ layout: post
 title: Sending email with GMail and Ruby
 date: 2013-01-06
 comments: false
+categories: [ "Ruby", "email", "gmail" ]
 ---
 
 Here's a quick little ruby snippet to get you sending email through your gmail account. I had to implement this recently, so I thought I'd make note of it here. You will need the [tlsmail](http://rubygems.org/gems/tlsmail) gem installed to make this happen. Here's the code.

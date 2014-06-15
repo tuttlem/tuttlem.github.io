@@ -3,6 +3,7 @@ layout: post
 title: 64bit ABI Cheatsheet
 date: 2013-02-14
 comments: false
+categories: [ "Assembly", "64 bit", "ABI" ]
 ---
 
 ### Introduction

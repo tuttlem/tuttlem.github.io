@@ -3,6 +3,7 @@ layout: post
 title: MongoDB Performance Monitoring
 date: 2013-07-11
 comments: false
+categories: [ "MongoDB", "Performance", "Monitoring", "Bookmark" ]
 ---
 
 This post is just a list of bookmarks I'll keep to refer to for MongoDB performance analysis.

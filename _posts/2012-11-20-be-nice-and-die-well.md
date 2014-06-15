@@ -3,6 +3,7 @@ layout: post
 title: Be nice and die well
 date: 2012-11-20
 comments: false
+categories: [ "C", "Programming", "signal", "Linux", "daemon" ]
 ---
 
 It's a morbid title, I agree but it is quite important. Unix daemons really need to listen to the messages (read as: signals) being sent to them and responding correctly. At the very least, if every daemon implemented the following it'd be a breath of fresh air:

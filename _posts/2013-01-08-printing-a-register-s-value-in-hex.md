@@ -3,6 +3,7 @@ layout: post
 title: Printing a Register's Value in Hex
 date: 2013-01-08
 comments: false
+categories: [ "Assembly", "Programming", "Print", "Register Value" ]
 ---
 
 ### Introduction

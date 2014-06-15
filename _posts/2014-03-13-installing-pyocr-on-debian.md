@@ -3,6 +3,7 @@ layout: post
 title: Installing pyocr on Debian
 date: 2014-03-13
 comments: false
+categories: [ "pyocr", "python", "tesseract", "cuneiform", "installation" ]
 ---
 
 ### Introduction

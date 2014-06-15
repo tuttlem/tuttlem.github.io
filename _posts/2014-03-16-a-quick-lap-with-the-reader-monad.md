@@ -3,6 +3,7 @@ layout: post
 title: A Quick Lap with the Reader Monad
 date: 2014-03-16
 comments: false
+categories: [ "Haskell", "Reader", "Monad" ]
 ---
 
 ### Introduction

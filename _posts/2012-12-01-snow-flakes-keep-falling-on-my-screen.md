@@ -3,6 +3,7 @@ layout: post
 title: Snow flakes keep falling on my... screen?
 date: 2012-12-01
 comments: false
+categories: [ "mode 13", "assembly", "demo", "snow flake" ]
 ---
 
 A very simple effect this time around. It's snow flakes. The operating premise for the effect is very simple and goes like this:

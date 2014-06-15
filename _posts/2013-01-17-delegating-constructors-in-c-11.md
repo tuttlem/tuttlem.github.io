@@ -3,6 +3,7 @@ layout: post
 title: Delegating Constructors in C++11
 date: 2013-01-17
 comments: false
+categories: [ "C++", "C++11", "delegating constructors", "contructor" ]
 ---
 
 One of the annoyances I've always had with C++ was its lack of elegant handling of constructors. You'd always be forced to swallow the bitter pill of an initializer function that each of your constructors would call. It always felt clunky to me. With C++11 introducing Delegating Constructors, this has all gone now. Take this simple `person` class, for example. No magic going on here, just a straight forward class and is how we'd implement multiple constructors without the use of an initialiser.

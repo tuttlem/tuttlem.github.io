@@ -3,6 +3,7 @@ layout: post
 title: Haskell's Function Application Operator ($)
 date: 2012-12-31
 comments: false
+categories: [ "Function application", "Haskell", "$", "fmap" ]
 ---
 
 Sometimes, Haskell's syntax is so alien to read (to my eyes at least anyway). I've seen wide-spread use of the `$` operator all over lots of people's code and never really had a grasp on what it is/does. In the end, it's really quite simple. The whitespace character has a very high precedence order, so when you're using spaces the precedence order looks like this.

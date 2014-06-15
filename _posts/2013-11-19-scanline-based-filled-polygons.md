@@ -3,6 +3,7 @@ layout: post
 title: Scanline based filled Polygons
 date: 2013-11-19
 comments: false
+categories: [ "javascript", "programming", "scanline", "polygon" ]
 ---
 
 ### Introduction<

@@ -3,6 +3,7 @@ layout: post
 title: Functors in Haskell
 date: 2013-01-18
 comments: false
+categories: [ "Haskell", "Functors" ]
 ---
 
 ### Introduction

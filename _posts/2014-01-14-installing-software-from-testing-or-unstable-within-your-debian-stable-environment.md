@@ -3,6 +3,7 @@ layout: post
 title: Installing Software from Testing or Unstable within your Debian Stable Environment
 date: 2014-01-14
 comments: false
+categories: [ "Debian", "Linux", "apt", "testing", "unstable" ]
 ---
 
 ### Introduction

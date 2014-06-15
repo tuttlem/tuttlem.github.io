@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Forking and Waiting
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "fork", "wait" ]
 ---
 
 In order to create processes within the Unix environment, you must fork. Forking a process establishes the parent / child relationship which is where the waiting comes into it. All good parents wait for their children to die before terminating.

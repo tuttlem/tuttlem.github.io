@@ -3,6 +3,7 @@ layout: post
 title: Making a Big Math Library
 date: 2013-01-28
 comments: false
+categories: [ "Assembly", "Programming", "math" ]
 ---
 
 ### Introduction

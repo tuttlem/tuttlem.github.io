@@ -3,6 +3,7 @@ layout: post
 title: Picking your Smart Pointers
 date: 2013-01-04
 comments: false
+categories: [ "C++", "Programming", "boost", "smart pointers" ]
 ---
 
 ### Introduction

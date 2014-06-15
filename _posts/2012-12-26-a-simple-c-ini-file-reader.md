@@ -3,6 +3,7 @@ layout: post
 title: A simple C++ INI file reader
 date: 2012-12-26
 comments: false
+categories: [ "C", "Programming", "INI" ]
 ---
 
 ### Introduction

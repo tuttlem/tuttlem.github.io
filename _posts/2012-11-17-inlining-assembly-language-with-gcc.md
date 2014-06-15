@@ -3,6 +3,7 @@ layout: post
 title: Inlining Assembly Language with GCC
 date: 2012-11-17
 comments: false
+categories: [ "GCC", "Inline", "Assembly", "Development", "Bookmark" ]
 ---
 
 Noteworthy without this article is Lockless (<a href="http://locklessinc.com/articles/gcc_asm/">http://locklessinc.com/</a>) for the great super-technical write-ups that they do.

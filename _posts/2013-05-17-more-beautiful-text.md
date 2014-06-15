@@ -3,6 +3,7 @@ layout: post
 title: More Beautiful Text
 date: 2013-05-17
 comments: false
+categories: [ "web", "google", "fonts" ]
 ---
 
 Getting a wider array of fonts into your website is a pretty simple task these days. There's quite a selection of fonts that you can use offered on the web. Just take a look at [Google's repository](http://www.google.com/fonts/) to see what I'm talking about.

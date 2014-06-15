@@ -3,6 +3,7 @@ layout: post
 title: strlen() implementation in NASM
 date: 2013-01-08
 comments: false
+categories: [ "Assembly", "Programming", "strlen", "nasm" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Function currying in Haskell
 date: 2012-12-26
 comments: false
+categories: [ "Function currying", "Haskell", "Programming" ]
 ---
 
 I think it's important to follow up my previous post on [anonymous functions]({% post_url 2012-12-26-anonymous-functions-in-haskell %}) with a post on currying. One of the more difficult concepts to think about (only because Haskell does a great job of separating you from this) is that every function only has 1 argument.

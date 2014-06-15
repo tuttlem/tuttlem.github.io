@@ -3,6 +3,7 @@ layout: post
 title: Entering Unicode Characters in VIM
 date: 2013-02-10
 comments: false
+categories: [ "Tip", "VIM", "Unicode" ]
 ---
 
 ### Introduction

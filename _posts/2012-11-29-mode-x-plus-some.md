@@ -3,6 +3,7 @@ layout: post
 title: Mode X.. plus some!
 date: 2012-11-29
 comments: false
+categories: [ "ModeX", "Mode 13", "assembly", "programming" ]
 ---
 
 So, not much of tutorial here - just a neat layout of setup code for a few mode X modes I've come across now and then.

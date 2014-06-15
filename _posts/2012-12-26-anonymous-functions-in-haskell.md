@@ -3,6 +3,7 @@ layout: post
 title: Anonymous Functions in Haskell
 date: 2012-12-26
 comments: false
+categories: [ "Haskell", "anonymous function", "programming" ]
 ---
 
 

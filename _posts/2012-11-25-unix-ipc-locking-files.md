@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Locking Files
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "locking", "files" ]
 ---
 
 Locking a file helps assure your program that no other processes can tamper with it or a region of it.

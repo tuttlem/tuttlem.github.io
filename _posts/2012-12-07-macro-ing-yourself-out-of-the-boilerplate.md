@@ -3,6 +3,7 @@ layout: post
 title: Macro-ing yourself out of the boilerplate
 date: 2012-12-07
 comments: false
+categories: [ "C", "Programming", "macros" ]
 ---
 
 Just working on a "build your own clone" style tutorial and going over some older code here, I thought it'd be interesting to note some funky work I'd done with macros. When you're working with 2-d array style states you get very good a writing for-loops over and over and over and ... So, thinking about this in a very generic sense - take a look at this macro

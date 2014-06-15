@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Semaphores
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "semaphore" ]
 ---
 
 Semaphores can simplify access to shared resources. The following snippet will show you how to create a semaphore set and destroy it.

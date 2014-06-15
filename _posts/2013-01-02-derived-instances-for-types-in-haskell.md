@@ -3,6 +3,7 @@ layout: post
 title: Derived Instances for Types in Haskell
 date: 2013-01-02
 comments: false
+categories: [ "Haskell", "Programming", "Type classes" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Applicative Functors in Haskell
 date: 2013-01-22
 comments: false
+categories: [ "Haskell", "Applicative" ]
 ---
 
 ### Introduction

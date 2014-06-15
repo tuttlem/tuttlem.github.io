@@ -3,6 +3,7 @@ layout: post
 title: Burning Discs at the Console
 date: 2012-11-16
 comments: false
+categories: [ "Burning", "Linux", "growisofs" ]
 ---
 
 A <em>very short </em>guide to burning CD and DVD media at the console with <strong>growisofs</strong>.

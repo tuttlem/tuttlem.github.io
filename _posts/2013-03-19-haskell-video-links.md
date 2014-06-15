@@ -3,6 +3,7 @@ layout: post
 title: Haskell Video Links
 date: 2013-03-19
 comments: false
+categories: [ "Bookmark", "Haskell", "Video" ]
 ---
 
 A small list of video library links on the topic of Haskell are accumulating in my inbox, so I thought I'd compile them here for viewing later.

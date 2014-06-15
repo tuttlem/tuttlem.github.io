@@ -3,6 +3,7 @@ layout: post
 title: Getting started with GLUT in Linux
 date: 2013-12-28
 comments: false
+categories: [ "Linux", "C", "Programming", "GLUT", "OpenGL" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: Clojure and Leiningen quickstart
 date: 2012-12-28
 comments: false
+categories: [ "clojure", "leiningen" ]
 ---
 
 ### Introduction

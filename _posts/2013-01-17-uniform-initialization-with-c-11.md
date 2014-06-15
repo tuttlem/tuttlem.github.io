@@ -3,6 +3,7 @@ layout: post
 title: Uniform Initialization with C++11
 date: 2013-01-17
 comments: false
+categories: [ "C++", "C++11", "uniform", "initialization" ]
 ---
 
 Initialization of variables types has received a face lift with the new version of the C++ standard. Previously trying to initialize a populated list was impossible and you were left writing helper functions to transform array values into other container types, or worse you'd end up with code that looked like this.

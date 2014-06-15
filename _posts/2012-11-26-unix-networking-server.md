@@ -3,6 +3,7 @@ layout: post
 title: Unix Networking: Server
 date: 2012-11-26
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "sockets", "server" ]
 ---
 
 The following snippet is a bare-bones server.

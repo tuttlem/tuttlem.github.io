@@ -3,6 +3,7 @@ layout: post
 title: Writing a Window Manager for X11
 date: 2013-01-12
 comments: false
+categories: [ "Window manager", "x11", "bookmark" ]
 ---
 
 As a bit of a bookmark to myself, I just wanted to post about writing a window manager for X windows. A lot of the material that I've seen around the place in articles and posts themselves have all pointed me towards downloading the out-of-print [O'Reilly Open Book](http://oreilly.com/openbook/) site.

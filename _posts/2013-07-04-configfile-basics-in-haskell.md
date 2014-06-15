@@ -3,6 +3,7 @@ layout: post
 title: ConfigFile Basics in Haskell
 date: 2013-07-04
 comments: false
+categories: [ "Haskell", "Programming", "ConfigFile" ]
 ---
 
 ### Introduction

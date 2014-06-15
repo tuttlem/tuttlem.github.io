@@ -3,6 +3,7 @@ layout: post
 title: Mandelbrot set
 date: 2012-12-01
 comments: false
+categories: [ "C", "Programming", "mandelbrot" ]
 ---
 
 Another cool routine built off of some relatively simple mathematics is the mandelbrot set. Wikipedia has a really good write up if you're a little rusty on the ins and outs of a [mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_set).

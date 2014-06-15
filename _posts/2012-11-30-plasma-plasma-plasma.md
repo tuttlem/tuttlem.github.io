@@ -3,6 +3,7 @@ layout: post
 title: Plasma, plasma, plasma!
 date: 2012-11-30
 comments: false
+categories: [ "C", "Programming", "Mode 13", "plasma" ]
 ---
 
 Kicking back into old, old, old school mode, I had found another cool effect laying around that seemed to work really well in dosbox. It's a plasma (if you couldn't tell from the title). Plasmas are the cool, blobby sort of shapeless eye-grabbers that are seriously cool and simple. The basic mathematical thory of the plasma is simple.

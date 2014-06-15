@@ -3,6 +3,7 @@ layout: post
 title: Holy smoke!
 date: 2012-11-24
 comments: false
+categories: [ "Assembly", "mode 13", "demo", "smoke", "fun" ]
 ---
 
 Well, not really.

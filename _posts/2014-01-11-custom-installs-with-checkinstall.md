@@ -3,6 +3,7 @@ layout: post
 title: Custom Installs with Checkinstall
 date: 2014-01-11
 comments: false
+categories: [ "Linux", "debian", "admin", "checkinstall" ]
 ---
 
 ### Introduction

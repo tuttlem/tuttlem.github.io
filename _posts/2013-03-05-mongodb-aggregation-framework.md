@@ -3,6 +3,7 @@ layout: post
 title: MongoDB Aggregation Framework
 date: 2013-03-05
 comments: false
+categories: [ "MongoDB", "aggregation" ]
 ---
 
 ### Introduction

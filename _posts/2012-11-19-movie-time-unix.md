@@ -3,6 +3,7 @@ layout: post
 title: Movie Time: Unix!
 date: 2012-11-19
 comments: false
+categories: [ "Video", "Unix", "Bookmark" ]
 ---
 
 Breakout the pop-corn, it's movie time.

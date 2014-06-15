@@ -3,6 +3,7 @@ layout: post
 title: Enum Classes in C++11
 date: 2013-01-17
 comments: false
+categories: [ "C++", "C++11", "enum", "enum classes" ]
 ---
 
 Enums in C/C++ have traditionally just been a pretty face for an integer value. That hasn't changed so much, but a new breed of enumeration has been added with C++11: enter the `enum` class. Enum classes have been introduced as a "strongly typed" enum. This gives you type safety in your enums so that you don't perform comparisons between enum types and if you do you'll need to explicitly define how the two should be compared. The other major benefit is improved scoping. Enum class values must always mention the enumeration that they belong to in order to be used. Here's an example of an `enum` class.

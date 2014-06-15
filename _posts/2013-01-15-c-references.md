@@ -3,6 +3,7 @@ layout: post
 title: C++ References
 date: 2013-01-15
 comments: false
+categories: [ "C++", "tutorial", "references" ]
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ layout: post
 title: A Quick Lap with Lens
 date: 2014-03-19
 comments: false
+categories: [ "Haskell", "Programming" "Lens" ]
 ---
 
 ### Introduction

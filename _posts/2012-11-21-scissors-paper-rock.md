@@ -3,6 +3,7 @@ layout: post
 title: Scissors, Paper, Rock!
 date: 2012-11-21
 comments: false
+categories: [ "Haskell", "Scissors", "Paper", "Rock", "Jenken", "Toys", "Development" ]
 ---
 
 Haskell is a strange beast at times. I think you can see from the brute-force approach on this implementation of SPR that I was getting clearly frustrated with even some of the simplest of things.

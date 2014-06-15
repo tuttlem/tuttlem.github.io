@@ -3,6 +3,7 @@ layout: post
 title: Follow up to a Camera Implementation
 date: 2013-12-30
 comments: false
+categories: [ "c++", "programming", "camera", "opengl" ]
 ---
 
 ### Introduction 

@@ -2,7 +2,8 @@
 layout: post
 title: Hello, 64bit Assembly!
 date: 2012-11-17
-comments: false
+comments: 
+categories: [ "Assembly", "Development", "Hello World", "64 bit", "Linux" ]
 ---
 
 So, I'm a tragic for assembly language. I've finally gotten around to sharpening up my skills to attack Linux with some assembly language and why not upgrade the skills into the 64bit world at the same time.  

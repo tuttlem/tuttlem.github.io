@@ -3,6 +3,7 @@ layout: post
 title: A Quick Lap with MVar
 date: 2014-03-19
 comments: false
+categories: [ "Haskell", "Programming", "MVar" ]
 ---
 
 ### Introduction

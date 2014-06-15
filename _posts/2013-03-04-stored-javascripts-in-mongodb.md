@@ -3,6 +3,7 @@ layout: post
 title: Stored Javascripts in MongoDB
 date: 2013-03-04
 comments: false
+categories: [ "MongoDB", "Javascript" ]
 ---
 
 ### Introduction

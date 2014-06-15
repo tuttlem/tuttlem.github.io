@@ -3,6 +3,7 @@ layout: post
 title: Defaulted and Deleted Functions in C++11
 date: 2013-01-16
 comments: false
+categories: [ "C++", "C++11", "defaulted", "deleted" ]
 ---
 
 A default (and more efficient) implementation can be given to your functions using the `default` keyword. This is the usage of a defaulted function in C++11. In this example, my `person` class has no written implementation for its constructor or destructor.

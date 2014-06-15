@@ -3,6 +3,7 @@ layout: post
 title: Scanning in Haskell
 date: 2012-12-31
 comments: false
+categories: [ "Haskell", "Programming", "Scanning", "scanl", "scanr" ]
 ---
 
 In a previous post, I had written about [Folding in Haskell]({% post_url 2012-12-27-folding-in-haskell %}] which in itself is a very powerful tool. We spent a brief moment in that tutorial actually working through a problem and writing the folding process out long hand.

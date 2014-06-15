@@ -3,6 +3,7 @@ layout: post
 title: Rails 3 Cheatsheet
 date: 2012-11-16
 comments: false
+categories: [ "Ruby", "Ruby on Rails", "Cheatsheet", "Rails 3" ]
 ---
 
 A cheatsheet of Rails 3 commands once all of the software infrastructure has been setup and is running.

@@ -3,6 +3,7 @@ layout: post
 title: Gouraud Shaing with Scan Line Polygons
 date: 2013-11-20
 comments: false
+categories: [ "javascript", "programming", "scanline", "gouraud", "polygon" ]
 ---
 
 ### Introduction

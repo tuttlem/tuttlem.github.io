@@ -3,6 +3,7 @@ layout: post
 title: Monoids and Associativity
 date: 2013-01-25
 comments: false
+categories: [ "Haskell", "Monoid" ]
 ---
 
 ### Introduction

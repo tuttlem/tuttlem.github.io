@@ -3,6 +3,7 @@ layout: post
 title: A Light cron Tutorial
 date: 2013-01-09
 comments: false
+categories: [ "cron", "tutorial" ]
 ---
 
 ### Introduction

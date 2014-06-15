@@ -3,6 +3,7 @@ layout: post
 title: Assembly Syntax: Intel & AT&T
 date: 2014-03-25
 comments: false
+categories: [ "Assembly", "att", "intel", "comparison" ]
 ---
 
 This post is just a little cheat sheet for myself on Intel & AT&T syntax.

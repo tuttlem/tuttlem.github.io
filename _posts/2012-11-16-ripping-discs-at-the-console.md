@@ -3,6 +3,7 @@ layout: post
 title: Ripping Discs at the Console
 date: 2012-11-16
 comments: false
+categories: [ "Ripping", "Linux", "HandBrakeCLI" ]
 ---
 
 A <em>very brief</em> guide to ripping DVD media at the console with <strong>handbrake</strong>.

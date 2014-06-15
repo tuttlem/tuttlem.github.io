@@ -3,6 +3,7 @@ layout: post
 title: Clojure's spine: Java
 date: 2013-01-12
 comments: false
+categories: [ "clojure", "programming", "java" ]
 ---
 
 ### Introduction

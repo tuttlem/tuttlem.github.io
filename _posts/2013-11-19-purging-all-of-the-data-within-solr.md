@@ -3,6 +3,7 @@ layout: post
 title: Purging all of the data within Solr
 date: 2013-11-19
 comments: false
+categories: [ "solr", "admin", "purge" ]
 ---
 
 During the test phases of getting your software setup, you'll find it useful to completely toast what ever data you've already indexed to start fresh. This is as simple as issuing a delete query with open criteria `*.*`. The full query should translate to 

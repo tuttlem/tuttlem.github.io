@@ -3,6 +3,7 @@ layout: post
 title: Art for Programmers
 date: 2012-11-17
 comments: false
+categories: [ "Art" ]
 ---
 
 Yet another productivity killer for any non-creative programmer trying to make a game is art.

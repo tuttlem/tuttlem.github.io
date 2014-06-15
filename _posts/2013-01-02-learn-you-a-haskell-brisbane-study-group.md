@@ -3,6 +3,7 @@ layout: post
 title: Learn you a Haskell Brisbane Study Group
 date: 2013-01-02
 comments: false
+categories: [ "Bookmark", "study group", "Brisbane", "Haskell" ]
 ---
 
 As a bit of a bookmark to myself, I wanted to make mention of a study group that an [old colleague](http://morenews.blogspot.com.au/) had brought to my attention.

@@ -3,6 +3,7 @@ layout: post
 title: Python and Relational Data Access
 date: 2012-11-17
 comments: false
+categories: [ "python", "Database", "SQLAlchemy" ]
 ---
 
 If there's one job that I'm never keen on getting done, it's the mind-numbing task of wiring up data access into my application. I'm a big fan of purely abstracted data objects just so the underlying data implementation can really be anything (within reason).

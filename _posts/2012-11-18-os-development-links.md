@@ -3,6 +3,7 @@ layout: post
 title: OS Development Links
 date: 2012-11-18
 comments: false
+categories: [ "Operating System", "Development", "System Development", "Bookmark" ]
 ---
 
 Over the past couple of months, I've compiled and refined a list of links that have been of assistance though my OS development journey.

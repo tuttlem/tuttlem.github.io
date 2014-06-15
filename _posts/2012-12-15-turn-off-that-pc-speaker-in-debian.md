@@ -3,6 +3,7 @@ layout: post
 title: Turn off that pc speaker in Debian!
 date: 2012-12-15
 comments: false
+categories: [ "pc speaker", "setup", "debian", "linux" ]
 ---
 
 Only a short post. 

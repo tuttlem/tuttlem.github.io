@@ -3,6 +3,7 @@ layout: post
 title: Unix IPC: Memory Mapped Files
 date: 2012-11-25
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "IPC", "memory mapped" ]
 ---
 
 This snippet will show you how to open a file and map it into memory.

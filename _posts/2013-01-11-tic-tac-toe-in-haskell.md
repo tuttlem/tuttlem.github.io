@@ -3,6 +3,7 @@ layout: post
 title: Tic Tac Toe in Haskell
 date: 2013-01-11
 comments: false
+categories: [ "Haskell", "tic-tac-toe", "toys" ]
 ---
 
 ### Introduction

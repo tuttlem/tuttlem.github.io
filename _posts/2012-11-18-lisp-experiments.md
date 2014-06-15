@@ -3,6 +3,7 @@ layout: post
 title: LISP Experiments
 date: 2012-11-18
 comments: false
+categories: [ "LISP", "Installation" ]
 ---
 
 I've always been interested in the mesmerising effect of browsing LISP style code. I wanted to make a blog post just to remember to take a look at it from time to time.

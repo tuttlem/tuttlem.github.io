@@ -3,6 +3,7 @@ layout: post
 title: State Management in Games
 date: 2012-11-17
 comments: false
+categories: [ "Programming", "State", "State Management", "Games", "C++" ]
 ---
 
 The title of this post does mention "Games". In all honesty, with very minor modification you could change this implementation to suit any state requisition situation.

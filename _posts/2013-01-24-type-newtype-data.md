@@ -3,6 +3,7 @@ layout: post
 title: type, newtype & data
 date: 2013-01-24
 comments: false
+categories: [ "Haskell", "type", "newtype", "Data" ]
 ---
 
 ### Introduction

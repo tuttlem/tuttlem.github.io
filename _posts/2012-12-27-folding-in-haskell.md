@@ -3,6 +3,7 @@ layout: post
 title: Folding in Haskell
 date: 2012-12-27
 comments: false
+categories: [ "Haskell", "Programming", "foldl", "foldr", "folds", "folding" ]
 ---
 
 ### Introduction

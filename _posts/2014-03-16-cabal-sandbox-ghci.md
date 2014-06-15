@@ -3,6 +3,7 @@ layout: post
 title: cabal sandbox ghci
 date: 2014-03-16
 comments: false
+categories: [ "cabal", "sandbox", "ghci", "haskell" ]
 ---
 
 A very quick post that is based on the information from [this stack overflow article](http://stackoverflow.com/questions/17014270/how-can-i-use-ghci-with-the-new-cabal-1-17-sandboxes) on how to get a GHCi session up and running with the libraries referenced that you've installed using your cabal sandbox.

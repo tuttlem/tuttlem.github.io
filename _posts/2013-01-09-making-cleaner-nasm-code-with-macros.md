@@ -3,6 +3,7 @@ layout: post
 title: Making Cleaner NASM Code with Macros
 date: 2013-01-09
 comments: false
+categories: [ "Assembly", "programming", "nasm", "macro" ]
 ---
 
 ### Introduction

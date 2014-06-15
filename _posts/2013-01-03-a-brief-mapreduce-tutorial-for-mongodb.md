@@ -3,6 +3,7 @@ layout: post
 title: A brief MapReduce tutorial for MongoDB
 date: 2013-01-03
 comments: false
+categories: [ "MongoDB", "MapReduce", "tutorial" ]
 ---
 
 ### Introduction

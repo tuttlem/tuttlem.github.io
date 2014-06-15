@@ -3,6 +3,7 @@ layout: post
 title: Perlin Noise
 date: 2013-12-31
 comments: false
+categories: [ "perlin", "noise", "algorithm" ]
 ---
 
 ### Introduction

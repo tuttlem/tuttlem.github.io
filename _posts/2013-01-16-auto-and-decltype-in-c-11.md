@@ -3,6 +3,7 @@ layout: post
 title: auto and decltype in C++11
 date: 2013-01-16
 comments: false
+categories: [ "C++", "C++11", "auto", "decltype" ]
 ---
 
 ### Introduction

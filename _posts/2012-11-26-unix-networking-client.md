@@ -3,6 +3,7 @@ layout: post
 title: Unix Networking: Client
 date: 2012-11-26
 comments: false
+categories: [ "Unix", "Linux", "POSIX", "network", "Sockets" ]
 ---
 
 The following snippet outlines the skeleton of a client socket application. It's the bare bones of what is needed to establish the client connection.

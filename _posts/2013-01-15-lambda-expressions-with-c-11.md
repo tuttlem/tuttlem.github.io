@@ -3,6 +3,7 @@ layout: post
 title: Lambda Expressions with C++11
 date: 2013-01-15
 comments: false
+categories: [ "C++", "C++11", "Lambda" ]
 ---
 
 ### Introduction

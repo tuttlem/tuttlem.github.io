@@ -3,6 +3,7 @@ layout: post
 title: Hadoop Links
 date: 2014-01-10
 comments: false
+categories: [ "Hadoop", "Bookmark" ]
 ---
 
 [Apache Hadoop NextGen MapReduce (YARN)](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)
