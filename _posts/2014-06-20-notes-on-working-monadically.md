@@ -47,6 +47,50 @@ The `=<<` function performs the same role as `>>=` only it has its parameters fl
 putStrLn =<< ns
 {% endhighlight %}
 
+### liftM
+
+`liftM` allows you to promote a function to a monad. Here's what it looks like
+
+{% highlight haskell %}
+liftM :: Monad m => (a1 -> r) -> m a1 -> m r
+{% endhighlight %}
+
+`(a1 -> r)` is what will get lifted into the monad, so we can keep our code that does work free of any monad awareness.
+
+Where I have found that this is useful is when you have a set of functions that don't operate on wrapped values, and you'd like to sequence them monadically.
+
+My initial attempts to do this look like this:
+
+{% highlight haskell %}
+-- | Collects all of the successfully read contents of
+--   of the read files into an array of targets
+allContents :: [String] -> IO [Target]
+allContents paths = do
+   rs <- safeReadFiles
+   let cs = map parseSentinelFile (catMaybes rs)
+   return $ concat $ rights cs
+ where safeReadFiles = mapM safeReadFile paths
+{% endhighlight %}
+
+This reads like a big blob of imperative glug! So, I thought that all of these pieces could be sequenced together and chained with `>>=`. Here's what I got:
+
+{% highlight haskell %}
+allContents paths = mapM safeReadFile paths
+                >>= return . catMaybes
+                >>= return . mapParseSentinelFile
+                >>= return . rights
+                >>= return . concat
+{% endhighlight %}
+
+Well, at least the code is sequenced - but all of those `return`s sure are annoying. Here's where `liftM` comes in. With `liftM`, we can compose all of those functions without needing to know anything about the monad that it's executing in. Here's what I've ended up with:
+
+{% highlight haskell %}
+allContent paths = liftM p (mapP safeReadFile paths)
+ where p = concat . rights . map parseSentinelFile . catMaybes
+{% endhighlight %}
+
+`liftM` has allowed us to express our function chain using `.` as function composition. `liftM` then handles all of the monadness for us!
+
 ### >>
 
 The `>>` function performs he same sequencing as what `>>=` does, only the first action specified is discarded. `>>` looks like this:
