@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Assembly Syntax: Intel & AT&T
+title: Assembly Syntax Intel &#38; AT&#38;T
 date: 2014-03-25
 comments: false
 categories: [ "Assembly", "att", "intel", "comparison" ]
@@ -12,12 +12,12 @@ A useful table mapping some simple instructions between the two syntaxes linked 
 
 |       Intel Code               |      AT&T Code                       |
 |--------------------------------|--------------------------------------|
-| `mov     eax,1`                |  `movl    $1,%eax`                   |   
-| `mov     ebx,0ffh`             |  `movl    $0xff,%ebx`                |   
-| `int     80h`                  |  `int     $0x80`                     |   
+| `mov     eax,1`                |  `movl    $1,%eax`                   |
+| `mov     ebx,0ffh`             |  `movl    $0xff,%ebx`                |
+| `int     80h`                  |  `int     $0x80`                     |
 | `mov     ebx, eax`             |  `movl    %eax, %ebx`                |
 | `mov     eax,[ecx]`            |  `movl    (%ecx),%eax`               |
-| `mov     eax,[ebx+3]`          |  `movl    3(%ebx),%eax`              | 
+| `mov     eax,[ebx+3]`          |  `movl    3(%ebx),%eax`              |
 | `mov     eax,[ebx+20h]`        |  `movl    0x20(%ebx),%eax`           |
 | `add     eax,[ebx+ecx*2h]`     |  `addl    (%ebx,%ecx,0x2),%eax`      |
 | `lea     eax,[ebx+ecx]`        |  `leal    (%ebx,%ecx),%eax`          |

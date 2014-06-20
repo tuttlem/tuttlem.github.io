@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Clojure's spine: Java
+title: Clojure's spine&#58; Java
 date: 2013-01-12
 comments: false
 categories: [ "clojure", "programming", "java" ]
@@ -44,8 +44,8 @@ We were able to find out the protocol of the URL using [getProtocol](http://docs
 The last thing I want to talk about is [doto](http://clojuredocs.org/clojure_core/1.2.0/clojure.core/doto). `doto` evaluates its first parameter than allows you to chain a series of calls (just as you would in Java using the `.` operator) together. Here's a an example using a [HashMap](http://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html) class and chaining a few put's together. This statement will return the built `HashMap`.
 
 {% highlight clojure %}
-(doto (java.util.HashMap.) 
-      (.put "First Name" "John") 
+(doto (java.util.HashMap.)
+      (.put "First Name" "John")
       (.put "Last Name" "Smith"))
 {% endhighlight %}
 

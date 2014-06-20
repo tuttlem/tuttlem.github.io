@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Semaphores
+title: Unix IPC&#58; Semaphores
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "semaphore" ]

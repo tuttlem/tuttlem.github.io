@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Forking and Waiting
+title: Unix IPC&#58; Forking and Waiting
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "fork", "wait" ]
@@ -15,9 +15,9 @@ So, the snippet for this will be a fork and wait set:
 {% highlight c %}
 /* fork execution here */
 pid_t pid = fork();
- 
+
 int child_exit_code;
- 
+
 if (pid < 0) {
  /* -1 indicates that fork failed */
  exit(1);

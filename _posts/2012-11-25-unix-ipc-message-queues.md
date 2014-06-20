@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Message Queues
+title: Unix IPC&#58; Message Queues
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "message queue" ]
@@ -14,23 +14,23 @@ This snippet shows the creation of a queue and sending a message. Another block 
 char buf[20];
 int msqid;
 key_t key;
- 
+
 /* --- message sender --- */
- 
+
 /* make a key */
 key = ftok("first", 'B');
 /* create the message queue */
 msqid = msgget(key, 0644 | IPC_CREAT));
- 
+
 /* put a message onto the queue */
 msgsnd(msqid, &buf, 20, 0);
- 
+
 /* destroy (remove) the message queue */
 msgctl(msqid, IPC_RMID, NULL);
- 
- 
+
+
 /* --- message receiver --- */
- 
+
 /* make a key */
 key = ftok("second", 'B');
 /* connect to the message queue */

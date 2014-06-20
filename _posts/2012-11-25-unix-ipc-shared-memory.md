@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Shared Memory
+title: Unix IPC&#58; Shared Memory
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "shared memory" ]

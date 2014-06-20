@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Unix Sockets
+title: Unix IPC&#58; Unix Sockets
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "sockets" ]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix Networking: Client
+title: Unix Networking&#58; Client
 date: 2012-11-26
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "network", "Sockets" ]
@@ -30,7 +30,7 @@ sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
 connect(sockfd, p->ai_addr, p->ai_addrlen);
 
 /* free up the addres structure */
-freeaddrinfo(servinfo); 
+freeaddrinfo(servinfo);
 
 /* receive some data on the socket */
 recv(sockfd, buf, MAXDATASIZE-1, 0));

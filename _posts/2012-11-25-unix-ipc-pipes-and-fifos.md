@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Pipes and FIFOs
+title: Unix IPC&#58; Pipes and FIFOs
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "pipes", "FIFO" ]

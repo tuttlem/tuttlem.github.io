@@ -14,14 +14,14 @@ First off, you'll need to get yourelf to a terminal. If you're unable to do that
 
 You need to find XMonad's currently running pid.
 
-{% highlight shell %}
+{% highlight bash %}
 $ ps -ef | grep xmonad
 michael  1406  1395  0 10:48 ?      00:00:09 /home/michael/.xmonad/xmonad-x86_64-linux
 {% endhighlight %}
 
 In my case, it's `1406`. You need to take a look at this pid's file descriptors:
 
-{% highlight shell %}
+{% highlight bash %}
 $ ls -l /proc/1406/fd
 total 0
 lr-x------ 1 michael michael 64 Jun 18 14:10 0 -> /dev/null
@@ -34,7 +34,7 @@ l-wx------ 1 michael michael 64 Jun 18 14:10 5 -> pipe:[18898]
 
 So, in my case here `#5` which is the pipe - needs to be cleared. You can do so really quickly just by `cat`ting it to screen.
 
-{% highlight shell %}
+{% highlight bash %}
 $ cat /proc/1406/fd
 {% endhighlight %}
 

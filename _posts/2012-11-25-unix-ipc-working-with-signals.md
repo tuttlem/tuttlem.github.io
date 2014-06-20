@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unix IPC: Working with Signals
+title: Unix IPC&#58; Working with Signals
 date: 2012-11-25
 comments: false
 categories: [ "Unix", "Linux", "POSIX", "IPC", "signals" ]
@@ -18,7 +18,7 @@ void sigint_handler(int sig) {
 
 int main(void) {
 	struct sigaction sa;
-	
+
 	/* fill out the signal structure */
 	sa.sa_handler = sigint_handler;
 	sa.sa_flags   = 0;

@@ -43,7 +43,7 @@ What's going on in the above snippet is that `>>=` has unwrapped the string retu
 
 The `=<<` function performs the same role as `>>=` only it has its parameters flipped.
 
-{% highight haskell %}
+{% highlight haskell %}
 putStrLn =<< ns
 {% endhighlight %}
 
@@ -53,11 +53,11 @@ The `>>` function performs he same sequencing as what `>>=` does, only the first
 
 {% highlight haskell %}
 (>>) :: Monad m => m a -> m b -> m b
-{% endhightlight %}
+{% endhighlight %}
 
 This particular function comes in handy where you're interested in not passing along a result from certain links in your sequencing chain, like this:
 
-{% highight haskell %}
+{% highlight haskell %}
 putStrLn "Hello. What is your name? " >>  getLine
                                       >>= putStr
                                       >>  putStrLn "! That's a great name"
