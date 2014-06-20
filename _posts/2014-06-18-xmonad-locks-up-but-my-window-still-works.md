@@ -40,3 +40,19 @@ $ cat /proc/1406/fd
 
 XMonad should now be back in the land of the living.
 
+Finally, this should never be a problem just as long as your `xmonad.hs` is configured with a `logHook` that will pipe the contents of this stream out.
+
+{% highlight haskell %}
+xmproc <- spawnPipe "xmobar"
+
+. . .
+. . .
+
+logHook = dynamicLogWithPP $ xmobarPP
+         { ppOutput = hPutStrLn xmproc
+         , ppTitle = xmobarColor "green" "" . shorten 50
+         }
+{% endhighlight %}
+
+
+
