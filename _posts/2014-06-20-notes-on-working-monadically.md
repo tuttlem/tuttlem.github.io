@@ -53,7 +53,7 @@ The `>>` function performs he same sequencing as what `>>=` does, only the first
 
 {% highlight haskell %}
 (>>) :: Monad m => m a -> m b -> m b
-{% endhaskell %}
+{% endhightlight %}
 
 This particular function comes in handy where you're interested in not passing along a result from certain links in your sequencing chain, like this:
 
@@ -97,7 +97,7 @@ This will then give you back an array of the `IO` actions emitted from each arra
 
 {% highlight haskell %}
 mapM :: Monad m => (a -> m b) -> [a] -> m [b]
-{% endhaskell %}
+{% endhighlight %}
 
 `mapM` wants:
 
