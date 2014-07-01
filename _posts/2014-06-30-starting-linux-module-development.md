@@ -15,7 +15,7 @@ Developing modules for the [Linux Kernel](http://kernel.org/) has previously bee
 * Building your module
 * Adding and removing your module from the Kernel
 
-There are a lot of different sources on the internet that have this information and the best reference that I can suggest is on the [LDP](www.tldp.org) which is [here](www.tldp.org/LDP/lkmpg/2.6/html/lkmpg.html#AEN121).
+There are a lot of different sources on the internet that have this information and the best reference that I can suggest is on the [LDP](http://www.tldp.org) which is [here](http://www.tldp.org/LDP/lkmpg/2.6/html/lkmpg.html#AEN121).
 
 We've got a bit to cover, so let's get started. One last thing though, I'm running [Arch Linux](https://www.archlinux.org) to write this tutorial however everything that I'm writing about here should be directly translatable into your distribution of choice.
 
