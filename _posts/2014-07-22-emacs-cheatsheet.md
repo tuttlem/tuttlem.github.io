@@ -51,6 +51,9 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 |----------|------------------------------------|
 | `C-g`	   | Exit current command		|
 | `C-u`	   | Repeat command			|
+| `M-x` `replace-string` | Find and replace	|
+| `M-x` `recover-file`	 | Recover file backup	|
+
 
 ### Files and Buffers
 
@@ -61,4 +64,45 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `C-x` `C-b`	| List buffers 					|
 | `C-x` `b`	| Switch to a buffer				|
 | `C-x` `s`	| Save some buffers				|
+| `C-x` `C-c`	| Quit emacs (prompt for saves)			|
 
+### Windows and Frames
+
+| Key		| Description					|
+|---------------|-----------------------------------------------|
+| `C-x` `1`	| Delete all but current window			|
+| `C-x` `2`	| Split window horizontally			|
+| `C-x` `3`	| Split window verticaly			|
+| `C-x` `4` `C-f` | Find a file into a new window		|
+| `C-x` `o`	| Move to other window				|
+| `C-M-v`	| Scroll bottom window				|
+| `M-x` `make-frame` | Create a new emacs frame			|
+| `M-x` `delete-frame` | Remove the selected emacs frame	|
+
+### Modes
+
+| Key		| Description					|
+|---------------|-----------------------------------------------|
+| `M-x` `fundamental-mode` | Fundamental			|
+| `M-x` `text-mode`	   | Human text mode			|
+
+### Help
+
+| Key		| Description					|
+|---------------|-----------------------------------------------|
+| `C-h` `m`	| Documentation on current major mode		|
+| `C-h` `?`	| Get help on what you can get help on		|
+| `C-h` `c`	| Get help on a command	       	    		|
+| `C-h` `f`	| Get help on a function			|
+| `C-h` `a`	| List commands by keyword			|
+| `C-h` `i`	| Open manuals (open *info* buffer)		|
+
+
+### Searching
+
+| Key		| Description					|
+|---------------|-----------------------------------------------|
+| `C-s`		| Start forward incremental search		|
+| `C-r`		| Start backward incremental search		|
+
+When searching forwards, `C-s` will take you through all of the occurences of the search term that has been found. `<DEL>` takes you backwards. `<DEL>` starts to effect the search term once you've reached the first result.
