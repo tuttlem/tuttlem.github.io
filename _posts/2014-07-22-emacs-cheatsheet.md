@@ -1,4 +1,4 @@
----
+--
 layout: post
 title: Emacs Cheatsheet
 date: 2014-07-22
@@ -65,6 +65,7 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `C-x` `b`	| Switch to a buffer				|
 | `C-x` `s`	| Save some buffers				|
 | `C-x` `C-c`	| Quit emacs (prompt for saves)			|
+| `C-x` `k`	| Kill buffer					|
 
 ### Windows and Frames
 
