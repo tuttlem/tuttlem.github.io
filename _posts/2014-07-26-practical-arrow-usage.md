@@ -117,9 +117,9 @@ import Control.Arrow
 
 addA :: Arrow a => a b Int -> a b Int -> a b Int
 addA f g = proc x -> do
-       	    y <- f -< x
-	    z <- g -< x
-	    returnA -< y + z
+            y <- f -< x
+            z <- g -< x
+            returnA -< y + z
 {% endhighlight %}
 
 In this example, the type signature for `addA` is asking for two arrows from `b` to `Int` (`a b Int`) and will return an arrow of the same type. 
