@@ -40,6 +40,7 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `M-k`	   | Kill to the end of current sentence |
 | `C-<SPC>` | Start selecting text		 |
 | `C-w`	   | Kill selection   			 |
+| `M-w`	   | Save region but don't kill it	 |
 | `C-y`	   | Yank killed text			 |
 | `M-y`	   | Cycle through previous kills	 |
 | `C-/`	   | Undo  	   	    		 |
