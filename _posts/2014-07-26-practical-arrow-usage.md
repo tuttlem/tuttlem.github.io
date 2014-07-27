@@ -142,4 +142,4 @@ Here we have our arrow `a1` that is just `(+4)`. `a1` is being supplied as the f
 
 So, you can see here that `(+4)` has been applied to 3, and then `(+4)` gets applied to 3. Yes, I said the same thing twice. It's only because I've used `a1` as both input parameters. The output of these arrow invocations is then added together, to give the result of 14. Our pure value is being supplied by `returnA 3`.
 
-These have just been some very fundamental examples of arrow usage. Read up some more on them using the links I've provided above. You can see how they're quite a powreful construct.
+These have just been some very fundamental examples of arrow usage. Read up some more on them using the links I've provided above. You can see how they're quite a powerful construct.
