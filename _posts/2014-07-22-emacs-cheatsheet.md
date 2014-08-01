@@ -108,3 +108,12 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `C-r`		| Start backward incremental search		|
 
 When searching forwards, `C-s` will take you through all of the occurences of the search term that has been found. `<DEL>` takes you backwards. `<DEL>` starts to effect the search term once you've reached the first result.
+
+### Dired
+
+| Key                 | Description                                    |
+|---------------------|------------------------------------------------|
+| `M-x` `dired`       | Open dired in a buffer                         |
+| `o`                 | Open the highlighted file in the other buffer  |
+| `C-o`               | Open the file but keep focus in the dired buffer |
+
