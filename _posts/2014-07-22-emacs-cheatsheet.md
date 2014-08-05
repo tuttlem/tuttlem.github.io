@@ -39,6 +39,7 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `C-k`	   | Kill from cursor to EOL		|
 | `M-k`	   | Kill to the end of current sentence |
 | `C-<SPC>` | Start selecting text		 |
+| `C-x` `h` | Select the whole buffer    |
 | `C-w`	   | Kill selection   			 |
 | `M-w`	   | Save region but don't kill it	 |
 | `C-y`	   | Yank killed text			 |
@@ -54,6 +55,7 @@ Today's post isn't quite a normal post. I'm going to use this as a place to put 
 | `C-u`	   | Repeat command			|
 | `M-x` `replace-string` | Find and replace	|
 | `M-x` `recover-file`	 | Recover file backup	|
+| `C-M-\`  | Indent selected region             |
 
 
 ### Files and Buffers
