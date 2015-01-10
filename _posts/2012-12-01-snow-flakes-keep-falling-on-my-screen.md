@@ -12,7 +12,7 @@ A very simple effect this time around. It's snow flakes. The operating premise f
 * A snow flake has an absolute floor of the last line in video memory
 * A snow flake should come to rest if it lands on top of another
 
-![Snowflakes](http://1.bp.blogspot.com/-pE0K1mfiABg/ULoEn3kZ6bI/AAAAAAAAAiQ/BVre5BA5iy0/s400/Screen+Shot+2012-12-01+at+11.10.27+PM.png)
+![Snowflakes]({{ site.url }}/assets/snowflakes.png)
 
 That's it! So, immediately we need a way to get random numbers. We're using a 320x200 screen here and my dodgy routine for getting random numbers only returns us 8 bit numbers (which gets us to 255). We need to add some more width to these numbers if we expect to be able to randomize across the whole 320 column positions. Calling the random port twice and adjusting the resolution of the second number should do it for us, such that:
 

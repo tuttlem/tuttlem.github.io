@@ -8,7 +8,7 @@ categories: [ "C", "Programming", "mandelbrot" ]
 
 Another cool routine built off of some relatively simple mathematics is the mandelbrot set. Wikipedia has a really good write up if you're a little rusty on the ins and outs of a [mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_set).
 
-![Mandelbrot](http://1.bp.blogspot.com/-p31g56qoaeA/ULnOyLAQItI/AAAAAAAAAiA/U2LUMbXz0ic/s1600/Screen+Shot+2012-12-01+at+7.31.22+PM.png)
+![Mandelbrot]({{ site.url }}/assets/mandelbrot.png)
 
 This tutorial assumes that you've already got a video display ready with a pointer to your buffer. We'll just focus on the function that makes the doughnuts. Here's the code, explanation to follow. This code has been lifted out of a file that I had in an old dos program. It was written using turbo C, but will port over to anything pretty easily.
 

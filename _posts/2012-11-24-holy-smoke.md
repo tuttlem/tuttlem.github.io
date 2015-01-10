@@ -180,6 +180,6 @@ no_damp:
 
 So, when you put it all together (and run it in DosBox) you'll get something that looks like this:
 
-![Smoke application running](http://2.bp.blogspot.com/-0SUcxXs8a_k/ULCQvxj-8qI/AAAAAAAAAhQ/hlD_2uNejwE/s400/Screen+Shot+2012-11-24+at+7.16.37+PM.png)
+![Smoke application running]({{ site.url }}/assets/smoke-application-running.png)
 
 Well.. I'm feeling all nostalgic now. Might go and fire up DosBox and play a couple of games of Double Dragon.

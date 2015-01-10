@@ -14,7 +14,7 @@ Working in a Linux environment for more and more of the day, it pays to know you
 
 The [top](http://linux.die.net/man/1/top) command is a very common tool used to "display Linux tasks" as the man page so helpfully tells us. Issuing this command at the shell will present the user with a few rows of figures followed by a list of all running processes on the system. Here is an extract of the report (just the upper lines that this post will focus on).
 
-![top report](http://1.bp.blogspot.com/-J1dAUFv5Ub8/UZ9G0XzeA7I/AAAAAAAAAss/2CBdFVmMhQo/s400/top-sample.png)
+![top report]({{ site.url }}/assets/top-sample.png)
 
 ### Breaking Down the Summary
 
@@ -75,7 +75,7 @@ The fourth and fifth lines deal with memory and swap utilisation. It tells us th
 
 That's it for the summary of the machine's activity. These are all the aggregate values which will give you an "at a glance" feel for how the machine is going. The next part of this post will be all about reading specific information from the process report. Here's an excerpt of the report.
 
-![Proc sample](http://3.bp.blogspot.com/-96sIylwcoDQ/UZ9TaeqDLXI/AAAAAAAAAs8/gAGD-cIp_XM/s400/proc-sample.png)
+![Proc sample]({{ site.url }}/assets/proc-sample.png)
 
 ### Breaking Down the Process Report
 

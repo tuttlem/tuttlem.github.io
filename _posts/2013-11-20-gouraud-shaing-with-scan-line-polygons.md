@@ -177,6 +177,6 @@ var polygon_g = function(p1, p2, p3, p4, w, buffer) {
 };
 {% endhighlight %}
 
-Aside from the interface changing (just to clean it up a bit) and managing r, g, b and a components - this hasn't really changed from the block colour version. If you setup this polygon draw in a render loop, you should end up with something like this: ![Shaded polys](http://1.bp.blogspot.com/-CiuOyHrMVSo/UoyhbG4z5OI/AAAAAAAAAw4/AcYzDBUEhmA/s320/Screen+Shot+2013-11-20+at+9.47.20+pm.png)
+Aside from the interface changing (just to clean it up a bit) and managing r, g, b and a components - this hasn't really changed from the block colour version. If you setup this polygon draw in a render loop, you should end up with something like this: ![Shaded polys]({{ site.url }}/assets/gouraud.png)
 
 Smooth. 

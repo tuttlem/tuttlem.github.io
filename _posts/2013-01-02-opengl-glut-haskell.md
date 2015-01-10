@@ -10,7 +10,7 @@ categories: [ "Haskell", "Programming", "OpenGL", "GLUT" ]
 
 We're into some of the real good stuff here. One of my favourite topics in computer programming is graphics (2d and 3d). In this post, I get to make a start on some fun stuff and learn some Haskell at the same time. We're going to open an OpenGL window, clear the back buffer out and flip.
 
-![Screenshot](http://1.bp.blogspot.com/-P3UGaGgWX0c/UOQmSYep7wI/AAAAAAAAAkQ/Bfl8-egapPc/s400/Screen+Shot+2013-01-02+at+10.20.45+PM.png)
+![Screenshot]({{ site.url }}/assets/haskell-opengl-glut.png)
 
 ### The code
 

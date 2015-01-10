@@ -14,8 +14,8 @@ Today, I'll walk through the [Perlin Noise](http://en.wikipedia.org/wiki/Perlin_
 
 Here are some examples of the Perlin Noise function output into two dimensions:
 
-![Noise 1](http://3.bp.blogspot.com/-6Bf_wUTyGOM/UsI84BYt7FI/AAAAAAAAAx0/blK32PUte1s/s1600/perlin1.jpg)
-![Noise 2](http://4.bp.blogspot.com/-u4wfD21sIvU/UsI85U78XYI/AAAAAAAAAx8/NG2fEzYjTUA/s1600/perlin2.png)
+![Noise 1]({{ site.url }}/assets/noise1.jpg)
+![Noise 2]({{ site.url }}/assets/noise2.jpg)
 
 In today's post, I'll walk through the Perlin Noise algorithm and what steps you need to take to implement it yourself.
 

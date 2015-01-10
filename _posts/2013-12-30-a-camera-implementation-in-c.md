@@ -16,7 +16,7 @@ There are two major components of any camera. They are position and orientation.
 
 The more difficult of the two concepts is orientation. The best description for this that I've found is on the [Flight Dynamics](http://en.wikipedia.org/wiki/Flight_dynamics) page on wikipedia. The following image has been taken from that article and it outlines the plains that orientation can occur. Of course, the image's subject is an aircraft but the same concepts apply to a camera's orientation:
 
-![Roll pitch yaw](http://2.bp.blogspot.com/-ps-FvMLXC0U/UsEQcjCw5gI/AAAAAAAAAxk/v-ZbdV9aAfc/s1600/Rollpitchyawplain.png)
+![Roll pitch yaw]({{ site.url }}/assets/rollpitchyaw.png)
 
 The <em>pitch</em> describes the orientation around the x-axis, the <em>yaw</em> describes the orientation around the y-axis and the <em>roll</em> describes the orientation around the z-axis.
 

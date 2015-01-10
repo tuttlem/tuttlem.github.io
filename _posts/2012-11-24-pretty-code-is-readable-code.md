@@ -10,4 +10,4 @@ There's no doubt about it. Syntax highlighting in code is the cornerstone of rea
 
 Now my code looks like this (inside of VS).
 
-![Screen shot](http://1.bp.blogspot.com/-anD4yrKLxDE/ULAke-WtJsI/AAAAAAAAAhA/gNxQirJQAaU/s400/Screen+Shot+2012-11-24+at+11.35.06+AM.png)
+![Screen shot]({{ site.url }}/assets/pretty-code-screenshot.png)

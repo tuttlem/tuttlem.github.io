@@ -46,7 +46,7 @@ $ gdb test -tui
 
 It looks like this - not bad, eh?
 
-![GDB Screenshot](http://2.bp.blogspot.com/-6Zx3N1_lUdg/ULHS7XhkRaI/AAAAAAAAAhg/oS9iA9-Jl1c/s1600/Screenshot+-+251112+-+18:11:48.png)
+![GDB Screenshot]({{ site.url }}/assets/gdb-screenshot.png)
 
 Now we instruct gdb that we'd like to run the application
 

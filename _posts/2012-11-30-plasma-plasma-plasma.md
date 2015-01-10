@@ -89,7 +89,7 @@ costab DB 0feh, 0fdh, 0fdh, 0fdh, 0fdh, 0fdh, 0fch, 0fch
 
 <em>Ooooh aaahhh</em>, that's a nerdy cosine table! Now that we've solved all of the world's mathematical problems here, it's on to the effect! Just getting 4 counters to run over this cosine table and intersect with each other can produce a mesmerising result. Without setting a palette (the standard vga palette is a bit: ewwwwww), here's how the effect looks:
 
-![Plasma on standard VGA](http://1.bp.blogspot.com/-qsvAge9ukJU/ULindu0nksI/AAAAAAAAAhw/uky0JwHqooA/s400/plasma.png)
+![Plasma on standard VGA]({{ site.url }}/assets/plasma.png)
 
 Feel like you're at Woodstock yet? So, the effect really spans across two smaller functions, which I've tried to comment as best I can below. Here's drawing a single frame:
 

@@ -16,7 +16,7 @@ Today's post will focus on drawing polygons to the screen using scan lines.
 
 The whole idea here is that a polygon can be represented on screen as a series of horizontal lines. Take the following picture for example. You can see the red and blue horizontal lines making up the filling of the polygon.
 
-![Scanlines](http://1.bp.blogspot.com/-7VZcWuk1AkQ/UotS_qdPXrI/AAAAAAAAAwM/DlKjKBnH2lA/s200/y.png)
+![Scanlines]({{ site.url }}/assets/scanlines.png)
 
 So, to define this all we do is take note of the minimum and maximum x values for every y-axis instance that there is a line on. We run through the array of values drawing horizontal lines at each instance, and then we have a polygon on screen - pretty easy.
 
@@ -45,7 +45,7 @@ var hline_c = function(x1, x2, y, w, r, g, b, a, buffer) {
 
 We pass in the two x (`x1` and `x2`) values for the line to go between, the `y` value for the line to sit on. To help with the offset calculation we also pass in the width `w` to correctly calculate the pitch. Finally the colour components and buffer to draw to are passed in. Setting this code up in a run loop, you end up with something like this:
 
-![Poly](http://2.bp.blogspot.com/-QMhBzwZnDUI/UotUjD3Cj4I/AAAAAAAAAwY/JxoFPAPDovE/s320/Screen+Shot+2013-11-19+at+10.06.53+pm.png)
+![Poly]({{ site.url }}/assets/poly.png)
 
 Yep, there's lots of horizontal lines. Referring to our horizontal line diagram above, we still need a way to walk the edges of the polygon so that we can get the minimum and maximum x values to start drawing. Because our basic unit is the pixel (considering we're rasterising to a pixelated display), we can easily calculate the gradient of the line that we need by:
 
@@ -150,6 +150,6 @@ var polygon_c = function(x1, y1, x2, y2, x3, y3, x4, y4, w, r, g, b, a, buffer) 
 
 This really is just putting all the pieces together. The building of the edges array is important - as is using the y co-ordinate (adjusted back to zero by proxy of the minimum y value) as an array index. Once you've got this setup in a random position & colour loop, you'll end up with something like this:
 
-![Polys](http://3.bp.blogspot.com/-D2yDU9iTdc0/UotZcoZ2jtI/AAAAAAAAAwo/QCW0Qi8rhSQ/s320/Screen+Shot+2013-11-19+at+10.27.57+pm.png)
+![Polys]({{ site.url }}/assets/polys.png)
 
 mmmm... Tasty.
