@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
    0:	55                   push   rbp
    1:	48 89 e5             mov    rbp,rsp
    4:	89 7d fc             mov    DWORD PTR [rbp-0x4],edi
-   7:	48 89 75 f0          	mov    QWORD PTR [rbp-0x10],rsi
+   7:	48 89 75 f0          mov    QWORD PTR [rbp-0x10],rsi
 return 0;
    b:	b8 00 00 00 00       mov    eax,0x0
   10:	5d                   pop    rbp
@@ -77,7 +77,7 @@ push   rbp
 mov    rbp,rsp
 {% endhighlight %}
 
-And in accorance with the [calling conventions for System V AMD64](http://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI)
+And in accordance with the [calling conventions for System V AMD64](http://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI)
 
 > The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, and R9, while XMM0, XMM1, XMM2, XMM3, XMM4, XMM5, XMM6 and XMM7 are used for floating point arguments.
 
