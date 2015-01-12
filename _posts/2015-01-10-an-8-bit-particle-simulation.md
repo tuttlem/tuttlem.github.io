@@ -81,7 +81,7 @@ void draw_particle(int idx) {
 }
 {% endhighlight %}
 
-Finally, updating a particle is just a little bit of very simple artithmatic:
+Finally, updating a particle is just a little bit of very simple artithmetic:
 
 {% highlight c %}
 void update_particle(int idx) {
