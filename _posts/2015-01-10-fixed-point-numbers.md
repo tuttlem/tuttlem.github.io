@@ -113,11 +113,11 @@ shl     dx, 6
 mov     bx, 4
 shl     bx, 6
 
-xor     ax, ax		; ax = 0      
+xor     ax, ax		  ; ax = 0      
 shrd    ax, dx, 10  ; shift the top 10 bits of dx into ax
 sar     dx, 10      ; shift and rotate 10 
 
-idiv    bx			; perform the division
+idiv    bx			  ; perform the division
 {% endhighlight %}
 
 Whilst these operations are more complex than their natural analogues, you can see that there's not that much too them.
