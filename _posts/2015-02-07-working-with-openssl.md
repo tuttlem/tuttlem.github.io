@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Working with openssl
+title: Working with OpenSSL
 date: 2015-02-07
 comments: false
 categories: [ "openssl", "encryption" ]
