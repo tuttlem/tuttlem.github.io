@@ -14,24 +14,24 @@ You can create an xml literal very simply inside of your Scala code:
 
 {% highlight scala %}
 val people = 
-<people>
-<person firstName="John" 
-lastName="Smith" 
-age="25" 
-gender="M" />
-<person firstName="Mary" 
-lastName="Brown" 
-age="23" 
-gender="F" />
-<person firstName="Jan" 
-lastName="Green" 
-age="31" 
-gender="F" />
-<person firstName="Peter" 
-lastName="Jones" 
-age="23" 
-gender="M" />
-</people>
+	<people>
+		<person firstName="John" 
+				lastName="Smith" 
+				age="25" 
+				gender="M" />
+		<person firstName="Mary" 
+				lastName="Brown" 
+				age="23" 
+				gender="F" />
+		<person firstName="Jan" 
+				lastName="Green" 
+				age="31" 
+				gender="F" />
+		<person firstName="Peter" 
+				lastName="Jones" 
+				age="23" 
+				gender="M" />
+	</people>
 {% endhighlight %}
 
 Scala then creates a variable of type [Elem](http://www.scala-lang.org/api/2.11.0/scala-xml/index.html#scala.xml.Elem) for us.
@@ -48,9 +48,9 @@ Another form of generation can be accomplished with a for comprehension:
 
 {% highlight scala %}
 val names = 
-<names>
-{for (name <- List("Sam", "Peter", "Bill")) yield <name>{name}</name>}
-</names>
+	<names>
+	{for (name <- List("Sam", "Peter", "Bill")) yield <name>{name}</name>}
+	</names>
 {% endhighlight %}
 
 ### Working with literals
