@@ -68,4 +68,43 @@ println(s"Mens names: $mensNames")
 
 The usage of `map` and `filter` certainly provide a very familiar environment to query your xml data packets.
 
+### Transform with RewriteRule
+
+The [scala.xml.transform](http://www.scala-lang.org/api/2.10.1/index.html#scala.xml.transform.package) package include a class called [RewriteRule](http://www.scala-lang.org/api/2.10.1/index.html#scala.xml.transform.RewriteRule). Using this class, you can transform <em>(or re-write)</em> parts of your xml document.
+
+Taking the sample <strong>person</strong> data at the top of this post, we can write a transform to remove all of the men out of the set:
+
+{% highlight scala %}
+val removeMen = new RewriteRule {
+	override def transform(n: Node): NodeSeq = n match {
+		case e: Elem if (e \ "@gender").text == "M" => NodeSeq.Empty
+		case n => n
+	}
+}
+{% endhighlight %}
+
+We test if the `gender` attribute contains an "M", and if so we empty out the node. To apply this transform to the source data, we use the [RuleTransformer](http://www.scala-lang.org/api/2.10.1/index.html#scala.xml.transform.RuleTransformer) class.
+
+{% highlight scala %}
+val noMen = new RuleTransformer(removeMen).transform(people)
+{% endhighlight %}
+
+Another rule we can write, would be to remove any person who was over the age of 30:
+
+{% highlight scala %}
+val removeOver30s = new RewriteRule {
+	override def transform(n: Node): NodeSeq = n match {
+		case e: Elem if e.label == "person" && (e \ "@age").text.toInt > 30 => NodeSeq.Empty
+		case n => n
+	}
+}
+{% endhighlight %}
+
+Pretty much the same. The only extra complexity is ensuring that we have an `age` attribute and getting it casted to an integer for us to perform arithmetic testing. 
+
+The `RuleTransformer` class accommodates if we want to use these two transforms in conjunction with each other.
+
+{% highlight scala %}
+val noMenAndOver30s = new RuleTransformer(removeMen, removeOver30s).transform(people)
+{% endhighlight %}
 
