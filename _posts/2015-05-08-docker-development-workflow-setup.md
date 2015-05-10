@@ -8,44 +8,54 @@ categories: [ "docker", "development" ]
 
 As I write code in a lot of different languages using a lot of different frameworks, it makes sense for me to virtualise my development environments in such a way that they're given their own isolated space so that they can't <em>infect</em> each other. In today's post, I'm going to walkthrough my development environment setup using [Docker](https://www.docker.com/).
 
-The whole basic idea here heavily relies on the information in [this post](http://www.yegor256.com/2014/08/29/docker-non-root.html). It's main focus is setting up non-root users in a container. Whilst this side-effect is useful for this workflow, it's more about the execution of custom commands after a standard image boots up.
-
 ### Setting up a Clojure environment
 
 The example that I'll use is the development container that I have setup for [Clojure](http://clojure.org/). First of all, I create a workspace for my Clojure development on my host machine, under my source directory like anything else. I'll put this in `~/src/clojure`.
 
-In that folder, I create two scripts. `run.sh` which just gets a disposable container up and running and `setup-for-dev.sh` which is the command invoked by the container setup in the first script.
+In that folder, I create two scripts. `run.sh` which just gets a disposable container up and running and `Dockerfile` which is based off of the [clojure:latest](https://registry.hub.docker.com/_/clojure/) image from the docker hub repository, but just adds a couple of extra bits and pieces to help the development environment get started.
+
+### Dockerfile
+
+The `Dockerfile` is pretty straight forward but relies on <em>some magic</em>. Unfortunately, here's my solution loses its portability. DOH! But, I'm still unsure of how to get around this. To keep permissions and ownerships common between the host and the container (because we'll be mounting a volume from the host), I create my developer account called `michael` as the next account after `root`. This is how it is on my host machine, so there's no conflicting user/group ids.
+
+{% highlight text %}
+FROM clojure:latest
+
+RUN apt-get update && \
+    apt-get install -y sudo && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN adduser --disabled-password --gecos '' michael && \
+    adduser michael sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+WORKDIR /home/michael
+ENV HOME /home/michael
+VOLUME ["/home/michael"]
+
+USER michael
+{% endhighlight %}
+
+A couple of small things to note.
+
+After installing `sudo`, I clean up any dead weight that `apt-get` may have left behind. This is just container maintenance to ensure that the image that's generated is as small as possible.
+
+We add the `michael` account with no password and directly into the `sudo` group. We also adjust the `sudo` config so that users in the `sudo` group can issue administrative commands without needing to supply a password.
+
+From there, it's all about making the home directory of `michael` centre stage for the container and switching to the `michael` user.
 
 ### run.sh
 
-The run script is fairly straight forward. All we need it to do is mount our current directory as a volume in the container and kick off our `setup-for-dev.sh` script. Of course, if you need to publish ports or create other volume mounts; here is where you'd do it.
+The run script is fairly straight forward. All we need it to do is mount our current directory as a volume in the container and start [bash](https://www.gnu.org/software/bash/bash.html). Of course, if you need to publish ports or create other volume mounts; here is where you'd do it.
 
 {% highlight bash %}
 #!/bin/bash
 
-docker run -ti --rm -v $(pwd):/src clojure:latest /src/setup-for-dev.sh
-{% endhighlight %}
-
-Note that we're using [clojure:latest](https://registry.hub.docker.com/_/clojure/) from the docker hub repository.
-
-### setup-for-dev.sh
-
-Once the container has been kicked off, I need it to do a couple of utility tasks. When we're using a utility like `lein` inside the container, anything created will be owned by `root`. What I prefer to do is create a standard user that has full root access in the container, but will identify with my host as the same standard user. 
-
-So, I create a `michael` account:
-
-{% highlight bash %}
-#!/bin/bash
-
-adduser --disabled-password --gecos '' michael
-adduser michael sudo
-echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-su - michael -c /bin/bash
+docker run -ti --rm -v $(pwd):/home/michael clojure:latest /bin/bash
 {% endhighlight %}
 
 ### Start developing
 
-From here, it's just a matter of getting into the `/src` folder inside the container to run your Clojure tools and using a code editor on your host to take care of the text.
-
- 
+You're done now. Everything creates in context of your non-root user. Your tools are available to you in your container and you're free to develop using your editor on your host.
 
