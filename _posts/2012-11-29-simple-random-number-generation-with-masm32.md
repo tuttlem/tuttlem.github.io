@@ -6,7 +6,7 @@ comments: false
 categories: [ "Assembly", "MASM32", "Programming", "random", "random numbers"]
 ---
 
-Here's a little tid-bit that I'd like to make note of. In a previous MASM32 windows development tutorial, I needed a random number generator and was able to dig this one up from the archivies.
+Here's a little tid-bit that I'd like to make note of. In a previous MASM32 windows development tutorial, I needed a random number generator and was able to dig this one up from the archives.
 
 First of all, you need to make sure we're using the 586 instruction set - at least!
 

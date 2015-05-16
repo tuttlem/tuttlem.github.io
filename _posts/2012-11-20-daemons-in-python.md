@@ -6,7 +6,7 @@ comments: false
 categories: [ "Programming", "python", "daemon" ]
 ---
 
-Didn't want to loose this bookmark, so thought I'd pop it here for later.
+Didn't want to lose this bookmark, so thought I'd pop it here for later.
 
 I would expect that you'll see some posts about this topic shortly.
 
