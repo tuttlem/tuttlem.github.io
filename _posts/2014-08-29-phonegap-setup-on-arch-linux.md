@@ -29,7 +29,7 @@ You'll need the following packages installed from [AUR](https://aur.archlinux.or
 After these have been successfully installed, using the suggested [installation procedure](https://wiki.archlinux.org/index.php/Arch_User_Repository#Build_the_package) guidance on the wiki, you'll need to put these tools on your path:
 
 {% highlight bash %}
-$ export $PATH=$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:/opt/android-sdk/build-tools
+$ export PATH=$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:/opt/android-sdk/build-tools
 {% endhighlight %}
 
 PhoneGap is installed using `npm` which is part of the NodeJS suite, so you'll need to have it installed as well:
