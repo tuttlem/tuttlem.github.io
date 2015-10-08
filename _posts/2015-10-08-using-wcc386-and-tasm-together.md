@@ -54,6 +54,13 @@ Also from the documentation:
 
 > In the code that follows, you can now refer to PAR1 or PAR2, and the correct [BP + n] expression will be substituted automatically by the assembler.
 
+Of course, we could have just as easily used the following without needing the `ARG` directive:
+
+{% highlight asm %}
+mov    eax, [ebp + 12]
+mov    ecx, [ebp + 8]
+{% endhighlight %}
+
 In accordance with the 32bit ABI, we put the result in EAX at the end of execution. Producing an object file from this assembly source is relatively easy:
 
 {% highlight text %}
