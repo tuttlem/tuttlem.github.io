@@ -17,7 +17,7 @@ $ long-running-prog &
 Really, the [nohup](https://en.wikipedia.org/wiki/Nohup) command should also be put on the command line so that the command that you execute will ignore the signal SIGHUP.
 
 {% highlight bash %}
-$ hup long-running-prog &
+$ nohup long-running-prog &
 $ exit
 {% endhighlight %}
 
