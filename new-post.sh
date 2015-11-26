@@ -23,5 +23,5 @@ categories: [ "" ]
 
 EOL
 
-emacs $FNAME
+subl $FNAME
 
