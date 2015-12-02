@@ -14,7 +14,6 @@ The CPU itself is an impressive piece of kit just by itself however it does stru
 
 Anyway, this blog post is just going to show you a few nuggets that you can use straight away. It's always fun seeing this stuff in action. This snippet will sum (accumulate) together an array of doubles.
 
-<script src="https://gist.github.com/4188241.js?file=gistfile1.asm"></script>
 {% highlight nasm %}
 ; entry conditions
 ; edx points to an array of doubles

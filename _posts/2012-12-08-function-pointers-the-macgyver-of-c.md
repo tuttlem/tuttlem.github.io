@@ -6,7 +6,7 @@ comments: false
 categories: [ "C", "Programming", "Function Pointers" ]
 ---
 
-### Introduction<
+### Introduction
 
 It's a very well studied topic in the C field. Many people have written tutorials on how to use function pointers and what they are. [The function pointer tutorial](http://www.newty.de/fpt/fpt.html) is always a good read for the uninitiated or seasoned professional who's function pointer theory is a little rusty.
 
