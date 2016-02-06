@@ -1,6 +1,6 @@
 # Dependencies
 markdown:         kramdown
-highlighter:      pygments
+highlighter:      rouge
 
 # Permalinks
 permalink:        /:year/:month/:day/:title.html
@@ -25,5 +25,3 @@ version:          2.0.0
 github:
   repo:           https://github.com/tuttlem/tuttlem.github.io
 
-redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
