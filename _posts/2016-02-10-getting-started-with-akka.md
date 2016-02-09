@@ -3,7 +3,7 @@ layout: post
 title: Getting started with Akka
 date: 2016-02-10
 comments: false
-categories: [ "" ]
+categories: [ "akka", "scala" ]
 ---
 
 [Akka](http://akka.io/) is a library designed for building applications using the [actor model](https://en.wikipedia.org/wiki/Actor_model). From their site:
