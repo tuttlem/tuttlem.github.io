@@ -9,7 +9,7 @@ categories: [ "akka", "scala" ]
 [Akka](http://akka.io/) is a library designed for building applications using the [actor model](https://en.wikipedia.org/wiki/Actor_model). From their site:
 
 > Akka is a toolkit and runtime for building highly concurrent, distributed, and resilient message-driven applications on the JVM.
-
+ 
 In today's post, I'm going to start with some of the primitives to using this framework.
 
 ### Messages
