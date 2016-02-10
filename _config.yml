@@ -1,6 +1,7 @@
 # Dependencies
 markdown:         kramdown
 highlighter:      rouge
+gems:             [jekyll-paginate, jekyll-gist]
 
 # Permalinks
 permalink:        /:year/:month/:day/:title.html
