@@ -5,8 +5,8 @@ date: 2016-02-17
 comments: false
 categories: [ "java", "gc" ]
 ---
- 
-From time to time, it makes sense to perform some [GC]() tuning on your [Java Virtual Machines](). Whilst there are a lot of tools that can visually help your debugging process, in today's post I'll talk you through the GC log that you can optionally turn on in your virtual machine arguments.
+
+From time to time, it makes sense to perform some [GC](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html) tuning on your [Java Virtual Machines](https://en.wikipedia.org/wiki/Java_virtual_machine). Whilst there are a lot of tools that can visually help your debugging process, in today's post I'll talk you through the GC log that you can optionally turn on in your virtual machine arguments.
 
 ### Enabling the log
 
@@ -58,7 +58,7 @@ The `Full GC` events will give you statistics for all of the memory collections:
 1.143: [Full GC (System.gc()) [PSYoungGen: 43520K->0K(305664K)] [ParOldGen: 325960K->368132K(699392K)] 369480K->368132K(1005056K), [Metaspace: 2530K->2530K(1056768K)], 2.5983336 secs] [Times: user=9.55 sys=0.03, real=2.59 secs] 
 {% endhighlight %}
 
-Each of the collections is displayed as `[CollectionName: SpaceBefore->SpaceAfter(Capacity)]. 
+Each of the collections is displayed as `[CollectionName: SpaceBefore->SpaceAfter(Capacity)]`. 
 
 Finally, we have a heap analysis of the program as it breaks down amongst the different memory classes: Young Gen, Old Gen and *(new for 1.8)* Metaspace. Metaspace would have previously been Perm Gen.
 
