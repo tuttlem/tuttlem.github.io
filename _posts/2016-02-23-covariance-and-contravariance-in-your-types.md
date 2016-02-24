@@ -75,7 +75,7 @@ def show(a: CovariantContainer[Any]) = {
 
 ### Contravariant 
 
-**Contravariance** is defined by decorating the type parameter with a `-`. It's useful in **write-only** situations.
+**Contravariance** is defined by decorating the type parameter with a `-`. It's useful in **write-only**  situations.
 
 {% highlight scala %}
 class ContravariantContainer[-T](var value: T)
@@ -98,7 +98,7 @@ When designing types, the following rules are very important when dealing with p
 * Transformation inputs should be contravariant
 * Transformation outputs should be covariant
 
-### Modelling a function call
+### Modeling a function call
 
 Armed with this information, we can generalise function execution into the following type:
 
