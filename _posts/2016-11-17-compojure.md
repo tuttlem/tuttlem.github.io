@@ -27,8 +27,8 @@ We're going to add some dependencies to the `project.clj` folder for `compojure`
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-  				 [compojure "1.1.8"]
-  				 [http-kit "2.1.16"]])
+           [compojure "1.1.8"]
+           [http-kit "2.1.16"]])
 {% endhighlight %}
 
 And then, installation.
@@ -43,14 +43,14 @@ To get started, we'll define a root route to greet us.
 
 {% highlight clojure %}
 (ns webapp-1.core
-	(:require [compojure.core :refer :all]
-			  [org.httpkit.server :refer [run-server]]))
+  (:require [compojure.core :refer :all]
+        [org.httpkit.server :refer [run-server]]))
 
 (defroutes greeter-app
-	(GET "/" [] "Hello!"))
+  (GET "/" [] "Hello!"))
 
 (defn -main []
-	(run-server greeter-app {:port 3000}))
+  (run-server greeter-app {:port 3000}))
 {% endhighlight %}
 
 A quick hit through `curl` lets us know that we're up and running:

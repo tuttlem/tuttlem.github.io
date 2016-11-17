@@ -48,8 +48,8 @@ Now we need to make our newly created project *depend* on [ring](https://github.
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-  				 [ring/ring-core "1.5.0"]
-  				 [ring/ring-jetty-adapter "1.5.0"]])
+           [ring/ring-core "1.5.0"]
+           [ring/ring-jetty-adapter "1.5.0"]])
 {% endhighlight %}
 
 We can now install these dependencies into the project.
@@ -70,9 +70,9 @@ We'll also create a route that will use this function, and send back the text ea
 
 {% highlight clojure %}
 (defn current-time [request]
-	{:status 200
-	 :headers {"Content-Type" "text/plain"}
-	 :body (str (now))})
+  {:status 200
+   :headers {"Content-Type" "text/plain"}
+   :body (str (now))})
 {% endhighlight %}
 
 That's it for the server code. We still need to fire up Jetty and attach the handler to it. We need to import `ring.adapter.jetty` as it contains `run-jetty` for us:

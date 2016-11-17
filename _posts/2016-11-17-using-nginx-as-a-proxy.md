@@ -16,24 +16,24 @@ To setup the scenario, we have a [node.js](https://nodejs.org/en/) application r
 
 {% highlight plain %}
 server {
-	listen 80;
-	index index.html;
+  listen 80;
+  index index.html;
 
-	server_name localhost;
+  server_name localhost;
 
-	error_log /var/log/nginx/error.log;
-	access_log /var/log/nginx/access.log;
-	root /var/www/public;
+  error_log /var/log/nginx/error.log;
+  access_log /var/log/nginx/access.log;
+  root /var/www/public;
 
-	location ~* /my-api {
-		rewrite /my-api(.*) /$1 break;
-		proxy_pass https://172.17.0.1:4010;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection 'upgrade';
-		proxy_set_header Host $host;
-		proxy_cache_bypass $http_upgrade;
-	}
+  location ~* /my-api {
+    rewrite /my-api(.*) /$1 break;
+    proxy_pass https://172.17.0.1:4010;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
 
 }
 {% endhighlight %}
@@ -60,27 +60,27 @@ Now that we've got our certificate `nginx.crt` and key `nginx.key`, we can chang
 
 {% highlight plain %}
 server {
-	listen 80;
-	listen 443 ssl;
-	index index.html;
+  listen 80;
+  listen 443 ssl;
+  index index.html;
 
-	server_name localhost;
-	ssl_certificate /etc/nginx/ssl/nginx.crt;
-	ssl_certificate_key /etc/nginx/ssl/nginx.key;
+  server_name localhost;
+  ssl_certificate /etc/nginx/ssl/nginx.crt;
+  ssl_certificate_key /etc/nginx/ssl/nginx.key;
 
-	error_log /var/log/nginx/error.log;
-	access_log /var/log/nginx/access.log;
-	root /var/www/public;
+  error_log /var/log/nginx/error.log;
+  access_log /var/log/nginx/access.log;
+  root /var/www/public;
 
-	location ~* /my-api {
-		rewrite /my-api(.*) /$1 break;
-		proxy_pass https://172.17.0.1:4010;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection 'upgrade';
-		proxy_set_header Host $host;
-		proxy_cache_bypass $http_upgrade;
-	}
+  location ~* /my-api {
+    rewrite /my-api(.*) /$1 break;
+    proxy_pass https://172.17.0.1:4010;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
 
 }
 {% endhighlight %}
@@ -88,12 +88,13 @@ server {
 Now when we start up the container, we not only need to expose `443` for SSL, but we'll also volume-in our certificate and key:
 
 {% highlight text %}
-docker run -ti 		\
-		   --rm		\
-		   -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
-		   -v $(pwd)/ssl:/etc/nginx/ssl \
-		   -p 443:443 \
-		   nginx
+docker run    \
+       -ti    \
+       --rm   \
+       -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
+       -v $(pwd)/ssl:/etc/nginx/ssl \
+       -p 443:443 \
+       nginx
 {% endhighlight %}
 
 Now you can proxy your other dockerized web-applications through nginx without much hassle at all.
