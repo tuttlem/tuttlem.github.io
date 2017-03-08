@@ -9,7 +9,7 @@
 # ---------------------------------------------------
 
 DATE_SLUG=$(date +%Y-%m-%d)
-TITLE=$(echo "$@" | tr -s '[:space:]' '\n' | tr -s '[:upper:]' '[:lower:]' | paste -sd-)
+TITLE=$(echo "$@" | tr -s '[:space:]' '\n' | tr '[:upper:]' '[:lower:]' | paste -sd-)
 FNAME=_posts/$DATE_SLUG-$TITLE.md
 
 cat >$FNAME <<EOL
@@ -23,5 +23,5 @@ categories: [ "" ]
 
 EOL
 
-subl $FNAME
+vim $FNAME
 
