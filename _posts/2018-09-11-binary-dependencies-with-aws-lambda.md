@@ -59,7 +59,7 @@ The docker container is then built with the following:
 docker build -t my-lambda .
 ID=$(docker create my-lambda /bin/true)
 docker cp $ID:/ .
-{$ endhighlight %}
+{% endhighlight %}
 
 The retrieves the `zip` file that we built through the process, that's readily deployable to [AWS Lambda](https://aws.amazon.com/lambda/).
 
