@@ -20,10 +20,12 @@ openssl req -x509 -nodes -days 365 -subj '/C=AU/ST=Queensland/L=Brisbane/CN=loca
 
 You should receive output which looks like the following:
 
-{% highlight plain %}
+{% highlight text %}
 Generating a RSA private key
 .......................................................................................................++++
 ...............................................................................................................................++++
+writing new private key to 'server.key'
+-----
 {% endhighlight %}
 
 On the filesystem now you should have a `server.key` and `server.cer` files waiting for you.
@@ -75,7 +77,7 @@ http {
     root /var/www/public;
 
     location / {
-      try_files $uri $uri/ =404;
+      try_files $uri $uri/;
     }
   }
 }
@@ -89,7 +91,6 @@ docker run --rm \
            -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
            -v $(pwd)/server.key:/opt/server.key \
            -v $(pwd)/server.crt:/opt/server.crt \
-           -v $(pwd)/index.html:/var/www/public/index.html \
            -p 443:443 \
            nginx
 {% endhighlight %}
@@ -113,38 +114,5 @@ If you're on a brand new system, you may need to create your NSS database. This 
 
 {% highlight bash %}
 mkdir -p %HOME/.pki/nssdb
-
-certutil -N -d sql:$HOME/.pki/nssdb --empty-password
+certutil -N -d $HOME/.pki/nssdb --empty-password
 {% endhighlight %}
-
-Some root certificates get added to the store:
-
-{% highlight bash %}
-curl -k -o "cacert-root.crt" "http://www.cacert.org/certs/root.crt"
-curl -k -o "cacert-class3.crt" "http://www.cacert.org/certs/class3.crt"
-certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "CAcert.org" -i cacert-root.crt
-certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "CAcert.org Class 3" -i cacert-class3.crt
-{% endhighlight %}
-
-The following script can be put into a script file, which will get any certificate from a site and put it into the database for us:
-
-{% highlight bash %}
-#!/bin/sh
-#
-# usage:  import-cert.sh remote.host.name [port]
-#
-REMHOST=$1
-REMPORT=${2:-443}
-exec 6>&1
-exec > $REMHOST
-echo | openssl s_client -connect ${REMHOST}:${REMPORT} 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
-certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n "$REMHOST" -i $REMHOST
-exec 1>&6 6>&-
-{% endhighlight %}
-
-### Finishing up
-
-Now that you've added your self-signed certificate, you should find that Chrome has no problem navigating to your site. 
-
-The only other issue to now address is [Subject Alternative Name Missing](https://support.google.com/chrome/a/answer/7391219?hl=en) issues in certificates.
-
