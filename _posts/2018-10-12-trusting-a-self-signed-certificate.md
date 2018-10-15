@@ -116,3 +116,38 @@ If you're on a brand new system, you may need to create your NSS database. This 
 mkdir -p %HOME/.pki/nssdb
 certutil -N -d $HOME/.pki/nssdb --empty-password
 {% endhighlight %}
+
+With a database created, you can now add the actual certificate itself. You can acquire the certificate with the following script (that uses OpenSSL):
+
+{% highlight bash %}
+#!/bin/sh
+#
+# usage:  import-cert.sh remote.host.name [port]
+#
+REMHOST=$1
+REMPORT=${2:-443}
+exec 6>&1
+exec > $REMHOST
+echo | openssl s_client -connect ${REMHOST}:${REMPORT} 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n "$REMHOST" -i $REMHOST 
+exec 1>&6 6>&-
+{% endhighlight %}
+
+This script is doing a little bit; but most important to see that `openssl` acquires the certificate for us; then we issue a call to `certutil` to add the certificate into our store.
+
+Chrome will look for the nss database in `$HOME/.pki/nssdb`. This is why this folder has been chosen. The `-t` switch allows you to specify `trustargs`. Lifted from the manpage:
+
+{% highlight text %}
+·   p - Valid peer
+·   P - Trusted peer (implies p)
+·   c - Valid CA
+·   C - Trusted CA (implies c)
+·   T - trusted CA for client authentication (ssl server only)
+{% endhighlight %}
+
+The trust settings are applied as a combination of these characters, in a series of three.
+
+> There are three available trust categories for each certificate, expressed in the order SSL, email, object signing for each trust setting.
+
+With the certificate added into the store, we can re-start chrome and hit our website. Chrome no longer complains about the certificate not being trusted.
+
