@@ -79,6 +79,8 @@ This puts us in a *sane* place, where we know where we are. Doesn't need to be t
 
 Next up, we'll set the [umask](https://en.wikipedia.org/wiki/Umask) for the process to `0`. It it standard practice for a daemon to operate with a umask of `0`. At the operating system level, this forces new file objects created to have permission of `0666` (world-writable); and directories as `0777`.
 
+> umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
+
 In short, umask of `0` means objects are created with privileges initially revoked.
 
 {% highlight c %}
