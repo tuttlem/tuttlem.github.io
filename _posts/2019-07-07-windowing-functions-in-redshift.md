@@ -8,6 +8,10 @@ categories: [ "aws", "redshift", "window", "analytics" ]
 
 ### Introduction
 
+[Window functions](https://en.wikipedia.org/wiki/SQL_window_function) allow database developers to perform analysis over partitions of information, very quickly. Prior to window functions, developers would need to create sub-queries (or common table expressions) that would allow their windows to be created. Primary queries would then work over the sub-queries to propgate a result. This now goes away, using the `OVER` syntax.
+
+In today's article we'll walk through the basic structure of how to use window functions.
+
 ### Structure
 
 As [documented by AWS](https://docs.aws.amazon.com/redshift/latest/dg/r_Window_function_synopsis.html), 
