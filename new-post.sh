@@ -23,5 +23,5 @@ categories: [ "" ]
 
 EOL
 
-vim $FNAME
+nvim $FNAME
 
