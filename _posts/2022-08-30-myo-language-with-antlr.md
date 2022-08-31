@@ -1,7 +1,7 @@
 ---
 layout: post
 title: MYO Language with Antlr
-date: 2022-08-31
+date: 2022-08-30
 comments: false
 categories: [ "antlr", "lang" ]
 ---
@@ -27,7 +27,7 @@ that we can invoke locally.
 {% highlight bash %}
 $ wget http://www.antlr.org/download/antlr-4.7-complete.jar
 $ alias antlr='java -jar $PWD/antlr-4.7-complete.jar'
-{% endhighlight $}
+{% endhighlight %}
 
 ### Code generation
 
