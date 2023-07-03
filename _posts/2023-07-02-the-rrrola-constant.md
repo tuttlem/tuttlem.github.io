@@ -43,4 +43,59 @@ In this example, we just make a pixel that's `x xor y`.
 
 This works because the offset into the video buffer is worked out as `(y * 320) + x`. Multiplying this formula out by `Oxcccd` we end up with `(y * 0x1000040) + (x * 0xcccd)`
 
-The top byte is `y * 0x1000000`. The next byte along is now (x * 0xcccd / 0x10000) which approximates to `(x * 256/320)`, which is useful to us. The lower two bytes from the product are garbage.
+The top byte is `y * 0x1000000`. The next byte along is now `(x * 0xcccd / 0x10000)` which approximates to `(x * 256/320)`, which is useful to us. The lower two bytes from the product are garbage.
+
+### Full example
+
+The following is a `.com` demo-style example which uses the above technique:
+
+(% highlight asm %}
+  org  100h
+
+start:
+  ; setup 320x200x256
+  mov  ax, 0x0013
+  int  0x10
+
+  ; adjust screen segment to work
+  ; with the Rrrloa trick
+  push 0xa000 - 10
+  pop  es
+
+top:
+  ; start at the beginning of
+  ; the video buffer
+  xor  di, di
+  mov  cx, 64000
+
+pat:
+  ; (dh, dl) -> (x, y)
+  mov  ax, 0xcccd			 
+  mul  di					
+
+  ; col = x ^ y
+  xor  dh, dl
+  mov  al, dh
+  
+  ; paint
+  stosb
+  loop pat
+
+  ; check for esc
+  in  al, 60h				
+  cmp al, 1
+  
+  jne top
+
+  ; return to text
+  mov  ax, 0x0003			
+  int  0x10
+
+  ; return to dos
+  mov  ax, 0x4c00			
+  int  0x21
+{% endhighlight %}
+
+Pretty!
+
+![XOR Demo]({{ site.url }}/assets/xor-demo.png)
