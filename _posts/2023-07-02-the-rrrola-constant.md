@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Rrrola Constant
-date: 2023-07-03
+date: 2023-07-02
 comments: false
 categories: [ "" ]
 ---
