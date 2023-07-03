@@ -49,7 +49,7 @@ The top byte is `y * 0x1000000`. The next byte along is now `(x * 0xcccd / 0x100
 
 The following is a `.com` demo-style example which uses the above technique:
 
-(% highlight asm %}
+{% highlight asm %}
   org  100h
 
 start:
