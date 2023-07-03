@@ -10,7 +10,7 @@ When you're writing demos in 320x200 mode, you can quickly estimate X and Y coor
 
 To start this, we need to adjust our video address. Remember, this is an estimate (it's good enough); but it does need a bit more "help" in the setup.
 
-{% highlight asm %}
+{% highlight nasm %}
   push  0xa000 - 10			
   pop   es				
 
@@ -24,7 +24,7 @@ Right now, `es:[di]` is pointing to the start of video memory (adjusted).
 
 Now we perform the multiply
 
-{% highlight asm %}
+{% highlight nasm %}
 pat:
   mov  ax, 0xcccd
   mul  di				
@@ -34,7 +34,7 @@ At this point the `(x, y)` pair is now available to us in `(dh, dl)`. This is re
 
 In this example, we just make a pixel that's `x xor y`.
 
-{% highlight asm %}
+{% highlight nasm %}
   xor  dh, dl
   mov  al, dh
   stosb
@@ -49,7 +49,7 @@ The top byte is `y * 0x1000000`. The next byte along is now `(x * 0xcccd / 0x100
 
 The following is a `.com` demo-style example which uses the above technique:
 
-{% highlight asm %}
+{% highlight nasm %}
   org  100h
 
 start:
