@@ -109,12 +109,15 @@ Inside of the `Handler` class, in the constructor you can see that we avoid the 
 going to be handed a file descriptor with the socket already attached.
 
 {% highlight python %}
-# Invoke base but omit bind/listen steps (performed by systemd activation!)
+# ignore the bind/listen steps
 TCPServer.__init__(
-    self, server_address, handler_cls, bind_and_activate=False)
-# Override socket
+    self, server_address, handler_cls, bind_and_activate=False
+)
+
+# take the socket from systemd
 self.socket = socket.fromfd(
-    self.SYSTEMD_FIRST_SOCKET_FD, self.address_family, self.socket_type)
+    self.SYSTEMD_FIRST_SOCKET_FD, self.address_family, self.socket_type
+)
 {% endhighlight %}
 
 That's exactly what's happening with `fromfd` here. We're given a socket to work with via descriptor `3`.
