@@ -100,7 +100,7 @@ class Server(TCPServer):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-		# host and port values are ignored here  
+    # host and port values are ignored here
     server = Server(("localhost", 9999), Handler)
     server.serve_forever()
 {% endhighlight %}
