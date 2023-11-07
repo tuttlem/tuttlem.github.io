@@ -232,6 +232,7 @@ int main(int argc, char *argv[]) {
   mpz_clear(f);
 
   return 0;
+}
 {% endhighlight %}
 
 We write the result number here with `mpz_out_str`. This can redirected to any stream of your choice.
