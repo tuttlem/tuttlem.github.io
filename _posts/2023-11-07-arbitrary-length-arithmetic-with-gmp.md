@@ -129,7 +129,7 @@ void atoi_mpz(char *s, mpz_t res) {
   /* check that parsing was successful */
   assert(parse_result == 0);
 }
-  {% endhighlight %}
+{% endhighlight %}
 
 First, you'll notice that we're not returning anything here. The `mpz_t` type is typed as an array, and as such can't be used as a return. So, we supply it as an output parameter. This pattern will reoccur through these examples.
 
@@ -232,7 +232,7 @@ int main(int argc, char *argv[]) {
   mpz_clear(f);
 
   return 0;
-  {% end highlight %}
+{% endhighlight %}
 
 We write the result number here with `mpz_out_str`. This can redirected to any stream of your choice.
 
