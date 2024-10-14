@@ -3,7 +3,7 @@ layout: post
 title: Binary recon techniques
 date: 2024-10-14
 comments: false
-categories: [ "security", "recon"" ]
+categories: [ "security", "recon" ]
 ---
 
 # Introduction
@@ -103,7 +103,7 @@ zsh     25524    user mem    REG                8,2    76240 14055393 /usr/lib/z
 
 We can also look at the network connections of these:
 
-{% highlight shell $}
+{% highlight shell %}
 ➜  ~ lsof -i -p 23316   
 COMMAND     PID    USER  FD      TYPE             DEVICE  SIZE/OFF     NODE NAME
 jetbrains  1103    user  74u     IPv6              14281       0t0      TCP localhost:52829 (LISTEN)
