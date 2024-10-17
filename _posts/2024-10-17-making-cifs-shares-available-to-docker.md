@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Making CIFS Shares available to Docker
-date: 2012-11-15
+date: 2024-10-17
 comments: false
 categories: ["cifs", "debian", "docker", "linux"]
 ---
