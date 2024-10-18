@@ -200,3 +200,7 @@ back buffer, and implementing a simple animation loop using double buffering.
 
 With this foundation, you can now explore more complex drawing routines or incorporate this technique into larger projects 
 for better performance and visual appeal.
+
+The full code is available here as a gist:
+
+{% gist c7e1863376c5d622a994904dcfb2ba2b %}
