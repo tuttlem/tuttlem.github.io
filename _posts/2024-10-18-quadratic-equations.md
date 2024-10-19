@@ -22,8 +22,9 @@ In this post, we'll explore:
 
 # What Is a Quadratic Equation?
 
-A quadratic equation is a second-degree polynomial equation. This means the highest exponent of the variable $$ x $$ is 
-2. Quadratic equations typically describe parabolas when plotted on a graph.
+A quadratic equation is a second-degree polynomial equation. This means the highest exponent of the variable $$ x $$ is 2. 
+
+Quadratic equations typically describe parabolas when plotted on a graph.
 
 # The Quadratic Formula
 
