@@ -20,8 +20,8 @@ In this post, we’ll explore more advanced topics that push the boundaries of N
 - **Training Custom Word Embeddings** on your own data
 
 Let’s dive in!
-
-# 1. Contextual Word Embeddings: Understanding Context Matters
+ 
+# Contextual Word Embeddings
 
 Traditional embeddings like Word2Vec and GloVe generate a single fixed vector for each word. This means the word "bank" 
 will have the same vector whether it refers to a "river bank" or a "financial institution," which is a major limitation 
@@ -91,7 +91,7 @@ tensor([[[ 0.0762,  0.0177,  0.0297,  ..., -0.2109,  0.2140,  0.3130],
     grad_fn=<NativeLayerNormBackward0>)
 {% endhighlight %}
 
-# 2. Visualizing Word Embeddings: Dimensionality Reduction Techniques
+# 2. Visualizing Word Embeddings
 
 Word embeddings are usually represented as high-dimensional vectors (e.g., 300 dimensions for Word2Vec). While this is 
 great for models, it's difficult for humans to interpret these vectors directly. This is where dimensionality reduction 
@@ -214,7 +214,7 @@ The output of which looks a little different to PCA:
 
 There is a different distribution of the embeddings in comparison.
 
-# 3. Real-World Applications of Word Embeddings
+# Real-World Applications of Word Embeddings
 
 Word embeddings are foundational in numerous NLP applications:
 
@@ -252,7 +252,7 @@ print("Similarity scores:", similarities[0][ranked_indices])
 
 Walking through this code:
 
-1. `query_embedding` and `document_embeddings`:
+### `query_embedding` and `document_embeddings`
 
 * We generate random vectors to simulate the embeddings. In a real use case, these would come from an embedding model 
 (e.g., BERT, Word2Vec). The `query_embedding` represents the vector for the user's query, and `document_embeddings` 
@@ -260,12 +260,12 @@ represents vectors for a set of documents.
 
 * Both `query_embedding` and `document_embeddings` must have the same dimensionality (e.g., 768 if you’re using BERT).
 
-2. Cosine Similarity
+### Cosine Similarity
 
 * The `cosine_similarity()` function computes the cosine similarity between the `query_embedding` and each document embedding.
 * Cosine similarity measures the cosine of the angle between two vectors, which ranges from -1 (completely dissimilar) to 1 (completely similar). In this case, we're interested in documents that are most similar to the query (values close to 1).
 
-3. Ranking the Documents
+### Ranking the Documents
 
 * We use `argsort()` to get the indices of the document embeddings sorted in ascending order of similarity.
 * The `[::-1]` reverses this order so that the most similar documents appear first.
