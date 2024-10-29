@@ -42,6 +42,10 @@ Understanding these types and how to work with them is crucial as you start writ
 Constants and static variables are essential for defining fixed values in Rust. We’ll explain the differences between 
 them, as well as when and why to use each.
 
+* **Control Structures**
+Control structures are the basic building blocks for controlling the flow of execution in your programs. We'll show you 
+how to use the familiar keywords `if`, `loop`, `while`, and `for`.
+
 * **Pattern Matching**
 Pattern matching is a powerful feature in Rust, providing expressive syntax for conditional branching. We’ll show you 
 how to use the `match` statement and other forms of pattern matching effectively.
@@ -242,6 +246,53 @@ though this is unsafe.
 {% highlight rust %}
 static VERSION: &str = "1.0";
 {% endhighlight %}
+
+# Control Structures
+
+Rust has similar control structures to C and C++, but with a few distinct Rust-specific behaviors and syntax nuances. 
+Here’s a quick rundown:
+
+* `if`: Works similarly to C/C++ but must have a boolean condition (no implicit integer-to-boolean conversions).
+{% highlight rust %}
+let number = 5;
+if number > 0 {
+    println!("Positive");
+} else if number < 0 {
+    println!("Negative");
+} else {
+    println!("Zero");
+}
+{% endhighlight %}
+
+* `loop`: Rust's equivalent to `while(true)`. It’s an infinite loop but can return values using the `break` keyword.
+{% highlight rust %}
+let mut count = 0;
+let result = loop {
+    count += 1;
+    if count == 10 {
+        break count * 2;
+    }
+};
+println!("Result: {}", result);
+{% endhighlight %}
+
+* `while`: Standard while loop as in C.
+{% highlight rust %}
+let mut x = 0;
+while x < 5 {
+    println!("x is: {}", x);
+    x += 1;
+}
+{% endhighlight %}
+
+* `for`: Rust’s `for` loop is typically used with ranges or iterators (no traditional C-style `for` loop).
+{% highlight rust %}
+for i in 0..5 {
+    println!("i is: {}", i);
+}
+{% endhighlight %}
+
+The `0..5` syntax creates a range from 0 to 4. You can also use `0..=5` for an inclusive range from 0 to 5.
 
 # Pattern Matching
 
