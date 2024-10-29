@@ -22,40 +22,31 @@ This first post will guide you through the language essentials, laying the groun
 
 We’ll cover the following language basics:
 
-1. **Syntax and Semantics**  
+* **Syntax and Semantics**
 We’ll start with an overview of Rust’s syntax and how it differs from other languages. You’ll learn about basic 
 expressions, code structure, and how Rust’s strict compiler enforces code quality.
 
-2. **Variables and Mutability**  
+* **Variables and Mutability**
 Rust’s approach to variables and mutability is unique among languages, emphasizing safety by making all variables 
 immutable by default. We’ll explain why this is and how to work with mutable variables when needed.
 
-3. **Data Types**  
+* **Data Types**
 Rust is a statically typed language, which means the type of each variable must be known at compile time. We’ll explore 
 Rust’s basic data types and how they’re used in programs.
 
-4. **Primitive Types**  
+* **Primitive Types**
 Rust offers a range of primitive types, including integers, floating-point numbers, booleans, and characters. 
 Understanding these types and how to work with them is crucial as you start writing Rust code.
 
-5. **Constants and Static Variables**  
+* **Constants and Static Variables**
 Constants and static variables are essential for defining fixed values in Rust. We’ll explain the differences between 
 them, as well as when and why to use each.
 
-6. **Ownership and Borrowing**  
-Rust’s ownership model is one of its defining features, aiming to ensure memory safety without needing a garbage 
-collector. We’ll cover the basics of ownership and borrowing, key concepts for managing memory and avoiding data races.
-
-7. **Lifetimes and Lifetime Annotations**  
-Building on the ownership model, lifetimes ensure that references remain valid as long as they are needed. This section 
-will introduce lifetimes and the syntax for lifetime annotations, a topic that can initially be challenging but becomes 
-intuitive with practice.
-
-8. **Pattern Matching**  
+* **Pattern Matching**
 Pattern matching is a powerful feature in Rust, providing expressive syntax for conditional branching. We’ll show you 
 how to use the `match` statement and other forms of pattern matching effectively.
 
-9. **Functions and Closures**  
+* **Functions and Closures**
 Finally, we’ll cover functions and closures. Rust’s functions are straightforward, but closures (anonymous functions) 
 bring flexibility to Rust’s syntax, especially for functional programming patterns.
 
@@ -251,41 +242,6 @@ though this is unsafe.
 {% highlight rust %}
 static VERSION: &str = "1.0";
 {% endhighlight %}
-
-# Ownership and Borrowing
-
-Ownership is a unique feature of Rust’s memory model, allowing for memory safety without garbage collection. Here’s an 
-overview of ownership and borrowing:
-
-* **Ownership**: Each value in Rust has a unique owner.
-* **Move Semantics**: When an owner variable is assigned to another variable, the original owner loses access.
-* **Borrowing**: Allows functions to temporarily access data without taking ownership.
-  * **Immutable Borrowing**: `&` allows read-only access.
-  * **Mutable Borrowing**: `&mut` allows read-and-write access, but only one mutable reference can exist at a time.
-
-{% highlight rust %}
-fn main() {
-    let s1 = String::from("hello"); // `s1` owns the string
-    let s2 = &s1;                    // Immutable borrow of `s1`
-    let s3 = s1.clone();             // Deep copy, `s1` and `s3` now own separate values
-}
-{% endhighlight %}
-
-# Lifetimes and Lifetime Annotations
-
-Lifetimes prevent dangling references and allow safe memory management. Rust infers lifetimes automatically, but 
-sometimes lifetime annotations are necessary, especially with complex borrowing.
-
-* **Basic Lifetime**: Represents the scope in which a reference is valid.
-* **Lifetime Annotation Syntax**: `&'a T`, where `'a` is a lifetime specifier.
-
-{% highlight rust %}
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
-    if x.len() > y.len() { x } else { y }
-}
-{% endhighlight %}
-
-Here, `'a` ensures that the returned reference is valid for as long as both input references are valid.
 
 # Pattern Matching
 
