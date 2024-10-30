@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Learning Rust Part 9 Files and I/O
+title: Learning Rust Part 9 - Files and I/O
 date: 2024-10-30
 comments: false
 categories: [ "rust" ]
