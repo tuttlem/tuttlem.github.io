@@ -213,7 +213,7 @@ use proc_macro;
 #[proc_macro]
 pub fn hello_macro(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input_str = input.to_string();
-    format!("fn hello() {{ println!(\"Hello, {}!\"); }}", input_str).parse().unwrap()
+    format!("fn hello() {% raw %}{{{% endraw %} println!(\"Hello, {}!\"); {% raw %}}}{% endraw %}", input_str).parse().unwrap()
 }
 {% endhighlight %}
 
@@ -232,11 +232,11 @@ use proc_macro::TokenStream;
 pub fn log(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let input = item.to_string();
     let output = format!(
-        "fn main() {{
+        "fn main() {% raw %}{{{% endraw %}
             println!(\"Entering function\");
             {}
             println!(\"Exiting function\");
-        }}", input
+        {% raw %}}}{% endraw %}", input
     );
     output.parse().unwrap()
 }

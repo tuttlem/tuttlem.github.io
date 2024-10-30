@@ -144,13 +144,13 @@ impl fmt::Display for Point {
 }
 
 impl fmt::Debug for Point { 
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { write!(f, "Point {{ x: {}, y: {} }}", self.x, self.y) } 
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { write!(f, "Point {% raw %}{{{% endraw %} x: {}, y: {} {% raw %}}}{% endraw %}", self.x, self.y) } 
 }
 
 let point = Point { x: 5, y: 10 }; 
 
 println!("Display: {}", point); // Uses Display 
-println!("Debug: {:?}", point); // Uses Debug 
+println!("Debug: {:?}", point); // Uses Debug
 {% endhighlight %}
 
 ## `Iterator`: Sequentially Access Elements
@@ -287,12 +287,14 @@ fn main() {
 multiple types uniformly. They’re frequently used in APIs that need flexible input types.
 
 {% highlight rust %} 
+{% raw %}
 fn print_length<T: AsRef<str>>(s: T) { 
     println!("Length: {}", s.as_ref().len()); 
 }
 
 print_length("hello"); // &str 
-print_length(String::from("hello")); // String 
+print_length(String::from("hello")); // String
+{% endraw %}
 {% endhighlight %}
 
 ## `Deref` and `DerefMut`: Custom Dereferencing
@@ -302,6 +304,7 @@ the `*` operator. This is particularly useful for types like `Box`, which act as
 values.
 
 {% highlight rust %} 
+{% raw %}
 use std::ops::Deref;
 
 struct MyBox<T>(T);
@@ -315,7 +318,8 @@ impl<T> Deref for MyBox<T> {
 }
 
 let x = MyBox(String::from("Hello")); 
-println!("Deref: {}", *x); // Prints "Hello" due to Deref implementation 
+println!("Deref: {}", *x); // Prints "Hello" due to Deref implementation
+{% endraw %}
 {% endhighlight %}
 
 # Advanced Trait Bounds and Lifetimes
@@ -328,16 +332,18 @@ references.
 Multiple trait bounds can be combined with `+`, allowing a function to require several capabilities from a type.
 
 {% highlight rust %}
+{% raw %}
 fn describe<T: Describe + Debug>(item: T) {
     println!("{:?}", item);
     println!("{}", item.describe());
 }
+{% endraw %}
 {% endhighlight %}
 
 ## Lifetimes in Generics
 
 When generics involve references, lifetimes ensure the references remain valid for the required scope. We went over 
-lifetimes in [part 2]({% post_url 2024-10-30-learning-rust-part-2-memory-safety }) of this series.
+lifetimes in [part 2]({% post_url 2024-10-29-learning-rust-part-2-memory-safety %}) of this series.
 
 {% highlight rust %}
 fn longest<'a, T>(x: &'a T, y: &'a T) -> &'a T

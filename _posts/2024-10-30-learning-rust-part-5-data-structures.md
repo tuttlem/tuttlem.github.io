@@ -191,12 +191,10 @@ fn main() {
 } 
 {% endhighlight %}
 
-
-
 # `Option` and `Result` Types
 
 Rust’s `Option` and `Result` types are enums that enable safe handling of optional values and errors. We went over 
-error handling in [part 3]({% post_url 2024-10-30-learning-rust-part-3-error-handling }) of this series.
+error handling in [part 3]({% post_url 2024-10-29-learning-rust-part-3-error-handling %}) of this series.
 
 ## `Option`
 

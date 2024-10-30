@@ -208,7 +208,7 @@ limitations. Rust’s `Result` type and the `?` operator streamline error handli
 ## Using `Result` and `?` for Concise Error Handling
 
 Most I/O functions return `Result`, enabling explicit error handling or propagation with `?`. We covered this syntax in 
-[part 3]({% post_url 2024-10-29-learning-rust-part-3-error-handling }) of this series.
+[part 3]({% post_url 2024-10-29-learning-rust-part-3-error-handling %}) of this series.
 
 {% highlight rust %}
 use std::fs;
