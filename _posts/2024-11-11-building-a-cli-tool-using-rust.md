@@ -38,8 +38,8 @@ Let’s start by creating a basic Rust project structured to support scalability
 Open a terminal and create a new project:
 
 {% highlight rust %}
-cargo new case_flipper
-cd case_flipper
+cargo new text_tool
+cd text_tool
 {% endhighlight %}
 
 This initializes a Rust project with a basic src directory containing `main.rs`. However, rather than placing all our 
@@ -50,13 +50,12 @@ code in `main.rs`, let’s structure our project with separate modules and a cle
 To make our project modular and scalable, let’s organize our project directory as follows:
 
 {% highlight plain %}
-case_flipper
+text_tool
 ├── src
 │   ├── main.rs    # main entry point of the program
 │   ├── lib.rs     # main library file
 │   ├── config.rs  # configuration-related code
 │   ├── cli.rs     # command-line parsing logic
-│   └── flipper.rs # core logic to flip the case of a string
 ├── tests
 │   └── integration_test.rs # integration tests
 └── Cargo.toml
@@ -64,7 +63,7 @@ case_flipper
 
 * `main.rs`: The primary entry point, managing the CLI tool setup and orchestrating modules.
 * `lib.rs`: The library file, which makes our code reusable.
-* `config.rs`, `cli.rs`, `flipper.rs`: Modules for specific functions—parsing CLI arguments, handling configuration, and implementing the case-flipping functionality.
+* `config.rs`, `cli.rs`: Modules for specific functions—parsing CLI arguments, handling configuration.
 
 This structure keeps our code modular, organized, and easy to test and maintain. Throughout the rest of the tutorial, 
 we’ll add components to each module, implementing new functionality step-by-step.
