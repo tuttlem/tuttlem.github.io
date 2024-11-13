@@ -55,7 +55,7 @@ text_tool
 │   ├── main.rs    # main entry point of the program
 │   ├── lib.rs     # main library file
 │   ├── config.rs  # configuration-related code
-│   ├── cli.rs     # command-line parsing logic
+│   └── cli.rs     # command-line parsing logic
 ├── tests
 │   └── integration_test.rs # integration tests
 └── Cargo.toml
