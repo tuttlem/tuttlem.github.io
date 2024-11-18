@@ -28,6 +28,8 @@ associated with multithreaded programming.
 
 # Libraries
 
+As a basic example for comparison, we'll create an actor that handles one message "Ping".
+
 ## Actix
 
 [Actix](https://actix.rs/) is the most popular and mature actor framework in Rust. Built on top of `tokio`, it offers 
@@ -59,14 +61,14 @@ impl Actor for MyActor {
 struct Ping;
 
 impl Message for Ping {
-    type Result = String; // Use String instead of &'static str
+    type Result = String; 
 }
 
 impl Handler<Ping> for MyActor {
-    type Result = String; // Use String instead of &'static str
+    type Result = String; 
 
     fn handle(&mut self, _msg: Ping, _ctx: &mut Context<Self>) -> Self::Result {
-        "Pong".to_string() // Convert the response to a String
+        "Pong".to_string()
     }
 }
 
@@ -77,6 +79,16 @@ async fn main() {
     println!("Response: {}", res);
 }
 {% endhighlight %}
+
+### Breakdown
+
+* Any rust type can be an actor, it only needs to implement the `Actor` trait
+  * We've defined `MyActor` for this
+* To be able to handle a specific message the actor has to provide a `Handler<M>` implementation
+  * The `Ping` message is defined and handled by `MyActor`'s `handle` function
+* The actor is now `start`ed
+* A `Ping` message is sent, and the response is waited on
+
 
 ## Riker
 
@@ -113,7 +125,12 @@ impl Actor for MyActor {
             msg: String,
             _sender: Sender) {
 
-        println!("Received: {}", msg);
+        if msg == "Ping" {
+            println!("Pong!");
+        } else {
+            println!("Received: {}", msg);
+        }
+
     }
 }
 
@@ -123,11 +140,18 @@ fn main() {
 
     let my_actor = sys.actor_of::<MyActor>("my-actor").unwrap();
 
-    my_actor.tell("Hello my actor!".to_string(), None);
+    my_actor.tell("Ping".to_string(), None);
 
     std::thread::sleep(Duration::from_millis(500));
 }
 {% endhighlight %}
+
+### Breakdown
+
+* `MyActor` is implemented from an `Actor` trait
+* Messages are handled by the `recv` function
+* An actor system is started with `ActorSystem::new()`
+* We need to wait at the end for the message to be processed 
 
 ## Xactor
 
@@ -146,31 +170,36 @@ xactor = "0.7.11"
 use xactor::*;
 
 #[message(result = "String")]
-struct ToUppercase(String);
+struct Ping;
 
 struct MyActor;
 
 impl Actor for MyActor {}
 
 #[async_trait::async_trait]
-impl Handler<ToUppercase> for MyActor {
-    async fn handle(&mut self, _ctx: &mut Context<Self>, msg: ToUppercase) -> String {
-        msg.0.to_uppercase()
+impl Handler<Ping> for MyActor {
+    async fn handle(&mut self, _ctx: &mut Context<Self>, _: Ping) -> String {
+        "Pong".to_string()
     }
 }
 
 #[xactor::main]
 async fn main() -> Result<()> {
     // Start actor and get its address
-    let mut addr = MyActor.start().await?;
+    let addr = MyActor.start().await?;
 
-    // Send message `ToUppercase` to actor via addr
-    let res = addr.call(ToUppercase("lowercase".to_string())).await?;
-    assert_eq!(res, "LOWERCASE");
+    let res = addr.call(Ping).await?;
+    println!("{}", res);
+
     Ok(())
 }
 {% endhighlight %}
 
+### Breakdown
+
+* Defined is a `MyActor` actor trait, and a `Ping` message
+* The `handle` function is implemented for `MyActor`
+* Using this framework, `async` and `await` allows for the result to be waited on
 
 ## Advantages of the Actor Pattern in Rust
 
