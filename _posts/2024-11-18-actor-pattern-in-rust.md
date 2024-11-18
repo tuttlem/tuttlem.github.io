@@ -222,7 +222,7 @@ The actor pattern is a good fit for:
 While powerful, the actor model isn't always necessary. Rust offers other concurrency paradigms:
 
 * **Channels**: Using `std::sync::mpsc` or `tokio::sync::mpsc` for message passing.
-* **Shared-State Concurrency**: Leveraging Arc<Mutex<T>> to manage shared state.
+* **Shared-State Concurrency**: Leveraging `Arc<Mutex<T>>` to manage shared state.
 * **Futures and Tasks**: Directly working with Rust’s async ecosystem.
 
 # Conclusion
