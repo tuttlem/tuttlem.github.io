@@ -28,29 +28,29 @@ sudo apt-get install libpam-u2f
 
 To link your YubiKey with your system, follow these steps:
 
-1. **Connect your YubiKey**: Insert the device into your computer.
+* **Connect your YubiKey**: Insert the device into your computer.
 
-2. **Create the configuration directory**: If it doesn’t already exist, create the directory `~/.config/Yubico`:
+* **Create the configuration directory**: If it doesn’t already exist, create the directory `~/.config/Yubico`:
 
-   {% highlight shell %}
-   mkdir -p ~/.config/Yubico
-   {% endhighlight %}
+{% highlight shell %}
+mkdir -p ~/.config/Yubico
+{% endhighlight %}
 
-3. **Register your YubiKey**: Add the key to the list of accepted devices by running:
+* **Register your YubiKey**: Add the key to the list of accepted devices by running:
 
-   {% highlight shell %}
-   pamu2fcfg > ~/.config/Yubico/u2f_keys
-   {% endhighlight %}
+{% highlight shell %}
+pamu2fcfg > ~/.config/Yubico/u2f_keys
+{% endhighlight %}
 
-   If you’ve set a PIN for your YubiKey, you may be prompted to enter it.
+If you’ve set a PIN for your YubiKey, you may be prompted to enter it.
 
-4. **Add additional keys (optional)**: If you have other YubiKeys, you can add them as follows:
+* **Add additional keys (optional)**: If you have other YubiKeys, you can add them as follows:
 
-   {% highlight shell %}
-   pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
-   {% endhighlight %}
+{% highlight shell %}
+pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
+{% endhighlight %}
 
-   Ensure there are **no extra newlines** between entries in the `~/.config/Yubico/u2f_keys` file.
+Ensure there are **no extra newlines** between entries in the `~/.config/Yubico/u2f_keys` file.
 
 ## Configuring `sudo`
 
@@ -60,33 +60,33 @@ After setting up your key(s), you can configure `sudo` to use them for authentic
 
 To make `sudo` passwordless:
 
-1. **Edit your `/etc/sudoers` file**: Add a line like this:
+* **Edit your `/etc/sudoers` file**: Add a line like this:
 
-   {% highlight plain %}
-   %wheel      ALL = (ALL) NOPASSWD: ALL
-   {% endhighlight %}
+{% highlight plain %}
+%wheel      ALL = (ALL) NOPASSWD: ALL
+{% endhighlight %}
 
-   Ensure your user is part of the `wheel` group.
+Ensure your user is part of the `wheel` group.
 
-2. **Modify `/etc/pam.d/sudo`**: Add the following line **before** `@include common-auth`:
+* **Modify `/etc/pam.d/sudo`**: Add the following line **before** `@include common-auth`:
 
-   {% highlight plain %}
-   auth        sufficient      pam_u2f.so
-   {% endhighlight %}
+{% highlight plain %}
+auth        sufficient      pam_u2f.so
+{% endhighlight %}
 
-   This configuration makes YubiKey authentication sufficient for `sudo`, bypassing the need for a password.
+This configuration makes YubiKey authentication sufficient for `sudo`, bypassing the need for a password.
 
 ### Enabling 2FA for `sudo`
 
 To enable 2FA, where both your password and YubiKey are required:
 
-1. **Edit `/etc/pam.d/sudo`**: Add the following line **after** `@include common-auth`:
+* **Edit `/etc/pam.d/sudo`**: Add the following line **after** `@include common-auth`:
 
-   {% highlight plain %}
-   auth        required        pam_u2f.so
-   {% endhighlight %}
+{% highlight plain %}
+auth        required        pam_u2f.so
+{% endhighlight %}
 
-   This ensures the usual password authentication is followed by YubiKey verification.
+This ensures the usual password authentication is followed by YubiKey verification.
 
 # Troubleshooting
 
