@@ -29,7 +29,7 @@ need:
 Start by creating a new Rust project. 
 
 {% highlight shell %}
-wasm-pack new pixel-buffer-rendering
+wasm-pack new randypix
 {% endhighlight %}
 
 Ensure that your `Cargo.toml` is configured for WASM development:
