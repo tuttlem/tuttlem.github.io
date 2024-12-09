@@ -16,14 +16,6 @@ graphics renderer.
 By the end of this tutorial, you’ll have a working Rust-WASM project that renders graphics to a `<canvas>` element in a 
 web browser.
 
-# Prerequisites
-
-Before proceeding, ensure you’ve completed the [WASM in Rust]({% post_url 2024-12-02-wasm-in-rust %}) tutorial. You’ll 
-need:
-
-- **Rust `nightly`** and **wasm-pack** installed.
-- Basic familiarity with WASM and `wasm-bindgen`.
-
 # Setting Up
 
 Start by creating a new Rust project. 
