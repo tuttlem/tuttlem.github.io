@@ -216,7 +216,12 @@ You should see a horrific linker error.
 The program that the compiler and linker is trying to produce (for my system here at least) is trying to do so using 
 the C runtime. As we're trying to get dependency-free, we need to tell the build chain that we don't want to use this.
 
-In order to do that, we need to build our program for a bare metal target.
+In order to do that, we need to build our program for a bare metal target. It's worth understanding what a "target triple"
+is and what one is made up of that you can start using. The [rust lang](https://doc.rust-lang.org/nightly/rustc/platform-support.html) 
+book has a great section on this.
+
+These take the structure of `cpu_family-vendor-operating_system`. A target triple encodes information about the target of a 
+compilation session. 
 
 You can see all of the targets available for you to install with the following:
 
@@ -224,10 +229,10 @@ You can see all of the targets available for you to install with the following:
 rustc --print=target-list
 {% endhighlight %}
 
-You need to find one of those many targets that doesn't have any underlying dependencies. In this example, I've found 
-`x86_64-unknown-none`.
+You need to find one of those many targets that doesn't have any underlying dependencies. 
 
-Install this runtime:
+In this example, I've found  `x86_64-unknown-none`. A 64-bit target produced by `unknown` for not particular operating 
+system: `none`. Install this runtime:
 
 {% highlight shell %}
 rustup target add x86_64-unknown-none
