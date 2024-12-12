@@ -148,6 +148,12 @@ password   include      system-local-login
 
 The graphical prompts that you see throughout your desktop environment session are controlled using [polkit](https://wiki.archlinux.org/title/Polkit).
 
+Like me, you may need to install the `polkit` dependencies if you're using KDE:
+
+{% highlight shell %}
+sudo apt install policykit-1 polkit-kde-agent-1
+{% endhighlight %}
+
 Much like the passwordless configuration for `sudo` above, we can control `polkit` in the same way.
 
 * **Edit `/etc/pam.d/polkit-1`**: Add the `pam_u2f.so` reference:
