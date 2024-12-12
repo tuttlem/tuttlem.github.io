@@ -133,7 +133,7 @@ When you change virtual TTY and go to login, we can also require a 2FA token at 
 
 * **Edit `/etc/pam.d/login`**: Add the `pam_u2f.so` reference:
 
-{% highight plain %}
+{% highlight plain %}
 #%PAM-1.0
 
 auth       requisite    pam_nologin.so
