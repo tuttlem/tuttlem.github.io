@@ -405,7 +405,12 @@ fixed fixed_one_over(fixed n);
   modify [eax ebx edx];
 {% endhighlight %}
 
-# Vectors 
+# 3D
+
+There a primer on [Basic 3D]({% post_url 2024-10-18-basic-3d %}) that I have done previously that goes into deeper 
+information around 3D mathematics, and more.
+
+## Vectors 
 
 A 3-space vector has an x, y, and z component. 
 
@@ -449,7 +454,7 @@ void vec3_set(vec3* v, fixed x, fixed y, fixed z);
 
 Basic arithmetic is achieved using the fixed math primitives defined earlier:
 
-## Negate
+### Negate
 
 $$ -\mathbf{v} = \begin{bmatrix} -x \\ -y \\ -z \end{bmatrix} $$
 
@@ -461,7 +466,7 @@ inline void vec3_neg(vec3 *c) {
 }
 {% endhighlight %}
 
-## Addition
+### Addition
 
 Given two 3-vectors:
 
@@ -479,7 +484,7 @@ inline void vec3_add(vec3 *c, vec3 *a, vec3 *b) {
 }
 {% endhighlight %}
 
-## Subtraction
+### Subtraction
 
 Given two 3-vectors:
 
@@ -497,7 +502,7 @@ inline void vec3_sub(vec3 *c, vec3 *a, vec3 *b) {
 }
 {% endhighlight %}
 
-## Multiplly by Scalar
+### Multiplly by Scalar
 
 Multiplying it by a scalar $$ c $$ results in:
 
@@ -511,7 +516,7 @@ inline void vec3_mul(vec3 *c, vec3 *a, fixed f) {
 }
 {% endhighlight %}
 
-## Divide by Scalar
+### Divide by Scalar
 
 Dividing it by a scalar $$ c $$ (where $$ c \neq 0 $$) results in:
 
@@ -525,7 +530,7 @@ inline void vec3_div(vec3 *c, vec3 *a, fixed f) {
 }
 {% endhighlight %}
 
-## Length Squared
+### Length Squared
 
 The length squared (magnitude squared) of the vector is:
 
@@ -539,7 +544,7 @@ inline fixed vec3_len_sqr(vec3 *v) {
 }
 {% endhighlight %}
 
-## Length
+### Length
 
 The length (magnitude) of a 3-vector is the square root of the length squared:
 
@@ -551,7 +556,7 @@ inline fixed vec3_len(vec3 *v) {
 }
 {% endhighlight %}
 
-## Normalise
+### Normalise
 
 To normalise a vector (make it unit length), divide each component by its length. Given:
 
@@ -570,7 +575,7 @@ inline void vec3_normalize(vec3 *v) {
 }
 {% endhighlight %}
 
-# Matricies
+## Matricies
 
 A 4x4 matrix is how we store all of our vector transformations. We define it like this:
 
@@ -602,7 +607,7 @@ union _mat44 {
 typedef union _mat44 mat44;
 {% endhighlight %}
 
-## Identity
+### Identity
 
 The identity matrix is a special 4x4 matrix where the diagonal elements are 1, and all others are 0:
 
@@ -640,7 +645,7 @@ void mat44_identity(mat44 *m);
   modify [esi ecx];
 {% endhighlight %}
 
-## Multiply by Matrix
+### Multiply by Matrix
 
 One of the most important primitives is being able to multiply a matrix by another matrix.
 
@@ -679,7 +684,7 @@ inline void mat44_mul(mat44 *m, mat44 *l, mat44 *r) {
 }
 {% endhighlight %}
 
-## Transforming a vector
+### Transforming a vector
 
 Given a 4x4 matrix $$ \mathbf{M} $$ and a 4D vector $$ \mathbf{v} = \begin{bmatrix} x \\ y \\ z \\ w \end{bmatrix} $$, 
 the result is:
@@ -705,7 +710,7 @@ inline void mat44_mul_vec(vec3 *v, mat44 *l, vec3 *r) {
 }
 {% endhighlight %}
 
-## Translation
+### Translation
 
 The translation matrix is responsible for moving vectors away from the origin by a given amount.
 
@@ -730,7 +735,7 @@ inline void mat44_translation(mat44 *m, vec3 *v) {
 }
 {% endhighlight %}
 
-## Scale
+### Scale
 
 The scale matrix will make a point move away from the origin by a given factor.
 
@@ -755,7 +760,7 @@ inline void mat44_scale(mat44 *m, vec3 *v) {
 }
 {% endhighlight %}
 
-## Rotation Around an Arbitrary Axis
+### Rotation Around an Arbitrary Axis
 
 To rotate around an arbitrary axis $$ \mathbf{a} = \begin{bmatrix} a_x \\ a_y \\ a_z \end{bmatrix} $$ by an angle $$ \theta $$, 
 the rotation matrix is defined as:
@@ -813,7 +818,7 @@ void mat44_axis_rot(mat44 *m, vec3 *axis, fixed angle) {
 }
 {% endhighlight %}
 
-## Perspective Projection
+### Perspective Projection
 
 For a perspective projection with a field of view $$ fov $$, aspect ratio $$ a $$, near plane $$ n $$, and 
 far plane $$ f $$, the matrix is:

@@ -11,12 +11,14 @@ categories: [ "" ]
 Visual effects like water droplets are mesmerizing, and they showcase how simple algorithms can produce complex, beautiful 
 animations. In this article, I’ll walk you through creating a water droplet effect using VGA mode 13h.
 
-We'll rely on our previously created `freak` library for VGA setup and utility functions, focusing on how to implement 
-the effect itself. 
+We'll rely on some of the code that we developed in the [VGA routines from Watcom C]({% post_url 2024-12-19-vga-routines-from-watcom-c %}) 
+article for VGA setup and utility functions, focusing on how to implement  the effect itself. 
 
 The effect that we're looking to produce should look something like this:
 
-![Simple Scene]({{ site.url }}/assets/water.png)
+<video muted autoplay loop width="800">
+    <source src="{{ site.url }}/assets/water.mp4" type="video/mp4">
+</video>
 
 # The Idea
 
@@ -44,9 +46,7 @@ void set_water_palette() {
   }
 }
 {% endhighlight %}
-
-The `set_palette` function is part of the `freak` library, which directly modifies VGA’s color registers.
-
+    
 # Representing Drops
 
 Each drop is represented by a structure that tracks:
@@ -78,7 +78,8 @@ void reset_drop(struct drop *d) {
 }
 {% endhighlight %}
 
-Each frame, we reduce the drop's energy and increment its generation. When energy is exhausted, the drop stops producing ripples:
+Each frame, we reduce the drop's energy and increment its generation. When energy is exhausted, the drop stops 
+producing ripples:
 
 {% highlight c %}
 void advance_drop(struct drop *d) {
@@ -115,18 +116,23 @@ void draw_drop(struct drop *d, uint8_t *buffer) {
         uint16_t offset = xx + (yy << 6) + (yy << 8);  // VGA offset
         uint16_t c = buffer[offset];
 
+        // clamp the pixel colour to 255
         if ((c + d->e) > 255) {
           c = 255;
         } else {
           c += d->e;
         }
 
+        // set the pixel
         buffer[offset] = c;
       }
     }
   }
 }
 {% endhighlight %}
+
+The colour that is rendered to the buffer is additive. We take the current colour at the pixel position, and add to it 
+giving the droplets a sense of collision when they overlap.
 
 # Simulating Fluid Motion
 
