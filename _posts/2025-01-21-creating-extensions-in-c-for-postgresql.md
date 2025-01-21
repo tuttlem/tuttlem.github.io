@@ -51,6 +51,54 @@ This code defines a simple PostgreSQL function `hello_world()` that returns the 
 PostgreSQL's C API, and the `cstring_to_text` function ensures that the string is properly converted to a PostgreSQL 
 text type.
 
+Let's take a closer look at a few pieces of that code snippet.
+
+### `PG_MODULE_MAGIC`
+
+{% highlight c %}
+PG_MODULE_MAGIC;
+{% endhighlight %}
+
+This macro is mandatory in all PostgreSQL C extensions. It acts as a marker to ensure that the extension was compiled 
+with a compatible version of PostgreSQL. Without it, PostgreSQL will refuse to load the module, as it cannot verify 
+compatibility.
+
+### `PG_FUNCTION_INFO_V1`
+
+{% highlight c %}
+PG_FUNCTION_INFO_V1(hello_world);
+{% endhighlight %}
+
+This macro declares the function `hello_world()` as a PostgreSQL-compatible function using version 1 of PostgreSQL's 
+call convention. It ensures that the function can interact with PostgreSQL's internal structures, such as argument 
+parsing and memory management.
+
+### `Datum`
+
+{% highlight c %}
+Datum hello_world(PG_FUNCTION_ARGS)
+{% endhighlight %}
+
+* `Datum` is a core PostgreSQL data type that represents any value passed to or returned by a PostgreSQL function. It is a general-purpose type used internally by PostgreSQL to handle various data types efficiently.
+* `PG_FUNCTION_ARGS` is a macro that defines the function signature expected by PostgreSQL for dynamically callable functions. It gives access to the arguments passed to the function.
+
+In this example, `Datum` is the return type of the hello_world function.
+
+### `PG_RETURN_TEXT_P`
+
+{% highlight c %}
+text *result = cstring_to_text("Hello, World!");
+PG_RETURN_TEXT_P(result);
+{% endhighlight %}
+
+* `cstring_to_text`: This function converts a null-terminated C string (`char *`) into a PostgreSQL `text` type. PostgreSQL uses its own `text` structure to manage string data.
+* `PG_RETURN_TEXT_P`: This macro wraps a pointer to a `text` structure and converts it into a Datum, which is required for returning values from a PostgreSQL C function.
+
+The flow in this function:
+
+* `cstring_to_text("Hello, World!")` creates a `text *` object in PostgreSQL's memory context.
+* `PG_RETURN_TEXT_P(result)` ensures the text * is properly wrapped in a `Datum` so PostgreSQL can use the return value.
+
 ## Control and SQL Files
 
 A PostgreSQL extension requires a control file to describe its metadata and a SQL file to define the functions it 
