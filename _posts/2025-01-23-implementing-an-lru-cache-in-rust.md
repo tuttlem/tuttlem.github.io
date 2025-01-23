@@ -110,7 +110,7 @@ pub fn get(&mut self, key: &K) -> Option<&V> {
 
 In cases where a value never existed or has been evicted, this function sends `None` back to the caller.
 
-## Valuer insertion via `put`
+## Value insertion via `put`
 
 The `put` method adds a new key-value pair or updates an existing one:
 
