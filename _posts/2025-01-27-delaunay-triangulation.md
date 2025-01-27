@@ -99,6 +99,9 @@ The following is the output from this program.
 
 ![Example]({{ site.url }}/assets/delaunay-points.png)
 
+Note how the paths between the points are the most optimal for connecting the towns efficiently. The triangulation 
+avoids unnecessary overlaps or excessively sharp angles, ensuring practicality and simplicity in the network design.
+
 # Limitations and Challenges
 
 While Delaunay triangulation is powerful, it has its challenges:
