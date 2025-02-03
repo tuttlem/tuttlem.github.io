@@ -374,26 +374,9 @@ float softShadow(vec3 ro, vec3 rd) {
 }
 {% endhighlight %}
 
-## Pull it all together
+## Pulling it all together
 
 We can now pull all of these enhancements together with our main image function:
-
-{% highlight text %}
-// Soft Shadows (traces a secondary ray to detect occlusion)
-float softShadow(vec3 ro, vec3 rd) {
-float res = 1.0;
-float t = 0.02; // Small starting step
-for (int i = 0; i < 24; i++) {
-float d = mandelbulbSDF(ro + rd * t);
-if (d < 0.001) return 0.0; // Fully in shadow
-res = min(res, 10.0 * d / t); // Soft transition
-t += d;
-}
-return res;
-}
-{% endhighlight %}
-
-## Pulling it all togegther
 
 {% highlight text %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
