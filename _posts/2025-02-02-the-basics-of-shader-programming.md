@@ -42,7 +42,7 @@ Let’s start with the **simplest shader possible**: **a solid color fill**.
 
 ## Seeing Red!
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     fragColor = vec4(1.0, 0.0, 0.0, 1.0); // Solid red color
 }
@@ -67,7 +67,7 @@ Instead of filling the screen with a single color, let's **map colors to pixel p
 
 ## A Gradient Shader
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord / iResolution.xy; // Normalize coordinates (0 to 1)
     fragColor = vec4(uv.x, uv.y, 0.5, 1.0);
@@ -91,7 +91,7 @@ Shaders can **react to time** using `iTime`. This lets us create **dynamic effec
 
 ## Moving Color Waves
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord / iResolution.xy;
     float wave = sin(uv.x * 10.0 + iTime);

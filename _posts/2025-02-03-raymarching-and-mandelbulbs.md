@@ -39,7 +39,7 @@ surfaces like fractals and organic shapes.
 The simplest 3D object we can render using ray marching is a sphere. We define its shape using a 
 signed distance function (SDF):
 
-{% highlight text %}
+{% highlight javascript %}
 // Sphere Signed Distance Function (SDF)
 float sdfSphere(vec3 p, float r) {
     return length(p) - r;
@@ -51,7 +51,7 @@ The `sdfSphere()` function returns the shortest distance from any point in space
 We can now step along that ray until we reach the sphere. We do this by integrating our `sfpSphere()` function into our 
 `mainImage()` function:
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 
@@ -81,13 +81,13 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
 First of all here, we convert the co-ordinate that we're processing into screen co-ordinates:
 
-{% highlight text %}
+{% highlight javascript %}
 vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 {% endhighlight %}
 
 This `uv` value is now used to in the calculations to form our ray equation:
 
-{% highlight text %}
+{% highlight javascript %}
 vec3 rayOrigin = vec3(0, 0, -3);  
 vec3 rayDir = normalize(vec3(uv, 1));
 {% endhighlight %}
@@ -98,7 +98,7 @@ intersects with our sphere (via `sdfSphere`).
 Finally, we render the colour of our sphere if the distance is within tolerance; otherwise we consider this part of 
 the background:
 
-{% highlight text %}
+{% highlight javascript %}
 vec3 col = (totalDistance < maxDist) ? vec3(1.0) : vec3(0.2, 0.3, 0.4);
 fragColor = vec4(col, 1.0);
 {% endhighlight %}
@@ -114,7 +114,7 @@ You should see something similar to this:
 In order to make this sphere look a little more 3D, we can light it. In order to light any object, we need to be able 
 to compute surface normals. We do that via a function like this:
 
-{% highlight text %}
+{% highlight javascript %}
 vec3 getNormal(vec3 p) {
     vec2 e = vec2(0.001, 0.0);  // Small offset for numerical differentiation
     return normalize(vec3(
@@ -128,7 +128,7 @@ vec3 getNormal(vec3 p) {
 We make decisions about the actual colour via a lighting function. This lighting function is informed by the surface 
 normals that it computes:
 
-{% highlight text %}
+{% highlight javascript %}
 vec3 lighting(vec3 p) {
     vec3 lightPos = vec3(2.0, 2.0, -2.0);  // Light source position
     vec3 normal = getNormal(p);  // Compute the normal at point 'p'
@@ -141,7 +141,7 @@ vec3 lighting(vec3 p) {
 We can now integrate this back into our scene in the `mainImage` function. Rather than just making a static colour 
 return when we establish a hit point, we start to execute the `lighting` function towards the end of the function:
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 
@@ -193,7 +193,7 @@ The core formula: $$ z→zn+c $$ is extended to 3D using spherical math.
 
 Instead of a sphere SDF, we’ll use an iterative function to compute distances to the fractal surface.
 
-{% highlight text %}
+{% highlight javascript %}
 float mandelbulbSDF(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
@@ -227,7 +227,7 @@ This function iterates over complex numbers in 3D space to compute the Mandelbul
 Now, we can take a look at what this produces. We use our newly created SDF to get our hit point. We'll use this 
 distance value as well to establish different colours.
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 
@@ -271,7 +271,7 @@ You should see something similar to this:
 We can't see much with how this object is oriented. By adding some basic animation, we can start to look at the complexities
 of how this object is put together. We use the global `iTime` variable here to establish movement:
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 
@@ -321,7 +321,7 @@ You should see something similar to this:
 In order to make our fractal look 3D, we need to be able to compute our surface normals. We'll be using the 
 `mandelbulbSDF` function above to accomplish this:
 
-{% highlight text %}
+{% highlight javascript %}
 vec3 getNormal(vec3 p) {
     vec2 e = vec2(0.001, 0.0);
     return normalize(vec3(
@@ -334,7 +334,7 @@ vec3 getNormal(vec3 p) {
 
 We now use this function to light our object using phong shading:
 
-{% highlight text %}
+{% highlight javascript %}
 // Basic Phong shading
 vec3 phongLighting(vec3 p, vec3 viewDir) {
     vec3 normal = getNormal(p);
@@ -359,7 +359,7 @@ vec3 phongLighting(vec3 p, vec3 viewDir) {
 
 To make the fractal look more realistic, we'll implement soft shadows. This will really enhance how this object looks.
 
-{% highlight text %}
+{% highlight javascript %}
 // Soft Shadows (traces a secondary ray to detect occlusion)
 float softShadow(vec3 ro, vec3 rd) {
     float res = 1.0;
@@ -378,7 +378,7 @@ float softShadow(vec3 ro, vec3 rd) {
 
 We can now pull all of these enhancements together with our main image function:
 
-{% highlight text %}
+{% highlight javascript %}
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
 
