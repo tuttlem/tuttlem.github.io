@@ -20,6 +20,9 @@ In this first post, we’ll cover:
 
 By the end of this post, you’ll have a working Lisp interpreter that can evaluate basic expressions like `(+ 1 2)`.
 
+
+If you're following along, you can find the implementation for this article [here](https://github.com/tuttlem/hlisp/releases/tag/part1).
+
 # Setup
 
 We're using [Haskell](https://www.haskell.org/) to implement our Lisp interpreter, so make sure you're installed and 
