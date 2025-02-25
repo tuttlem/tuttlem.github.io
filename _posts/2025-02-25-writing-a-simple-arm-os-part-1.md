@@ -184,7 +184,7 @@ make
 
 All going well you should see some output as follows:
 
-{% highglight text %}
+{% highlight text %}
 arm-none-eabi-as -o build/bootloader.o asm/bootloader.s
 arm-none-eabi-ld -Ttext 0x0 -o build/armos.elf build/bootloader.o
 arm-none-eabi-objcopy -O binary build/armos.elf build/armos.bin
@@ -198,7 +198,7 @@ We can give our new operating system a run via qemu with the following instructi
 
 {% highlight bash %}
 qemu-system-arm -M versatilepb -kernel build/armos.elf -nographic
-{% endhighligh %}
+{% endhighlight %}
 
 Here we have a few switches:
 
