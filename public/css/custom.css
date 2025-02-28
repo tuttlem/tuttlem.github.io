@@ -1,0 +1,17 @@
+.callout {
+    padding: 1em;
+    border-left: 4px solid #0074D9;
+    background: #f3f3f3;
+    margin: 1em 0;
+}
+
+.callout.warning {
+    border-left-color: #FF4136;
+    background: #ffecec;
+}
+
+.callout.success {
+    border-left-color: #2ECC40;
+    background: #e6ffed;
+}
+

@@ -8,15 +8,14 @@ categories: [ asm, arm, os ]
 
 # Introduction
 
-ARM, which originally stood for Acorn RISC Machine and now is known as Advanced RISC Machine, is a cornerstone of 
-modern embedded systems and mobile devices. Its design is rooted in the principles of Reduced Instruction Set Computing 
-(RISC), which emphasizes a small, highly optimized set of instructions that allow for greater efficiency and lower 
-power consumption.
+In this series, we'll build a small operating system for the ARM platform from the ground up. Along the way, we'll 
+explore fundamental OS concepts and incrementally add components, turning abstract ideas into working code. Each 
+article will focus on a specific piece of the system, guiding you through the process step by step.
 
-In a [previous post]({% post_url 2025-01-24-writing-an-arm-bootloader %}) we looked at setting up a bootloader. In this 
-series of blogposts, I want to develop these concepts a little more to implement a simple operating system.
+We're going to use QEMU, an open-source emulator, so we can develop and test our code directly on a PC—no hardware 
+required (for now).
 
-For part 1 today, we'll aim at the following:
+In Part 1, we’ll first discuss ARM, then move on to the following:
 
 * Installing prerequisites
 * Setting up a project structure
@@ -27,9 +26,39 @@ The code for this article is [available in my Github repository](https://github.
 
 Let's make a start.
 
+## What is ARM?
+
+ARM, short for Advanced RISC Machine, is a family of Reduced Instruction Set Computing ([RISC](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer)) architectures that power 
+billions of devices, from smartphones and tablets to embedded systems and IoT devices. Originally known as Acorn RISC 
+Machine, ARM has become a cornerstone of modern computing due to its energy efficiency and simplicity compared to 
+Complex Instruction Set Computing ([CISC](https://en.wikipedia.org/wiki/Complex_instruction_set_computer)) architectures like x86. Designed around the RISC philosophy, ARM processors 
+use a small, highly optimized instruction set, enabling greater performance per watt and making them ideal for 
+low-power and mobile environments.
+
+## Why Emulation?
+
+While ARM assembly is usually executed on physical devices, emulation tools like [QEMU](https://www.qemu.org/) allow
+you to:
+
+* Test code without requiring hardware.
+* Experiment with different ARM-based architectures and peripherals.
+* Debug programs more effectively using tools like GDB.
+
+## Supported ARM Hardware
+
+Before we begin coding, let’s take a brief look at some popular ARM-based platforms:
+
+* **Raspberry Pi**: A widely used single-board computer.
+* **BeagleBone Black**: A powerful option for embedded projects.
+* **STM32 Microcontrollers**: Common in IoT and robotics applications.
+
 # Installing prerequisites
 
-We need to install our toolchain for building our software. The `arm-none-eabi` set is what we'll be targeting.
+Before we begin, we need to setup our development and build environment. I'm using [Manjaro](https://manjaro.org/) so package
+names might be slightly different for your distro of choice.
+
+To build our software, we’ll install the `arm-none-eabi` toolchain, which provides the assembler (`as`), linker (`ld`), 
+and other essential utilities.
 
 {% highlight bash %}
 sudo pacman -S arm-none-eabi-binutils arm-none-eabi-gcc
@@ -41,7 +70,7 @@ We will also need a virtual machine / emulator to run the software that we build
 sudo pacman -S qemu-system-arm
 {% endhighlight %}
 
-We have enough installed now, let's move on.
+With our toolchain and emulator installed, we’re ready to move forward.
 
 # Setup the Project
 
@@ -63,42 +92,35 @@ I've called my project `armos`, and have created the following structure:
 
 # Code!
 
-At this point we can add some code. If we add `bootstrap.s` to the `asm` folder we can make a start on the bootloader.
+Now that our project structure is in place, we can begin writing our first piece of assembly code: the bootloader. 
+
+If we add `bootstrap.s` to the `asm` folder we can make a start on the bootloader.
 
 {% highlight asm %}
-// ./asm/bootloader.s
+.section    .text
+.global     _start
 
-    .section    .text
-    .global     _start
-
- _start:
-    // initialize the stack pointer
-    LDR     sp, =stack_top
-
-    // jump to the kernel main loop
-    BL      kernel_main
+_start:
+    LDR     sp, =stack_top   @ initialize the stack pointer
+    BL      kernel_main      @ jump to the kernel main loop
 
 kernel_main:
-    // infinite loop to keep the OS running
-1:  B 1b
+1:  B 1b                     @ infinite loop to keep the OS running
 
-    // fallback loop
-    B .
-
-    // reserve space for the stack in a separate section
-    .section    .bss
-    .align      4
+    B .                      @ fallback loop
+    
+.section    .bss             
+.align      4
 stack_top:
-    // allocate 1kb for the stack
-    .space      1024
+.space      1024             @ allocate 1kb for the stack
 {% endhighlight %}
 
 This is a pretty basic module to begin with. At the start we define our code with a `.text` section and `_start` is a 
 global symbol:
 
 {% highlight asm %}
-    .section    .text
-    .global     _start
+.section    .text
+.global     _start
 {% endhighlight %}
 
 Next, we setup our stack pointer `sp` by loading the address of our `stack_top`. The equal sign preceeding `stack_top` 
@@ -110,39 +132,32 @@ Interesting note, `BL` which is _Branch with Link_ works very much like a branch
 from where we branched into the link register `r14`. 
 
 {% highlight asm %}
- _start:
-    // initialize the stack pointer
-    LDR     sp, =stack_top
-
-    // jump to the kernel main loop
-    BL      kernel_main
+_start:
+    LDR     sp, =stack_top   @ initialize the stack pointer
+    BL      kernel_main      @ jump to the kernel main loop
 {% endhighlight %}
 
 Now we have two endless loops setup. The first one loops back to the `1:` loop:
 
 {% highlight asm %}
-    // infinite loop to keep the OS running
-1:  B 1b
+1:  B 1b                     @ infinite loop to keep the OS running
 {% endhighlight %}
 
 If we do get an unexpected address sneak in for whatever reason, we've got a fallback loop that continually jumps to 
 itself using the shorthand `.`.
 
 {% highlight asm %}
-    // fallback loop
-    B .
+B .                      @ fallback loop
 {% endhighlight %}
 
 Finally, we complete the module by defining our stack with the `.bss` section. You'll notice the `stack_top` label that 
 we referenced earlier. 
 
 {% highlight asm %}
-    // reserve space for the stack in a separate section
-    .section    .bss
-    .align      4
+.section    .bss             
+.align      4
 stack_top:
-    // allocate 1kb for the stack
-    .space      1024
+.space      1024             @ allocate 1kb for the stack
 {% endhighlight %}
 
 # Build environment
@@ -172,9 +187,9 @@ clean:
 	rm -rf $(BUILD_DIR)
 {% endhighlight %}
 
-Our call out to our assembler is pretty straight forward, trading our `.s` files for `.o` object files. The linker is 
-told that the text section is at `0x0` via the `-Ttext`. We need to give the linker some extra help in these situations 
-where we are building for bare-metal targets, such is the case today.
+Our call out to our assembler is pretty straight forward, trading our `.s` files for `.o` object files. We use 
+`-Ttext 0x0` to explicitly tell the linker that our program should start at address `0x0`, which is necessary for 
+bare-metal environments. 
 
 Give it a build.
 
@@ -206,8 +221,48 @@ Here we have a few switches:
 * `-kernel build/armos.elf` loads our compiled bootloader/OS binary
 * `-nographic` runs qemu without a graphical user interface
 
-If everything as worked, you shouldn't see much at all. Your bootloader/OS is now spinning in a loop, waiting for you 
-to turn the computer off!
+If everything works, you won’t see much—your bootloader is running in an infinite loop, waiting for further development.
+
+# Debugging
+
+Because we are running in a virtualised environment, we have a full debugger at our disposal. Having a debugger attached 
+to your code when things aren't quite going to plan can be very valuable to understand what's happening in the internals 
+of your program.
+
+Using the `-gdb` option, you can instruct qemu to open a debugging port.
+
+{% highlight shell %}
+qemu-system-arm -M versatilepb -kernel boot.elf -S -gdb tcp::1234
+{% endhighlight %}
+
+You can then connect to gdb with the following:
+
+{% highlight shell %}
+arm-none-eabi-gdb boot.elf
+target remote :1234
+{% endhighlight %}
+
+# Deployment
+
+Finally, we'll touch on deployment.
+
+For deployment, we’ll use a Raspberry Pi as an example. This process is similar for other ARM-based boards.
+
+## Flashing
+
+First, we need to convert the ELF file to a raw binary format suitable for booting:
+
+{% highlight shell %}
+arm-none-eabi-objcopy -O binary boot.elf boot.bin
+{% endhighlight %}
+
+Use a tool like `dd` to write the binary to an SD card:
+
+{% include callout.html type="warning" title="Caution:" text="Be very careful with the dd command! Double-check /dev/sdX before running it to avoid overwriting important data." %}
+
+{% highlight shell %}
+dd if=boot.bin of=/dev/sdX bs=512 seek=2048
+{% endhighlight %}
 
 # Conclusion
 
