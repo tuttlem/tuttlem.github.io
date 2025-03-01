@@ -44,7 +44,7 @@ qemu-system-arm -M versatilepb -kernel build/armos.elf -serial stdio -nographic
 
 You may receive an error message like the following:
 
-{% highglight text %}
+{% highlight text %}
 qemu-system-arm: -serial stdio: cannot use stdio by multiple character devices
 qemu-system-arm: -serial stdio: could not connect serial device to character backend 'stdio'
 {% endhighlight %}
