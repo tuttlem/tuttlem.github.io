@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Writing A Simple ARM OS Part 4
+title: Writing A Simple ARM OS - Part 4
 date: 2025-03-02
 comments: false
 categories: [ arm, os, asm ]
