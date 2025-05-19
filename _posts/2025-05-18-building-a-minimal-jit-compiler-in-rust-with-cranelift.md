@@ -59,7 +59,7 @@ cranelift-codegen = "0.119"
 cranelift-frontend = "0.119"
 {% endhighlight %}
 
-# The Cdde
+# The Code
 
 ## Context Setup
 
