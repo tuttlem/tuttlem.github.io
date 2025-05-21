@@ -138,7 +138,7 @@ builder.finalize();
 
 This constructs a Cranelift function that takes two `i32`s, adds them, and returns the result.
 
-#3 Compiling and Executing
+# Compiling and Executing
 
 Once the IR is built, we compile and retrieve a function pointer:
 
