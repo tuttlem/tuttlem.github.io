@@ -52,40 +52,34 @@ authority that we've called "localhost-ca".
 We have now setup our "Root CA" entity. From here, there's a little bit of a handshake that we have to follow in order 
 to get our certificate signed by the CA. Here is a basic flow diagram:
 
-```text
-+-------------------+                 +-------------------+
-|                   |                 |                   |
-|     Customer      |                 |        CA         |
-|                   |                 |                   |
-+--------+----------+                 +---------+---------+
-         |                                      |
-         | Generate Private Key                 |
-         |------------------------------------->|
-         |                                      |
-         | Create Certificate Signing Request   |
-         | (CSR) with Public Key and Details    |
-         |------------------------------------->|
-         |                                      |
-         | CA Verifies CSR Information          |
-         | and Signs Certificate                |
-         |<-------------------------------------|
-         |                                      |
-         | Receives Signed Certificate          |
-         |------------------------------------->|
-         |                                      |
-         | Installs Certificate on Server       |
-         |------------------------------------->|
-         |                                      |
-         | Client Connects to Server via HTTPS  |
-         |------------------------------------->|
-         |                                      |
-         | Server Presents Certificate          |
-         |------------------------------------->|
-         |                                      |
-         | Client Verifies Certificate          |
-         | Against Trusted CA                   |
-         |------------------------------------->|
-```
+<div class="mermaid">
+flowchart TD
+    subgraph Customer
+        A1[1️⃣ Generate Private Key]
+        A2[1️⃣ Create CSR with Public Key and Details]
+        A5[3️⃣ Install Signed Certificate on Server]
+    end
+
+    subgraph CA
+        B1[2️⃣ Verify CSR Details]
+        B2[2️⃣ Sign and Issue Certificate]
+    end
+
+    subgraph Server
+        C1[3️⃣ Configured with Certificate]
+        C2[4️⃣ Respond with Certificate]
+    end
+
+    subgraph Client
+        D1[4️⃣ Connect via HTTPS]
+        D2[5️⃣ Verify Certificate Against Trusted CA]
+    end
+
+    A1 --> A2 --> B1
+    B1 --> B2 --> A5 --> C1
+    D1 --> C2 --> D2
+    C1 --> C2
+</div>
 
 1. *Customer* generates a private key and creates a CSR containing their public key and identifying information.
 2. *CA* verifies the CSR details and signs it, issuing a certificate.
