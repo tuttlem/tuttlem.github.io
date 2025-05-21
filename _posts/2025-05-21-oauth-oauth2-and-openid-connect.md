@@ -261,29 +261,113 @@ sequenceDiagram
     Client->>Client: (5) Validate id_token (aud, iss, exp, sig)
 </div>
 
-
 You now know **who the user is** and **can access their resources**.
 
+## Financial-grade API (FAPI)
 
+OAuth2 and OpenID Connect cover most identity and authorization needs — but what if you're building a system where the 
+stakes are higher?
 
-# Pitfalls and Best Practices
+That’s where **FAPI** comes in: a set of specifications designed for **open banking**, **financial APIs**, and 
+**identity assurance**. It builds on OAuth2 and OIDC with **tighter security requirements**.
 
-## Do
+FAPI is all about turning “pretty secure” into **“regulatory-grade secure.”**
 
-- Always use PKCE (mandatory for public clients)
-- Use short-lived access tokens and refresh tokens
-- Validate all tokens — especially `id_token`
-- Never store tokens in localStorage
+### Why FAPI Exists
 
-## Don't
+If you're authorizing access to:
 
-- Don’t use implicit flow anymore
-- Don’t mix up `access_token` and `id_token`
+- A bank account
+- A user's verified government identity
+- A payment transaction
+
+… then normal OAuth2 flows may not be enough. You need stronger client authentication, proof that messages haven’t been 
+tampered with, and assurances that the user really is who they say they are.
+
+### What FAPI Adds
+
+| Feature | Purpose |
+|--------|---------|
+| **PKCE (mandatory)** | Protects public clients from auth code injection |
+| **JARM** (JWT Authorization Response Mode) | Wraps redirect responses in signed JWTs |
+| **MTLS / private_key_jwt** | Strong client authentication — no shared client secret |
+| **PAR (Pushed Authorization Requests)** | Sends authorization parameters directly to the server, not via browser |
+| **Signed `request` objects** | Prevent tampering of requested scopes or redirect URIs |
+| **Claims like `acr`, `amr`** | Express the authentication context (e.g. MFA level) |
+
+> FAPI isn’t a new protocol — it’s a **profile** that narrows and strengthens how you use OAuth2 and OpenID Connect.
+
+### FAPI Profiles
+
+FAPI 1.0 comes in two flavors:
+
+- **Baseline** – For **read-only** access (e.g. viewing account balances)
+- **Advanced** – For **write access** (e.g. initiating payments), identity proofing, or legal-grade authorization  
+  Requires things like:
+  - Signed request parameters (`request` JWTs)
+  - Mutual TLS or `private_key_jwt` authentication
+  - JARM (JWT-wrapped authorization responses)
+
+### FAPI Authorization Flow (Simplified)
+
+This diagram shows a high-assurance Authorization Code Flow with FAPI extensions: **PAR**, **private_key_jwt**, and 
+**JARM**.
+
+<div class="mermaid">
+sequenceDiagram
+    participant Client
+    participant AuthServer as Authorization Server
+    participant User
+    participant Resource as Resource Server
+
+    Client->>AuthServer: (1) POST pushed authorization request (PAR) [signed]
+    AuthServer-->>Client: (2) PAR URI
+    Client->>User: (3) Redirect user with PAR URI
+    User->>AuthServer: (4) Login + Consent
+    AuthServer-->>Client: (5) Redirect with JARM JWT
+    Client->>AuthServer: (6) Exchange code (with private_key_jwt)
+    AuthServer-->>Client: (7) Access Token (+ id_token)
+    Client->>Resource: (8) Access resource with token
+</div>
+
+This flow is intentionally strict:
+- The **authorization request** is sent directly to the server via **PAR**, not through query parameters
+- The **response** (auth code) is wrapped in a signed JWT (**JARM**) to ensure integrity
+- The **client** proves its identity with a **private key**, not a shared secret
+- All tokens and `id_token`s are validated just like in OpenID Connect
+
+### Should You Use FAPI?
+
+| Use Case | FAPI Needed? |
+|----------|--------------|
+| “Login with Google” or GitHub? | ❌ No |
+| A typical SaaS dashboard? | ❌ No |
+| Open Banking APIs (UK, EU, AU)? | ✅ Yes |
+| Authorizing government-verified identities? | ✅ Yes |
+| Performing financial transactions or issuing payments? | ✅ Absolutely |
+
+It’s not meant for everyday OAuth — it’s for high-security environments that require strong trust guarantees and auditability.
 
 # Conclusion
 
 OAuth2 and OpenID Connect underpin almost every secure app on the internet — but they aren’t simple. They describe a 
 flexible framework, not a single implementation, and that’s why they feel confusing.
+
+## Pitfalls and Best Practices
+
+### Do
+
+- Always use PKCE (mandatory for public clients)
+- Use short-lived access tokens and refresh tokens
+- Validate all tokens — especially `id_token`
+- Never store tokens in localStorage
+- Use FAPI when dealing with banking
+
+### Don't
+
+- Don’t use implicit flow anymore
+- Don’t mix up `access_token` and `id_token`
+
 
 If you want more information, here are some helpful links.
 
@@ -292,4 +376,6 @@ If you want more information, here are some helpful links.
 - [jwt.io](https://jwt.io/) – Inspect JWTs
 - [oauthdebugger.com](https://oauthdebugger.com/) – Play with flows
 - [Auth0 playground](https://auth0.com/docs/flows/concepts/auth-code-pkce) – Try PKCE interactively
-
+- [OpenID Foundation – FAPI Working Group](https://openid.net/wg/fapi/)
+- [FAPI 1.0 Baseline & Advanced Specs](https://openid.net/specs/)
+- [FAPI 2.0 Draft](https://openid.net/specs/fapi-2_0-baseline-ID1.html) – Next-gen profile under development
