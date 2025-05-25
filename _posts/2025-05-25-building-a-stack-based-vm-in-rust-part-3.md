@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Building a stack based VM in rust - Part 3
+title: Building a Stack-Based VM in Rust - Part 3
 date: 2025-05-25
 comments: false
 categories: [ rust, vm, forth, systems ]
