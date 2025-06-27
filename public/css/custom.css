@@ -15,3 +15,20 @@
     background: #e6ffed;
 }
 
+.callout.error {
+    border-left-color: #e63946; /* crimson red */
+    background: #ffeef0;        /* light red/pink */
+}
+
+.callout.info {
+    border-left-color: #9d4edd; /* rich purple */
+    background: #f4f0ff;        /* soft lavender */
+}
+
+.callout.error,
+.callout.warning,
+.callout.success,
+.callout.info {
+    padding: 1em;
+    margin: 1em 0;
+}
