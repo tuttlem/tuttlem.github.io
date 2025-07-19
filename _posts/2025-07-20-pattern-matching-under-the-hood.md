@@ -117,6 +117,8 @@ fn sum(tree: &Tree) -> i32 {
 }
 {% endhighlight %}
 
+{% include callout.html type="info" title="Keep in mind!" text="Rust enforces match exhaustiveness at compile time. If you forget to handle a variant, the compiler will issue an error—this ensures total coverage and prevents runtime surprises." %}
+
 ### Haskell
 
 {% highlight haskell %}
@@ -196,9 +198,6 @@ interpreted and executed:
 - **Haskell** balances pattern evaluation with laziness, leading to different runtime behavior.
 - **OCaml** focuses on expressive patterns and efficient compilation, with an option for partial matches.
 
-Next, we’ll dive deeper into **desugaring and performance**, exploring how matches turn into IR or machine code—and how 
-that impacts real-world code.
-
 ## Desugaring and Compilation Internals
 
 Pattern matching may look declarative, but under the hood, it's compiled down to a series of conditional branches, 
@@ -242,6 +241,8 @@ be evaluated. This has consequences:
 
 GHC desugars pattern matches into **case expressions**, and then optimizes these during Core-to-STG conversion. The 
 use of strictness annotations or `BangPatterns` can influence when evaluation occurs.
+
+{% include callout.html type="warning" title="Watch out!" text="In Haskell, non-exhaustive pattern matches may compile without errors but fail at runtime—especially when lazily evaluated expressions are forced later on." %}
 
 ### OCaml: Pattern Matrices and Decision Trees
 
@@ -331,6 +332,8 @@ OCaml benefits from an efficient memory layout for variants and predictable eage
 Because OCaml has an optimizing native compiler (`ocamlopt`), well-structured matches can be nearly as fast as imperative conditionals.
 
 **Performance Tip:** Make matches exhaustive or handle `Match_failure` explicitly, and avoid overly nested patterns without reason.
+
+{% include callout.html type="info" title="Pro tip" text="Although OCaml performs exhaustiveness checking, it still allows incomplete matches if you accept the risk of a Match_failure exception at runtime. Consider enabling compiler warnings for safety." %}
 
 ### Comparing the Three
 
