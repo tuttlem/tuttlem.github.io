@@ -23,6 +23,8 @@ All of the code for this article can be found [up on GitHub](https://github.com/
 
 # RP2350
 
+![Raspberry Pi Pico 2]({{ site.url }}/assets/pico-2.png)
+
 Raspberry Pi’s RP2040 quickly became a favorite among hobbyists and professionals alike, with its dual-core Cortex-M0+, 
 flexible PIO system, and excellent documentation. Now, the RP2350 ups the ante.
 
@@ -454,6 +456,12 @@ loop {
     Timer::after_millis(500).await;
 }
 {% endhighlight %}
+
+The following diagram shows the pinout of the Pico 2.
+
+![Raspberry Pi Pico 2 Pinout]({{ site.url }}/assets/pico-2-r4-pinout.svg)
+
+At the top of the diagram, you can see that `GP25` is connected to the LED, which is why we're integrating with that pin.
 
 - `embassy_rp::init()` initializes peripherals.
 - `PIN_25` is the onboard LED on most RP boards.
