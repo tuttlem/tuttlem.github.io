@@ -19,7 +19,7 @@ class person {
    public:                           
     person(person&& p);            
                                      
-    person&& operator=(person&& p);
+    person& operator=(person&& p);
                                      
   public:                           
     string first_name,             
