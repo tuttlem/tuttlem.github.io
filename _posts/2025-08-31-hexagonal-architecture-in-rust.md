@@ -36,6 +36,28 @@ Each crate plays a role in isolating logic boundaries:
 - **`banker-fixtures`** provides test helpers and mock repositories.
 - **`banker-http`** exposes an HTTP API with `axum`, calling into the domain via ports.
 
+Structurally, the project flows as follows:
+
+<div class="mermaid">
+graph TD
+  subgraph Core
+    BankService
+    AccountRepo[AccountRepo trait]
+  end
+
+  subgraph Adapters
+    HTTP[HTTP Handler]
+    InMemory[InMemoryAccountRepo]
+    Fixtures[Fixture Test Repo]
+  end
+
+  HTTP -->|calls| BankService
+  BankService -->|trait| AccountRepo
+  InMemory -->|implements| AccountRepo
+  Fixtures -->|implements| AccountRepo
+
+</div>
+
 ## Defining the Domain (banker-core)
 
 In Hexagonal Architecture, the domain represents the core of your application—the rules, behaviors, and models that 
