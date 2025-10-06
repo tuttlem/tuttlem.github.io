@@ -143,7 +143,7 @@ For ham:
 = 0.015
 {% endhighlight %}
 
-So both classes land on the same score — a perfect tie — which is why the Python demo falls back to whichever label it checks first.
+So both classes land on the same score — a perfect tie, in this example.
 
 # Python Demo (from scratch)
 
