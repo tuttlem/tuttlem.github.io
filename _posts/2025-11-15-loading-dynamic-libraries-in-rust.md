@@ -134,17 +134,23 @@ Hello from Rust!
 
 # Mapping back to the C version
 
-- Library::new("./libtest.so") ≈ dlopen()
-- lib.get(b"greet\0") ≈ dlsym()
-- Dropping lib ≈ dlclose()
+When you look at this code, you can see that `Library::new("./libtest.so")` now takes the place of `dlopen()`.
+
+We can get to the symbol that we want to call with `lib.get(b"greet\0")` rather than `dlsym()`, and we clean everything 
+up now by just dropping the library.
 
 # Platform notes
 
-Linux: libtest.so  
-macOS: libtest.dylib  
-Windows: test.dll  
+Keep in mind that I've written this code on my linux machine, so you'll have different targets depending on the 
+platform that you work from.
 
-cdylib produces the correct format automatically.
+| Platform | Output |
+|----------|----------------------|
+| Linux | `libtest.so` |  
+| macOS | `libtest.dylib` |  
+| Windows | `test.dll` |  
+
+`cdylib` produces the correct format automatically.
 
 # Conclusion
 
