@@ -12,6 +12,8 @@ If you're building tooling (monitors, debuggers, CLIs, experiments), the fastest
 
 In today's article, we'll walk through a basic example to get you up and running. You should quickly see just how thin the C language really is as a layer over assembly and the machine itself.
 
+A full version of what we'll build here today can be found [here](https://gist.github.com/tuttlem/8eea88048f491a77eb56674bff074509).
+
 ## Hello, world
 
 We'll start with a simple "Hello, world" style application.
